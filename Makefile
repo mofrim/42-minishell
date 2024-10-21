@@ -6,7 +6,7 @@
 #    By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/02 00:03:28 by fmaurer           #+#    #+#              #
-#    Updated: 2024/10/21 20:42:20 by fmaurer          ###   ########.fr        #
+#    Updated: 2024/10/21 20:46:16 by fmaurer          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,8 @@ SRCS = $(patsubst ./%.c,%.c,$(SRCS_IN))
 
 OBJDIR = obj
 OBJS = $(patsubst %.c,$(OBJDIR)/%.o,$(SRCS))
+
+HDR = minishell.h
 
 CC = clang
 # CFLAGS = -Wall -Werror -Wextra
@@ -45,7 +47,7 @@ $(OBJDIR)/%.o: %.c | $(OBJDIR)
 	@echo -e "$(call log_msg,Compiling $<...)"
 	$(CC) $(CFLAGS) -c $< -o $@
 
-$(NAME): $(OBJS) | $(LIBFT)
+$(NAME): $(OBJS) $(HDR) | $(LIBFT)
 	@echo -e "$(call log_msg,Compiling $(NAME)...)"
 	$(CC) $(CFLAGS) $(LIB_PATHS) -o $@ $^ $(LIBS)
 
