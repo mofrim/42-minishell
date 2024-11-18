@@ -6,13 +6,17 @@
 #    By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/02 00:03:28 by fmaurer           #+#    #+#              #
-#    Updated: 2024/10/21 20:46:16 by fmaurer          ###   ########.fr        #
+#    Updated: 2024/11/18 18:26:54 by fmaurer          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 
-SRCS_IN = ./main.c
+SRCS_IN = ./minishell.c \
+					./prompt.c \
+					./error_exit_utils.c \
+					./term_setup.c \
+					./signal.c
 
 SRCS = $(patsubst ./%.c,%.c,$(SRCS_IN))
 
@@ -29,7 +33,7 @@ CFLAGS =
 LIBFT_PATH	= ./libft
 LIBFT				= $(LIBFT_PATH)/libft.a
 LIB_PATHS += -L$(LIBFT_PATH)
-LIBS += -lft
+LIBS += -lft -lreadline
 
 GRN = \033[1;32m
 RED = \033[1;31m
@@ -43,11 +47,11 @@ log_msg = $(MSGOPN) $(1) $(MSGEND)
 
 all: $(NAME)
 
-$(OBJDIR)/%.o: %.c | $(OBJDIR)
+$(OBJDIR)/%.o: %.c $(HDR)| $(OBJDIR)
 	@echo -e "$(call log_msg,Compiling $<...)"
 	$(CC) $(CFLAGS) -c $< -o $@
 
-$(NAME): $(OBJS) $(HDR) | $(LIBFT)
+$(NAME): $(OBJS) | $(LIBFT)
 	@echo -e "$(call log_msg,Compiling $(NAME)...)"
 	$(CC) $(CFLAGS) $(LIB_PATHS) -o $@ $^ $(LIBS)
 

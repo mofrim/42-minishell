@@ -2,6 +2,21 @@
 
 # Allowed functions
 
+    the new:
+
+    readline, rl_clear_history, rl_on_new_line,
+    rl_replace_line, rl_redisplay, add_history,
+    printf, malloc, free, write, access, open, read,
+    close, fork, wait, waitpid, wait3, wait4, signal,
+    sigaction, sigemptyset, sigaddset, kill, exit,
+    getcwd, chdir, stat, lstat, fstat, unlink, execve,
+    dup, dup2, pipe, opendir, readdir, closedir,
+    strerror, perror, isatty, ttyname, ttyslot, ioctl,
+    getenv, tcsetattr, tcgetattr, tgetent, tgetflag,
+    tgetnum, tgetstr, tgoto, tputs
+
+    the old:
+
     readline, rl_clear_history, rl_on_new_line,
     rl_replace_line, rl_redisplay, add_history,
     printf, malloc, free, write, access, open, read,
@@ -57,5 +72,17 @@
   them. But that doesn’t mean your own code, yes the code you wrote, can have
   memory leaks.
 
-# Ressources
+# Resources
 
+- [https://42-cursus.gitbook.io/guide/rank-03/minishell/functions](https://42-cursus.gitbook.io/guide/rank-03/minishell/functions)
+- [https://en.wikipedia.org/wiki/Lexical_analysis](https://en.wikipedia.org/wiki/Lexical_analysis)
+- [http://web.mit.edu/gnu/doc/html/rlman_2.html](http://web.mit.edu/gnu/doc/html/rlman_2.html)
+
+# Logbook
+
+- **[2024-11-14 21:59]** Now i really want to start working on this. A first
+  checklist:
+
+  - [ ] display the prompt
+  - [ ] implement signal handling, that is handle Ctrl-C in a correct way
+  - [ ] execute simple stuff like `ls`
