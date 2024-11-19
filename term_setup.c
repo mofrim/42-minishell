@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 18:16:59 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/11/18 18:30:36 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/11/19 01:36:14 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,10 @@ void	term_setup(t_termios *old_settings)
 
 	tcgetattr(STDIN_FILENO, old_settings);
 	new_settings = *old_settings;
-	new_settings.c_lflag |= ISIG;
-	// new_settings.c_lflag |= ECHOCTL;
+	// new_settings.c_lflag |= ISIG;
+	// new_settings.c_lflag &= ~ICANON;
+	// new_settings.c_lflag |= ECHO;
+	// new_settings.c_lflag &= ~ECHOCTL;
 	// new_settings.c_lflag &= ~NOFLSH;
     new_settings.c_cc[VQUIT] = _POSIX_VDISABLE;
 	tcsetattr(STDIN_FILENO, TCSANOW, &new_settings);

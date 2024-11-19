@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:46:50 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/11/18 18:37:04 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/11/19 01:22:17 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,17 +25,20 @@ int	main(int ac, char **av, char **envp)
 	signal_setup(signal_handler);
 	term_setup(&old_settings);
 
+
 	// FIXME this is still kind of ugly... what should i do?
-	input = malloc(1);
+	// input = malloc(1);
 
-	while(input)
+	while(1)
 	{
-		free(input);
 		input = readline("$ ");
+		if (!input)
+		{
+			printf("exit");
+			tcsetattr(STDIN_FILENO, TCSANOW, &old_settings);
+			exit(0);
+		}
 	}
-
-	// FIXME handle Ctrl-D like bash
-	ft_printf("exit\n");
 
 	tcsetattr(STDIN_FILENO, TCSANOW, &old_settings);
 	return (0);

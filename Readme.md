@@ -57,7 +57,7 @@
   executed foreground pipeline.
 - [ ] Handle ctrl-C, ctrl-D and ctrl-\ which should behave like in bash.
 - [ ] In interactive mode:
-  - [ ] ctrl-C displays a new prompt on a new line.
+  - [x] ctrl-C displays a new prompt on a new line.
   - [ ] ctrl-D exits the shell.
   - [ ] ctrl-\ does nothing.
 - [ ] Your shell must implement the following builtins:
@@ -83,6 +83,14 @@
 - **[2024-11-14 21:59]** Now i really want to start working on this. A first
   checklist:
 
-  - [ ] display the prompt
-  - [ ] implement signal handling, that is handle Ctrl-C in a correct way
-  - [ ] execute simple stuff like `ls`
+  - [x] display the prompt
+  - [ ] implement signal handling, 
+    - [ ] handle Ctrl-D like bash
+    - [x] that is handle Ctrl-C in a correct way
+
+  - **[2024-11-19 01:39]** Well.. the main output of todays.. "coding": there
+    are version of bash (on nix bash_interactive) which are build with and
+    linked against readline. With those hitting ctrl-d on a non-empty input line
+    does nothing. For those bash versions which are not linked against readline
+    ctrl-d behaves different. More like explained in the readline-manpage. needs
+    some more: 🤔
