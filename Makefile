@@ -6,7 +6,7 @@
 #    By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/02 00:03:28 by fmaurer           #+#    #+#              #
-#    Updated: 2024/11/19 22:24:09 by fmaurer          ###   ########.fr        #
+#    Updated: 2024/11/19 23:43:28 by fmaurer          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,7 @@ SRCS_IN = ./minishell.c \
 					./tokenizing.c \
 					./utils.c \
 					./tokenlist.c \
+					./cmdlist.c \
 					./signal.c
 
 SRCS = $(patsubst ./%.c,%.c,$(SRCS_IN))
@@ -30,7 +31,7 @@ HDR = minishell.h
 
 CC = clang
 # CFLAGS = -Wall -Werror -Wextra
-CFLAGS =
+CFLAGS = -g
 
 # adding libft
 LIBFT_PATH	= ./libft

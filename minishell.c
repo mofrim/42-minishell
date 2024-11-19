@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:46:50 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/11/19 21:56:28 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/11/20 00:09:32 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,17 +37,16 @@ int	main(int ac, char **av, char **envp)
 		}
 		add_history(input);
 		t_tokenlist *tlst = tokenize(input);
-		while (tlst)
-		{
+		t_tokenlist *tmp = tlst;
+
+		while (tlst) {
 			printf("token: %d, value: %s\n", tlst->token->type, tlst->token->value);
 			tlst = tlst->next;
 		}
-		
-		// t_inputstream* lexer = init_lexer(input);
-		// Parser* parser = init_parser(lexer);
-		// Command* cmd = parse_cmdline(parser);
-		// print_command(cmd);
-		// free(input);
+
+		tlst = tmp;
+		t_cmdlst *cmdlst = parse_tokenlist(tlst);
+		print_cmdlst(cmdlst);
 	}
 
 	tcsetattr(STDIN_FILENO, TCSANOW, &old_settings);

@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:44:43 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/11/19 21:56:26 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/11/19 23:41:37 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,50 +56,55 @@ typedef struct s_tokenlist {
 /*********** Datatypes for parsing. ***********/
 
 /* Command structure for parser */
-typedef struct Command {
-    char* executable;
-    char** args;
-    int arg_count;
-    struct Command* next;    // next command in pipeline
-    char* output_file;       // file for redirection
-} Command;
-
+typedef struct s_cmdlst {
+    char	*executable;
+    char	**args;
+    int		arg_count;
+    char	*output_file;       // file for redirection
+    struct	s_cmdlst* next;    // next command in pipeline
+} t_cmdlst;
 
 /* Parser structure */
 typedef struct {
-    t_inputstream* lexer;
+    t_inputstream* inputstream;
     t_token* current_token;
-} Parser;
+} t_parser;
 
-typedef struct s_cmdline
-{
-	char **cmdl_split;
-} t_cmdline;
+/*********** Signal and terminal setup. ***********/
 
 void	signal_handler(int signum);
 void	signal_setup(void (*sig_handler)(int));
 void	term_setup(struct termios *old_settings);
 
+/*********** Utils ***********/
+
 void	nullcheck(void *p, char *msg);
 void	error_exit(char *msg);
+int		ft_isspace(char c);
 
-int	ft_isspace(char c);
-
-Parser* init_parser(t_inputstream* lexer);
-Command* new_command(char* executable);
-Command* parse_cmdline(Parser* parser);
-void print_command(Command* cmd);
-t_inputstream* init_inputstream(char* input);
-t_token* get_next_token(t_inputstream* lexer);
-
-/* tokenlist stuff. */
+/*********** Tokenization. ***********/
 
 t_tokenlist	*toklst_new(t_token *tok);
 t_tokenlist	*toklst_last(t_tokenlist *head);
 void	toklst_add_back(t_tokenlist **head, t_tokenlist *newend);
 void	toklst_clear(t_tokenlist **lst);
 int	toklst_size(t_tokenlist *lst);
-
 t_tokenlist	*tokenize(char *input);
+
+/*********** Parsing. ***********/
+
+t_parser*		init_parser(t_inputstream* lexer);
+t_cmdlst*		new_command(char* executable);
+t_cmdlst		*parse_tokenlist(t_tokenlist *toklst);
+void			print_cmdlst(t_cmdlst* cmd);
+t_inputstream*	init_inputstream(char* input);
+t_token*		get_next_token(t_inputstream* lexer);
+
+t_cmdlst	*cmdlst_new(char *exec);
+t_cmdlst	*cmdlst_last(t_cmdlst *head);
+void		cmdlst_add_back(t_cmdlst **head, t_cmdlst *newend);
+int			cmdlst_size(t_cmdlst *lst);
+void		cmdlst_clear(t_cmdlst **lst);
+
 
 #endif

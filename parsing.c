@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 10:59:44 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/11/19 22:23:01 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/11/20 00:26:21 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,86 +14,72 @@
 #include "libft/libft.h"
 #include "minishell.h"
 
-/* Initialize parser */
-Parser* init_parser(t_inputstream* lexer) {
-    Parser* parser = malloc(sizeof(Parser));
-    parser->lexer = lexer;
-    parser->current_token = get_next_token(lexer);
-    return parser;
-}
+/* Parse tokenlist into cmdlist. */
+t_cmdlst	*parse_tokenlist(t_tokenlist *toklst)
+{
+    t_cmdlst	*cmd;
+	t_cmdlst	*cur_cmd;
 
-/* Create new command structure */
-Command* new_command(char* executable) {
-    Command* cmd = malloc(sizeof(Command));
-    cmd->executable = ft_strdup(executable);
-    cmd->args = malloc(sizeof(char*) * 10);  // Start with space for 10 args
-    cmd->arg_count = 0;
-    cmd->next = NULL;
-    cmd->output_file = NULL;
-    return cmd;
-}
-
-/* Parse input into command structure */
-Command* parse_cmdline(Parser* parser) {
-    Command* first_cmd = NULL;
-    Command* current_cmd = NULL;
-
-    while (parser->current_token->type != TOKEN_EOF)
+	cmd = NULL;
+    while (toklst)
 	{
-		if (parser->current_token->type == TOKEN_COMMAND) 
+		if (toklst->token->type == TOKEN_COMMAND) 
 		{
-			// ft_printf("DEBUG: parse -> found TOKEN_COMMAND\n");
-			Command* cmd = new_command(parser->current_token->value);
-
-			if (!first_cmd) first_cmd = cmd;
-			if (current_cmd) current_cmd->next = cmd;
-			current_cmd = cmd;
-
-			parser->current_token = get_next_token(parser->lexer);
-
-			/* Parse arguments */
-			while (parser->current_token->type == TOKEN_ARG) {
-				// ft_printf("DEBUG: parse -> found TOKEN_ARG\n");
-				cmd->args[cmd->arg_count++] = ft_strdup(parser->current_token->value);
-				parser->current_token = get_next_token(parser->lexer);
+			if (!cmd)
+			{
+				cmd = cmdlst_new(toklst->token->value);
+				cur_cmd = cmd;
+			}
+			else
+			{
+				cur_cmd = cmdlst_new(toklst->token->value);
+				cmdlst_add_back(&cmd, cur_cmd);
+			}
+			if (toklst->next == NULL)
+				return (cmd);
+			toklst = toklst->next;
+			while (toklst->token->type == TOKEN_ARG) 
+			{
+				cur_cmd->args[cur_cmd->arg_count++] = ft_strdup(toklst->token->value);
+				if (toklst->next == NULL)
+					return (cmd);
+				toklst = toklst->next;
 			}
 		}
-		else if (parser->current_token->type == TOKEN_PIPE) 
+		// FIXME this is not safe from syntactic errors, f.ex. "ls -al | | | >"
+		else if (toklst->token->type == TOKEN_PIPE && \
+				toklst->next->token->type == TOKEN_COMMAND)
 		{
-			// ft_printf("DEBUG: parse -> found TOKEN_ARG\n");
-			parser->current_token = get_next_token(parser->lexer);
+			toklst = toklst->next;
+			// cmdlst_add_back(&cmd, cmdlst_new(toklst->token->value));
 		} 
-		else if (parser->current_token->type == TOKEN_REDIRECT) 
+		// FIXME this is not safe from syntactic errors
+		else if (toklst->token->type == TOKEN_REDIRECT && \
+				toklst->next->token->type == TOKEN_ARG)
 		{
-			parser->current_token = get_next_token(parser->lexer);
-			if (parser->current_token->type == TOKEN_ARG) 
-			{
-				current_cmd->output_file = ft_strdup(parser->current_token->value);
-				parser->current_token = get_next_token(parser->lexer);
-			}
+			toklst = toklst->next;
+			cur_cmd->output_file = ft_strdup(toklst->token->value);
 		}
 	}
-    return first_cmd;
+    return (cmd);
 }
 
 /* Print command structure (for debugging) */
-void print_command(Command* cmd) {
-    while (cmd) {
-        printf("Command: %s\n", cmd->executable);
-        printf("Arguments: ");
-        for (int i = 0; i < cmd->arg_count; i++) {
-            printf("%s ", cmd->args[i]);
-        }
-        printf("\n");
-        
-        if (cmd->output_file) {
-            printf("Output redirected to: %s\n", cmd->output_file);
-        }
-        
-        if (cmd->next) {
-            printf("Piped to:\n");
-        }
-        
-        cmd = cmd->next;
-    }
+void	print_cmdlst(t_cmdlst* cmd) {
+	while (cmd) {
+		printf("Command: %s\n", cmd->executable);
+		printf("Arguments: ");
+		for (int i = 0; i < cmd->arg_count; i++) {
+			printf("%s ", cmd->args[i]);
+		}
+		printf("\n");
+		if (cmd->output_file) {
+			printf("Output redirected to: %s\n", cmd->output_file);
+		}
+		if (cmd->next) {
+			printf("Piped to: %s\n", cmd->next->executable);
+		}
+		ft_printf("--\n");
+		cmd = cmd->next;
+	}
 }

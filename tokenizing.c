@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexing.c                                           :+:      :+:    :+:   */
+/*   tokenizing.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 13:09:10 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/11/19 21:56:25 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/11/19 23:57:34 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,5 +112,5 @@ t_token*	get_next_token(t_inputstream* lexer)
 		token->type = TOKEN_ARG;
 	token->value = word;
 
-    return token;
+    return (token);
 }
