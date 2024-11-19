@@ -6,13 +6,14 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:46:50 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/11/19 01:22:17 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/11/19 21:56:28 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <stdio.h>
 #include <readline/readline.h>
+#include <readline/history.h>
 #include <termios.h>
 
 int	main(int ac, char **av, char **envp)
@@ -25,10 +26,6 @@ int	main(int ac, char **av, char **envp)
 	signal_setup(signal_handler);
 	term_setup(&old_settings);
 
-
-	// FIXME this is still kind of ugly... what should i do?
-	// input = malloc(1);
-
 	while(1)
 	{
 		input = readline("$ ");
@@ -38,6 +35,19 @@ int	main(int ac, char **av, char **envp)
 			tcsetattr(STDIN_FILENO, TCSANOW, &old_settings);
 			exit(0);
 		}
+		add_history(input);
+		t_tokenlist *tlst = tokenize(input);
+		while (tlst)
+		{
+			printf("token: %d, value: %s\n", tlst->token->type, tlst->token->value);
+			tlst = tlst->next;
+		}
+		
+		// t_inputstream* lexer = init_lexer(input);
+		// Parser* parser = init_parser(lexer);
+		// Command* cmd = parse_cmdline(parser);
+		// print_command(cmd);
+		// free(input);
 	}
 
 	tcsetattr(STDIN_FILENO, TCSANOW, &old_settings);

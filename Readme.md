@@ -93,4 +93,4 @@
     linked against readline. With those hitting ctrl-d on a non-empty input line
     does nothing. For those bash versions which are not linked against readline
     ctrl-d behaves different. More like explained in the readline-manpage. needs
-    some more: 🤔
+    some more: 🤔 ... but not too much. next: parsing!
