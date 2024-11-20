@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:44:43 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/11/19 23:41:37 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/11/20 12:23:38 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,16 @@ typedef struct termios t_termios;
 /* Token types */
 // TODO: implement <, <<, >>
 typedef enum {
-    TOKEN_COMMAND,    // executable or command
-    TOKEN_ARG,        // command argument or file
-    TOKEN_PIPE,       // |
-    TOKEN_REDIRECT,   // >
-    TOKEN_EOF,        // end of input
+    TOK_CMD,	// executable or command
+    TOK_ARG,	// command argument or file
+    TOK_PIP,	// |
+    TOK_ROUT,	// >
+	TOK_OF,		// outfile after a >
+	TOK_RIN,	// <
+	TOK_IF,		// infile after a <
+	TOK_AOUT,	// >>
+	TOK_AIN, 	// <<
+    TOK_EOF,  // end of input
 } e_tokentype;
 
 /* Token structure */
@@ -61,6 +66,7 @@ typedef struct s_cmdlst {
     char	**args;
     int		arg_count;
     char	*output_file;       // file for redirection
+    char	*input_file;       // file for redirection
     struct	s_cmdlst* next;    // next command in pipeline
 } t_cmdlst;
 

@@ -82,15 +82,25 @@
 
 - **[2024-11-14 21:59]** Now i really want to start working on this. A first
   checklist:
+  + [x] display the prompt
+  + [ ] implement signal handling, 
+    + [ ] handle Ctrl-D like bash
+    + [x] that is handle Ctrl-C in a correct way
 
-  - [x] display the prompt
-  - [ ] implement signal handling, 
-    - [ ] handle Ctrl-D like bash
-    - [x] that is handle Ctrl-C in a correct way
+- **[2024-11-19 01:39]** Well.. the main output of todays.. "coding": there are
+  version of bash (on nix bash_interactive) which are build with and linked
+  against readline. With those hitting ctrl-d on a non-empty input line does
+  nothing. For those bash versions which are not linked against readline ctrl-d
+  behaves different. More like explained in the readline-manpage. needs some
+  more: 🤔 ... but not too much. next: parsing!
 
-  - **[2024-11-19 01:39]** Well.. the main output of todays.. "coding": there
-    are version of bash (on nix bash_interactive) which are build with and
-    linked against readline. With those hitting ctrl-d on a non-empty input line
-    does nothing. For those bash versions which are not linked against readline
-    ctrl-d behaves different. More like explained in the readline-manpage. needs
-    some more: 🤔 ... but not too much. next: parsing!
+- **[2024-11-20 12:00]** Some observations relevant for syntax checking /
+  parsing:
+  - `echo "blabla" | < bindvoutside.log wc -w` is the same as `echo "blabla" |
+    wc -w < bindvoutside.log`. so '|' followed by '<' is allowed. The same holds
+    for '>'
+  - Something like `echo "blabal" | | cat` is not allowed -> *bash: syntax error
+    near unexpected token `|'*
+  
+  So. That said how to parse a prompt like: `< infile cat | wc -w > out`?
+  **RULE**: every word after a '<' is considered to be a input_file to cmd.

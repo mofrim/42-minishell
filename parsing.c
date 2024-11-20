@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 10:59:44 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/11/20 00:26:21 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/11/20 13:59:29 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,49 @@
 #include "libft/libft.h"
 #include "minishell.h"
 
+static void	parse_command(t_tokenlist **toklst, t_cmdlst **cmd, t_cmdlst **cur_cmd)
+{
+	if (*cmd && (*cmd)->executable)
+	{
+		*cur_cmd = cmdlst_new((*toklst)->token->value);
+		cmdlst_add_back(cmd, *cur_cmd);
+	}
+	else
+		(*cmd)->executable = ft_strdup((*toklst)->token->value);
+	if ((*toklst)->next == NULL)
+		return ;
+	*toklst = (*toklst)->next;
+	while ((*toklst)->token->type == TOK_ARG) 
+	{
+		(*cur_cmd)->args[(*cur_cmd)->arg_count++] = ft_strdup((*toklst)->token->value);
+		if ((*toklst)->next == NULL)
+			return ;
+		*toklst = (*toklst)->next;
+	}
+}
+
+static int	parse_pipe(t_tokenlist **toklst)
+{
+	if ((*toklst)->token->type == TOK_PIP && \
+			(*toklst)->next == NULL)
+		return (-1);
+	if ((*toklst)->token->type == TOK_PIP && \
+			(*toklst)->next->token->type == TOK_PIP || \
+			(*toklst)->next->token->type == TOK_ROUT)
+		return (-1);
+	if ((*toklst)->token->type == TOK_PIP && \
+			(*toklst)->next->token->type == TOK_CMD)
+	{
+		*toklst = (*toklst)->next;
+		return (1);
+	}
+	return (0);
+}
+
 /* Parse tokenlist into cmdlist. */
+// TODO this has to be more elegant and shorter in order to obey the norm.
+// because there are lot more tokens to be handled.
+// IDEA Mayyyyybeee check syntax in advance!
 t_cmdlst	*parse_tokenlist(t_tokenlist *toklst)
 {
     t_cmdlst	*cmd;
@@ -23,42 +65,35 @@ t_cmdlst	*parse_tokenlist(t_tokenlist *toklst)
 	cmd = NULL;
     while (toklst)
 	{
-		if (toklst->token->type == TOKEN_COMMAND) 
+		// if we are at the very first command token-gathering init cmdlst with
+		// NULL as exec -> need to fill that later
+		if (!cmd)
 		{
-			if (!cmd)
-			{
-				cmd = cmdlst_new(toklst->token->value);
-				cur_cmd = cmd;
-			}
-			else
-			{
-				cur_cmd = cmdlst_new(toklst->token->value);
-				cmdlst_add_back(&cmd, cur_cmd);
-			}
+			cmd = cmdlst_new(NULL);
+			cur_cmd = cmd;
+		}
+		if (toklst->token->type == TOK_CMD) 
+		{
+			parse_command(&toklst, &cmd, &cur_cmd);
 			if (toklst->next == NULL)
 				return (cmd);
-			toklst = toklst->next;
-			while (toklst->token->type == TOKEN_ARG) 
-			{
-				cur_cmd->args[cur_cmd->arg_count++] = ft_strdup(toklst->token->value);
-				if (toklst->next == NULL)
-					return (cmd);
-				toklst = toklst->next;
-			}
 		}
-		// FIXME this is not safe from syntactic errors, f.ex. "ls -al | | | >"
-		else if (toklst->token->type == TOKEN_PIPE && \
-				toklst->next->token->type == TOKEN_COMMAND)
+		else if (parse_pipe(&toklst) == -1)
 		{
-			toklst = toklst->next;
-			// cmdlst_add_back(&cmd, cmdlst_new(toklst->token->value));
-		} 
-		// FIXME this is not safe from syntactic errors
-		else if (toklst->token->type == TOKEN_REDIRECT && \
-				toklst->next->token->type == TOKEN_ARG)
+			ft_printf("invalid pipe syntax!\n");
+			return (NULL);
+		}
+		else if (toklst->token->type == TOK_ROUT && \
+				toklst->next->token->type == TOK_OF)
 		{
-			toklst = toklst->next;
-			cur_cmd->output_file = ft_strdup(toklst->token->value);
+			cur_cmd->output_file = ft_strdup(toklst->next->token->value);
+			toklst = toklst->next->next;
+		}
+		else if (toklst->token->type == TOK_RIN && \
+				toklst->next->token->type == TOK_IF)
+		{
+			cur_cmd->input_file = ft_strdup(toklst->next->token->value);
+			toklst = toklst->next->next;
 		}
 	}
     return (cmd);
@@ -75,6 +110,9 @@ void	print_cmdlst(t_cmdlst* cmd) {
 		printf("\n");
 		if (cmd->output_file) {
 			printf("Output redirected to: %s\n", cmd->output_file);
+		}
+		if (cmd->input_file) {
+			printf("Input redirected to: %s\n", cmd->input_file);
 		}
 		if (cmd->next) {
 			printf("Piped to: %s\n", cmd->next->executable);

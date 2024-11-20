@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 17:22:51 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/11/19 22:55:07 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/11/20 12:55:08 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ t_cmdlst	*cmdlst_new(char *exec)
 	cmd->arg_count = 0;
 	cmd->next = NULL;
 	cmd->output_file = NULL;
+	cmd->input_file = NULL;
 	return (cmd);
 }
 
@@ -70,6 +71,7 @@ void	cmdlst_clear(t_cmdlst **lst)
 		free((*lst)->args);
 
 		free((*lst)->output_file);
+		free((*lst)->input_file);
 		free(*lst);
 		*lst = tmp;
 	}

@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 13:09:10 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/11/19 23:57:34 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/11/20 12:45:20 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,17 +35,26 @@ t_tokenlist	*tokenize(char *input)
 	input_stream = init_inputstream(input);
 	tmptok = get_next_token(input_stream);
 	tok_lst = toklst_new(tmptok);
-	while (tmptok->type != TOKEN_EOF)
+	while (tmptok->type != TOK_EOF)
 	{
 		tmptok = get_next_token(input_stream);
-		if (tmptok->type == TOKEN_EOF)
+		if (tmptok->type == TOK_EOF)
 		{
 			free(tmptok);
 			return (tok_lst);
 		}
-		if (tmptok->type == TOKEN_ARG && \
-				toklst_last(tok_lst)->token->type == TOKEN_PIPE)
-			tmptok->type = TOKEN_COMMAND;
+		if (tmptok->type == TOK_ARG && \
+				toklst_last(tok_lst)->token->type == TOK_PIP)
+			tmptok->type = TOK_CMD;
+		if (tmptok->type == TOK_ARG && \
+				toklst_last(tok_lst)->token->type == TOK_RIN)
+			tmptok->type = TOK_IF;
+		if (tmptok->type == TOK_ARG && \
+				toklst_last(tok_lst)->token->type == TOK_IF)
+			tmptok->type = TOK_CMD;
+		if (tmptok->type == TOK_ARG && \
+				toklst_last(tok_lst)->token->type == TOK_ROUT)
+			tmptok->type = TOK_OF;
 		toklst_add_back(&tok_lst, toklst_new(tmptok));
 	}
 	return (tok_lst);
@@ -61,7 +70,7 @@ static void skip_whitespace(t_inputstream* lexer) {
 
 /* Get next token from input */
 // TODO split up ans simplify because there will be more tokentypes to be lexed.
-t_token*	get_next_token(t_inputstream* lexer) 
+t_token*	get_next_token(t_inputstream* inputstream) 
 {
     t_token*	token;
 	char	current;
@@ -69,47 +78,54 @@ t_token*	get_next_token(t_inputstream* lexer)
 	// TODO handle malloc
 	token = malloc(sizeof(t_token));
 
-    skip_whitespace(lexer);
-    if (lexer->position >= lexer->length) {
-        token->type = TOKEN_EOF;
+    skip_whitespace(inputstream);
+    if (inputstream->position >= inputstream->length)
+	{
+        token->type = TOK_EOF;
         token->value = NULL;
         return token;
     }
-    current = lexer->input[lexer->position];
-    if (current == '|') 
+    current = inputstream->input[inputstream->position];
+    if (current == '|')
 	{
-        token->type = TOKEN_PIPE;
+        token->type = TOK_PIP;
         token->value = ft_strdup("|");
-        lexer->position++;
+        inputstream->position++;
         return token;
     }
     if (current == '>') 
 	{
-        token->type = TOKEN_REDIRECT;
+        token->type = TOK_ROUT;
         token->value = ft_strdup(">");
-        lexer->position++;
+        inputstream->position++;
         return token;
     }
-
-    /* Read word (command or argument) */
-    int start = lexer->position;
-    while (lexer->position < lexer->length && 
-           !ft_isspace(lexer->input[lexer->position]) && 
-           lexer->input[lexer->position] != '|' && 
-           lexer->input[lexer->position] != '>') {
-        lexer->position++;
+    if (current == '<') 
+	{
+        token->type = TOK_RIN;
+        token->value = ft_strdup("<");
+        inputstream->position++;
+        return token;
     }
+    /* Read word (command, argument or in/outfile) */
+	int start = inputstream->position;
+	while (inputstream->position < inputstream->length && \
+			!ft_isspace(inputstream->input[inputstream->position]) && \
+			inputstream->input[inputstream->position] != '|' && \
+			inputstream->input[inputstream->position] != '>' &&\
+			inputstream->input[inputstream->position] != '<')
+		inputstream->position++;
     
-    int length = lexer->position - start;
+    int length = inputstream->position - start;
     char* word = malloc(length + 1);
-    ft_strlcpy(word, &lexer->input[start], length + 1);
+    ft_strlcpy(word, &inputstream->input[start], length + 1);
     word[length] = '\0';
     
 	/* First word is always a command. As long as we don't implement '<'. */
 	if (start == 0)
-		token->type = TOKEN_COMMAND;
+		token->type = TOK_CMD;
 	else
-		token->type = TOKEN_ARG;
+		token->type = TOK_ARG;
 	token->value = word;
 
     return (token);
