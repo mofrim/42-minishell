@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 10:59:44 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/11/20 13:59:29 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/11/21 00:12:07 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,13 @@
 
 static void	parse_command(t_tokenlist **toklst, t_cmdlst **cmd, t_cmdlst **cur_cmd)
 {
-	if (*cmd && (*cmd)->executable)
+	if (*cur_cmd && (*cur_cmd)->executable)
 	{
 		*cur_cmd = cmdlst_new((*toklst)->token->value);
 		cmdlst_add_back(cmd, *cur_cmd);
 	}
 	else
-		(*cmd)->executable = ft_strdup((*toklst)->token->value);
+		(*cur_cmd)->executable = ft_strdup((*toklst)->token->value);
 	if ((*toklst)->next == NULL)
 		return ;
 	*toklst = (*toklst)->next;
@@ -35,18 +35,26 @@ static void	parse_command(t_tokenlist **toklst, t_cmdlst **cmd, t_cmdlst **cur_c
 	}
 }
 
-static int	parse_pipe(t_tokenlist **toklst)
+static int	parse_pipe(t_tokenlist **toklst, t_cmdlst **cmd, t_cmdlst **cur_cmd)
 {
 	if ((*toklst)->token->type == TOK_PIP && \
 			(*toklst)->next == NULL)
 		return (-1);
 	if ((*toklst)->token->type == TOK_PIP && \
-			(*toklst)->next->token->type == TOK_PIP || \
-			(*toklst)->next->token->type == TOK_ROUT)
+			(*toklst)->next->token->type == TOK_PIP)
 		return (-1);
 	if ((*toklst)->token->type == TOK_PIP && \
 			(*toklst)->next->token->type == TOK_CMD)
 	{
+		*toklst = (*toklst)->next;
+		return (1);
+	}
+	if ((*toklst)->token->type == TOK_PIP && \
+			((*toklst)->next->token->type == TOK_RIN || \
+			(*toklst)->next->token->type == TOK_ROUT))
+	{
+		*cur_cmd = cmdlst_new(NULL);
+		cmdlst_add_back(cmd, *cur_cmd);
 		*toklst = (*toklst)->next;
 		return (1);
 	}
@@ -78,7 +86,7 @@ t_cmdlst	*parse_tokenlist(t_tokenlist *toklst)
 			if (toklst->next == NULL)
 				return (cmd);
 		}
-		else if (parse_pipe(&toklst) == -1)
+		else if (parse_pipe(&toklst, &cmd, &cur_cmd) == -1)
 		{
 			ft_printf("invalid pipe syntax!\n");
 			return (NULL);
