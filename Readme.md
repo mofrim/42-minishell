@@ -102,8 +102,7 @@
   + [ ] builtin args for echo, export ("=" + arg), unset, export, cd
   + [ ] ...
 
-  > [!CAUTION]
-  > **i need much more tokens!!!**
+  -> -> -> **i need much more tokens!!!**
 
 # Resources
 
