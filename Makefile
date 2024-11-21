@@ -6,21 +6,22 @@
 #    By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/02 00:03:28 by fmaurer           #+#    #+#              #
-#    Updated: 2024/11/19 23:43:28 by fmaurer          ###   ########.fr        #
+#    Updated: 2024/11/21 22:25:18 by fmaurer          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 
 SRCS_IN = ./minishell.c \
-					./error_exit_utils.c \
 					./term_setup.c \
-					./parsing.c \
-					./tokenizing.c \
+					./signal.c \
 					./utils.c \
-					./tokenlist.c \
+					./error_exit_utils.c \
+					./parsing.c \
 					./cmdlist.c \
-					./signal.c
+					./tokenizing.c \
+					./tokenlist.c \
+					./tokenprint.c
 
 SRCS = $(patsubst ./%.c,%.c,$(SRCS_IN))
 
