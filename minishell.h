@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:44:43 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/11/20 12:23:38 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/11/21 21:30:14 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 # define MINISHELL_H
 
 #include "libft/libft.h"
+
+/* For ??? */
 #include <signal.h>
 
 /* For ???? */
@@ -21,29 +23,41 @@
 
 # define PROMPT "$"
 
+/* Define termios type for easier reference. */
 typedef struct termios t_termios;
 
 /*********** Datatypes for tokenization. ***********/
 
-/* Token types */
-// TODO: implement <, <<, >>
+/* The highest Token Number. Useful for iterating over Tokens, maybe?! */
+# define TOKEN_MAX 18
+
+/* Token types... are these really all? */
 typedef enum {
-    TOK_CMD,	// executable or command
-    TOK_ARG,	// command argument or file
-    TOK_PIP,	// |
-    TOK_ROUT,	// >
-	TOK_OF,		// outfile after a >
-	TOK_RIN,	// <
-	TOK_IF,		// infile after a <
-	TOK_AOUT,	// >>
-	TOK_AIN, 	// <<
-    TOK_EOF,  // end of input
+    TOK_CMD			= 0,	// executable or command
+    TOK_ARG			= 1,	// command argument or file
+    TOK_PIP			= 2,	// |
+	TOK_ROUT		= 3,	// >
+	TOK_RIN			= 4,	// <
+	TOK_OF			= 5,	// outfile after a >
+	TOK_IF			= 6,	// infile after a <
+	TOK_ROUTA		= 7,	// >>
+	TOK_HERE		= 8,	// <<
+	TOK_HERE_DLIM	= 9,	// << delimiter
+	TOK_SQUOT		= 10,	// single quote
+	TOK_DQUOT		= 11,	// double quote
+	TOK_SQUOT_TXT	= 12,	// single quote text
+	TOK_DQUOT_TXT	= 13,	// double quote text
+	TOK_VAR_SYM		= 14,	// variable symbol
+	TOK_VAR_NAME	= 15,	// variable name
+	TOK_BLTIN		= 16,	// builtin command
+	TOK_BLTIN_ARG	= 17,	// builtin command argument
+    TOK_EOF			= 18,	// end of input
 } e_tokentype;
 
 /* Token structure */
 typedef struct {
-    e_tokentype type;
-    char* value;
+    e_tokentype	type;
+    char		*value;
 } t_token;
 
 /* Inputstream structure */
