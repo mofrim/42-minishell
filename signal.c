@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 23:24:37 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/11/18 18:34:02 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/11/21 22:34:31 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ void	signal_handler(int signum)
 }
 
 /* QUESTION: do i need this? doesn't a simple call to signal() with individual
- * functions for each function suffice? */
+ * functions for each function suffice? 
+ */
 void	signal_setup(void (*sig_handler)(int))
 {
 	struct sigaction	sig_act;

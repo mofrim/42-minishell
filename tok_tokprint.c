@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokenutils.c                                       :+:      :+:    :+:   */
+/*   tok_tokprint.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 21:31:43 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/11/21 22:18:26 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/11/24 22:34:04 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ static int	print_tokentype2(t_token *token)
 		ret = ft_printf("TOK_BLTIN_ARG");
 	else if (token->type == TOK_EOF)
 		ret = ft_printf("TOK_EOF");
+	else if (token->type == TOK_WORD)
+		ret = ft_printf("TOK_WORD");
 	return (ret);
 }
 

@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:44:43 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/11/21 22:22:37 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/11/24 14:40:34 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,14 @@
 
 # include "libft/libft.h"
 
-/* For ??? */
+/* For signal */
 # include <signal.h>
 
-/* For ???? */
+/* For FILE (needed by readline) */
 # include <stdio.h>
+
+/* For malloc, free */
+# include <stdlib.h>
 
 # define PROMPT "$"
 
@@ -29,30 +32,31 @@ typedef struct termios	t_termios;
 /*********** Datatypes for tokenization. ***********/
 
 /* The highest Token Number. Useful for iterating over Tokens, maybe?! */
-# define TOKEN_MAX 18
+# define TOKEN_MAX 19
 
 /* Token types... are these really all? */
 typedef enum e_toktype
 {
-	TOK_CMD			= 0,
-	TOK_ARG			= 1,
-	TOK_PIP			= 2,
-	TOK_ROUT		= 3,
-	TOK_RIN			= 4,
-	TOK_OF			= 5,
-	TOK_IF			= 6,
-	TOK_ROUTA		= 7,
-	TOK_HERE		= 8,
-	TOK_HERE_DLIM	= 9,
-	TOK_SQUOT		= 10,
-	TOK_DQUOT		= 11,
-	TOK_SQUOT_TXT	= 12,
-	TOK_DQUOT_TXT	= 13,
-	TOK_VAR_SYM		= 14,
-	TOK_VAR_NAME	= 15,
-	TOK_BLTIN		= 16,
-	TOK_BLTIN_ARG	= 17,
-	TOK_EOF			= 18
+	TOK_WORD		= 0,
+	TOK_CMD			= 1,
+	TOK_ARG			= 2,
+	TOK_PIP			= 3,
+	TOK_ROUT		= 4,
+	TOK_RIN			= 5,
+	TOK_OF			= 6,
+	TOK_IF			= 7,
+	TOK_ROUTA		= 8,
+	TOK_HERE		= 9,
+	TOK_HERE_DLIM	= 10,
+	TOK_SQUOT		= 11,
+	TOK_DQUOT		= 12,
+	TOK_SQUOT_TXT	= 13,
+	TOK_DQUOT_TXT	= 14,
+	TOK_VAR_SYM		= 15,
+	TOK_VAR_NAME	= 16,
+	TOK_BLTIN		= 17,
+	TOK_BLTIN_ARG	= 18,
+	TOK_EOF			= 19
 }	t_toktype;
 
 /* Token structure */
@@ -62,12 +66,16 @@ typedef struct s_token
 	char		*value;
 }	t_token;
 
-/* Inputstream structure */
+/* Inputstream structure. squot/dquot flags for quotation recognition during
+ * tokenization. */
 typedef struct s_cmdline
 {
 	char	*input;
-	int		position;
+	int		pos;
 	int		length;
+	int		squot_flag;
+	int		dquot_flag;
+	int		var_flag;
 }	t_cmdline;
 
 typedef struct s_tokenlist
