@@ -22,7 +22,7 @@ void	error_exit(char *msg)
 	exit(EXIT_FAILURE);
 }
 
-/* Perform NULL check on pointer. error_exit with msg if NULL. */ 
+/* Perform NULL check on pointer. error_exit with msg if NULL. */
 void	nullcheck(void *p, char *msg)
 {
 	if (!p)
