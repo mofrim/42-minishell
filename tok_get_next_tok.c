@@ -50,7 +50,8 @@ t_token	*get_next_token(t_cmdline *cl)
 	t_token	*token;
 	int		tok_found;
 
-	token = malloc(sizeof(t_token)); // FIXME handle malloc
+	token = malloc(sizeof(t_token));
+	nullcheck(token, "get_next_token()");
 	if (cl->pos >= cl->length)
 		return (NULL);
 	tok_found = 0;

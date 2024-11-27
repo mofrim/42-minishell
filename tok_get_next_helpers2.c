@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tok_get_next_tok_helpers2.c                        :+:      :+:    :+:   */
+/*   tok_get_next_helpers2.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -19,7 +19,8 @@ void	get_tok_quot(t_token *tok, t_cmdline *cl, int *tok_found)
 		if (cl->input[cl->pos] == '"')
 		{
 			tok->type = TOK_DQUOT;
-			tok->value = ft_strdup("\""); // FIXME handle malloc
+			tok->value = ft_strdup("\"");
+			nullcheck(tok->value, "get_tok_quot()");
 			cl->pos++;
 			*tok_found = 1;
 			cl->dquot_flag = !cl->dquot_flag;
@@ -27,7 +28,8 @@ void	get_tok_quot(t_token *tok, t_cmdline *cl, int *tok_found)
 		if (cl->input[cl->pos] == '\'')
 		{
 			tok->type = TOK_SQUOT;
-			tok->value = ft_strdup("\'"); // FIXME handle malloc
+			tok->value = ft_strdup("\'");
+			nullcheck(tok->value, "get_tok_quot()");
 			cl->pos++;
 			*tok_found = 1;
 			cl->squot_flag = !cl->squot_flag;
@@ -54,7 +56,8 @@ void	get_tok_word(t_token *tok, t_cmdline *cl, int *tok_found)
 				cl->input[cl->pos] != '\'')
 			cl->pos++;
 		length = cl->pos - start;
-		word = malloc(length + 1); // FIXME handle malloc
+		word = malloc(length + 1);
+		nullcheck(tok->value, "get_tok_word()");
 		ft_strlcpy(word, &cl->input[start], length + 1);
 		tok->value = word;
 		tok->type = TOK_WORD;
@@ -76,7 +79,8 @@ void	get_tok_squotword(t_token *tok, t_cmdline *cl, int *tok_found)
 			while (cl->pos < cl->length && cl->input[cl->pos] != '\'')
 				cl->pos++;
 			length = cl->pos - start;
-			word = malloc(length + 1); // FIXME handle malloc
+			word = malloc(length + 1);
+			nullcheck(tok->value, "get_tok_squotword()");
 			ft_strlcpy(word, &cl->input[start], length + 1);
 			tok->value = word;
 			tok->type = TOK_SQUOT_TXT;
@@ -100,7 +104,8 @@ void	get_tok_dquotword(t_token *tok, t_cmdline *cl, int *tok_found)
 					cl->input[cl->pos] != '$')
 				cl->pos++;
 			length = cl->pos - start;
-			word = malloc(length + 1); // FIXME handle malloc
+			word = malloc(length + 1);
+			nullcheck(tok->value, "get_tok_dquotword()");
 			ft_strlcpy(word, &cl->input[start], length + 1);
 			tok->value = word;
 			tok->type = TOK_DQUOT_TXT;
@@ -116,7 +121,8 @@ void	get_tok_var(t_token *tok, t_cmdline *cl, int *tok_found)
 		if (cl->input[cl->pos] == '$')
 		{
 			tok->type = TOK_VAR_SYM;
-			tok->value = ft_strdup("$"); // FIXME handle malloc
+			tok->value = ft_strdup("$");
+			nullcheck(tok->value, "get_tok_var()");
 			cl->pos++;
 			cl->var_flag = 1;
 			*tok_found = 1;
