@@ -6,14 +6,12 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:46:50 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/11/25 23:43:55 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/11/26 13:12:46 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <stdio.h>
-#include <readline/readline.h>
-#include <readline/history.h>
 #include <termios.h>
 
 int	main(int ac, char **av, char **envp)

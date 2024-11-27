@@ -6,13 +6,14 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:44:43 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/11/24 14:40:34 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/11/26 13:12:29 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+/* For ft_printf(), ft_strlen(), ... */
 # include "libft/libft.h"
 
 /* For signal */
@@ -23,6 +24,12 @@
 
 /* For malloc, free */
 # include <stdlib.h>
+
+/* Well, for readline() */
+# include <readline/readline.h>
+
+/* For add_history() */
+# include <readline/history.h>
 
 # define PROMPT "$"
 
