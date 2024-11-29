@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 18:45:36 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/11/28 20:04:50 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/11/29 10:29:41 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static int	show_tokerr(t_toktype tok)
 
 static	int	show_first_tokerr(t_toktype tok)
 {
-	if (tok == TOK_RIN ||  tok == TOK_ROUT || \
+	if (tok == TOK_RIN || tok == TOK_ROUT || \
 			tok == TOK_ROUTA)
 		return (token_error_int(TOKERR_NL));
 	if (tok == TOK_PIP)
@@ -53,22 +53,21 @@ static	int	show_first_tokerr(t_toktype tok)
 /* toklst cannot be NULL because this is checked in tokenize() beforehand. */
 int	check_toklst_lvl2(t_tokenlist *toklst)
 {
-	t_toktype cur;
-	t_toktype next;
+	t_toktype	cur;
+	t_toktype	next;
 
 	cur = toklst->token->type;
 	if (toklst->next == NULL && !show_first_tokerr(cur))
 		return (0);
-	while(toklst->next)
+	while (toklst->next)
 	{
 		next = toklst->next->token->type;
 		if ((cur == TOK_RIN || cur == TOK_ROUT || cur == TOK_ROUTA) && \
-				(next == TOK_RIN || next == TOK_ROUT || next == TOK_ROUTA || \
-				 next == TOK_PIP))
-				return (show_tokerr(next));
+			(next == TOK_RIN || next == TOK_ROUT || next == TOK_ROUTA || \
+			next == TOK_PIP))
+			return (show_tokerr(next));
 		cur = next;
 		toklst = toklst->next;
 	}
-
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 13:09:10 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/11/29 08:32:45 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/11/29 10:30:17 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,13 @@ t_tokenlist	*tokenize(char *input)
 	toklst = tokenize_lvl1(input);
 	if (!toklst)
 		return (NULL);
+	// DEBUG
+	// ft_printf("<< DEBUG >> toklist after lvl1:\n");
+	// print_toklst(toklst);
 	if (!tokenize_lvl2(toklst))
 		return (NULL);
+	// DEBUG
+	// ft_printf("<< DEBUG >> toklist after lvl2:\n");
+	// print_toklst(toklst);
 	return (toklst);
 }
