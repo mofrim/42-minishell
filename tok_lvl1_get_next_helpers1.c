@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 23:45:01 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/11/24 23:47:09 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/11/28 17:39:26 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,29 +49,30 @@ void	get_tok_rin(t_token *tok, t_cmdline *cl, int *tok_found)
 	}
 }
 
+/* Sorry for the hacky onemore flag 8) */
 void	get_tok_rout(t_token *tok, t_cmdline *cl, int *tok_found)
 {
-	int	pos;
+	int	onemore;
 
+	onemore = cl->length - cl->pos > 1;
 	if (!*tok_found)
 	{
-		pos = cl->pos;
-		if (cl->pos < cl->length - 1)
+		if (cl->pos < cl->length - onemore && cl->input[cl->pos] == '>')
 		{
-			if (cl->input[pos] == '>' && cl->input[pos + 1] == '>')
-			{
-				tok->type = TOK_ROUTA;
-				tok->value = ft_strdup(">>");
-				nullcheck(tok->value, "get_tok_rout()");
-				cl->pos += 2;
-				*tok_found = 1;
-			}
-			if (cl->input[pos] == '>' && cl->input[pos + 1] != '>')
+			if (!onemore || cl->input[cl->pos + onemore] != '>')
 			{
 				tok->type = TOK_ROUT;
 				tok->value = ft_strdup(">");
 				nullcheck(tok->value, "get_tok_rout()");
 				cl->pos++;
+				*tok_found = 1;
+			}
+			if (onemore && cl->input[cl->pos + onemore] == '>')
+			{
+				tok->type = TOK_ROUTA;
+				tok->value = ft_strdup(">>");
+				nullcheck(tok->value, "get_tok_rout()");
+				cl->pos += 2;
 				*tok_found = 1;
 			}
 		}

@@ -6,7 +6,7 @@
 #    By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/02 00:03:28 by fmaurer           #+#    #+#              #
-#    Updated: 2024/11/28 10:58:18 by fmaurer          ###   ########.fr        #
+#    Updated: 2024/11/29 08:41:10 by fmaurer          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,12 +20,14 @@ SRCS_IN = ./minishell.c \
 					./parsing.c \
 					./cmdlist.c \
 					./tok_tokenize.c \
-					./tok_tokenize_lvl2.c \
-					./tok_get_next_tok.c \
-					./tok_get_next_helpers1.c \
-					./tok_get_next_helpers2.c \
 					./tok_tokenlist.c \
-					./tok_tokprint.c
+					./tok_tokprint.c \
+					./tok_lvl1_tokenize.c \
+					./tok_lvl1_get_next_tok.c \
+					./tok_lvl1_get_next_helpers1.c \
+					./tok_lvl1_get_next_helpers2.c \
+					./tok_lvl2_tokenize.c \
+					./tok_lvl2_check_toklst.c
 
 SRCS = $(patsubst ./%.c,%.c,$(SRCS_IN))
 

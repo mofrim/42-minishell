@@ -210,5 +210,8 @@ Bash syntax errors:
   5) maybe 4th Level: Check filenames, permissions etc.
   6) Execution: forks(), run builtins, run heredoc (*TODO: how to implement
      this?!*).
+
+- **[2024-11-28 20:24]** **TODO**: rename other `tok_*.c` files to `tok_lvl1...c` and
+  so on.
   
 

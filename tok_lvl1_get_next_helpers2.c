@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 23:47:57 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/11/24 23:50:45 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/11/28 17:17:13 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	get_tok_word(t_token *tok, t_cmdline *cl, int *tok_found)
 			cl->pos++;
 		length = cl->pos - start;
 		word = malloc(length + 1);
-		nullcheck(tok->value, "get_tok_word()");
+		nullcheck(word, "get_tok_word()");
 		ft_strlcpy(word, &cl->input[start], length + 1);
 		tok->value = word;
 		tok->type = TOK_WORD;

@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:46:50 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/11/27 23:16:56 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/11/28 17:15:46 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,15 @@ int	main(int ac, char **av, char **envp)
 		t_tokenlist *tlst = tokenize(input);
 		t_tokenlist *tmp = tlst;
 
-		while (tlst)
+		if (tlst)
 		{
-			ft_printf("token: ");
-			print_tokentype(tlst->token);
-			ft_printf(", value: %s\n", tlst->token->value);
-			tlst = tlst->next;
+			while (tlst)
+			{
+				ft_printf("token: ");
+				print_tokentype(tlst->token);
+				ft_printf(", value: %s\n", tlst->token->value);
+				tlst = tlst->next;
+			}
 		}
 
 		// tlst = tmp;
