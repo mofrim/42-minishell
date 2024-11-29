@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:44:43 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/11/29 09:08:46 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/11/29 15:30:10 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,7 @@ typedef struct s_cmdlst
 	char			*executable;
 	char			**args;
 	int				arg_count;
+	int				is_builtin;
 	char			*output_file;
 	char			*input_file;
 	struct s_cmdlst	*next;
@@ -152,5 +153,8 @@ t_cmdlst	*cmdlst_last(t_cmdlst *head);
 void		cmdlst_add_back(t_cmdlst **head, t_cmdlst *newend);
 int			cmdlst_size(t_cmdlst *lst);
 void		cmdlst_clear(t_cmdlst **lst);
+
+/*********** Env. ***********/
+void	print_env(char **env);
 
 #endif

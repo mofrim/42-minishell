@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 17:22:51 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/11/24 22:38:49 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/11/29 17:11:15 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ void	toklst_clear(t_tokenlist **lst)
 	while (*lst)
 	{
 		tmp = (*lst)->next;
+		free((*lst)->token->value);
 		free((*lst)->token);
 		free(*lst);
 		*lst = tmp;

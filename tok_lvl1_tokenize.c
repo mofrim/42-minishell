@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 08:32:18 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/11/29 08:32:42 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/11/29 16:46:23 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,5 +38,6 @@ t_tokenlist	*tokenize_lvl1(char *input)
 			toklst_add_back(&tok_lst, tmplst);
 		}
 	}
+	free(cmdline);
 	return (tok_lst);
 }

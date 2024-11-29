@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 17:22:51 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/11/20 12:55:08 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/11/29 15:34:48 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,14 @@ t_cmdlst	*cmdlst_new(char *exec)
 {
 	t_cmdlst	*cmd;
 
-	// TODO handle malloc
 	cmd = malloc(sizeof(t_cmdlst));
+	nullcheck(cmd, "cmdlst_new()");
 	if (!cmd)
 		return (NULL);
 	cmd->executable = ft_strdup(exec);
 	cmd->args = malloc(sizeof(char *) * 10);
 	cmd->arg_count = 0;
+	cmd->is_builtin = 0;
 	cmd->next = NULL;
 	cmd->output_file = NULL;
 	cmd->input_file = NULL;
@@ -66,10 +67,8 @@ void	cmdlst_clear(t_cmdlst **lst)
 	{
 		tmp = (*lst)->next;
 		free((*lst)->executable);
-
 		// FIXME needs to be free_doubleptr()!
 		free((*lst)->args);
-
 		free((*lst)->output_file);
 		free((*lst)->input_file);
 		free(*lst);

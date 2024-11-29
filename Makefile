@@ -6,7 +6,7 @@
 #    By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/02 00:03:28 by fmaurer           #+#    #+#              #
-#    Updated: 2024/11/29 10:38:21 by fmaurer          ###   ########.fr        #
+#    Updated: 2024/11/29 16:45:29 by fmaurer          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,9 +17,9 @@ SRCS_IN = ./minishell.c \
 					./signal.c \
 					./utils.c \
 					./error_exit_utils.c \
-					./parsing.c \
 					./cmdlist.c \
 					./tok_tokenize.c \
+					./tok_cmdline.c \
 					./tok_tokenlist.c \
 					./tok_tokprint.c \
 					./tok_lvl1_tokenize.c \
@@ -27,7 +27,9 @@ SRCS_IN = ./minishell.c \
 					./tok_lvl1_get_next_helpers1.c \
 					./tok_lvl1_get_next_helpers2.c \
 					./tok_lvl2_tokenize.c \
-					./tok_lvl2_check_toklst.c
+					./tok_lvl2_check_toklst.c \
+					./par_parsing.c \
+					./env.c
 
 SRCS = $(patsubst ./%.c,%.c,$(SRCS_IN))
 
@@ -38,7 +40,7 @@ HDR = minishell.h
 
 CC = clang
 # CFLAGS = -Wall -Werror -Wextra
-CFLAGS = -g
+CFLAGS =
 
 # adding libft
 LIBFT_PATH	= ./libft
@@ -70,9 +72,9 @@ $(LIBFT):
 	@echo -e "$(call log_msg,Compiling libft...)"
 	make -C $(LIBFT_PATH) all
 
-debug: $(OBJS) | $(LIBFT)
+debug: $(SRCS) | $(LIBFT)
 	@echo -e "$(call log_msg,Compiling debug...)"
-	$(CC) $(CFLAGS) -g -DDEBUG $(LIB_PATHS) -o $@ $^ $(LIBS)
+	$(CC) $(CFLAGS) -g -DDEBUG $(LIB_PATHS) -o $(NAME) $^ $(LIBS)
 
 $(OBJDIR):
 	mkdir -p obj

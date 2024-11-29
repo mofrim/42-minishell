@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.c                                          :+:      :+:    :+:   */
+/*   par_parsing.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 10:59:44 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/11/21 00:12:07 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/11/29 11:28:02 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ t_cmdlst	*parse_tokenlist(t_tokenlist *toklst)
 			cmd = cmdlst_new(NULL);
 			cur_cmd = cmd;
 		}
-		if (toklst->token->type == TOK_CMD) 
+		if (toklst->token->type == TOK_CMD)
 		{
 			parse_command(&toklst, &cmd, &cur_cmd);
 			if (toklst->next == NULL)

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tok_get_next_tok.c                                 :+:      :+:    :+:   */
+/*   tok_lvl1_get_next_tok.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 11:55:17 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/11/24 23:50:25 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/11/29 17:15:10 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,10 @@ t_token	*get_next_token(t_cmdline *cl)
 	t_token	*token;
 	int		tok_found;
 
-	token = malloc(sizeof(t_token));
-	nullcheck(token, "get_next_token()");
 	if (cl->pos >= cl->length)
 		return (NULL);
+	token = malloc(sizeof(t_token));
+	nullcheck(token, "get_next_token()");
 	tok_found = 0;
 	while (cl->pos < cl->length && !tok_found)
 	{
