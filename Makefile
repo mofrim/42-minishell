@@ -6,7 +6,7 @@
 #    By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/02 00:03:28 by fmaurer           #+#    #+#              #
-#    Updated: 2024/11/29 08:41:10 by fmaurer          ###   ########.fr        #
+#    Updated: 2024/11/29 10:38:21 by fmaurer          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -70,8 +70,9 @@ $(LIBFT):
 	@echo -e "$(call log_msg,Compiling libft...)"
 	make -C $(LIBFT_PATH) all
 
-debug: $(SRCS)
-	$(CC) -g $(CFLAGS) -o pipex $^
+debug: $(OBJS) | $(LIBFT)
+	@echo -e "$(call log_msg,Compiling debug...)"
+	$(CC) $(CFLAGS) -g -DDEBUG $(LIB_PATHS) -o $@ $^ $(LIBS)
 
 $(OBJDIR):
 	mkdir -p obj
