@@ -2,3 +2,6 @@
 	path = libft
 	url = git@github.com:mofrim/42-libft.git
 	branch = prod
+[submodule "readline"]
+	path = readline
+	url = https://github.com/gnu-mirror-unofficial/readline.git
