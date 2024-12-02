@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:44:43 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/11/29 15:30:10 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/02 14:17:41 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,10 @@
 # include <stdlib.h>
 
 /* Well, for readline() */
-# include <readline/readline.h>
+# include "readline/readline.h"
 
 /* For add_history() */
-# include <readline/history.h>
+# include "readline/history.h"
 
 # define PROMPT "$"
 
