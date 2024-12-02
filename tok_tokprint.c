@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 21:31:43 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/11/29 09:08:18 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/02 17:34:14 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void	print_toklst(t_tokenlist *tlst)
 	{
 		ft_printf("token: ");
 		print_tokentype(tlst->token);
-		ft_printf(", value: %s\n", tlst->token->value);
+		ft_printf(", value: ~%s~\n", tlst->token->value);
 		tlst = tlst->next;
 	}
 }

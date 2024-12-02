@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 11:55:17 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/11/29 17:15:10 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/02 17:40:37 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ void	get_tok_var(t_token *tok, t_cmdline *cl, int *tok_found);
 
 static void	get_tok_unquoted(t_token *tok, t_cmdline *cl, int *tok_found)
 {
-	skip_whitespace(cl);
 	get_tok_quot(tok, cl, tok_found);
 	get_tok_var(tok, cl, tok_found);
 	get_tok_pipe(tok, cl, tok_found);
@@ -50,6 +49,8 @@ t_token	*get_next_token(t_cmdline *cl)
 	t_token	*token;
 	int		tok_found;
 
+	if (!cl->dquot_flag && !cl->squot_flag)
+		skip_whitespace(cl);
 	if (cl->pos >= cl->length)
 		return (NULL);
 	token = malloc(sizeof(t_token));
