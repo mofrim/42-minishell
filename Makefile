@@ -6,7 +6,7 @@
 #    By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/02 00:03:28 by fmaurer           #+#    #+#              #
-#    Updated: 2024/12/02 14:21:12 by fmaurer          ###   ########.fr        #
+#    Updated: 2024/12/02 17:17:07 by fmaurer          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,8 +38,8 @@ OBJS = $(patsubst %.c,$(OBJDIR)/%.o,$(SRCS))
 
 HDR = minishell.h
 
-RL = -L./readline
-RLLIB = ./readline/libreadline.a ./readline/libhistory.a
+RL_PATH = ./readline
+RL_LIBS = $(RL_PATH)/libreadline.a $(RL_PATH)/libhistory.a
 
 CC = clang
 # CFLAGS = -Wall -Werror -Wextra
@@ -48,7 +48,7 @@ CFLAGS =
 # adding libft
 LIBFT_PATH	= ./libft
 LIBFT				= $(LIBFT_PATH)/libft.a
-LIB_PATHS += -L$(LIBFT_PATH) $(RL)
+LIB_PATHS += -L$(LIBFT_PATH) -L$(RL_PATH)
 LIBS += -lft -lncurses
 
 GRN = \033[1;32m
@@ -69,15 +69,20 @@ $(OBJDIR)/%.o: %.c $(HDR)| $(OBJDIR)
 
 $(NAME): $(OBJS) | $(LIBFT)
 	@echo -e "$(call log_msg,Compiling $(NAME)...)"
-	$(CC) $(CFLAGS) $(LIB_PATHS) -o $@ $^ $(LIBS) $(RLLIB)
+	$(CC) $(CFLAGS) $(LIB_PATHS) -o $@ $^ $(LIBS) $(RL_LIBS)
 
 $(LIBFT):
 	@echo -e "$(call log_msg,Compiling libft...)"
 	make -C $(LIBFT_PATH) all
 
-debug: $(SRCS) | $(LIBFT)
+$(RL_LIBS):
+	@echo -e "$(call log_msg,Compiling readline...)"
+	cd ./readline && ./configure
+	make -C ./readline
+
+debug: $(SRCS) $(RL_LIBS)| $(LIBFT)
 	@echo -e "$(call log_msg,Compiling debug...)"
-	$(CC) $(CFLAGS) -g -DDEBUG $(LIB_PATHS) -o $(NAME) $^ $(LIBS) $(RLLIB)
+	$(CC) $(CFLAGS) -g -DDEBUG -DREADLINE_LIBRARY $(LIB_PATHS) -o $(NAME) $^ $(LIBS) $(RL_LIBS)
 
 $(OBJDIR):
 	mkdir -p obj
