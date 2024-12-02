@@ -6,7 +6,7 @@
 #    By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/02 00:03:28 by fmaurer           #+#    #+#              #
-#    Updated: 2024/12/02 17:17:07 by fmaurer          ###   ########.fr        #
+#    Updated: 2024/12/02 17:26:09 by fmaurer          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,7 +49,10 @@ CFLAGS =
 LIBFT_PATH	= ./libft
 LIBFT				= $(LIBFT_PATH)/libft.a
 LIB_PATHS += -L$(LIBFT_PATH) -L$(RL_PATH)
-LIBS += -lft -lncurses
+## Libs for prod:
+# LIBS += -lft -lreadline
+## temporary libs for dev:
+LIBS_DEV += -lft -lncurses
 
 GRN = \033[1;32m
 RED = \033[1;31m
@@ -67,14 +70,20 @@ $(OBJDIR)/%.o: %.c $(HDR)| $(OBJDIR)
 	@echo -e "$(call log_msg,Compiling $<...)"
 	$(CC) $(CFLAGS) -c $< -o $@
 
+## This is the recipe for prod, without readline submodule
+# $(NAME): $(OBJS) | $(LIBFT)
+# 	@echo -e "$(call log_msg,Compiling $(NAME)...)"
+# 	$(CC) $(CFLAGS) $(LIB_PATHS) -o $@ $^ $(LIBS) -lreadline
+
 $(NAME): $(OBJS) | $(LIBFT)
 	@echo -e "$(call log_msg,Compiling $(NAME)...)"
-	$(CC) $(CFLAGS) $(LIB_PATHS) -o $@ $^ $(LIBS) $(RL_LIBS)
+	$(CC) $(CFLAGS) $(LIB_PATHS) -o $@ $^ $(LIBS_DEV) $(RL_LIBS)
 
 $(LIBFT):
 	@echo -e "$(call log_msg,Compiling libft...)"
 	make -C $(LIBFT_PATH) all
 
+# readline submodule
 $(RL_LIBS):
 	@echo -e "$(call log_msg,Compiling readline...)"
 	cd ./readline && ./configure
@@ -82,7 +91,7 @@ $(RL_LIBS):
 
 debug: $(SRCS) $(RL_LIBS)| $(LIBFT)
 	@echo -e "$(call log_msg,Compiling debug...)"
-	$(CC) $(CFLAGS) -g -DDEBUG -DREADLINE_LIBRARY $(LIB_PATHS) -o $(NAME) $^ $(LIBS) $(RL_LIBS)
+	$(CC) $(CFLAGS) -g -DDEBUG -DREADLINE_LIBRARY $(LIB_PATHS) -o $(NAME) $^ $(LIBS_DEV) $(RL_LIBS)
 
 $(OBJDIR):
 	mkdir -p obj
