@@ -6,7 +6,7 @@
 #    By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/02 00:03:28 by fmaurer           #+#    #+#              #
-#    Updated: 2024/12/02 17:26:09 by fmaurer          ###   ########.fr        #
+#    Updated: 2024/12/02 19:12:50 by fmaurer          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,9 @@ SRCS_IN = ./minishell.c \
 					./tok_lvl2_tokenize.c \
 					./tok_lvl2_check_toklst.c \
 					./par_parsing.c \
-					./env.c
+					./env.c \
+					./env_envlst.c \
+					./env_parse.c
 
 SRCS = $(patsubst ./%.c,%.c,$(SRCS_IN))
 
@@ -64,7 +66,8 @@ MSGEND = $(YLW)]]$(EOC)
 
 log_msg = $(MSGOPN) $(1) $(MSGEND)
 
-all: $(NAME)
+# all: $(NAME)
+all: debug
 
 $(OBJDIR)/%.o: %.c $(HDR)| $(OBJDIR)
 	@echo -e "$(call log_msg,Compiling $<...)"
@@ -108,4 +111,7 @@ fclean: clean
 	@echo -e "$(call log_msg,fcleaning minishell..)"
 	@rm -f $(NAME)
 
-.PHONY: all clean fclean debug
+# re: fclean $(NAME)
+re: fclean all
+
+.PHONY: all clean fclean debug re

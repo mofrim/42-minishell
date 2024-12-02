@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:44:43 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/02 14:17:41 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/02 18:11:09 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,15 @@ typedef struct s_cmdlst
 	struct s_cmdlst	*next;
 }	t_cmdlst;
 
+/*********** Datatype for env. ***********/
+
+typedef struct s_envlst
+{
+	char			*name;
+	char			*value;
+	struct s_envlst	*next ;
+}	t_envlst;
+
 /*********** Signal and terminal setup. ***********/
 
 void		signal_handler(int signum);
@@ -155,6 +164,13 @@ int			cmdlst_size(t_cmdlst *lst);
 void		cmdlst_clear(t_cmdlst **lst);
 
 /*********** Env. ***********/
-void	print_env(char **env);
+void		print_env(char **env);
+t_envlst	*parse_env(char **env);
+void		print_envlst(t_envlst *el);
+t_envlst	*envlst_new(char *name, char *value);
+t_envlst	*envlst_last(t_envlst *head);
+void		envlst_add_back(t_envlst **head, t_envlst *newend);
+int			envlst_size(t_envlst *lst);
+void		envlst_clear(t_envlst **lst);
 
 #endif
