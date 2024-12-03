@@ -6,10 +6,11 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 15:43:14 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/03 21:24:37 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/03 21:42:48 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft/ft_printf/ft_printf.h"
 #include "minishell.h"
 
 // FIXME: first dirty sketch of a execution function. Will this work with Pipes
@@ -22,6 +23,11 @@ int	exec_cmd(t_cmdlst *cmdl, char **env)
 	if (cmdl->cmd == NULL)
 		return (ENOENT);
 	exec_path = get_exec_path(cmdl, env);
+	if (exec_path == NULL)
+	{
+		ft_printf("%s: command not found!\n", cmdl->cmd);
+		return (ENOENT);
+	}
 	cmdl->args[0] = exec_path;
 	cpid = fork();
 	if (cpid < 0)
