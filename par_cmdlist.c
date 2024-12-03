@@ -6,12 +6,17 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 17:22:51 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/03 11:03:53 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/03 21:25:36 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/* Init new cmdlst-struct. Init arg_count at 1 because we want cmd->args[0] to
+ * be free for the final exec_path. */
+// FIXME: remove args limit which could definitely lead to overflows!!!
+// FIXME: think about the cmd / args[0] thing. this is a little bit to
+// confusing.
 t_cmdlst	*cmdlst_new(char *exec)
 {
 	t_cmdlst	*cmd;
@@ -20,9 +25,9 @@ t_cmdlst	*cmdlst_new(char *exec)
 	nullcheck(cmd, "cmdlst_new()");
 	if (!cmd)
 		return (NULL);
-	cmd->executable = ft_strdup(exec);
+	cmd->cmd = ft_strdup(exec);
 	cmd->args = malloc(sizeof(char *) * 10);
-	cmd->arg_count = 0;
+	cmd->arg_count = 1;
 	cmd->is_builtin = 0;
 	cmd->append = 0;
 	cmd->heredoc = 0;
@@ -64,7 +69,7 @@ void	free_args(char ***args, int argcnt)
 {
 	int	i;
 
-	if (argcnt > 0)
+	if (argcnt > 1)
 	{
 		i = -1;
 		while (++i < argcnt)
@@ -85,7 +90,7 @@ void	cmdlst_clear(t_cmdlst **lst)
 	while (*lst)
 	{
 		tmp = (*lst)->next;
-		free((*lst)->executable);
+		free((*lst)->cmd);
 		free_args(&(*lst)->args, (*lst)->arg_count);
 		if ((*lst)->output_file)
 			free((*lst)->output_file);

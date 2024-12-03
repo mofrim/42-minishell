@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:44:43 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/03 12:05:35 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/03 21:05:12 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,12 @@
 
 /* For add_history() */
 # include "readline/history.h"
+
+/* For waitpid */
+# include <sys/wait.h>
+
+/* Errors */
+# include <errno.h>
 
 # define PROMPT "$"
 
@@ -105,7 +111,7 @@ typedef enum e_tokerr
 /* Command structure for parsing. */
 typedef struct s_cmdlst
 {
-	char			*executable;
+	char			*cmd;
 	char			**args;
 	int				arg_count;
 	int				is_builtin;
@@ -167,8 +173,10 @@ void		cmdlst_clear(t_cmdlst **lst);
 t_cmdlst	*parse_tokenlist(t_tokenlist *toklst);
 void		parse_command(t_tokenlist **toklst, t_cmdlst **cmd, \
 		t_cmdlst **cur_cmd);
-void	parse_pipe(t_tokenlist **toklst, t_cmdlst **cmd, t_cmdlst **cur_cmd);
-void	parse_rout(t_tokenlist **toklst, t_cmdlst *cur_cmd);
+void		parse_pipe(t_tokenlist **toklst, t_cmdlst **cmd, \
+		t_cmdlst **cur_cmd);
+void		parse_rout(t_tokenlist **toklst, t_cmdlst *cur_cmd);
+void		parse_rin(t_tokenlist **toklst, t_cmdlst *cur_cmd);
 
 /*********** Env. ***********/
 void		print_env(char **env);
@@ -179,5 +187,9 @@ t_envlst	*envlst_last(t_envlst *head);
 void		envlst_add_back(t_envlst **head, t_envlst *newend);
 int			envlst_size(t_envlst *lst);
 void		envlst_clear(t_envlst **lst);
+
+/*********** Exec. ***********/
+char	*get_exec_path(t_cmdlst *clst, char **env);
+int		exec_cmd(t_cmdlst *cmd, char **env);
 
 #endif

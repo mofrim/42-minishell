@@ -6,7 +6,7 @@
 #    By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/02 00:03:28 by fmaurer           #+#    #+#              #
-#    Updated: 2024/12/03 11:33:32 by fmaurer          ###   ########.fr        #
+#    Updated: 2024/12/03 16:08:36 by fmaurer          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,9 @@ SRCS_IN = ./minishell.c \
 					./env.c \
 					./env_envlst.c \
 					./env_parse.c \
-					./bltin_export.c
+					./bltin_export.c \
+					./exec.c \
+					./exec_get_exec_path.c
 
 SRCS = $(patsubst ./%.c,%.c,$(SRCS_IN))
 

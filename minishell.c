@@ -6,11 +6,12 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:46:50 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/03 10:23:14 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/03 21:11:05 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "libft/ft_printf/ft_printf.h"
 #include "readline/readline.h"
 #include <stdio.h>
 #include <termios.h>
@@ -50,12 +51,16 @@ int	main(int ac, char **av, char **envp)
 		}
 		add_history(input);
 		tlst = tokenize(input);
-		// if (tlst)
-		// 	print_toklst(tlst);
-		cmdlst = parse_tokenlist(tlst);
-		print_cmdlst(cmdlst);
-		cmdlst_clear(&cmdlst);
-		toklst_clear(&tlst);
+		if (tlst)
+		{
+			write(1, "\n", 1);
+			cmdlst = parse_tokenlist(tlst);
+			print_cmdlst(cmdlst);
+			exec_cmd(cmdlst, envp);
+			write(1, "\n", 1);
+			cmdlst_clear(&cmdlst);
+			toklst_clear(&tlst);
+		}
 		free(input);
 	}
 	rl_clear_history();
