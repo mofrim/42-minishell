@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 18:45:36 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/11/29 10:29:41 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/03 15:28:08 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,5 +69,7 @@ int	check_toklst_lvl2(t_tokenlist *toklst)
 		cur = next;
 		toklst = toklst->next;
 	}
+	if (cur == TOK_RIN || cur == TOK_ROUT || cur == TOK_ROUTA)
+		return (token_error_int(TOKERR_NL));
 	return (1);
 }
