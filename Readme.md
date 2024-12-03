@@ -2,8 +2,6 @@
 
 # Allowed functions
 
-    the new:
-
     readline, rl_clear_history, rl_on_new_line,
     rl_replace_line, rl_redisplay, add_history,
     printf, malloc, free, write, access, open, read,
@@ -15,17 +13,17 @@
     getenv, tcsetattr, tcgetattr, tgetent, tgetflag,
     tgetnum, tgetstr, tgoto, tputs
 
-    the old:
+# Roadmap
 
-    readline, rl_clear_history, rl_on_new_line,
-    rl_replace_line, rl_redisplay, add_history,
-    printf, malloc, free, write, access, open, read,
-    close, fork, wait, waitpid, wait3, wait4, signal,
-    sigaction, sigemptyset, sigaddset, kill, exit,
-    getcwd, chdir, stat, lstat, fstat, unlink, execve,
-    dup, dup2, pipe, opendir, readdir, closedir,
-    strerror, perror, isatty, ttyname, ttyslot, ioctl,
-    getenv, tcsetattr, tcgetattr, tgetent, tgetflag,
+1) **DONE** Finish Tokenization / Lexing
+2) Implement Environment variables
+3) Implement HEREDOC functionality
+4) Implement Builtins dispatching
+4) Implement Parsing of Commands into Command-struct (respecting builtins,
+   heredoc and envvars)
+5) Implement access-/executability checking
+6) Implement execution & error handling **and** return value management in order
+   to implement `$?`.
 
 # Mandatory TODOs
 
@@ -35,11 +33,11 @@
   - [ ] does it really work correctly in all cases? especially the heredoc case?
   - [ ] Search and launch the right executable (based on the PATH variable or
       using a relative or an absolute path).
-- [ ] Not interpret unclosed quotes or special characters which are not required
+- [x] Not interpret unclosed quotes or special characters which are not required
   by the subject such as \ (backslash) or ; (semicolon).
-- [ ] Handle ’ (single quote) which should prevent the shell from interpreting
+- [x] Handle ’ (single quote) which should prevent the shell from interpreting
   the meta- characters in the quoted sequence.
-- [ ] Handle " (double quote) which should prevent the shell from interpreting
+- [x] Handle " (double quote) which should prevent the shell from interpreting
   the meta- characters in the quoted sequence except for $ (dollar sign).
 - [ ] Implement redirections:
   - [ ] < should redirect input.
@@ -80,7 +78,7 @@
 
 ## Parsing / Lexing TODOs
 
-- [ ] find a way to make everything obey the norm.
+- [x] find a way to make everything obey the norm.
 - Tokens to correctly tokenize:
   + [x] command
   + [x] arg
@@ -100,9 +98,6 @@
   + [x] -> variable name
   + [x] builtins
   + [x] builtin args for echo, export ("=" + arg), unset, export, cd
-  + [ ] ...
-
-  -> -> -> **i need much more tokens!!!**
 
 # Resources
 
@@ -118,13 +113,6 @@ Bash syntax errors:
 - `cat << "<<"` is legit!
 
 # Logbook
-
-- **[2024-11-14 21:59]** Now i really want to start working on this. A first
-  checklist:
-  + [x] display the prompt
-  + [ ] implement signal handling, 
-    + [ ] handle Ctrl-D like bash
-    + [x] that is handle Ctrl-C in a correct way
 
 - **[2024-11-19 01:39]** Well.. the main output of todays.. "coding": there are
   version of bash (on nix bash_interactive) which are build with and linked
@@ -190,7 +178,6 @@ Bash syntax errors:
   *
   */
   ```
-
   Today my view on this is as follows. I will have several tokenization and
   parsing steps:
 
@@ -210,8 +197,3 @@ Bash syntax errors:
   5) maybe 4th Level: Check filenames, permissions etc.
   6) Execution: forks(), run builtins, run heredoc (*TODO: how to implement
      this?!*).
-
-- **[2024-11-28 20:24]** **TODO**: rename other `tok_*.c` files to `tok_lvl1...c` and
-  so on.
-  
-
