@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 17:22:51 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/03 21:25:36 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/03 21:39:11 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void	free_args(char ***args, int argcnt)
 
 	if (argcnt > 1)
 	{
-		i = -1;
+		i = 0;
 		while (++i < argcnt)
 			free((*args)[i]);
 		free (*args);
