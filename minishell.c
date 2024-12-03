@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:46:50 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/02 19:12:25 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/03 10:23:14 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,14 @@ int	main(int ac, char **av, char **envp)
 {
 	t_termios	old_settings;
 	char		*input;
-	int			bla;
 	t_tokenlist *tlst;
+	t_envlst	*el;
+	t_cmdlst	*cmdlst;
 
+	el = parse_env(envp);
 #ifdef DEBUG
 	ft_printf("<< DEBUG >> debug mode\n");
-	t_envlst *el = parse_env(envp);
-	print_envlst(el);
-	envlst_clear(&el);
+	// print_envlst(el);
 	// print_env(envp);
 #endif
 
@@ -37,29 +37,29 @@ int	main(int ac, char **av, char **envp)
 	tlst = NULL;
 	while (1)
 	{
-		input = readline("$ ");
+		input = readline("\033[1;33m$\033[0m ");
 		if (!input)
 		{
 			printf("exit");
 			tcsetattr(STDIN_FILENO, TCSANOW, &old_settings);
 			rl_clear_history();
+			envlst_clear(&el);
 			if (tlst)
 				toklst_clear(&tlst);
 			exit(0);
 		}
 		add_history(input);
 		tlst = tokenize(input);
-		//
 		// if (tlst)
 		// 	print_toklst(tlst);
-
-		// tlst = tmp;
-		// t_cmdlst *cmdlst = parse_tokenlist(tlst);
-		// print_cmdlst(cmdlst);
+		cmdlst = parse_tokenlist(tlst);
+		print_cmdlst(cmdlst);
+		cmdlst_clear(&cmdlst);
 		toklst_clear(&tlst);
 		free(input);
 	}
 	rl_clear_history();
+	envlst_clear(&el);
 	tcsetattr(STDIN_FILENO, TCSANOW, &old_settings);
 	return (0);
 }

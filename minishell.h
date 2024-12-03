@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:44:43 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/02 18:11:09 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/03 12:05:35 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,8 @@ typedef struct s_cmdlst
 	char			**args;
 	int				arg_count;
 	int				is_builtin;
+	int				heredoc;
+	int				append;
 	char			*output_file;
 	char			*input_file;
 	struct s_cmdlst	*next;
@@ -134,6 +136,7 @@ void		term_setup(struct termios *old_settings);
 void		nullcheck(void *p, char *msg);
 void		error_exit(char *msg);
 int			ft_isspace(char c);
+void		free_ptrptr(char ***a);
 
 /*********** Tokenization. ***********/
 
@@ -152,7 +155,6 @@ int			check_toklst_lvl2(t_tokenlist *toklst);
 /*********** Parsing. ***********/
 
 t_cmdlst	*new_command(char *executable);
-t_cmdlst	*parse_tokenlist(t_tokenlist *toklst);
 void		print_cmdlst(t_cmdlst *cmd);
 t_cmdline	*init_cmdline(char *input);
 t_token		*get_next_token(t_cmdline	*lexer);
@@ -160,8 +162,13 @@ t_token		*get_next_token(t_cmdline	*lexer);
 t_cmdlst	*cmdlst_new(char *exec);
 t_cmdlst	*cmdlst_last(t_cmdlst *head);
 void		cmdlst_add_back(t_cmdlst **head, t_cmdlst *newend);
-int			cmdlst_size(t_cmdlst *lst);
 void		cmdlst_clear(t_cmdlst **lst);
+
+t_cmdlst	*parse_tokenlist(t_tokenlist *toklst);
+void		parse_command(t_tokenlist **toklst, t_cmdlst **cmd, \
+		t_cmdlst **cur_cmd);
+void	parse_pipe(t_tokenlist **toklst, t_cmdlst **cmd, t_cmdlst **cur_cmd);
+void	parse_rout(t_tokenlist **toklst, t_cmdlst *cur_cmd);
 
 /*********** Env. ***********/
 void		print_env(char **env);

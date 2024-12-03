@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 19:11:04 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/02 19:19:57 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/03 09:49:53 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ static int	splitsize(char **s)
 	}
 	return (i);
 }
-
 
 /* 
  * FIXME: dirty hack for re-joining splits of env-var values that contained '='
