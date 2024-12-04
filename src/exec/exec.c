@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 15:43:14 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/04 10:40:34 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/04 13:43:40 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,13 @@
 
 // FIXME: first dirty sketch of a execution function. Will this work with Pipes
 // and redirects?
-int	exec_cmd(t_cmdlst *cmdl, char **env)
+int	exec_simple_cmd(t_cmdlst *cmdl, char **env)
 {
 	char	*exec_path;
 	int		cpid;
+	int		status;
 
+	status = 0;
 	if (cmdl->cmd == NULL)
 		return (ENOENT);
 	exec_path = get_exec_path(cmdl, env);
@@ -35,6 +37,6 @@ int	exec_cmd(t_cmdlst *cmdl, char **env)
 	if (cpid == 0)
 		execve(exec_path, cmdl->args, env);
 	else
-		waitpid(cpid, NULL, 0);
-	return (0);
+		waitpid(cpid, &status, 0);
+	return (status);
 }

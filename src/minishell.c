@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:46:50 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/04 08:48:39 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/04 13:43:25 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,8 @@ int	main(int ac, char **av, char **envp)
 			print_cmdlst(cmdlst);
 			ft_printf(RED "<< DEBUG >> end\n\n" RST);
 #endif
-			exec_cmd(cmdlst, envp);
+			int status = exec_cmd(cmdlst, envp);
+			ft_printf(RED "<< DEBUG >> exit status = %d\n" RST, status);
 			(void)write(1, "\n", 1);
 			cmdlst_clear(&cmdlst);
 			toklst_clear(&tlst);

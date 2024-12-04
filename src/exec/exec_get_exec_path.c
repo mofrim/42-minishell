@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 15:48:38 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/04 10:43:14 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/04 13:49:28 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ char	*get_exec_path(t_cmdlst *clst, char **env)
 		if (access(exec_path, X_OK) == 0)
 		{
 #ifdef DEBUG
-			ft_printf(RED "<< DEBUG >> i really can access X_OK: %s\n" RST, exec_path);
+			ft_printf(RED "<< DEBUG >> i really can access X_OK: %s\n" RST, \
+					exec_path);
 #endif
 			free_split(&path_split);
 			return (exec_path);
