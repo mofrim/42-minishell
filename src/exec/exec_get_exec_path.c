@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 15:48:38 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/04 09:13:16 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/04 10:43:14 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,10 @@ static int	ft_initial_strcmp(char *s1, char *s2);
 /* Get the real executable path of cmd from PATH envvar. First checks if file is
  * directly executable (and not a DIR with X-bit set!). If it isn't tries to
  * construct exec_path using PATH. */
+// FIXME: we will have to the PATH from *our* env-list here! Because it should
+// be possible to do an export PATH=$PATH:./somedir/ before executing something
+// by name. So in the end we need this function to determine the real exec_path
+// and call execve like `execve(cmd, args, NULL)}`
 char	*get_exec_path(t_cmdlst *clst, char **env)
 {
 	struct stat	sb;
@@ -40,7 +44,9 @@ char	*get_exec_path(t_cmdlst *clst, char **env)
 		exec_path = join_exec_path_strings(path_split[i], clst->cmd);
 		if (access(exec_path, X_OK) == 0)
 		{
+#ifdef DEBUG
 			ft_printf(RED "<< DEBUG >> i really can access X_OK: %s\n" RST, exec_path);
+#endif
 			free_split(&path_split);
 			return (exec_path);
 		}

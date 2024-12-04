@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 17:22:51 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/03 21:39:11 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/04 10:42:20 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,9 @@ void	free_args(char ***args, int argcnt)
 {
 	int	i;
 
-	if (argcnt > 1)
+	if (argcnt >= 1)
 	{
-		i = 0;
+		i = -1;
 		while (++i < argcnt)
 			free((*args)[i]);
 		free (*args);
@@ -81,6 +81,10 @@ void	free_args(char ***args, int argcnt)
 		free (*args);
 }
 
+/*
+ * NOTE: no need to free cmdlst->cmd because args[0] is storing the same
+ * pointer.
+ */
 void	cmdlst_clear(t_cmdlst **lst)
 {
 	t_cmdlst	*tmp;
@@ -90,7 +94,8 @@ void	cmdlst_clear(t_cmdlst **lst)
 	while (*lst)
 	{
 		tmp = (*lst)->next;
-		free((*lst)->cmd);
+		if ((*lst)->cmd)
+			free((*lst)->cmd);
 		free_args(&(*lst)->args, (*lst)->arg_count);
 		if ((*lst)->output_file)
 			free((*lst)->output_file);

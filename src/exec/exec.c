@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 15:43:14 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/04 08:07:56 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/04 10:40:34 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ int	exec_cmd(t_cmdlst *cmdl, char **env)
 		ft_printf("%s: command not found!\n", cmdl->cmd);
 		return (ENOENT);
 	}
+	free(cmdl->args[0]);
 	cmdl->args[0] = exec_path;
 	cpid = fork();
 	if (cpid < 0)

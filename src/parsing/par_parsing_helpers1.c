@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 11:29:40 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/03 21:27:21 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/04 10:41:08 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	parse_command(t_tokenlist **toklst, t_cmdlst **cmd, t_cmdlst **cur_cmd)
 		}
 		else
 			(*cur_cmd)->cmd = ft_strdup((*toklst)->token->value);
+		(*cur_cmd)->args[0] = ft_strdup((*cur_cmd)->cmd);
 		*toklst = (*toklst)->next;
 		while (*toklst && (*toklst)->token->type == TOK_ARG)
 		{
