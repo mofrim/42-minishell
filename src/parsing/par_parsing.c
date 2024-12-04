@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 10:59:44 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/03 20:40:08 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/04 10:50:20 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ void	print_cmdlst(t_cmdlst *cmd)
 
 	while (cmd)
 	{
+		ft_printf("-- cmd start --\n");
 		ft_printf("Command: %s\n", cmd->cmd);
 		ft_printf("Arguments: ");
 		i = 0;
@@ -73,7 +74,7 @@ void	print_cmdlst(t_cmdlst *cmd)
 			ft_printf("Has HEREDOC!\n");
 		if (cmd->next)
 			ft_printf("Piped to: %s\n", cmd->next->cmd);
-		ft_printf("--\n");
+		ft_printf("-- cmd end --\n");
 		cmd = cmd->next;
 	}
 }

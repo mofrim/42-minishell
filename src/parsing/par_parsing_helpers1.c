@@ -6,16 +6,15 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 11:29:40 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/04 10:41:08 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/04 10:47:52 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/* Parse a TOK_CMD and following TOK_ARGs. If after that no tokens are left
- * return 0. Otherwise return 1. NULL-terminate the args-array in any case
- * because execve() needs this! Reminder: arg_count is initialized to 1, so this
- * will also work if there is only a cmd without args.*/
+/* Parse a TOK_CMD and following TOK_ARGs. NULL-terminate the args-array in any
+ * case because execve() needs this! Reminder: arg_count is initialized to 1, so
+ * this will also work if there is only a cmd without args.*/
 void	parse_command(t_tokenlist **toklst, t_cmdlst **cmd, t_cmdlst **cur_cmd)
 {
 	if (*toklst && (*toklst)->token->type == TOK_CMD)
@@ -39,6 +38,7 @@ void	parse_command(t_tokenlist **toklst, t_cmdlst **cmd, t_cmdlst **cur_cmd)
 	}
 }
 
+/* Parse a pipe. */
 void	parse_pipe(t_tokenlist **toklst, t_cmdlst **cmd, t_cmdlst **cur_cmd)
 {
 	if (*toklst && (*toklst)->next)
@@ -57,6 +57,7 @@ void	parse_pipe(t_tokenlist **toklst, t_cmdlst **cmd, t_cmdlst **cur_cmd)
 	}
 }
 
+/* Parse a output redirect. */
 void	parse_rout(t_tokenlist **toklst, t_cmdlst *cur_cmd)
 {
 	if (*toklst && ((*toklst)->token->type == TOK_ROUT || \
@@ -69,6 +70,7 @@ void	parse_rout(t_tokenlist **toklst, t_cmdlst *cur_cmd)
 	}
 }
 
+/* Parse a input redirect. */
 void	parse_rin(t_tokenlist **toklst, t_cmdlst *cur_cmd)
 {
 	if (*toklst && (*toklst)->next && (*toklst)->token->type == TOK_RIN)
