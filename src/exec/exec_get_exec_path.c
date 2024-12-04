@@ -6,27 +6,33 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 15:48:38 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/03 21:23:54 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/04 09:13:16 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+/* For struct stat, stat() and S_IFREG. */
+#include <sys/stat.h>
 
 char		**get_path_from_env(char **env);
 static char	*join_exec_path_strings(char *path, char *exec);
 static void	free_split(char ***split);
 static int	ft_initial_strcmp(char *s1, char *s2);
 
-// FIXME: the access check is not working properly. It also succeeds on
-// directories with the executable bit set. This is not the desired behaviour.
+/* Get the real executable path of cmd from PATH envvar. First checks if file is
+ * directly executable (and not a DIR with X-bit set!). If it isn't tries to
+ * construct exec_path using PATH. */
 char	*get_exec_path(t_cmdlst *clst, char **env)
 {
-	int		i;
-	char	**path_split;
-	char	*exec_path;
+	struct stat	sb;
+	int			i;
+	char		**path_split;
+	char		*exec_path;
 
-	if (access(clst->cmd, X_OK) == 0)
-		return (clst->cmd);
+	if (stat(clst->cmd, &sb) == 0)
+		if ((sb.st_mode & S_IFREG) == S_IFREG && !access(clst->cmd, X_OK))
+			return (clst->cmd);
 	path_split = get_path_from_env(env);
 	i = -1;
 	while (path_split[++i])
@@ -34,7 +40,7 @@ char	*get_exec_path(t_cmdlst *clst, char **env)
 		exec_path = join_exec_path_strings(path_split[i], clst->cmd);
 		if (access(exec_path, X_OK) == 0)
 		{
-			ft_printf("<< DEBUG >> i really can access X_OK: %s\n", exec_path);
+			ft_printf(RED "<< DEBUG >> i really can access X_OK: %s\n" RST, exec_path);
 			free_split(&path_split);
 			return (exec_path);
 		}
