@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 19:11:04 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/03 09:49:53 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/04 14:40:51 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,9 @@ t_envlst	*parse_env(char **env)
 	char		**var;
 	t_envlst	*elst;
 	t_envlst	*enew;
-	
+
 	elst = NULL;
-	while(*env)
+	while (*env)
 	{
 		var = ft_split(*env, '=');
 		if (splitsize(var) <= 2)

@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 14:27:28 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/04 08:09:43 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/04 14:41:18 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	print_env(char **env)
 {
-	while(*env)
+	while (*env)
 	{
 		ft_printf("env: %s\n", *env);
 		env++;
