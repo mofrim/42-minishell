@@ -6,30 +6,33 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:44:43 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/03 21:05:12 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/04 08:10:14 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+/* For FILE (needed by readline) */
+# include <stdio.h>
+
 /* For ft_printf(), ft_strlen(), ... */
-# include "libft/libft.h"
+# include "libft.h"
+
+/* Well, for readline() */
+# include "readline.h"
+
+/* For add_history() */
+# include "history.h"
 
 /* For signal */
 # include <signal.h>
 
-/* For FILE (needed by readline) */
-# include <stdio.h>
+/* For temios */
+# include <termios.h>
 
 /* For malloc, free */
 # include <stdlib.h>
-
-/* Well, for readline() */
-# include "readline/readline.h"
-
-/* For add_history() */
-# include "readline/history.h"
 
 /* For waitpid */
 # include <sys/wait.h>

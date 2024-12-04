@@ -6,43 +6,49 @@
 #    By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/02 00:03:28 by fmaurer           #+#    #+#              #
-#    Updated: 2024/12/03 16:08:36 by fmaurer          ###   ########.fr        #
+#    Updated: 2024/12/04 08:13:45 by fmaurer          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 
-SRCS_IN = ./minishell.c \
-					./term_setup.c \
-					./signal.c \
-					./utils.c \
-					./error_exit_utils.c \
-					./tok_tokenize.c \
-					./tok_cmdline.c \
-					./tok_tokenlist.c \
-					./tok_tokprint.c \
-					./tok_lvl1_tokenize.c \
-					./tok_lvl1_get_next_tok.c \
-					./tok_lvl1_get_next_helpers1.c \
-					./tok_lvl1_get_next_helpers2.c \
-					./tok_lvl2_tokenize.c \
-					./tok_lvl2_check_toklst.c \
-					./par_cmdlist.c \
-					./par_parsing.c \
-					./par_parsing_helpers1.c \
-					./env.c \
-					./env_envlst.c \
-					./env_parse.c \
-					./bltin_export.c \
-					./exec.c \
-					./exec_get_exec_path.c
+SRC_DIR		= ./src
+EXEC_DIR	= $(SRC_DIR)/exec
+PARSE_DIR	= $(SRC_DIR)/parsing
+ENV_DIR	= $(SRC_DIR)/env
+BLTIN_DIR	= $(SRC_DIR)/builtins
+TOK_DIR	= $(SRC_DIR)/tokenization
 
-SRCS = $(patsubst ./%.c,%.c,$(SRCS_IN))
+
+SRCS = $(SRC_DIR)/minishell.c \
+					$(SRC_DIR)/term_setup.c \
+					$(SRC_DIR)/signal.c \
+					$(SRC_DIR)/utils.c \
+					$(SRC_DIR)/error_exit_utils.c \
+					$(TOK_DIR)/tok_tokenize.c \
+					$(TOK_DIR)/tok_cmdline.c \
+					$(TOK_DIR)/tok_tokenlist.c \
+					$(TOK_DIR)/tok_tokprint.c \
+					$(TOK_DIR)/tok_lvl1_tokenize.c \
+					$(TOK_DIR)/tok_lvl1_get_next_tok.c \
+					$(TOK_DIR)/tok_lvl1_get_next_helpers1.c \
+					$(TOK_DIR)/tok_lvl1_get_next_helpers2.c \
+					$(TOK_DIR)/tok_lvl2_tokenize.c \
+					$(TOK_DIR)/tok_lvl2_check_toklst.c \
+					$(PARSE_DIR)/par_cmdlist.c \
+					$(PARSE_DIR)/par_parsing.c \
+					$(PARSE_DIR)/par_parsing_helpers1.c \
+					$(ENV_DIR)/env.c \
+					$(ENV_DIR)/env_envlst.c \
+					$(ENV_DIR)/env_parse.c \
+					$(BLTIN_DIR)/bltin_export.c \
+					$(EXEC_DIR)/exec.c \
+					$(EXEC_DIR)/exec_get_exec_path.c
+
+# SRCS = $(patsubst ./%.c,%.c,$(SRCS_IN))
 
 OBJDIR = obj
 OBJS = $(patsubst %.c,$(OBJDIR)/%.o,$(SRCS))
-
-HDR = minishell.h
 
 RL_PATH = ./readline
 RL_LIBS = $(RL_PATH)/libreadline.a $(RL_PATH)/libhistory.a
@@ -55,6 +61,11 @@ CFLAGS =
 LIBFT_PATH	= ./libft
 LIBFT				= $(LIBFT_PATH)/libft.a
 LIB_PATHS += -L$(LIBFT_PATH) -L$(RL_PATH)
+
+INC_DIR	= $(SRC_DIR)/include 
+INC	= -I$(INC_DIR) -I$(LIBFT_PATH) -I$(RL_PATH)
+HDRS = $(INC_DIR)/minishell.h
+
 ## Libs for prod:
 # LIBS += -lft -lreadline
 ## temporary libs for dev:
@@ -84,7 +95,7 @@ $(OBJDIR)/%.o: %.c $(HDR)| $(OBJDIR)
 
 $(NAME): $(OBJS) | $(LIBFT)
 	@echo -e "$(call log_msg,Compiling $(NAME)...)"
-	$(CC) $(CFLAGS) $(LIB_PATHS) -o $@ $^ $(LIBS_DEV) $(RL_LIBS)
+	$(CC) $(CFLAGS) $(LIB_PATHS) $(INC) -o $@ $^ $(LIBS_DEV) $(RL_LIBS)
 
 $(LIBFT):
 	@echo -e "$(call log_msg,Compiling libft...)"
@@ -98,7 +109,7 @@ $(RL_LIBS):
 
 debug: $(SRCS) $(RL_LIBS)| $(LIBFT)
 	@echo -e "$(call log_msg,Compiling debug...)"
-	$(CC) $(CFLAGS) -g -DDEBUG -DREADLINE_LIBRARY $(LIB_PATHS) -o $(NAME) $^ $(LIBS_DEV) $(RL_LIBS)
+	$(CC) $(CFLAGS) -g -DDEBUG -DREADLINE_LIBRARY $(LIB_PATHS) $(INC) -o $(NAME) $^ $(LIBS_DEV) $(RL_LIBS)
 
 $(OBJDIR):
 	mkdir -p obj

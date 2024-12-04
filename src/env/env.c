@@ -6,11 +6,10 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 14:27:28 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/02 19:12:18 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/04 08:09:43 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/libft.h"
 #include "minishell.h"
 
 void	print_env(char **env)
