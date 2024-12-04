@@ -8,6 +8,7 @@ let
 in
 
 pkgs.mkShell {
+  NIX_HARDENING_ENABLE = "";
   name = "minishell";
   nativeBuildInputs = with pkgs; [
     clang-tools

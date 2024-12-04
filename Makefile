@@ -6,7 +6,7 @@
 #    By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/02 00:03:28 by fmaurer           #+#    #+#              #
-#    Updated: 2024/12/04 08:41:06 by fmaurer          ###   ########.fr        #
+#    Updated: 2024/12/04 15:13:23 by fmaurer          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,6 +41,7 @@ SRCS = $(SRC_DIR)/minishell.c \
 					$(ENV_DIR)/env.c \
 					$(ENV_DIR)/env_envlst.c \
 					$(ENV_DIR)/env_parse.c \
+					$(ENV_DIR)/env_get_env_array.c \
 					$(BLTIN_DIR)/bltin_export.c \
 					$(EXEC_DIR)/exec.c \
 					$(EXEC_DIR)/exec_get_exec_path.c
@@ -113,7 +114,7 @@ $(HDRS):
 
 debug: $(SRCS) $(RL_LIBS) $(HDRS)| $(LIBFT)
 	@echo -e "$(call log_msg,Compiling debug...)"
-	$(CC) $(CFLAGS) -g -DDEBUG -DREADLINE_LIBRARY $(LIB_PATHS) $(INC) -o $(NAME) $(SRCS) $(LIBS_DEV) $(RL_LIBS)
+	$(CC) $(CFLAGS) -g -O0 -DDEBUG -DREADLINE_LIBRARY $(LIB_PATHS) $(INC) -o $(NAME) $(SRCS) $(LIBS_DEV) $(RL_LIBS)
 
 $(OBJDIR):
 	mkdir -p obj

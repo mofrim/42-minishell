@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:44:43 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/04 08:30:24 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/04 15:09:10 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,7 +148,7 @@ void		term_setup(struct termios *old_settings);
 void		nullcheck(void *p, char *msg);
 void		error_exit(char *msg);
 int			ft_isspace(char c);
-void		free_ptrptr(char ***a);
+void		free_ptrptr(char ***ptr);
 
 /*********** Tokenization. ***********/
 
@@ -193,9 +193,10 @@ t_envlst	*envlst_last(t_envlst *head);
 void		envlst_add_back(t_envlst **head, t_envlst *newend);
 int			envlst_size(t_envlst *lst);
 void		envlst_clear(t_envlst **lst);
+char		**get_env_array(t_envlst *el);
 
 /*********** Exec. ***********/
 char	*get_exec_path(t_cmdlst *clst, char **env);
-int		exec_cmd(t_cmdlst *cmd, char **env);
+int	exec_cmd(t_cmdlst *cmdl, t_envlst *el);
 
 #endif

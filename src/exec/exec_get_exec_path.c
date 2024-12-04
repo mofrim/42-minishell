@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 15:48:38 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/04 13:49:28 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/04 15:10:05 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 
 char		**get_path_from_env(char **env);
 static char	*join_exec_path_strings(char *path, char *exec);
-static void	free_split(char ***split);
 static int	ft_initial_strcmp(char *s1, char *s2);
 
 /* Get the real executable path of cmd from PATH envvar. First checks if file is
@@ -48,12 +47,12 @@ char	*get_exec_path(t_cmdlst *clst, char **env)
 			ft_printf(RED "<< DEBUG >> i really can access X_OK: %s\n" RST, \
 					exec_path);
 #endif
-			free_split(&path_split);
+			free_ptrptr(&path_split);
 			return (exec_path);
 		}
 		free(exec_path);
 	}
-	free_split(&path_split);
+	free_ptrptr(&path_split);
 	return (NULL);
 }
 
@@ -86,19 +85,6 @@ char	*join_exec_path_strings(char *path, char *exec)
 	nullcheck(exec_path, "exec_path malloc failed");
 	free(path_slash);
 	return (exec_path);
-}
-
-void	free_split(char ***split)
-{
-	char	**tmp;
-
-	tmp = *split;
-	while (**split)
-	{
-		free(**split);
-		(*split)++;
-	}
-	free(tmp);
 }
 
 int	ft_initial_strcmp(char *s1, char *s2)
