@@ -6,20 +6,19 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 15:43:14 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/04 15:22:50 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/04 15:27:25 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/* NOTE: this is for now. Maybe later we will have some generic launcher
+ * function that can deal with all kinds of commands.
+ */
 static int	exec_simple_cmd(t_cmdlst *cmdl, char **env);
+static int	is_simple_cmd(t_cmdlst *cmdl);
 
-static int	is_simple_cmd(t_cmdlst *cmdl)
-{
-	return (!cmdl->is_builtin && !cmdl->input_file && !cmdl->output_file && \
-			!cmdl->next);
-}
-
+/* Should be the general execution function. */
 int	exec_cmd(t_cmdlst *cmdl, t_envlst *el)
 {
 	char	**env_arr;
@@ -35,7 +34,7 @@ int	exec_cmd(t_cmdlst *cmdl, t_envlst *el)
 	return (exit_status);
 }
 
-int	exec_simple_cmd(t_cmdlst *cmdl, char **env)
+static int	exec_simple_cmd(t_cmdlst *cmdl, char **env)
 {
 	char	*exec_path;
 	int		cpid;
@@ -58,4 +57,10 @@ int	exec_simple_cmd(t_cmdlst *cmdl, char **env)
 	else
 		waitpid(cpid, &status, 0);
 	return (status);
+}
+
+static int	is_simple_cmd(t_cmdlst *cmdl)
+{
+	return (!cmdl->is_builtin && !cmdl->input_file && !cmdl->output_file && \
+			!cmdl->next);
 }

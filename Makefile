@@ -6,7 +6,7 @@
 #    By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/02 00:03:28 by fmaurer           #+#    #+#              #
-#    Updated: 2024/12/04 15:13:23 by fmaurer          ###   ########.fr        #
+#    Updated: 2024/12/04 15:28:18 by fmaurer          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,7 +38,7 @@ SRCS = $(SRC_DIR)/minishell.c \
 					$(PARSE_DIR)/par_cmdlist.c \
 					$(PARSE_DIR)/par_parsing.c \
 					$(PARSE_DIR)/par_parsing_helpers1.c \
-					$(ENV_DIR)/env.c \
+					$(ENV_DIR)/env_utils.c \
 					$(ENV_DIR)/env_envlst.c \
 					$(ENV_DIR)/env_parse.c \
 					$(ENV_DIR)/env_get_env_array.c \
