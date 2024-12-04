@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:44:43 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/04 15:09:10 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/04 15:54:39 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,6 +194,9 @@ void		envlst_add_back(t_envlst **head, t_envlst *newend);
 int			envlst_size(t_envlst *lst);
 void		envlst_clear(t_envlst **lst);
 char		**get_env_array(t_envlst *el);
+char		*get_env_value(char *name, t_envlst *el);
+t_envlst	*get_env_entry_by_name(char *name, t_envlst *el);
+void 		set_env_entry(char *name, char *value, t_envlst **el);
 
 /*********** Exec. ***********/
 char	*get_exec_path(t_cmdlst *clst, char **env);

@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:46:50 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/04 15:19:41 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/04 16:11:58 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	main(int ac, char **av, char **envp)
 	el = parse_env(envp);
 #ifdef DEBUG
 	ft_printf("<< DEBUG >> debug mode\n");
-	print_envlst(el);
+	// print_envlst(el);
 	// print_env(envp);
 #endif
 
