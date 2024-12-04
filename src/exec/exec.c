@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 15:43:14 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/04 15:27:25 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/04 17:45:10 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ int	exec_cmd(t_cmdlst *cmdl, t_envlst *el)
 		return (ENOENT);
 	if (is_simple_cmd(cmdl))
 		exit_status = exec_simple_cmd(cmdl, env_arr);
+	else
+		exit_status = exec_complex_cmd(cmdl, env_arr);
 	free_ptrptr(&env_arr);
 	return (exit_status);
 }

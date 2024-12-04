@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:44:43 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/04 15:54:39 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/04 17:49:27 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,12 @@
 
 /* For FILE (needed by readline) */
 # include <stdio.h>
+
+/* open and constants like O_RDONLY */
+# include <fcntl.h>
+
+/* pipe, dup, write */
+# include <unistd.h>
 
 /* For ft_printf(), ft_strlen(), ... */
 # include "libft.h"
@@ -200,6 +206,7 @@ void 		set_env_entry(char *name, char *value, t_envlst **el);
 
 /*********** Exec. ***********/
 char	*get_exec_path(t_cmdlst *clst, char **env);
-int	exec_cmd(t_cmdlst *cmdl, t_envlst *el);
+int		exec_cmd(t_cmdlst *cmdl, t_envlst *el);
+int		exec_complex_cmd(t_cmdlst *cmdl, char **env);
 
 #endif
