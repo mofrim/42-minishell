@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:44:43 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/04 08:10:14 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/04 08:30:24 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,10 @@
 /* Errors */
 # include <errno.h>
 
-# define PROMPT "$"
+/* COM = Colors over minishell! */
+# include "colors.h"
+
+# define PROMPT "\033[1;33m$\033[0m "
 
 /* Define termios type for easier reference. */
 typedef struct termios	t_termios;

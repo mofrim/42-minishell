@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:46:50 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/04 08:15:29 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/04 08:48:39 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	main(int ac, char **av, char **envp)
 	tlst = NULL;
 	while (1)
 	{
-		input = readline("\033[1;33m$\033[0m ");
+		input = readline(PROMPT);
 		if (!input)
 		{
 			printf("exit");
@@ -52,7 +52,11 @@ int	main(int ac, char **av, char **envp)
 			(void)write(1, "\n", 1);
 			cmdlst = parse_tokenlist(tlst);
 #ifdef DEBUG
+			ft_printf(RED "<< DEBUG >> toklist after lvl2:\n" RST);
+			print_toklst(tlst);
+			ft_printf(RED "<< DEBUG >> cmdlst:\n" RST);
 			print_cmdlst(cmdlst);
+			ft_printf(RED "<< DEBUG >> end\n\n" RST);
 #endif
 			exec_cmd(cmdlst, envp);
 			(void)write(1, "\n", 1);

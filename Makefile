@@ -6,7 +6,7 @@
 #    By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/02 00:03:28 by fmaurer           #+#    #+#              #
-#    Updated: 2024/12/04 08:13:45 by fmaurer          ###   ########.fr        #
+#    Updated: 2024/12/04 08:41:06 by fmaurer          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -62,9 +62,9 @@ LIBFT_PATH	= ./libft
 LIBFT				= $(LIBFT_PATH)/libft.a
 LIB_PATHS += -L$(LIBFT_PATH) -L$(RL_PATH)
 
-INC_DIR	= $(SRC_DIR)/include 
+INC_DIR	= $(SRC_DIR)/include
 INC	= -I$(INC_DIR) -I$(LIBFT_PATH) -I$(RL_PATH)
-HDRS = $(INC_DIR)/minishell.h
+HDRS = $(INC_DIR)/minishell.h $(INC_DIR)/colors.h
 
 ## Libs for prod:
 # LIBS += -lft -lreadline
@@ -84,7 +84,7 @@ log_msg = $(MSGOPN) $(1) $(MSGEND)
 # all: $(NAME)
 all: debug
 
-$(OBJDIR)/%.o: %.c $(HDR)| $(OBJDIR)
+$(OBJDIR)/%.o: %.c $(HDRS)| $(OBJDIR)
 	@echo -e "$(call log_msg,Compiling $<...)"
 	$(CC) $(CFLAGS) -c $< -o $@
 
@@ -107,9 +107,13 @@ $(RL_LIBS):
 	cd ./readline && ./configure
 	make -C ./readline
 
-debug: $(SRCS) $(RL_LIBS)| $(LIBFT)
+# FIXME
+# empty rule ?!?! i just want change detection for them in the end...
+$(HDRS):
+
+debug: $(SRCS) $(RL_LIBS) $(HDRS)| $(LIBFT)
 	@echo -e "$(call log_msg,Compiling debug...)"
-	$(CC) $(CFLAGS) -g -DDEBUG -DREADLINE_LIBRARY $(LIB_PATHS) $(INC) -o $(NAME) $^ $(LIBS_DEV) $(RL_LIBS)
+	$(CC) $(CFLAGS) -g -DDEBUG -DREADLINE_LIBRARY $(LIB_PATHS) $(INC) -o $(NAME) $(SRCS) $(LIBS_DEV) $(RL_LIBS)
 
 $(OBJDIR):
 	mkdir -p obj
