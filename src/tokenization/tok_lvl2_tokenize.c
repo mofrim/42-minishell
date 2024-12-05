@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 10:57:29 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/05 17:32:13 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/05 23:03:32 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,23 +32,25 @@ static void	remove_quot_varsym(t_toklst **toklst);
  * 	2) VAR_NAMES cannot contain |, <, >, <<, >>, ", '
  * 	3) | cannot be the first token
  */
-int	tokenize_lvl2(t_toklst	*toklst)
+// TODO figure out how to treat inexisting env-vars
+// FIXME maybe just remove the detection of VAR_SYM and QUOT tokens in lvl1
+int	tokenize_lvl2(t_toklst	**toklst)
 {
 	t_token	*cur;
 	t_token	*next;
 
-	if (!check_toklst_lvl2(toklst))
+	if (!check_toklst_lvl2(*toklst))
 		return (0);
-	remove_quot_varsym(&toklst);
-	cur = toklst->token;
+	remove_quot_varsym(toklst);
+	cur = (*toklst)->token;
 	if (cur->type == TOK_WORD)
 		cur->type = is_cmd_or_builtin(cur);
-	while (toklst->next)
+	while ((*toklst)->next)
 	{
-		next = toklst->next->token;
+		next = (*toklst)->next->token;
 		apply_lvl2_tokenization(cur, next);
 		cur = next;
-		toklst = toklst->next;
+		*toklst = (*toklst)->next;
 	}
 	return (1);
 }
