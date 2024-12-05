@@ -6,7 +6,7 @@
 #    By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/02 00:03:28 by fmaurer           #+#    #+#              #
-#    Updated: 2024/12/05 17:31:09 by fmaurer          ###   ########.fr        #
+#    Updated: 2024/12/05 17:48:28 by fmaurer          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,6 @@ SRCS =	$(SRC_DIR)/minishell.c \
 				$(TOK_DIR)/tok_lvl1_get_tok_var.c \
 				$(TOK_DIR)/tok_lvl2_tokenize.c \
 				$(TOK_DIR)/tok_lvl2_check_toklst.c \
-				$(TOK_DIR)/tok_lvl3_tokenize.c \
 				$(PARSE_DIR)/par_cmdlist.c \
 				$(PARSE_DIR)/par_parsing.c \
 				$(PARSE_DIR)/par_parsing_helpers1.c \
