@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:46:50 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/05 13:20:17 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/05 13:32:30 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,9 @@ int	main(int ac, char **av, char **envp)
 #ifdef DEBUG
 			ft_printf(RED "<< DEBUG >> toklist after lvl2:\n" RST);
 			print_toklst(tlst);
-			test_toklst_del(&tlst);
+			ft_printf(RED "<< DEBUG >> toklist after lvl3:\n" RST);
+			tokenize_lvl3(&tlst);
+			print_toklst(tlst);
 			ft_printf(RED "<< DEBUG >> cmdlst:\n" RST);
 			print_cmdlst(cmdlst);
 #endif

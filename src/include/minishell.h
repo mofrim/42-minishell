@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:44:43 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/05 13:22:06 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/05 13:30:33 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,6 +170,7 @@ t_toklst	*tokenize(char *input);
 t_toklst	*tokenize_lvl1(char *input);
 int			tokenize_lvl2(t_toklst	*toklst);
 int			check_toklst_lvl2(t_toklst *toklst);
+void		tokenize_lvl3(t_toklst **toklst);
 
 /*********** Parsing. ***********/
 
