@@ -164,8 +164,8 @@ Bash syntax errors:
   * then i can really read token-symbol by token-symbol, word by word from the
   * input string using get_next_token(), if it ecounters f.ex. '<' it sets the
   * if_flag inside cmdline-struct, returns to tokenize(), which handles the
-  * addition to toklst (and maybe stuff like finding out wether we have a builtin
-  * or not?!?!)
+  * addition to toklst (and maybe stuff like finding out wether we have a
+  * builtin * or not?!?!)
   *
   * Example tokenization-flow: find '<' -> return just "<" -> in tokenize() there
   * is handle_redirect_token(): checks if quot-flags are set, checks if already
@@ -234,3 +234,7 @@ Bash syntax errors:
     #define	EDOM		33	/* Math argument out of domain of func */
     #define	ERANGE		34	/* Math result not representable */
     ```
+- **[2024-12-05 10:20]** How to streamline the execution process with bltins?
+  and possible multi-pipe cmds? How to handle the output redirection / piping of
+  a bltin function. Definitely the env-var substitution would have to happen
+  beforehand.
