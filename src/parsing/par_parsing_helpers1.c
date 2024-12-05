@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 11:29:40 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/04 10:47:52 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/05 15:26:26 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void	parse_pipe(t_tokenlist **toklst, t_cmdlst **cmd, t_cmdlst **cur_cmd)
 {
 	if (*toklst && (*toklst)->next)
 	{
+		// FIXME segfaults if pipe is last char
 		if ((*toklst)->token->type == TOK_PIP && \
 				(*toklst)->next->token->type == TOK_CMD)
 			*toklst = (*toklst)->next;
