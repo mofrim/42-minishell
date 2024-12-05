@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 17:18:10 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/05 17:40:38 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/06 00:16:34 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	get_tok_var(t_token *tok, t_cmdline *cl, int *tok_found)
 	{
 		get_tok_word(tok, cl, tok_found);
 		if (cl->dquot_flag)
-			tok->type = TOK_DQUOT_TXT;
+			tok->type = TOK_WORD;
 		else
 			tok->type = TOK_WORD;
 		tok->value = get_var_value_from_env(tok->value, cl->env);

@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:44:43 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/05 18:10:30 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/06 00:21:07 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ typedef struct s_envlst
 /*********** Datatypes for tokenization. ***********/
 
 /* The highest Token Number. Useful for iterating over Tokens, maybe?! */
-# define TOKEN_MAX 20
+# define TOKEN_MAX 17
 
 /* Token types... are these really all? */
 typedef enum e_toktype
@@ -84,14 +84,11 @@ typedef enum e_toktype
 	TOK_HERE_DLIM	= 10,
 	TOK_SQUOT		= 11,
 	TOK_DQUOT		= 12,
-	TOK_SQUOT_TXT	= 13,
-	TOK_DQUOT_TXT	= 14,
-	TOK_VAR_SYM		= 15,
-	TOK_VAR_NAME	= 16,
-	TOK_VAR_QUOT	= 17,
-	TOK_BLTIN		= 18,
-	TOK_BLTIN_ARG	= 19,
-	TOK_EOF			= 20
+	TOK_VAR_SYM		= 13,
+	TOK_VAR_NAME	= 14,
+	TOK_VAR_QUOT	= 15,
+	TOK_BLTIN		= 16,
+	TOK_EOF			= 17
 }	t_toktype;
 
 /* Token structure */

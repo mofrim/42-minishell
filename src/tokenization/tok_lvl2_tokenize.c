@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 10:57:29 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/06 00:08:39 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/06 00:22:15 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,11 +83,9 @@ static void	apply_lvl2_tokenization(t_token *cur, t_token *next)
 	if (cur->type == TOK_CMD && (next->type == TOK_WORD))
 		next->type = TOK_ARG;
 	if (cur->type == TOK_BLTIN && next->type == TOK_WORD)
-		next->type = TOK_BLTIN_ARG;
+		next->type = TOK_ARG;
 	if (cur->type == TOK_ARG && next->type == TOK_WORD)
 		next->type = TOK_ARG;
-	if (cur->type == TOK_BLTIN_ARG && next->type == TOK_WORD)
-		next->type = TOK_BLTIN_ARG;
 	if (cur->type == TOK_HERE && next->type == TOK_WORD)
 		next->type = TOK_HERE_DLIM;
 }
@@ -115,8 +113,6 @@ static void	remove_quot_varsym_empty(t_toklst **toklst)
 		else if (tl->token->type == TOK_SQUOT)
 			remove_tok(toklst, &tl);
 		else if (tl->token->type == TOK_WORD && tl->token->value[0] == 0)
-			remove_tok(toklst, &tl);
-		else if (tl->token->type == TOK_DQUOT_TXT && tl->token->value[0] == 0)
 			remove_tok(toklst, &tl);
 		else
 			tl = tl->next;
