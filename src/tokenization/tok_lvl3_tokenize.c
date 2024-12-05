@@ -6,39 +6,46 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 13:24:00 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/05 13:34:22 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/05 15:43:18 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	tokenize_lvl3(t_toklst **toklst)
+static void	remove_tok(t_toklst **toklst, t_toklst **tl)
+{
+	t_toklst	*tmp;
+
+	tmp = (*tl)->next;
+	toklst_del(toklst, *tl);
+	*tl = tmp;
+}
+
+static void	remove_quot_varsym(t_toklst **toklst)
 {
 	t_toklst	*tl;
-	t_toklst	*tmp;
 
 	tl = *toklst;
 	while (tl)
 	{
 		if (tl->token->type == TOK_VAR_SYM)
-		{
-			tmp = tl->next;
-			toklst_del(toklst, tl);
-			tl = tmp;
-		}
+			remove_tok(toklst, &tl);
 		else if (tl->token->type == TOK_DQUOT)
-		{
-			tmp = tl->next;
-			toklst_del(toklst, tl);
-			tl = tmp;
-		}
+			remove_tok(toklst, &tl);
 		else if (tl->token->type == TOK_SQUOT)
-		{
-			tmp = tl->next;
-			toklst_del(toklst, tl);
-			tl = tmp;
-		}
+			remove_tok(toklst, &tl);
 		else
 			tl = tl->next;
 	}
+}
+
+// Uffffff! I really start to think that this substitution should have happened
+// way earlier!!! 🤯
+static void	substitute_envvar(t_toklst *tlst, t_envlst *env)
+{
+}
+
+void	tokenize_lvl3(t_toklst **toklst)
+{
+	remove_quot_varsym(toklst);
 }

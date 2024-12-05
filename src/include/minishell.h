@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:44:43 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/05 13:30:33 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/05 17:27:34 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,19 @@
 /* Define termios type for easier reference. */
 typedef struct termios	t_termios;
 
+/*********** Datatype for env. ***********/
+
+typedef struct s_envlst
+{
+	char			*name;
+	char			*value;
+	struct s_envlst	*next ;
+}	t_envlst;
+
 /*********** Datatypes for tokenization. ***********/
 
 /* The highest Token Number. Useful for iterating over Tokens, maybe?! */
-# define TOKEN_MAX 19
+# define TOKEN_MAX 20
 
 /* Token types... are these really all? */
 typedef enum e_toktype
@@ -79,9 +88,10 @@ typedef enum e_toktype
 	TOK_DQUOT_TXT	= 14,
 	TOK_VAR_SYM		= 15,
 	TOK_VAR_NAME	= 16,
-	TOK_BLTIN		= 17,
-	TOK_BLTIN_ARG	= 18,
-	TOK_EOF			= 19
+	TOK_VAR_QUOT	= 17,
+	TOK_BLTIN		= 18,
+	TOK_BLTIN_ARG	= 19,
+	TOK_EOF			= 20
 }	t_toktype;
 
 /* Token structure */
@@ -95,12 +105,13 @@ typedef struct s_token
  * tokenization. */
 typedef struct s_cmdline
 {
-	char	*input;
-	int		pos;
-	int		length;
-	int		squot_flag;
-	int		dquot_flag;
-	int		var_flag;
+	char		*input;
+	int			pos;
+	int			length;
+	int			squot_flag;
+	int			dquot_flag;
+	int			var_flag;
+	t_envlst	*env;
 }	t_cmdline;
 
 typedef struct s_toklst
@@ -134,14 +145,6 @@ typedef struct s_cmdlst
 	struct s_cmdlst	*next;
 }	t_cmdlst;
 
-/*********** Datatype for env. ***********/
-
-typedef struct s_envlst
-{
-	char			*name;
-	char			*value;
-	struct s_envlst	*next ;
-}	t_envlst;
 
 /*********** Signal and terminal setup. ***********/
 
@@ -166,8 +169,8 @@ int			toklst_size(t_toklst *lst);
 void		toklst_del(t_toklst **lst, t_toklst *delme);
 void		print_tokentype(t_token *token);
 void		print_toklst(t_toklst *tlst);
-t_toklst	*tokenize(char *input);
-t_toklst	*tokenize_lvl1(char *input);
+t_toklst	*tokenize(char *input, t_envlst *env);
+t_toklst	*tokenize_lvl1(char *input, t_envlst *env);
 int			tokenize_lvl2(t_toklst	*toklst);
 int			check_toklst_lvl2(t_toklst *toklst);
 void		tokenize_lvl3(t_toklst **toklst);
@@ -176,8 +179,8 @@ void		tokenize_lvl3(t_toklst **toklst);
 
 t_cmdlst	*new_command(char *executable);
 void		print_cmdlst(t_cmdlst *cmd);
-t_cmdline	*init_cmdline(char *input);
-t_token		*get_next_token(t_cmdline	*lexer);
+t_cmdline	*init_cmdline(char *input, t_envlst *env);
+t_token		*get_next_token(t_cmdline *cl);
 
 t_cmdlst	*cmdlst_new(char *exec);
 t_cmdlst	*cmdlst_last(t_cmdlst *head);

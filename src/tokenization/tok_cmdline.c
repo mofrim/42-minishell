@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 16:42:09 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/11/29 16:43:36 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/05 17:26:24 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 /* Initialize tokenizer with input string. Skip any whitespace chars at the
  * begin. */
-t_cmdline	*init_cmdline(char *input)
+t_cmdline	*init_cmdline(char *input, t_envlst *env)
 {
 	t_cmdline	*cl;
 
@@ -26,5 +26,6 @@ t_cmdline	*init_cmdline(char *input)
 	cl->dquot_flag = 0;
 	cl->squot_flag = 0;
 	cl->var_flag = 0;
+	cl->env = env;
 	return (cl);
 }
