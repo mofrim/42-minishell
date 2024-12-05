@@ -6,10 +6,11 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 21:31:43 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/05 12:03:37 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/05 23:32:19 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "ft_printf/ft_printf.h"
 #include "minishell.h"
 
 static int	print_tokentype1(t_token *token)
@@ -78,6 +79,11 @@ void	print_tokentype(t_token *token)
 
 void	print_toklst(t_toklst *tlst)
 {
+	if (!tlst)
+	{
+		ft_printf("toklst = NULL!\n");
+		return ;
+	}
 	while (tlst)
 	{
 		ft_printf("token: ");
