@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 10:59:44 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/04 10:50:20 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/05 10:49:43 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ static void	fwdlst(t_tokenlist **tl)
 	tok = (*tl)->token->type;
 	if ((tok != TOK_RIN && tok != TOK_CMD && tok != TOK_ARG && \
 				tok != TOK_ROUTA && tok != TOK_ROUT && tok != TOK_PIP && \
-				tok != TOK_IF && tok != TOK_OF) || \
-			(tok != TOK_CMD && (*tl)->next == NULL))
+				tok != TOK_IF && tok != TOK_OF && tok != TOK_BLTIN) || \
+			((tok != TOK_CMD || tok != TOK_BLTIN) && (*tl)->next == NULL))
 		(*tl) = (*tl)->next;
 }
 
@@ -42,6 +42,7 @@ t_cmdlst	*parse_tokenlist(t_tokenlist *toklst)
 	while (toklst)
 	{
 		parse_command(&toklst, &cmd, &cur_cmd);
+		parse_builtin(&toklst, &cmd, &cur_cmd);
 		parse_pipe(&toklst, &cmd, &cur_cmd);
 		parse_rout(&toklst, cur_cmd);
 		parse_rin(&toklst, cur_cmd);

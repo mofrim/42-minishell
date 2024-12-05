@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:44:43 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/04 17:49:27 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/05 10:48:35 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,6 +184,8 @@ void		cmdlst_clear(t_cmdlst **lst);
 
 t_cmdlst	*parse_tokenlist(t_tokenlist *toklst);
 void		parse_command(t_tokenlist **toklst, t_cmdlst **cmd, \
+		t_cmdlst **cur_cmd);
+void		parse_builtin(t_tokenlist **toklst, t_cmdlst **cmd, \
 		t_cmdlst **cur_cmd);
 void		parse_pipe(t_tokenlist **toklst, t_cmdlst **cmd, \
 		t_cmdlst **cur_cmd);
