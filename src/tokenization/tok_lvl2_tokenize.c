@@ -6,15 +6,16 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 10:57:29 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/02 17:44:51 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/05 23:03:32 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static void	apply_lvl2_tokenization(t_token *cur, t_token *next);
-
 static t_toktype	is_cmd_or_builtin(t_token *tok);
+static void	remove_tok(t_toklst **toklst, t_toklst **tl);
+static void	remove_quot_varsym(t_toklst **toklst);
 
 /* Tokenization Level 2. Goal is to classify all the TOK_WORD tokens and rule
  * out some invalid syntax like
@@ -31,22 +32,25 @@ static t_toktype	is_cmd_or_builtin(t_token *tok);
  * 	2) VAR_NAMES cannot contain |, <, >, <<, >>, ", '
  * 	3) | cannot be the first token
  */
-int	tokenize_lvl2(t_tokenlist	*toklst)
+// TODO figure out how to treat inexisting env-vars
+// FIXME maybe just remove the detection of VAR_SYM and QUOT tokens in lvl1
+int	tokenize_lvl2(t_toklst	**toklst)
 {
 	t_token	*cur;
 	t_token	*next;
 
-	if (!check_toklst_lvl2(toklst))
+	if (!check_toklst_lvl2(*toklst))
 		return (0);
-	cur = toklst->token;
+	remove_quot_varsym(toklst);
+	cur = (*toklst)->token;
 	if (cur->type == TOK_WORD)
 		cur->type = is_cmd_or_builtin(cur);
-	while (toklst->next)
+	while ((*toklst)->next)
 	{
-		next = toklst->next->token;
+		next = (*toklst)->next->token;
 		apply_lvl2_tokenization(cur, next);
 		cur = next;
-		toklst = toklst->next;
+		*toklst = (*toklst)->next;
 	}
 	return (1);
 }
@@ -88,3 +92,29 @@ static void	apply_lvl2_tokenization(t_token *cur, t_token *next)
 		next->type = TOK_VAR_NAME;
 }
 
+static void	remove_tok(t_toklst **toklst, t_toklst **tl)
+{
+	t_toklst	*tmp;
+
+	tmp = (*tl)->next;
+	toklst_del(toklst, *tl);
+	*tl = tmp;
+}
+
+static void	remove_quot_varsym(t_toklst **toklst)
+{
+	t_toklst	*tl;
+
+	tl = *toklst;
+	while (tl)
+	{
+		if (tl->token->type == TOK_VAR_SYM)
+			remove_tok(toklst, &tl);
+		else if (tl->token->type == TOK_DQUOT)
+			remove_tok(toklst, &tl);
+		else if (tl->token->type == TOK_SQUOT)
+			remove_tok(toklst, &tl);
+		else
+			tl = tl->next;
+	}
+}

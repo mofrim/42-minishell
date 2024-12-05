@@ -6,17 +6,17 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 17:22:51 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/11/29 17:11:15 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/05 13:31:29 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_tokenlist	*toklst_new(t_token *tok)
+t_toklst	*toklst_new(t_token *tok)
 {
-	t_tokenlist	*nn;
+	t_toklst	*nn;
 
-	nn = (t_tokenlist *) malloc(sizeof(t_tokenlist));
+	nn = (t_toklst *) malloc(sizeof(t_toklst));
 	if (!nn)
 		return (NULL);
 	nn->token = tok;
@@ -24,9 +24,9 @@ t_tokenlist	*toklst_new(t_token *tok)
 	return (nn);
 }
 
-t_tokenlist	*toklst_last(t_tokenlist *head)
+t_toklst	*toklst_last(t_toklst *head)
 {
-	t_tokenlist	*cur;
+	t_toklst	*cur;
 
 	if (!head)
 		return (NULL);
@@ -36,9 +36,9 @@ t_tokenlist	*toklst_last(t_tokenlist *head)
 	return (cur);
 }
 
-void	toklst_add_back(t_tokenlist **head, t_tokenlist *newend)
+void	toklst_add_back(t_toklst **head, t_toklst *newend)
 {
-	t_tokenlist	*oldend;
+	t_toklst	*oldend;
 
 	if (!newend)
 		return ;
@@ -51,9 +51,9 @@ void	toklst_add_back(t_tokenlist **head, t_tokenlist *newend)
 	oldend->next = newend;
 }
 
-void	toklst_clear(t_tokenlist **lst)
+void	toklst_clear(t_toklst **lst)
 {
-	t_tokenlist	*tmp;
+	t_toklst	*tmp;
 
 	if (!*lst)
 		return ;
@@ -68,7 +68,7 @@ void	toklst_clear(t_tokenlist **lst)
 	*lst = NULL;
 }
 
-int	toklst_size(t_tokenlist *lst)
+int	toklst_size(t_toklst *lst)
 {
 	int	cnt;
 

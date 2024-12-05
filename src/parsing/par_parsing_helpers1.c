@@ -6,40 +6,14 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 11:29:40 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/05 15:26:26 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/05 23:10:40 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/* Parse a TOK_CMD and following TOK_ARGs. NULL-terminate the args-array in any
- * case because execve() needs this! Reminder: arg_count is initialized to 1, so
- * this will also work if there is only a cmd without args.*/
-void	parse_command(t_tokenlist **toklst, t_cmdlst **cmd, t_cmdlst **cur_cmd)
-{
-	if (*toklst && (*toklst)->token->type == TOK_CMD)
-	{
-		if (*cur_cmd && (*cur_cmd)->cmd)
-		{
-			*cur_cmd = cmdlst_new((*toklst)->token->value);
-			cmdlst_add_back(cmd, *cur_cmd);
-		}
-		else
-			(*cur_cmd)->cmd = ft_strdup((*toklst)->token->value);
-		(*cur_cmd)->args[0] = ft_strdup((*cur_cmd)->cmd);
-		*toklst = (*toklst)->next;
-		while (*toklst && (*toklst)->token->type == TOK_ARG)
-		{
-			(*cur_cmd)->args[(*cur_cmd)->arg_count++] \
-				= ft_strdup((*toklst)->token->value);
-			*toklst = (*toklst)->next;
-		}
-		(*cur_cmd)->args[(*cur_cmd)->arg_count] = NULL;
-	}
-}
-
 /* Parse a pipe. */
-void	parse_pipe(t_tokenlist **toklst, t_cmdlst **cmd, t_cmdlst **cur_cmd)
+void	parse_pipe(t_toklst **toklst, t_cmdlst **cmd, t_cmdlst **cur_cmd)
 {
 	if (*toklst && (*toklst)->next)
 	{
@@ -49,7 +23,7 @@ void	parse_pipe(t_tokenlist **toklst, t_cmdlst **cmd, t_cmdlst **cur_cmd)
 			*toklst = (*toklst)->next;
 		if ((*toklst)->token->type == TOK_PIP && \
 				((*toklst)->next->token->type == TOK_RIN || \
-				 (*toklst)->next->token->type == TOK_ROUT))
+				(*toklst)->next->token->type == TOK_ROUT))
 		{
 			*cur_cmd = cmdlst_new(NULL);
 			cmdlst_add_back(cmd, *cur_cmd);
@@ -59,7 +33,7 @@ void	parse_pipe(t_tokenlist **toklst, t_cmdlst **cmd, t_cmdlst **cur_cmd)
 }
 
 /* Parse a output redirect. */
-void	parse_rout(t_tokenlist **toklst, t_cmdlst *cur_cmd)
+void	parse_rout(t_toklst **toklst, t_cmdlst *cur_cmd)
 {
 	if (*toklst && ((*toklst)->token->type == TOK_ROUT || \
 			(*toklst)->token->type == TOK_ROUTA))
@@ -72,7 +46,7 @@ void	parse_rout(t_tokenlist **toklst, t_cmdlst *cur_cmd)
 }
 
 /* Parse a input redirect. */
-void	parse_rin(t_tokenlist **toklst, t_cmdlst *cur_cmd)
+void	parse_rin(t_toklst **toklst, t_cmdlst *cur_cmd)
 {
 	if (*toklst && (*toklst)->next && (*toklst)->token->type == TOK_RIN)
 	{

@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 10:59:44 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/04 10:50:20 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/05 12:03:37 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /* Intermediate helper function for skipping forward toklst. When
  * parse_tokenlist() finally suppports all possible tokens, this will be
  * deprecated. */
-static void	fwdlst(t_tokenlist **tl)
+static void	fwdlst(t_toklst **tl)
 {
 	t_toktype	tok;
 
@@ -24,13 +24,13 @@ static void	fwdlst(t_tokenlist **tl)
 	tok = (*tl)->token->type;
 	if ((tok != TOK_RIN && tok != TOK_CMD && tok != TOK_ARG && \
 				tok != TOK_ROUTA && tok != TOK_ROUT && tok != TOK_PIP && \
-				tok != TOK_IF && tok != TOK_OF) || \
-			(tok != TOK_CMD && (*tl)->next == NULL))
+				tok != TOK_IF && tok != TOK_OF && tok != TOK_BLTIN) || \
+			((tok != TOK_CMD || tok != TOK_BLTIN) && (*tl)->next == NULL))
 		(*tl) = (*tl)->next;
 }
 
 /* Parse tokenlist into cmdlist. */
-t_cmdlst	*parse_tokenlist(t_tokenlist *toklst)
+t_cmdlst	*parse_tokenlist(t_toklst *toklst)
 {
 	t_cmdlst	*cmd;
 	t_cmdlst	*cur_cmd;
@@ -42,6 +42,7 @@ t_cmdlst	*parse_tokenlist(t_tokenlist *toklst)
 	while (toklst)
 	{
 		parse_command(&toklst, &cmd, &cur_cmd);
+		parse_builtin(&toklst, &cmd, &cur_cmd);
 		parse_pipe(&toklst, &cmd, &cur_cmd);
 		parse_rout(&toklst, cur_cmd);
 		parse_rin(&toklst, cur_cmd);

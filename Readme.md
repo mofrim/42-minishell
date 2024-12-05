@@ -238,3 +238,16 @@ Bash syntax errors:
   and possible multi-pipe cmds? How to handle the output redirection / piping of
   a bltin function. Definitely the env-var substitution would have to happen
   beforehand.
+  
+  Notes on $env-vars:
+
+  - something like `prompt> export LS=ls` and then `prompt> $LS` should execute
+    the `ls` cmd.
+  - inside quotes text should be substituted
+  - BUT if env-vars should also be possibly expanded to cmds, this means the
+    expansion *must* happen before cmd parsing!!! F.ex. stuff like 
+    `echo "dir" | $LS` should also be possible!
+  
+    
+  
+  

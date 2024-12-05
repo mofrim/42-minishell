@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 08:32:18 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/11/29 16:46:23 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/05 17:22:27 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,14 @@
 /* Tokenization Level 1. No error checking here. Only as little as possible
  * grammar applied (mostly quotation related).
  */
-t_tokenlist	*tokenize_lvl1(char *input)
+t_toklst	*tokenize_lvl1(char *input, t_envlst *env)
 {
 	t_cmdline		*cmdline;
-	t_tokenlist		*tok_lst;
-	t_tokenlist		*tmplst;
+	t_toklst		*tok_lst;
+	t_toklst		*tmplst;
 	t_token			*tmptok;
 
-	cmdline = init_cmdline(input);
+	cmdline = init_cmdline(input, env);
 	tmptok = get_next_token(cmdline);
 	if (tmptok == NULL)
 		return (NULL);

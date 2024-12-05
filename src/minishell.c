@@ -6,17 +6,18 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:46:50 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/04 16:11:58 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/05 17:53:22 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+void	test_toklst_del(t_toklst **tlst);
+
 int	main(int ac, char **av, char **envp)
 {
-	t_termios	old_settings;
-	char		*input;
-	t_tokenlist *tlst;
+	t_termios	old_settings; char		*input;
+	t_toklst *tlst;
 	t_envlst	*el;
 	t_cmdlst	*cmdlst;
 
@@ -46,20 +47,19 @@ int	main(int ac, char **av, char **envp)
 			exit(0);
 		}
 		add_history(input);
-		tlst = tokenize(input);
+		tlst = tokenize(input, el);
 		if (tlst)
 		{
 			(void)write(1, "\n", 1);
-			cmdlst = parse_tokenlist(tlst);
 #ifdef DEBUG
 			ft_printf(RED "<< DEBUG >> toklist after lvl2:\n" RST);
 			print_toklst(tlst);
 			ft_printf(RED "<< DEBUG >> cmdlst:\n" RST);
 			print_cmdlst(cmdlst);
-			ft_printf(RED "<< DEBUG >> end\n\n" RST);
 #endif
+			cmdlst = parse_tokenlist(tlst);
 			int status = exec_cmd(cmdlst, el);
-			ft_printf(RED "<< DEBUG >> exit status = %d\n" RST, status);
+			ft_printf(RED "<< DEBUG >> exit status exec_cmd() = %d\n" RST, status);
 			(void)write(1, "\n", 1);
 			cmdlst_clear(&cmdlst);
 			toklst_clear(&tlst);
@@ -70,4 +70,21 @@ int	main(int ac, char **av, char **envp)
 	envlst_clear(&el);
 	tcsetattr(STDIN_FILENO, TCSANOW, &old_settings);
 	return (0);
+}
+
+void	test_toklst_del(t_toklst **tlst)
+{
+	t_toklst	*vic;
+	t_toklst	*tmp;
+
+	tmp = *tlst;
+	while (tmp)
+	{
+		if (tmp->token->type == TOK_VAR_SYM)
+			vic = tmp;
+		tmp = tmp->next;
+	}
+	toklst_del(tlst, vic);
+	ft_printf(RED "<< DEBUG >> toklst after del:\n" RST);
+	print_toklst(*tlst);
 }

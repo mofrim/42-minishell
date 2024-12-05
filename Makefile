@@ -6,7 +6,7 @@
 #    By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/02 00:03:28 by fmaurer           #+#    #+#              #
-#    Updated: 2024/12/04 17:50:08 by fmaurer          ###   ########.fr        #
+#    Updated: 2024/12/05 17:48:28 by fmaurer          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,33 +20,36 @@ BLTIN_DIR	= $(SRC_DIR)/builtins
 TOK_DIR	= $(SRC_DIR)/tokenization
 
 
-SRCS = $(SRC_DIR)/minishell.c \
-					$(SRC_DIR)/term_setup.c \
-					$(SRC_DIR)/signal.c \
-					$(SRC_DIR)/utils.c \
-					$(SRC_DIR)/error_exit_utils.c \
-					$(TOK_DIR)/tok_tokenize.c \
-					$(TOK_DIR)/tok_cmdline.c \
-					$(TOK_DIR)/tok_tokenlist.c \
-					$(TOK_DIR)/tok_tokprint.c \
-					$(TOK_DIR)/tok_lvl1_tokenize.c \
-					$(TOK_DIR)/tok_lvl1_get_next_tok.c \
-					$(TOK_DIR)/tok_lvl1_get_next_helpers1.c \
-					$(TOK_DIR)/tok_lvl1_get_next_helpers2.c \
-					$(TOK_DIR)/tok_lvl2_tokenize.c \
-					$(TOK_DIR)/tok_lvl2_check_toklst.c \
-					$(PARSE_DIR)/par_cmdlist.c \
-					$(PARSE_DIR)/par_parsing.c \
-					$(PARSE_DIR)/par_parsing_helpers1.c \
-					$(ENV_DIR)/env_utils.c \
-					$(ENV_DIR)/env_envlst.c \
-					$(ENV_DIR)/env_parse.c \
-					$(ENV_DIR)/env_get_env_array.c \
-					$(ENV_DIR)/env_set_entry.c \
-					$(BLTIN_DIR)/bltin_export.c \
-					$(EXEC_DIR)/exec.c \
-					$(EXEC_DIR)/exec_get_exec_path.c \
-					$(EXEC_DIR)/exec_complex_cmd.c
+SRCS =	$(SRC_DIR)/minishell.c \
+				$(SRC_DIR)/term_setup.c \
+				$(SRC_DIR)/signal.c \
+				$(SRC_DIR)/utils.c \
+				$(SRC_DIR)/error_exit_utils.c \
+				$(TOK_DIR)/tok_tokenize.c \
+				$(TOK_DIR)/tok_cmdline.c \
+				$(TOK_DIR)/tok_tokenlist.c \
+				$(TOK_DIR)/tok_tokenlist_del.c \
+				$(TOK_DIR)/tok_tokprint.c \
+				$(TOK_DIR)/tok_lvl1_tokenize.c \
+				$(TOK_DIR)/tok_lvl1_get_next_tok.c \
+				$(TOK_DIR)/tok_lvl1_get_next_helpers1.c \
+				$(TOK_DIR)/tok_lvl1_get_next_helpers2.c \
+				$(TOK_DIR)/tok_lvl1_get_tok_var.c \
+				$(TOK_DIR)/tok_lvl2_tokenize.c \
+				$(TOK_DIR)/tok_lvl2_check_toklst.c \
+				$(PARSE_DIR)/par_cmdlist.c \
+				$(PARSE_DIR)/par_parsing.c \
+				$(PARSE_DIR)/par_parsing_helpers1.c \
+				$(PARSE_DIR)/par_parse_cmd_bltin.c \
+				$(ENV_DIR)/env_utils.c \
+				$(ENV_DIR)/env_envlst.c \
+				$(ENV_DIR)/env_parse.c \
+				$(ENV_DIR)/env_get_env_array.c \
+				$(ENV_DIR)/env_set_entry.c \
+				$(BLTIN_DIR)/bltin_export.c \
+				$(EXEC_DIR)/exec.c \
+				$(EXEC_DIR)/exec_get_exec_path.c \
+				$(EXEC_DIR)/exec_complex_cmd.c
 
 
 # SRCS = $(patsubst ./%.c,%.c,$(SRCS_IN))
