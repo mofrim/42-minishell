@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:44:43 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/05 12:03:50 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/05 13:22:06 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,6 +163,7 @@ t_toklst	*toklst_last(t_toklst *head);
 void		toklst_add_back(t_toklst **head, t_toklst *newend);
 void		toklst_clear(t_toklst **lst);
 int			toklst_size(t_toklst *lst);
+void		toklst_del(t_toklst **lst, t_toklst *delme);
 void		print_tokentype(t_token *token);
 void		print_toklst(t_toklst *tlst);
 t_toklst	*tokenize(char *input);

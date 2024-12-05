@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 17:22:51 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/05 12:03:37 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/05 13:31:29 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	toklst_clear(t_toklst **lst)
 	*lst = NULL;
 }
 
-int	toklst_size(t_tokenlist *lst)
+int	toklst_size(t_toklst *lst)
 {
 	int	cnt;
 
