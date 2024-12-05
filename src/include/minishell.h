@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:44:43 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/05 10:48:35 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/05 12:03:50 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,11 +103,11 @@ typedef struct s_cmdline
 	int		var_flag;
 }	t_cmdline;
 
-typedef struct s_tokenlist
+typedef struct s_toklst
 {
 	t_token				*token;
-	struct s_tokenlist	*next;
-}	t_tokenlist;
+	struct s_toklst	*next;
+}	t_toklst;
 
 typedef enum e_tokerr
 {
@@ -158,17 +158,17 @@ void		free_ptrptr(char ***ptr);
 
 /*********** Tokenization. ***********/
 
-t_tokenlist	*toklst_new(t_token *tok);
-t_tokenlist	*toklst_last(t_tokenlist *head);
-void		toklst_add_back(t_tokenlist **head, t_tokenlist *newend);
-void		toklst_clear(t_tokenlist **lst);
-int			toklst_size(t_tokenlist *lst);
+t_toklst	*toklst_new(t_token *tok);
+t_toklst	*toklst_last(t_toklst *head);
+void		toklst_add_back(t_toklst **head, t_toklst *newend);
+void		toklst_clear(t_toklst **lst);
+int			toklst_size(t_toklst *lst);
 void		print_tokentype(t_token *token);
-void		print_toklst(t_tokenlist *tlst);
-t_tokenlist	*tokenize(char *input);
-t_tokenlist	*tokenize_lvl1(char *input);
-int			tokenize_lvl2(t_tokenlist	*toklst);
-int			check_toklst_lvl2(t_tokenlist *toklst);
+void		print_toklst(t_toklst *tlst);
+t_toklst	*tokenize(char *input);
+t_toklst	*tokenize_lvl1(char *input);
+int			tokenize_lvl2(t_toklst	*toklst);
+int			check_toklst_lvl2(t_toklst *toklst);
 
 /*********** Parsing. ***********/
 
@@ -182,15 +182,15 @@ t_cmdlst	*cmdlst_last(t_cmdlst *head);
 void		cmdlst_add_back(t_cmdlst **head, t_cmdlst *newend);
 void		cmdlst_clear(t_cmdlst **lst);
 
-t_cmdlst	*parse_tokenlist(t_tokenlist *toklst);
-void		parse_command(t_tokenlist **toklst, t_cmdlst **cmd, \
+t_cmdlst	*parse_tokenlist(t_toklst *toklst);
+void		parse_command(t_toklst **toklst, t_cmdlst **cmd, \
 		t_cmdlst **cur_cmd);
-void		parse_builtin(t_tokenlist **toklst, t_cmdlst **cmd, \
+void		parse_builtin(t_toklst **toklst, t_cmdlst **cmd, \
 		t_cmdlst **cur_cmd);
-void		parse_pipe(t_tokenlist **toklst, t_cmdlst **cmd, \
+void		parse_pipe(t_toklst **toklst, t_cmdlst **cmd, \
 		t_cmdlst **cur_cmd);
-void		parse_rout(t_tokenlist **toklst, t_cmdlst *cur_cmd);
-void		parse_rin(t_tokenlist **toklst, t_cmdlst *cur_cmd);
+void		parse_rout(t_toklst **toklst, t_cmdlst *cur_cmd);
+void		parse_rin(t_toklst **toklst, t_cmdlst *cur_cmd);
 
 /*********** Env. ***********/
 void		print_env(char **env);

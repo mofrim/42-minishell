@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 10:59:44 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/05 10:49:43 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/05 12:03:37 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /* Intermediate helper function for skipping forward toklst. When
  * parse_tokenlist() finally suppports all possible tokens, this will be
  * deprecated. */
-static void	fwdlst(t_tokenlist **tl)
+static void	fwdlst(t_toklst **tl)
 {
 	t_toktype	tok;
 
@@ -30,7 +30,7 @@ static void	fwdlst(t_tokenlist **tl)
 }
 
 /* Parse tokenlist into cmdlist. */
-t_cmdlst	*parse_tokenlist(t_tokenlist *toklst)
+t_cmdlst	*parse_tokenlist(t_toklst *toklst)
 {
 	t_cmdlst	*cmd;
 	t_cmdlst	*cur_cmd;

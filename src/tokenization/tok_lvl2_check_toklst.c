@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 18:45:36 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/03 15:28:08 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/05 12:03:37 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static	int	show_first_tokerr(t_toktype tok)
 }
 
 /* toklst cannot be NULL because this is checked in tokenize() beforehand. */
-int	check_toklst_lvl2(t_tokenlist *toklst)
+int	check_toklst_lvl2(t_toklst *toklst)
 {
 	t_toktype	cur;
 	t_toktype	next;

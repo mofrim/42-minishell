@@ -6,20 +6,20 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 11:10:41 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/05 11:27:44 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/05 12:03:37 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	parse_args(t_tokenlist **toklst, t_cmdlst **cur_cmd);
-static void	parse_bltin_args(t_tokenlist **toklst, t_cmdlst **cur_cmd);
-static void	skip_quot(t_tokenlist **toklst);
+static void	parse_args(t_toklst **toklst, t_cmdlst **cur_cmd);
+static void	parse_bltin_args(t_toklst **toklst, t_cmdlst **cur_cmd);
+static void	skip_quot(t_toklst **toklst);
 
 /* Parse a TOK_CMD and following TOK_ARGs. NULL-terminate the args-array in any
  * case because execve() needs this! Reminder: arg_count is initialized to 1, so
  * this will also work if there is only a cmd without args.*/
-void	parse_command(t_tokenlist **toklst, t_cmdlst **cmd, t_cmdlst **cur_cmd)
+void	parse_command(t_toklst **toklst, t_cmdlst **cmd, t_cmdlst **cur_cmd)
 {
 	if (*toklst && (*toklst)->token->type == TOK_CMD)
 	{
@@ -36,7 +36,7 @@ void	parse_command(t_tokenlist **toklst, t_cmdlst **cmd, t_cmdlst **cur_cmd)
 	}
 }
 
-void	parse_builtin(t_tokenlist **toklst, t_cmdlst **cmd, t_cmdlst **cur_cmd)
+void	parse_builtin(t_toklst **toklst, t_cmdlst **cmd, t_cmdlst **cur_cmd)
 {
 	if (*toklst && (*toklst)->token->type == TOK_BLTIN)
 	{
@@ -54,7 +54,7 @@ void	parse_builtin(t_tokenlist **toklst, t_cmdlst **cmd, t_cmdlst **cur_cmd)
 	}
 }
 
-static void	parse_args(t_tokenlist **toklst, t_cmdlst **cur_cmd)
+static void	parse_args(t_toklst **toklst, t_cmdlst **cur_cmd)
 {
 	skip_quot(toklst);
 	while (*toklst && ((*toklst)->token->type == TOK_ARG || \
@@ -70,7 +70,7 @@ static void	parse_args(t_tokenlist **toklst, t_cmdlst **cur_cmd)
 	skip_quot(toklst);
 }
 
-static void	parse_bltin_args(t_tokenlist **toklst, t_cmdlst **cur_cmd)
+static void	parse_bltin_args(t_toklst **toklst, t_cmdlst **cur_cmd)
 {
 	skip_quot(toklst);
 	while (*toklst && ((*toklst)->token->type == TOK_BLTIN_ARG || \
@@ -86,7 +86,7 @@ static void	parse_bltin_args(t_tokenlist **toklst, t_cmdlst **cur_cmd)
 	skip_quot(toklst);
 }
 
-static void	skip_quot(t_tokenlist **toklst)
+static void	skip_quot(t_toklst **toklst)
 {
 	if (*toklst && ((*toklst)->token->type == TOK_DQUOT || \
 			(*toklst)->token->type == TOK_SQUOT))

@@ -6,14 +6,14 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 11:29:40 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/05 11:11:01 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/05 12:03:37 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /* Parse a pipe. */
-void	parse_pipe(t_tokenlist **toklst, t_cmdlst **cmd, t_cmdlst **cur_cmd)
+void	parse_pipe(t_toklst **toklst, t_cmdlst **cmd, t_cmdlst **cur_cmd)
 {
 	if (*toklst && (*toklst)->next)
 	{
@@ -32,7 +32,7 @@ void	parse_pipe(t_tokenlist **toklst, t_cmdlst **cmd, t_cmdlst **cur_cmd)
 }
 
 /* Parse a output redirect. */
-void	parse_rout(t_tokenlist **toklst, t_cmdlst *cur_cmd)
+void	parse_rout(t_toklst **toklst, t_cmdlst *cur_cmd)
 {
 	if (*toklst && ((*toklst)->token->type == TOK_ROUT || \
 			(*toklst)->token->type == TOK_ROUTA))
@@ -45,7 +45,7 @@ void	parse_rout(t_tokenlist **toklst, t_cmdlst *cur_cmd)
 }
 
 /* Parse a input redirect. */
-void	parse_rin(t_tokenlist **toklst, t_cmdlst *cur_cmd)
+void	parse_rin(t_toklst **toklst, t_cmdlst *cur_cmd)
 {
 	if (*toklst && (*toklst)->next && (*toklst)->token->type == TOK_RIN)
 	{

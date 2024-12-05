@@ -6,15 +6,15 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 13:09:10 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/04 08:19:39 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/05 12:03:37 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_tokenlist	*tokenize(char *input)
+t_toklst	*tokenize(char *input)
 {
-	t_tokenlist	*toklst;
+	t_toklst	*toklst;
 
 	toklst = tokenize_lvl1(input);
 	if (!toklst)

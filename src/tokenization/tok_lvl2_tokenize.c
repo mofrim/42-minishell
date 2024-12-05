@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 10:57:29 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/02 17:44:51 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/05 12:03:37 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static t_toktype	is_cmd_or_builtin(t_token *tok);
  * 	2) VAR_NAMES cannot contain |, <, >, <<, >>, ", '
  * 	3) | cannot be the first token
  */
-int	tokenize_lvl2(t_tokenlist	*toklst)
+int	tokenize_lvl2(t_toklst	*toklst)
 {
 	t_token	*cur;
 	t_token	*next;
