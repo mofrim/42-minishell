@@ -6,7 +6,7 @@
 #    By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/02 00:03:28 by fmaurer           #+#    #+#              #
-#    Updated: 2024/12/05 17:48:28 by fmaurer          ###   ########.fr        #
+#    Updated: 2024/12/06 12:12:46 by fmaurer          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,7 +49,8 @@ SRCS =	$(SRC_DIR)/minishell.c \
 				$(BLTIN_DIR)/bltin_export.c \
 				$(EXEC_DIR)/exec.c \
 				$(EXEC_DIR)/exec_get_exec_path.c \
-				$(EXEC_DIR)/exec_complex_cmd.c
+				$(EXEC_DIR)/exec_redir_cmd.c \
+				$(EXEC_DIR)/exec_pipe_cmd.c
 
 
 # SRCS = $(patsubst ./%.c,%.c,$(SRCS_IN))

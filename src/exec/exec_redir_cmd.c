@@ -1,22 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_complex_cmd.c                                 :+:      :+:    :+:   */
+/*   exec_redir_cmd.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 17:30:55 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/04 18:41:47 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/06 12:13:51 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "unistd.h"
 
 // TODO:
 // 1) split into seperate functions
-// 2) manage pipe chains
-int	exec_complex_cmd(t_cmdlst *cmdl, char **env)
+int	exec_redir_cmd(t_cmdlst *cmdl, char **env)
 {
 	int		pipefd[2];
 	int		fd;
