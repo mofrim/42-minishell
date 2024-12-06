@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
+/*   By: eobeng <eobeng@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:44:43 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/07 18:27:34 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/07 21:37:35 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -215,6 +215,15 @@ char		**get_env_array(t_envlst *el);
 char		*get_env_value(char *name, t_envlst *el);
 t_envlst	*get_env_entry_by_name(char *name, t_envlst *el);
 void		set_env_entry(char *name, char *value, t_envlst **el);
+
+/************Builtin Env**********/
+int	env(t_envlst *env);
+
+/************Builtin Export**********/
+t_envlst *envlst_copy(t_envlst *env);
+void swap_env_vars(t_envlst *a, t_envlst *b);
+void sort_env_list(t_envlst *env);
+int	export(t_envlst **env, char *arg);
 
 /*********** Exec. ***********/
 char		*get_exec_path(t_cmdlst *clst, char **env);

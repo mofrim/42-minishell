@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
+/*   By: eobeng <eobeng@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 15:43:14 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/06 12:08:24 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/07 21:35:45 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,33 @@
 /* NOTE: this is for now. Maybe later we will have some generic launcher
  * function that can deal with all kinds of commands.
  */
-static int	exec_simple_cmd(t_cmdlst *cmdl, char **env);
-static int	is_simple_cmd(t_cmdlst *cmdl);
+static int exec_simple_cmd(t_cmdlst *cmdl, char **env);
+static int is_simple_cmd(t_cmdlst *cmdl);
 
 /* Should be the general execution function. */
-int	exec_cmd(t_cmdlst *cmdl, t_envlst *el)
+int exec_cmd(t_cmdlst *cmdl, t_envlst *el)
 {
-	char	**env_arr;
-	int		exit_status;
+	char **env_arr;
+	int exit_status;
 
 	exit_status = 0;
 	env_arr = get_env_array(el);
+
 	if (cmdl->cmd == NULL)
 		return (ENOENT);
+
+	// I added these for the purpose of testing. Will refactor if we confirm my functions work	
+	if (ft_strcmp(cmdl->cmd, "env") == 0)
+	{
+		env(el);
+		return 0;
+	}
+	else if (ft_strcmp(cmdl->cmd, "export") == 0)
+	{
+		export(&el, cmdl->args[1]);
+		return 0;
+	}
+
 	if (is_simple_cmd(cmdl))
 		exit_status = exec_simple_cmd(cmdl, env_arr);
 	else if (!cmdl->next)
@@ -38,11 +52,11 @@ int	exec_cmd(t_cmdlst *cmdl, t_envlst *el)
 	return (exit_status);
 }
 
-static int	exec_simple_cmd(t_cmdlst *cmdl, char **env)
+static int exec_simple_cmd(t_cmdlst *cmdl, char **env)
 {
-	char	*exec_path;
-	int		cpid;
-	int		status;
+	char *exec_path;
+	int cpid;
+	int status;
 
 	status = 0;
 	exec_path = get_exec_path(cmdl, env);
@@ -63,8 +77,8 @@ static int	exec_simple_cmd(t_cmdlst *cmdl, char **env)
 	return (status);
 }
 
-static int	is_simple_cmd(t_cmdlst *cmdl)
+static int is_simple_cmd(t_cmdlst *cmdl)
 {
-	return (!cmdl->is_builtin && !cmdl->input_file && !cmdl->output_file && \
+	return (!cmdl->is_builtin && !cmdl->input_file && !cmdl->output_file &&
 			!cmdl->next);
 }

@@ -3,11 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   bltin_env.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
+/*   By: eobeng <eobeng@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 10:13:46 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/05 10:13:51 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/06 17:13:29 by eobeng           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+int	env(t_envlst *env)
+{
+    print_envlst(env);
+    return (0);
+}

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
+/*   By: eobeng <eobeng@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 14:27:28 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/04 15:47:29 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/06 20:37:04 by eobeng           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	print_env(char **env)
+void print_env(char **env)
 {
 	while (*env)
 	{
@@ -21,17 +21,18 @@ void	print_env(char **env)
 	}
 }
 
-void	print_envlst(t_envlst *el)
+void print_envlst(t_envlst *el)
 {
 	while (el)
 	{
-		ft_printf("env name: %s, value: %s\n", el->name, el->value);
+		if (el->value)
+			ft_printf("%s=%s\n", el->name, el->value);
 		el = el->next;
 	}
 }
 
 /* Get the value-string for a env-var name from envlst. */
-char	*get_env_value(char *name, t_envlst *el)
+char *get_env_value(char *name, t_envlst *el)
 {
 	while (el)
 	{
@@ -43,7 +44,7 @@ char	*get_env_value(char *name, t_envlst *el)
 }
 
 /* Get ptr to envlst-entry by name. */
-t_envlst	*get_env_entry_by_name(char *name, t_envlst *el)
+t_envlst *get_env_entry_by_name(char *name, t_envlst *el)
 {
 	while (el)
 	{

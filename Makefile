@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+         #
+#    By: eobeng <eobeng@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/02 00:03:28 by fmaurer           #+#    #+#              #
-#    Updated: 2024/12/06 15:01:05 by fmaurer          ###   ########.fr        #
+#    Updated: 2024/12/07 21:38:12 by fmaurer          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,6 +48,7 @@ SRCS =	$(SRC_DIR)/minishell.c \
 				$(ENV_DIR)/env_get_env_array.c \
 				$(ENV_DIR)/env_set_entry.c \
 				$(BLTIN_DIR)/bltin_export.c \
+				$(BLTIN_DIR)/bltin_env.c \
 				$(EXEC_DIR)/exec.c \
 				$(EXEC_DIR)/exec_get_exec_path.c \
 				$(EXEC_DIR)/exec_redir_cmd.c \
