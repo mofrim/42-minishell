@@ -163,6 +163,7 @@ void		toklst_add_back(t_toklst **head, t_toklst *newend);
 void		toklst_clear(t_toklst **lst);
 int			toklst_size(t_toklst *lst);
 void		toklst_del(t_toklst **lst, t_toklst *delme);
+void		toklst_remove_tok(t_toklst **toklst, t_toklst **tl);
 void		print_tokentype(t_token *token);
 void		print_toklst(t_toklst *tlst);
 t_toklst	*tokenize(char *input, t_envlst *env);

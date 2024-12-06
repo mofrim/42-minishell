@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 10:57:29 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/06 11:56:16 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/06 15:02:56 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 /* The helper-functions. */
 static void			apply_lvl2_tokenization(t_token *cur, t_token *next);
 static t_toktype	is_cmd_or_builtin(t_token *tok);
-static void			remove_tok(t_toklst **toklst, t_toklst **tl);
 static void			remove_quot_varsym_empty(t_toklst **toklst);
 
 /* Tokenization Level 2. Goal is to classify all the TOK_WORD tokens and rule
@@ -91,7 +90,7 @@ static void	apply_lvl2_tokenization(t_token *cur, t_token *next)
 		next->type = TOK_HERE_DLIM;
 }
 
-static void	remove_tok(t_toklst **toklst, t_toklst **tl)
+void	toklst_remove_tok(t_toklst **toklst, t_toklst **tl)
 {
 	t_toklst	*tmp;
 
@@ -108,13 +107,13 @@ static void	remove_quot_varsym_empty(t_toklst **toklst)
 	while (tl)
 	{
 		if (tl->token->type == TOK_VAR_SYM)
-			remove_tok(toklst, &tl);
+			toklst_remove_tok(toklst, &tl);
 		else if (tl->token->type == TOK_DQUOT)
-			remove_tok(toklst, &tl);
+			toklst_remove_tok(toklst, &tl);
 		else if (tl->token->type == TOK_SQUOT)
-			remove_tok(toklst, &tl);
+			toklst_remove_tok(toklst, &tl);
 		else if (tl->token->type == TOK_WORD && tl->token->value[0] == 0)
-			remove_tok(toklst, &tl);
+			toklst_remove_tok(toklst, &tl);
 		else
 			tl = tl->next;
 	}
