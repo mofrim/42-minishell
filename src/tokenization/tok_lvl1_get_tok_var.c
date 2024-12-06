@@ -6,13 +6,13 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 17:18:10 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/06 00:16:34 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/06 11:57:31 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	get_tok_word(t_token *tok, t_cmdline *cl, int *tok_found);
+void		get_tok_word(t_token *tok, t_cmdline *cl, int *tok_found);
 static char	*get_var_value_from_env(char	*name, t_envlst *env);
 
 void	get_tok_var(t_token *tok, t_cmdline *cl, int *tok_found)

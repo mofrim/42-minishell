@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 14:43:30 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/04 15:21:24 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/06 11:50:51 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,4 +42,3 @@ static char	*join_env_entry(t_envlst *el)
 	free(tmp);
 	return (joi);
 }
-

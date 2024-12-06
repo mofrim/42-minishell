@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 15:48:38 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/04 15:10:05 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/06 11:52:12 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,6 @@ char	*get_exec_path(t_cmdlst *clst, char **env)
 		exec_path = join_exec_path_strings(path_split[i], clst->cmd);
 		if (access(exec_path, X_OK) == 0)
 		{
-#ifdef DEBUG
-			ft_printf(RED "<< DEBUG >> i really can access X_OK: %s\n" RST, \
-					exec_path);
-#endif
 			free_ptrptr(&path_split);
 			return (exec_path);
 		}

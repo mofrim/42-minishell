@@ -6,14 +6,14 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:44:43 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/06 00:32:06 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/06 11:50:04 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-/* For FILE (needed by readline) */
+/* For FILE (needed by readline), perror */
 # include <stdio.h>
 
 /* open and constants like O_RDONLY */
@@ -113,7 +113,7 @@ typedef struct s_cmdline
 
 typedef struct s_toklst
 {
-	t_token				*token;
+	t_token			*token;
 	struct s_toklst	*next;
 }	t_toklst;
 
@@ -141,7 +141,6 @@ typedef struct s_cmdlst
 	char			*input_file;
 	struct s_cmdlst	*next;
 }	t_cmdlst;
-
 
 /*********** Signal and terminal setup. ***********/
 
@@ -205,11 +204,11 @@ void		envlst_clear(t_envlst **lst);
 char		**get_env_array(t_envlst *el);
 char		*get_env_value(char *name, t_envlst *el);
 t_envlst	*get_env_entry_by_name(char *name, t_envlst *el);
-void 		set_env_entry(char *name, char *value, t_envlst **el);
+void		set_env_entry(char *name, char *value, t_envlst **el);
 
 /*********** Exec. ***********/
-char	*get_exec_path(t_cmdlst *clst, char **env);
-int		exec_cmd(t_cmdlst *cmdl, t_envlst *el);
-int		exec_complex_cmd(t_cmdlst *cmdl, char **env);
+char		*get_exec_path(t_cmdlst *clst, char **env);
+int			exec_cmd(t_cmdlst *cmdl, t_envlst *el);
+int			exec_complex_cmd(t_cmdlst *cmdl, char **env);
 
 #endif
