@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 11:29:40 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/06 11:53:03 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/06 12:37:20 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	parse_pipe(t_toklst **toklst, t_cmdlst **cmd, t_cmdlst **cur_cmd)
 		if ((*toklst)->token->type == TOK_PIP && \
 				(*toklst)->next->token->type == TOK_CMD)
 			*toklst = (*toklst)->next;
-		if ((*toklst)->token->type == TOK_PIP && \
+		else if ((*toklst)->token->type == TOK_PIP && \
 				((*toklst)->next->token->type == TOK_RIN || \
 				(*toklst)->next->token->type == TOK_ROUT))
 		{
