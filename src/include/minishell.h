@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:44:43 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/06 12:13:43 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/06 14:57:41 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,7 @@ typedef enum e_tokerr
 	TOKERR_RIN,
 	TOKERR_ROUT,
 	TOKERR_ROUTA,
+	TOKERR_HERE,
 }	t_tokerr;
 
 /*********** Datatypes for parsing. ***********/
@@ -135,12 +136,19 @@ typedef struct s_cmdlst
 	char			**args;
 	int				arg_count;
 	int				is_builtin;
-	int				heredoc;
+	char			*heredoc;
 	int				append;
 	char			*output_file;
 	char			*input_file;
 	struct s_cmdlst	*next;
 }	t_cmdlst;
+
+/* Struct for recording the heredoc delimiters. */
+typedef struct s_heredoc
+{
+	char				*delim;
+	struct	s_heredoc	*next;
+}	t_heredoc;
 
 /*********** Signal and terminal setup. ***********/
 
@@ -192,6 +200,7 @@ void		parse_pipe(t_toklst **toklst, t_cmdlst **cmd, \
 		t_cmdlst **cur_cmd);
 void		parse_rout(t_toklst **toklst, t_cmdlst *cur_cmd);
 void		parse_rin(t_toklst **toklst, t_cmdlst *cur_cmd);
+void		parse_heredoc(t_toklst **tlst, t_cmdlst *cur_cmd);
 
 /*********** Env. ***********/
 void		print_env(char **env);
