@@ -42,18 +42,20 @@
 - [ ] Implement redirections:
   - [ ] < should redirect input.
   - [ ] > should redirect output.
+  - [ ] 2> should redirect stderr output.
   - [ ] << should be given a delimiter, then read the input until a line
     containing the delimiter is seen. However, it doesn’t have to update the
     history!
   - [ ] >> should redirect output in append mode.
+  - [ ] 2>> should redirect stdout output in append mode.
 - [ ] Implement pipes (| character). The output of each command in the pipeline
   is connected to the input of the next command via a pipe.
-- [ ] Handle environment variables ($ followed by a sequence of characters)
+- [x] Handle environment variables ($ followed by a sequence of characters)
   which should expand to their values.
-- [ ] Avoid using more than one global variable to indicate a received signal.
+- [x] Avoid using more than one global variable to indicate a received signal.
   Consider the implications: this approach ensures that your signal handler will
   not access your main data structures
-- [ ] Handle $? which should expand to the exit status of the most recently
+- [x] Handle $? which should expand to the exit status of the most recently
   executed foreground pipeline.
 - [x] Handle ctrl-C, ctrl-D and ctrl-\ which should behave like in bash.
   + [ ] idk know. ctrl-d behaves different for bash's built with lib-readline.
@@ -247,7 +249,74 @@ Bash syntax errors:
   - BUT if env-vars should also be possibly expanded to cmds, this means the
     expansion *must* happen before cmd parsing!!! F.ex. stuff like 
     `echo "dir" | $LS` should also be possible!
+
+- **[2024-12-06 13:13]** Notes on HEREDOC:
   
-    
-  
-  
+  * envvar expansion must happen in HEREDOCs.
+  * but envvars should not be intrepreted further!
+  * uffz! but there are also multiple HEREDOCs enchained by pipes possible:
+
+        bash-5.2$ cat << eof | cat << miau 
+        > asdjf
+        > kasdjf
+        > eof
+        > at
+        > miau
+        at
+        bash-5.2$ 
+
+    it is even worse. this several heredocs problem even exists with one cmd:
+
+        bash-5.2$ cat << eof << moep
+        > asdfsdf
+        > eof
+        > moep
+        bash-5.2$ 
+
+    in both cases only the last content is kept. but the heredoc-input is not
+    ended before both delimiters have been entered. 
+    <center> **HOW to deal with that???** </center>
+  * another tricky thing:
+
+        bash-5.2$ cat << eof < moep
+        > asdl
+        > lsakd
+        > eof
+        bash: moep: No such file or directory
+        bash-5.2$ cat < Makefile << eof
+        > alskdf
+        > akd
+        > eof
+        alskdf
+        akd
+        bash-5.2$
+
+      soooo... the general rule seems to be: the last redirect / heredoc wins.
+      So we somehow need a mechanism on deciding which redirect we want to take.
+      Furthermore, the heredoc really goes to **STDIN**!!! It is not an
+      argument! So, wow.
+  * aaaaaaand another one:
+
+        bash-5.2$ cat << eof > bla | cat << miau > blub
+        > skdjfasdj
+        > akdsjf
+        > miau
+        > kadsf
+        > eof
+        > adskfm
+        > akjsd
+        > miau
+        bash-5.2$ cat bla
+        skdjfasdj
+        akdsjf
+        miau
+        kadsf
+        bash-5.2$ cat blub
+        adskfm
+        akjsd
+        bash-5.2$
+
+      so. yes. all the heredocs need to be associated to their commands, of
+      course!! This means, we need to know the cmd structure so that we can
+      assign the heredocs to the cmd they belong to.
+
