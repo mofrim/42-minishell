@@ -320,3 +320,59 @@ Bash syntax errors:
       course!! This means, we need to know the cmd structure so that we can
       assign the heredocs to the cmd they belong to.
 
+      the ultimate benchmark:
+
+        bash-5.2$ cat << eof | cat 1>&2 | cat <<miau | cat 1>&2 | cat << moep
+        > at
+        > eof
+        > atat
+        > miau
+        > atatat
+        > moep
+        atat
+        atatat
+        at
+        bash-5.2$
+
+      **ARGGGGL!** even this is possible:
+
+        bash-5.2$ cat << eof << miau
+        > miau
+        > eof
+        > miau
+        bash-5.2$ cat << eof << miau
+        > bla eof
+        > eof
+        > blau
+        > miau
+        blau
+        bash-5.2$
+
+      -> RULE: even multiple heredocs per cmd are possible AND they are both
+      needed to terminate the heredoc-reading BUT only the last reading is
+      kept!! this means i really need an array of heredoc-delim strings per cmd
+      but only one string for the actual content.
+
+
+- **[2024-12-07 16:47]** Got the idea for evaluating the heredocs:
+  + the heredoc gathering is done for all heredocs at once
+  + there can be multiple heredocs per cmd, they also need to be entered at the
+    heredoc prompts in FIFO, BUT only the last entry is passed on.
+    **SIDENOTE: there can also be multiple redirects, but only the last one is
+    used. NOOOOO! See next note... **
+  + the execution order seems to be seems to be semi LIFO
+
+- **[2024-12-07 17:19]**
+  with a cdmline like this `cat shell.nix > bla > blub` the file `bla` is
+  created but empty and the file `blub` has the content of `shell.nix`!
+  How should i implement this!? At least this also means, `cmd.output_file` has
+  to be a `char **`. And inside `exec_cmd` we need to `open(infile[i], O_CREAT
+  ...)` in a loop.
+
+- **[2024-12-07 17:25]**
+  What i will implement next step by step:
+
+  1) make multiple output redirects possible as described above
+  2) make multiple input redirects possible
+  3) how to connect the stdout from builtins to the stdin
+
