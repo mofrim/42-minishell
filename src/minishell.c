@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:46:50 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/06 11:29:45 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/06 11:46:00 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,9 @@
 
 static void	cleanup_and_exit(t_termios *old_settings, t_envlst **el, \
 		t_toklst **tl);
-static void	evaluate_cmdline(t_toklst **tl, t_envlst *el);
+static void	evaluate_cmdline(t_toklst **tl, t_envlst **el);
+static void	init_shell(t_envlst **el, t_termios	*old_settings, t_toklst **tl, \
+		char **envp);
 
 int	main(int ac, char **av, char **envp)
 {
@@ -23,10 +25,7 @@ int	main(int ac, char **av, char **envp)
 	t_toklst	*tlst;
 	t_envlst	*el;
 
-	el = parse_env(envp);
-	signal_setup(signal_handler);
-	term_setup(&old_settings);
-	tlst = NULL;
+	init_shell(&el, &old_settings, &tlst, envp);
 	while (1)
 	{
 		input = readline(PROMPT);
@@ -35,19 +34,30 @@ int	main(int ac, char **av, char **envp)
 		add_history(input);
 		tlst = tokenize(input, el);
 		if (tlst)
-			evaluate_cmdline(&tlst, el);
+			evaluate_cmdline(&tlst, &el);
 		free(input);
 	}
 	return (0);
 }
 
-static void	evaluate_cmdline(t_toklst **tl, t_envlst *el)
+static void	init_shell(t_envlst **el, t_termios	*old_settings, t_toklst **tl, \
+		char **envp)
+{
+	*el = parse_env(envp);
+	envlst_add_back(el, envlst_new(ft_strdup("?"), ft_strdup("0")));
+	signal_setup(signal_handler);
+	term_setup(old_settings);
+	*tl = NULL;
+}
+
+static void	evaluate_cmdline(t_toklst **tl, t_envlst **el)
 {
 	t_cmdlst	*cl;
 	int			status;
 
 	cl = parse_tokenlist(*tl);
-	status = exec_cmd(cl, el);
+	status = exec_cmd(cl, *el);
+	set_env_entry("?", ft_itoa(status), el);
 	cmdlst_clear(&cl);
 	toklst_clear(tl);
 }
