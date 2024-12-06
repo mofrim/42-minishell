@@ -6,30 +6,24 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:46:50 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/06 00:15:06 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/06 11:29:45 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	test_toklst_del(t_toklst **tlst);
+static void	cleanup_and_exit(t_termios *old_settings, t_envlst **el, \
+		t_toklst **tl);
+static void	evaluate_cmdline(t_toklst **tl, t_envlst *el);
 
 int	main(int ac, char **av, char **envp)
 {
-	t_termios	old_settings; char		*input;
-	t_toklst *tlst;
+	t_termios	old_settings;
+	char		*input;
+	t_toklst	*tlst;
 	t_envlst	*el;
-	t_cmdlst	*cmdlst;
 
 	el = parse_env(envp);
-#ifdef DEBUG
-	ft_printf("<< DEBUG >> debug mode\n");
-	// print_envlst(el);
-	// print_env(envp);
-#endif
-
-	// NOTE: don't need this but will keep for later info.
-	// rl_catch_signals = 0;
 	signal_setup(signal_handler);
 	term_setup(&old_settings);
 	tlst = NULL;
@@ -37,52 +31,35 @@ int	main(int ac, char **av, char **envp)
 	{
 		input = readline(PROMPT);
 		if (!input)
-		{
-			printf("exit");
-			tcsetattr(STDIN_FILENO, TCSANOW, &old_settings);
-			rl_clear_history();
-			envlst_clear(&el);
-			if (tlst)
-				toklst_clear(&tlst);
-			exit(0);
-		}
+			cleanup_and_exit(&old_settings, &el, &tlst);
 		add_history(input);
 		tlst = tokenize(input, el);
 		if (tlst)
-		{
-			(void)write(1, "\n", 1);
-			cmdlst = parse_tokenlist(tlst);
-#ifdef DEBUG
-			ft_printf(RED "<< DEBUG >> cmdlst:\n" RST);
-			print_cmdlst(cmdlst);
-#endif
-			int status = exec_cmd(cmdlst, el);
-			ft_printf(RED "<< DEBUG >> exit status exec_cmd() = %d\n" RST, status);
-			(void)write(1, "\n", 1);
-			cmdlst_clear(&cmdlst);
-			toklst_clear(&tlst);
-		}
+			evaluate_cmdline(&tlst, el);
 		free(input);
 	}
-	rl_clear_history();
-	envlst_clear(&el);
-	tcsetattr(STDIN_FILENO, TCSANOW, &old_settings);
 	return (0);
 }
 
-void	test_toklst_del(t_toklst **tlst)
+static void	evaluate_cmdline(t_toklst **tl, t_envlst *el)
 {
-	t_toklst	*vic;
-	t_toklst	*tmp;
+	t_cmdlst	*cl;
+	int			status;
 
-	tmp = *tlst;
-	while (tmp)
-	{
-		if (tmp->token->type == TOK_VAR_SYM)
-			vic = tmp;
-		tmp = tmp->next;
-	}
-	toklst_del(tlst, vic);
-	ft_printf(RED "<< DEBUG >> toklst after del:\n" RST);
-	print_toklst(*tlst);
+	cl = parse_tokenlist(*tl);
+	status = exec_cmd(cl, el);
+	cmdlst_clear(&cl);
+	toklst_clear(tl);
+}
+
+static void	cleanup_and_exit(t_termios *old_settings, t_envlst **el, \
+		t_toklst **tl)
+{
+	ft_printf("exit");
+	tcsetattr(STDIN_FILENO, TCSANOW, old_settings);
+	rl_clear_history();
+	envlst_clear(el);
+	if (*tl)
+		toklst_clear(tl);
+	exit(0);
 }
