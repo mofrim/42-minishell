@@ -6,7 +6,7 @@
 /*   By: eobeng <eobeng@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 15:43:14 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/07 21:35:45 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/07 21:39:03 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ int exec_cmd(t_cmdlst *cmdl, t_envlst *el)
 	if (cmdl->cmd == NULL)
 		return (ENOENT);
 
+/***************************************************************************************** */
 	// I added these for the purpose of testing. Will refactor if we confirm my functions work	
 	if (ft_strcmp(cmdl->cmd, "env") == 0)
 	{
@@ -41,6 +42,7 @@ int exec_cmd(t_cmdlst *cmdl, t_envlst *el)
 		export(&el, cmdl->args[1]);
 		return 0;
 	}
+/***************************************************************************************** */
 
 	if (is_simple_cmd(cmdl))
 		exit_status = exec_simple_cmd(cmdl, env_arr);

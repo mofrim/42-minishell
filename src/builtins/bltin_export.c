@@ -6,7 +6,7 @@
 /*   By: eobeng <eobeng@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 09:50:30 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/06 20:56:01 by eobeng           ###   ########.fr       */
+/*   Updated: 2024/12/06 22:55:34 by eobeng           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@
 // TODO implement error checking
 
 // Export without any arguments prints a sorted env.
-t_envlst *envlst_copy(t_envlst *env)
+t_envlst *
+envlst_copy(t_envlst *env)
 {
 	t_envlst *copy = NULL;
 	t_envlst *new_node;
@@ -95,20 +96,30 @@ int export(t_envlst **env, char *arg)
 	if (str && str[0])
 	{
 		name = str[0];
-		if (str[1])
+		if (str[1] && str[1][0])
+		{
 			value = str[1];
+			set_env_entry(name, value, env);
+		}
 		else
-			value = NULL;
-		newvar = envlst_new(name, value);
-		envlst_add_back(env, newvar);
+		{
+			set_env_entry(name, NULL, env);
+		};
+		free(str);
+		return (0);
 	}
-	else
-	{
-		name = ft_strdup(arg);
-		value = NULL;
-		newvar = envlst_new(name, value);
-		envlst_add_back(env, newvar);
-	}
+
+	// if (str && str[0])
+	// {
+	//
+	// 	if (str[1])
+	// 		value = str[1];
+	// 	else
+	// 		value = NULL;
+	// 	set_env_entry(name, value, env);
+	// 	// newvar = envlst_new(name, value);
+	// 	// envlst_add_back(env, newvar);
+	// }
 
 	free(str);
 	return (0);
