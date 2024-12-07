@@ -372,7 +372,107 @@ Bash syntax errors:
 - **[2024-12-07 17:25]**
   What i will implement next step by step:
 
-  1) make multiple output redirects possible as described above
-  2) make multiple input redirects possible
-  3) how to connect the stdout from builtins to the stdin
+  - [ ] make INT_MAX cmd_args possible, in principle. Therefore count number of
+    args in each pipe-seperated tokenlst and take the max of it.
+  - [ ] make multiple output redirects possible as described above. therefore
+    implement `cmdlst.output_file` as `char **`
+  - [ ] make multiple input redirects possible
+  - [ ] how to connect the stdout from builtins to the stdin
 
+# found an error / fixme list
+
+- open pipes and redir handling:
+
+      bash-5.2$ asdf asdkjf asdlkj | adsf sd d d d d d|    
+      > ^C
+
+      bash-5.2$ asdf asdkjf asdlkj | adsf sd d d d d d >   
+      bash: syntax error near unexpected token `newline'
+      bash-5.2$ asdf asdkjf asdlkj | adsf sd d d d d d <   
+      bash: syntax error near unexpected token `newline'
+
+  so, after a pipe there should be a prompt waiting for more cmdline input, but
+  a redir without words afterwards is an error.
+- reproduce this ?!
+
+      =8-) cat
+      << DEBUG >> toklst after lvl1:
+      token: TOK_WORD, value: `cat`
+      << DEBUG >> toklst after lvl2:
+      token: TOK_CMD, value: `cat`
+      << DEBUG >> maxargs = 0
+      << DEBUG >> toklst in parse_tokenlist:
+      token: TOK_CMD, value: `cat`
+      << DEBUG >> cmdlst:
+      -- cmd start --
+      Command: cat
+      Arguments: 
+      -- cmd end --
+      ^C
+      =8-) =8-) 
+      =8-) 
+      =8-) 
+      =8-) 
+      =8-) cat
+      << DEBUG >> toklst after lvl1:
+      token: TOK_WORD, value: `cat`
+      << DEBUG >> toklst after lvl2:
+      token: TOK_CMD, value: `cat`
+      << DEBUG >> maxargs = 0
+      << DEBUG >> toklst in parse_tokenlist:
+      token: TOK_CMD, value: `cat`
+      << DEBUG >> cmdlst:
+      -- cmd start --
+      Command: cat
+      Arguments: 
+      -- cmd end --
+      ^C
+      =8-) =8-) 
+      =8-) cat
+      << DEBUG >> toklst after lvl1:
+      token: TOK_WORD, value: `cat`
+      << DEBUG >> toklst after lvl2:
+      token: TOK_CMD, value: `cat`
+      << DEBUG >> maxargs = 0
+      << DEBUG >> toklst in parse_tokenlist:
+      token: TOK_CMD, value: `cat`
+      << DEBUG >> cmdlst:
+      -- cmd start --
+      Command: cat
+      Arguments: 
+      -- cmd end --
+      ^C
+      =8-) =8-) 
+      =8-) asdf asdkjf asdlkj | adsf sd d d d d d| asd
+      << DEBUG >> toklst after lvl1:
+      token: TOK_WORD, value: `asdf`
+      ...
+      token: TOK_PIP, value: `|`
+      token: TOK_WORD, value: `asd`
+      << DEBUG >> toklst after lvl2:
+      token: TOK_CMD, value: `asdf`
+      ...
+      token: TOK_CMD, value: `asd`
+      << DEBUG >> maxargs = 6
+      << DEBUG >> toklst in parse_tokenlist:
+      token: TOK_CMD, value: `asdf`
+      ...
+      token: TOK_CMD, value: `asd`
+      << DEBUG >> cmdlst:
+      -- cmd start --
+      Command: asdf
+      Arguments: asdkjf asdlkj 
+      Piped to: adsf
+      -- cmd end --
+      -- cmd start --
+      Command: adsf
+      Arguments: sd d d d d d 
+      Piped to: asd
+      -- cmd end --
+      -- cmd start --
+      Command: asd
+      Arguments: 
+      -- cmd end --
+      corrupted size vs. prev_size
+      zsh: IOT instruction (core dumped)  ./minishell
+      k-compiler-rt-libc-12.0.1/bin:/nix/store/k48bha2fjqz
