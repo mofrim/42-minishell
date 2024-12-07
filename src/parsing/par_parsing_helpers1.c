@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 11:29:40 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/07 18:27:13 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/07 19:48:53 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,15 @@ void	parse_rout(t_toklst **toklst, t_cmdlst *cur_cmd)
 	}
 }
 
-/* Parse a input redirect. */
+/* Parse a input redirect. If there was already an input_file set free it an
+ * replace with new one found. */
 void	parse_rin(t_toklst **toklst, t_cmdlst *cur_cmd)
 {
 	if (*toklst && (*toklst)->next && (*toklst)->token->type == TOK_RIN)
 	{
+
+		if (cur_cmd->input_file)
+			free(cur_cmd->input_file);
 		cur_cmd->input_file = ft_strdup((*toklst)->next->token->value);
 		(*toklst) = (*toklst)->next->next;
 	}
