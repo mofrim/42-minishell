@@ -6,37 +6,41 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 10:59:44 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/06 15:38:05 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/07 18:39:18 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static void	remove_heredoc(t_toklst **toklst);
-static void	fwdlst(t_toklst **tl);
+static int	get_max_argnum(t_toklst *tl);
 
 /* Parse tokenlist into cmdlist. */
 t_cmdlst	*parse_tokenlist(t_toklst *toklst)
 {
 	t_cmdlst	*cmd;
 	t_cmdlst	*cur_cmd;
+	int			maxargs;
 
 	if (!toklst)
 		return (NULL);
 	remove_heredoc(&toklst);
+	maxargs = get_max_argnum(toklst);
+
+	ft_printf(RED "<< DEBUG >> maxargs = %d\n" RST, maxargs);
 	ft_printf(RED "<< DEBUG >> toklst in parse_tokenlist:\n" RST);
 	print_toklst(toklst);
-	cmd = cmdlst_new(NULL);
+
+	cmd = cmdlst_new(NULL, maxargs);
 	cur_cmd = cmd;
 	while (toklst)
 	{
-		parse_command(&toklst, &cmd, &cur_cmd);
-		parse_builtin(&toklst, &cmd, &cur_cmd);
-		parse_pipe(&toklst, &cmd, &cur_cmd);
+		parse_command(&toklst, &cmd, &cur_cmd, maxargs);
+		parse_builtin(&toklst, &cmd, &cur_cmd, maxargs);
+		parse_pipe(&toklst, &cmd, &cur_cmd, maxargs);
 		parse_rout(&toklst, cur_cmd);
 		parse_rin(&toklst, cur_cmd);
 		parse_heredoc(&toklst, cur_cmd);
-		// fwdlst(&toklst);
 	}
 	ft_printf(RED "<< DEBUG >> cmdlst:\n" RST);
 	print_cmdlst(cmd);
@@ -86,19 +90,28 @@ static void	remove_heredoc(t_toklst **toklst)
 	}
 }
 
-/* Intermediate helper function for skipping forward toklst. When
- * parse_tokenlist() finally suppports all possible tokens, this will be
- * deprecated. */
-static void	fwdlst(t_toklst **tl)
+static int	get_max_argnum(t_toklst *tl)
 {
-	t_toktype	tok;
+	int	argcnt;
+	int	max;
 
-	if (!*tl)
-		return ;
-	tok = (*tl)->token->type;
-	if ((tok != TOK_RIN && tok != TOK_CMD && tok != TOK_ARG && \
-				tok != TOK_ROUTA && tok != TOK_ROUT && tok != TOK_PIP && \
-				tok != TOK_IF && tok != TOK_OF && tok != TOK_BLTIN) || \
-			((tok != TOK_CMD || tok != TOK_BLTIN) && (*tl)->next == NULL))
-		(*tl) = (*tl)->next;
+	argcnt = 0;
+	max = 0;
+	while (tl)
+	{
+		if (tl->token->type == TOK_ARG)
+			argcnt++;
+		else if (tl->token->type == TOK_PIP)
+		{
+			if (argcnt > max)
+			{
+				max = argcnt;
+				argcnt = 0;
+			}
+		}
+		tl = tl->next;
+	}
+	if (argcnt > max)
+		return (argcnt);
+	return (max);
 }

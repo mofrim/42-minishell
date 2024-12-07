@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 11:10:41 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/06 12:37:17 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/07 18:25:23 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,14 @@ static void	parse_args(t_toklst **toklst, t_cmdlst **cur_cmd);
 /* Parse a TOK_CMD and following TOK_ARGs. NULL-terminate the args-array in any
  * case because execve() needs this! Reminder: arg_count is initialized to 1, so
  * this will also work if there is only a cmd without args.*/
-void	parse_command(t_toklst **toklst, t_cmdlst **cmd, t_cmdlst **cur_cmd)
+void	parse_command(t_toklst **toklst, t_cmdlst **cmd, t_cmdlst **cur_cmd, \
+		int maxargs)
 {
 	if (*toklst && (*toklst)->token->type == TOK_CMD)
 	{
 		if (*cur_cmd && (*cur_cmd)->cmd)
 		{
-			*cur_cmd = cmdlst_new((*toklst)->token->value);
+			*cur_cmd = cmdlst_new((*toklst)->token->value, maxargs);
 			cmdlst_add_back(cmd, *cur_cmd);
 		}
 		else
@@ -34,13 +35,14 @@ void	parse_command(t_toklst **toklst, t_cmdlst **cmd, t_cmdlst **cur_cmd)
 	}
 }
 
-void	parse_builtin(t_toklst **toklst, t_cmdlst **cmd, t_cmdlst **cur_cmd)
+void	parse_builtin(t_toklst **toklst, t_cmdlst **cmd, t_cmdlst **cur_cmd, \
+		int maxargs)
 {
 	if (*toklst && (*toklst)->token->type == TOK_BLTIN)
 	{
 		if (*cur_cmd && (*cur_cmd)->cmd)
 		{
-			*cur_cmd = cmdlst_new((*toklst)->token->value);
+			*cur_cmd = cmdlst_new((*toklst)->token->value, maxargs);
 			cmdlst_add_back(cmd, *cur_cmd);
 		}
 		else

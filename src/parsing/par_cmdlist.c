@@ -6,18 +6,19 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 17:22:51 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/06 15:27:59 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/07 19:04:46 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /* Init new cmdlst-struct. Init arg_count at 1 because we want cmd->args[0] to
- * be free for the final exec_path. */
-// FIXME: remove args limit which could definitely lead to overflows!!!
-// FIXME: think about the cmd / args[0] thing. this is a little bit to
-// confusing.
-t_cmdlst	*cmdlst_new(char *exec)
+ * be free for the final exec_path. 
+ * Why maxargs+2? Because we always want to have at least a arg-array which is
+ * able to store cmd as argv[0] and a NULL termination.
+ *
+ * */
+t_cmdlst	*cmdlst_new(char *exec, int maxargs)
 {
 	t_cmdlst	*cmd;
 
@@ -26,7 +27,7 @@ t_cmdlst	*cmdlst_new(char *exec)
 	if (!cmd)
 		return (NULL);
 	cmd->cmd = ft_strdup(exec);
-	cmd->args = malloc(sizeof(char *) * 10);
+	cmd->args = malloc(sizeof(char *) * (maxargs + 2));
 	cmd->arg_count = 1;
 	cmd->is_builtin = 0;
 	cmd->append = 0;
@@ -64,7 +65,10 @@ void	cmdlst_add_back(t_cmdlst **head, t_cmdlst *newend)
 	oldend->next = newend;
 }
 
-/* Free args-split from cmdlst-struct. */
+/* Free args-split from cmdlst-struct. If argcnt == 1, only args[0] which is the
+ * cmd will be freed. Imn this case argv[1] is holding NULL. Everything fine.
+ * If argcnt == n , then until argv[n-1] everything will be freed argv[n] will
+ * hold NULL. Everything LGTM.*/
 void	free_args(char ***args, int argcnt)
 {
 	int	i;
@@ -81,10 +85,6 @@ void	free_args(char ***args, int argcnt)
 		free (*args);
 }
 
-/*
- * NOTE: no need to free cmdlst->cmd because args[0] is storing the same
- * pointer.
- */
 void	cmdlst_clear(t_cmdlst **lst)
 {
 	t_cmdlst	*tmp;

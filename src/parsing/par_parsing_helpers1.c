@@ -6,14 +6,15 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 11:29:40 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/06 12:37:20 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/07 18:27:13 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /* Parse a pipe. */
-void	parse_pipe(t_toklst **toklst, t_cmdlst **cmd, t_cmdlst **cur_cmd)
+void	parse_pipe(t_toklst **toklst, t_cmdlst **cmd, t_cmdlst **cur_cmd, \
+		int maxargs)
 {
 	if (*toklst && (*toklst)->next)
 	{
@@ -24,7 +25,7 @@ void	parse_pipe(t_toklst **toklst, t_cmdlst **cmd, t_cmdlst **cur_cmd)
 				((*toklst)->next->token->type == TOK_RIN || \
 				(*toklst)->next->token->type == TOK_ROUT))
 		{
-			*cur_cmd = cmdlst_new(NULL);
+			*cur_cmd = cmdlst_new(NULL, maxargs);
 			cmdlst_add_back(cmd, *cur_cmd);
 			*toklst = (*toklst)->next;
 		}

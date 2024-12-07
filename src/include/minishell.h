@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:44:43 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/06 14:57:41 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/07 18:27:34 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,18 +186,18 @@ void		print_cmdlst(t_cmdlst *cmd);
 t_cmdline	*init_cmdline(char *input, t_envlst *env);
 t_token		*get_next_token(t_cmdline *cl);
 
-t_cmdlst	*cmdlst_new(char *exec);
+t_cmdlst	*cmdlst_new(char *exec, int maxargs);
 t_cmdlst	*cmdlst_last(t_cmdlst *head);
 void		cmdlst_add_back(t_cmdlst **head, t_cmdlst *newend);
 void		cmdlst_clear(t_cmdlst **lst);
 
 t_cmdlst	*parse_tokenlist(t_toklst *toklst);
 void		parse_command(t_toklst **toklst, t_cmdlst **cmd, \
-		t_cmdlst **cur_cmd);
+		t_cmdlst **cur_cmd, int maxargs);
 void		parse_builtin(t_toklst **toklst, t_cmdlst **cmd, \
-		t_cmdlst **cur_cmd);
+		t_cmdlst **cur_cmd, int maxargs);
 void		parse_pipe(t_toklst **toklst, t_cmdlst **cmd, \
-		t_cmdlst **cur_cmd);
+		t_cmdlst **cur_cmd, int maxargs);
 void		parse_rout(t_toklst **toklst, t_cmdlst *cur_cmd);
 void		parse_rin(t_toklst **toklst, t_cmdlst *cur_cmd);
 void		parse_heredoc(t_toklst **tlst, t_cmdlst *cur_cmd);
