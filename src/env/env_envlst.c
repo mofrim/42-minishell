@@ -6,12 +6,14 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 17:22:51 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/02 18:49:03 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/07 19:23:28 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/* Create new envlst entry. String duplication is handled *inside* this
+ * function! */
 t_envlst	*envlst_new(char *name, char *val)
 {
 	t_envlst	*nn;
@@ -19,8 +21,8 @@ t_envlst	*envlst_new(char *name, char *val)
 	nn = (t_envlst *) malloc(sizeof(t_envlst));
 	if (!nn)
 		return (NULL);
-	nn->name = name;
-	nn->value = val;
+	nn->name = ft_strdup(name);
+	nn->value = ft_strdup(val);
 	nn->next = NULL;
 	return (nn);
 }
@@ -62,7 +64,8 @@ void	envlst_clear(t_envlst **lst)
 	{
 		tmp = (*lst)->next;
 		free((*lst)->name);
-		free((*lst)->value);
+		if ((*lst)->value)
+			free((*lst)->value);
 		free(*lst);
 		*lst = tmp;
 	}

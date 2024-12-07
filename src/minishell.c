@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:46:50 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/06 11:46:00 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/07 19:27:13 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static void	init_shell(t_envlst **el, t_termios	*old_settings, t_toklst **tl, \
 		char **envp)
 {
 	*el = parse_env(envp);
-	envlst_add_back(el, envlst_new(ft_strdup("?"), ft_strdup("0")));
+	envlst_add_back(el, envlst_new("?", "0"));
 	signal_setup(signal_handler);
 	term_setup(old_settings);
 	*tl = NULL;
@@ -53,11 +53,14 @@ static void	init_shell(t_envlst **el, t_termios	*old_settings, t_toklst **tl, \
 static void	evaluate_cmdline(t_toklst **tl, t_envlst **el)
 {
 	t_cmdlst	*cl;
-	int			status;
+	char		*status_str;
+	int			status_int;
 
 	cl = parse_tokenlist(*tl);
-	status = exec_cmd(cl, *el);
-	set_env_entry("?", ft_itoa(status), el);
+	status_int = exec_cmd(cl, *el);
+	status_str = ft_itoa(status_int);
+	set_env_entry("?", status_str, el);
+	free(status_str);
 	cmdlst_clear(&cl);
 	toklst_clear(tl);
 }
