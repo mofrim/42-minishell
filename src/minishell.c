@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:46:50 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/07 19:27:13 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/07 19:57:29 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,13 @@ int	main(int ac, char **av, char **envp)
 		input = readline(PROMPT);
 		if (!input)
 			cleanup_and_exit(&old_settings, &el, &tlst);
-		add_history(input);
-		tlst = tokenize(input, el);
-		if (tlst)
-			evaluate_cmdline(&tlst, &el);
+		if (*input != 0)
+		{
+			add_history(input);
+			tlst = tokenize(input, el);
+			if (tlst)
+				evaluate_cmdline(&tlst, &el);
+		}
 		free(input);
 	}
 	return (0);
