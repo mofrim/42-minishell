@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 10:59:44 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/07 18:39:18 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/07 22:39:07 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ t_cmdlst	*parse_tokenlist(t_toklst *toklst)
 	remove_heredoc(&toklst);
 	maxargs = get_max_argnum(toklst);
 
-	ft_printf(RED "<< DEBUG >> maxargs = %d\n" RST, maxargs);
 	ft_printf(RED "<< DEBUG >> toklst in parse_tokenlist:\n" RST);
 	print_toklst(toklst);
 
@@ -54,9 +53,7 @@ void	print_cmdlst(t_cmdlst *cmd)
 
 	while (cmd)
 	{
-		ft_printf("-- cmd start --\n");
-		ft_printf("Command: %s\n", cmd->cmd);
-		ft_printf("Arguments: ");
+		ft_printf("-- cmd start --\nCommand: %s\nArguments: ", cmd->cmd);
 		i = 0;
 		while (++i < cmd->arg_count)
 			ft_printf("%s ", cmd->args[i]);
