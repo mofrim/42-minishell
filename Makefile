@@ -6,7 +6,7 @@
 #    By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/02 00:03:28 by fmaurer           #+#    #+#              #
-#    Updated: 2024/12/06 15:01:05 by fmaurer          ###   ########.fr        #
+#    Updated: 2024/12/08 16:12:04 by fmaurer          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,10 +48,19 @@ SRCS =	$(SRC_DIR)/minishell.c \
 				$(ENV_DIR)/env_get_env_array.c \
 				$(ENV_DIR)/env_set_entry.c \
 				$(BLTIN_DIR)/bltin_export.c \
+				$(BLTIN_DIR)/bltin_cd.c \
+				$(BLTIN_DIR)/bltin_echo.c \
+				$(BLTIN_DIR)/bltin_env.c \
+				$(BLTIN_DIR)/bltin_exit.c \
+				$(BLTIN_DIR)/bltin_pwd.c \
+				$(BLTIN_DIR)/bltin_unset.c \
 				$(EXEC_DIR)/exec.c \
 				$(EXEC_DIR)/exec_get_exec_path.c \
-				$(EXEC_DIR)/exec_redir_cmd.c \
-				$(EXEC_DIR)/exec_pipe_cmd.c
+				$(EXEC_DIR)/exec_single.c \
+				$(EXEC_DIR)/exec_single_redir.c \
+				$(EXEC_DIR)/exec_single_builtin.c \
+				$(EXEC_DIR)/exec_open_redir_files.c \
+				$(EXEC_DIR)/exec_pipe.c
 
 
 # SRCS = $(patsubst ./%.c,%.c,$(SRCS_IN))

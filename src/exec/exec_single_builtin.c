@@ -1,0 +1,64 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec_single_builtin.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/07 23:15:39 by fmaurer           #+#    #+#             */
+/*   Updated: 2024/12/08 16:09:06 by fmaurer          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
+
+static int	exec_single_builtin(t_cmdlst *cl, t_envlst **el);
+
+/* Execute the single builtin command. Also opens possible redirection files
+ * beforehand.
+ *
+ * We are not allowed to use WIFEXITED and WEXITSTATUS as they are macros. But
+ * the calculation needed for extracting the real exit status from that recorded
+ * by waitpid is simply shifting the bits to the right by 8. */
+int	exec_single_builtin_cmd(t_cmdlst *cmdl, t_envlst **el)
+{
+	int	exit_status;
+	int	cpid;
+
+	exit_status = 0;
+	cpid = fork();
+	if (cpid == -1)
+		return (errno);
+	if (cpid == 0)
+	{
+		if (open_redir_files(cmdl->input_file, cmdl->output_file, cmdl->append))
+			exit(errno);
+		exit(exec_single_builtin(cmdl, el));
+	}
+	waitpid(cpid, &exit_status, 0);
+	return (exit_status >> 8);
+}
+
+/* Finally find the correct builtin function, call it & return their
+ * exit_status. */
+static int	exec_single_builtin(t_cmdlst *cl, t_envlst **el)
+{
+	int		exit_status;
+
+	exit_status = 0;
+	if (!strcmp(cl->cmd, "echo"))
+		exit_status = bltin_echo(cl->args, el);
+	if (!strcmp(cl->cmd, "cd"))
+		exit_status = bltin_cd(cl->args, el);
+	if (!strcmp(cl->cmd, "pwd"))
+		exit_status = bltin_pwd(cl->args, el);
+	if (!strcmp(cl->cmd, "export"))
+		exit_status = bltin_export(cl->args, el);
+	if (!strcmp(cl->cmd, "unset"))
+		exit_status = bltin_unset(cl->args, el);
+	if (!strcmp(cl->cmd, "env"))
+		exit_status = bltin_env(cl->args, el);
+	if (!strcmp(cl->cmd, "exit"))
+		exit_status = bltin_exit();
+	return (42);
+}

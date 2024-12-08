@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:46:50 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/07 19:57:29 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/08 01:10:12 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static void	evaluate_cmdline(t_toklst **tl, t_envlst **el)
 	int			status_int;
 
 	cl = parse_tokenlist(*tl);
-	status_int = exec_cmd(cl, *el);
+	status_int = exec_cmd(cl, el);
 	status_str = ft_itoa(status_int);
 	set_env_entry("?", status_str, el);
 	free(status_str);

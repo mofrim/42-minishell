@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:44:43 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/07 18:27:34 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/08 18:56:41 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,6 +162,7 @@ void		nullcheck(void *p, char *msg);
 void		error_exit(char *msg);
 int			ft_isspace(char c);
 void		free_ptrptr(char ***ptr);
+int			print_return_error_msg(char *prefix, char *msg, int error);
 
 /*********** Tokenization. ***********/
 
@@ -218,8 +219,21 @@ void		set_env_entry(char *name, char *value, t_envlst **el);
 
 /*********** Exec. ***********/
 char		*get_exec_path(t_cmdlst *clst, char **env);
-int			exec_cmd(t_cmdlst *cmdl, t_envlst *el);
+int			exec_cmd(t_cmdlst *cmdl, t_envlst **el);
 int			exec_redir_cmd(t_cmdlst *cmdl, char **env);
-int			exec_pipe_cmd(t_cmdlst *cmdl, char **env);
+int			exec_single(t_cmdlst *cmdl, char **env, t_envlst **el);
+int			exec_single_redir_cmd(t_cmdlst *cmdl, char **env);
+int			exec_single_builtin_cmd(t_cmdlst *cmdl, t_envlst **el);
+int			exec_pipe(t_cmdlst *cmdl, char **env, t_envlst **el);
+int			open_redir_files(char *infile, char *outfile, int append);
+
+/*********** Builtins. ***********/
+int			bltin_echo(char **arg, t_envlst **el);
+int			bltin_cd(char **arg, t_envlst **el);
+int			bltin_pwd(char **arg, t_envlst **el);
+int			bltin_export(char **arg, t_envlst **el);
+int			bltin_unset(char **arg, t_envlst **el);
+int			bltin_env(char **arg, t_envlst **el);
+int			bltin_exit(void);
 
 #endif

@@ -6,65 +6,29 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 15:43:14 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/06 12:08:24 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/08 18:32:55 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/* NOTE: this is for now. Maybe later we will have some generic launcher
- * function that can deal with all kinds of commands.
- */
-static int	exec_simple_cmd(t_cmdlst *cmdl, char **env);
-static int	is_simple_cmd(t_cmdlst *cmdl);
-
-/* Should be the general execution function. */
-int	exec_cmd(t_cmdlst *cmdl, t_envlst *el)
+/* The general execution function. Two cases possible: with pipes or without.
+ * Dispatches correspondingly to exec_pipe() or exec_single().
+ * Params: cmdls and envlst. */
+int	exec_cmd(t_cmdlst *cmdl, t_envlst **el)
 {
 	char	**env_arr;
 	int		exit_status;
 
 	exit_status = 0;
-	env_arr = get_env_array(el);
+	env_arr = get_env_array(*el);
 	if (cmdl->cmd == NULL)
 		return (ENOENT);
-	if (is_simple_cmd(cmdl))
-		exit_status = exec_simple_cmd(cmdl, env_arr);
-	else if (!cmdl->next)
-		exit_status = exec_redir_cmd(cmdl, env_arr);
+	if (cmdl->next)
+		exit_status = exec_pipe(cmdl, env_arr, el);
 	else
-		exit_status = exec_pipe_cmd(cmdl, env_arr);
+		exit_status = exec_single(cmdl, env_arr, el);
 	free_ptrptr(&env_arr);
 	return (exit_status);
 }
 
-static int	exec_simple_cmd(t_cmdlst *cmdl, char **env)
-{
-	char	*exec_path;
-	int		cpid;
-	int		status;
-
-	status = 0;
-	exec_path = get_exec_path(cmdl, env);
-	if (exec_path == NULL)
-	{
-		ft_printf("%s: command not found!\n", cmdl->cmd);
-		return (ENOENT);
-	}
-	free(cmdl->args[0]);
-	cmdl->args[0] = exec_path;
-	cpid = fork();
-	if (cpid < 0)
-		error_exit("fork failed");
-	if (cpid == 0)
-		execve(exec_path, cmdl->args, env);
-	else
-		waitpid(cpid, &status, 0);
-	return (status);
-}
-
-static int	is_simple_cmd(t_cmdlst *cmdl)
-{
-	return (!cmdl->is_builtin && !cmdl->input_file && !cmdl->output_file && \
-			!cmdl->next);
-}
