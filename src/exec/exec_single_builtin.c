@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/07 23:15:39 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/08 21:03:30 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/08 21:10:47 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,5 +60,5 @@ static int	exec_single_builtin(t_cmdlst *cl, t_envlst **el)
 		exit_status = bltin_env(cl->args, el);
 	if (!strcmp(cl->cmd, "exit"))
 		exit_status = bltin_exit();
-	return (42);
+	return (exit_status);
 }
