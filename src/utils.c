@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 13:10:05 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/04 15:09:38 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/08 19:08:48 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ int	ft_isspace(char c)
 	return (0);
 }
 
+/* Free a NULL terminated (char **) array. */
 void	free_ptrptr(char ***ptr)
 {
 	char	**tmp;
