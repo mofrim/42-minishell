@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:44:43 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/08 20:30:49 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/08 21:02:47 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,7 @@ typedef struct s_cmdlst
 	int				is_builtin;
 	char			*heredoc;
 	int				append;
-	t_heroflst		*output_file;
+	t_heroflst		*outfiles;
 	char			*input_file;
 	struct s_cmdlst	*next;
 }	t_cmdlst;
@@ -192,6 +192,12 @@ t_cmdlst	*cmdlst_last(t_cmdlst *head);
 void		cmdlst_add_back(t_cmdlst **head, t_cmdlst *newend);
 void		cmdlst_clear(t_cmdlst **lst);
 
+t_heroflst	*heroflst_new(char *name);
+t_heroflst	*heroflst_last(t_heroflst *head);
+void		heroflst_add_back(t_heroflst **head, t_heroflst *newend);
+void		heroflst_clear(t_heroflst **lst);
+void		heroflst_print(t_heroflst *lst);
+
 t_cmdlst	*parse_tokenlist(t_toklst *toklst);
 void		parse_command(t_toklst **toklst, t_cmdlst **cmd, \
 		t_cmdlst **cur_cmd, int maxargs);
@@ -225,7 +231,7 @@ int			exec_single(t_cmdlst *cmdl, char **env, t_envlst **el);
 int			exec_single_redir_cmd(t_cmdlst *cmdl, char **env);
 int			exec_single_builtin_cmd(t_cmdlst *cmdl, t_envlst **el);
 int			exec_pipe(t_cmdlst *cmdl, char **env, t_envlst **el);
-int			open_redir_files(char *infile, char *outfile, int append);
+int			open_redir_files(char *infile, t_heroflst *ofl, int append);
 
 /*********** Builtins. ***********/
 int			bltin_echo(char **arg, t_envlst **el);

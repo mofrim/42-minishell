@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/08 19:26:24 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/08 19:27:34 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/08 20:46:58 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 /* Create new heroflst entry. String duplication is handled *inside* this
  * function! */
-t_heroflst	*heroflst_new(char *name, char *val)
+t_heroflst	*heroflst_new(char *name)
 {
 	t_heroflst	*nn;
 
@@ -69,17 +69,11 @@ void	heroflst_clear(t_heroflst **lst)
 	*lst = NULL;
 }
 
-int	heroflst_size(t_heroflst *lst)
+void	heroflst_print(t_heroflst *lst)
 {
-	int	cnt;
-
-	cnt = 0;
-	if (!lst)
-		return (0);
 	while (lst)
 	{
-		cnt++;
+		ft_printf("%s ", lst->name);
 		lst = lst->next;
 	}
-	return (cnt);
 }

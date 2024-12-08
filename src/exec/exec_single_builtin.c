@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/07 23:15:39 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/08 16:09:06 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/08 21:03:30 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	exec_single_builtin_cmd(t_cmdlst *cmdl, t_envlst **el)
 		return (errno);
 	if (cpid == 0)
 	{
-		if (open_redir_files(cmdl->input_file, cmdl->output_file, cmdl->append))
+		if (open_redir_files(cmdl->input_file, cmdl->outfiles, cmdl->append))
 			exit(errno);
 		exit(exec_single_builtin(cmdl, el));
 	}

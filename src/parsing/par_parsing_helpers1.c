@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 11:29:40 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/07 19:48:53 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/08 20:52:31 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,18 @@ void	parse_pipe(t_toklst **toklst, t_cmdlst **cmd, t_cmdlst **cur_cmd, \
 /* Parse a output redirect. */
 void	parse_rout(t_toklst **toklst, t_cmdlst *cur_cmd)
 {
+	t_heroflst *ofl;
+
 	if (*toklst && ((*toklst)->token->type == TOK_ROUT || \
 			(*toklst)->token->type == TOK_ROUTA))
 	{
-		cur_cmd->output_file = ft_strdup((*toklst)->next->token->value);
+		ofl = heroflst_new((*toklst)->next->token->value);
+		heroflst_add_back(&cur_cmd->outfiles, ofl);
 		if ((*toklst)->token->type == TOK_ROUTA)
 			cur_cmd->append = 1;
+		else
+			cur_cmd->append = 0;
+
 		(*toklst) = (*toklst)->next->next;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 17:30:55 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/08 18:56:44 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/08 20:53:37 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	exec_single_redir_cmd(t_cmdlst *cmdl, char **env)
 					"fork failed!", errno));
 	if (cpid == 0)
 	{
-		if (open_redir_files(cmdl->input_file, cmdl->output_file, cmdl->append))
+		if (open_redir_files(cmdl->input_file, cmdl->outfiles, cmdl->append))
 			exit(errno);
 		execve(exec_path, cmdl->args, NULL);
 	}

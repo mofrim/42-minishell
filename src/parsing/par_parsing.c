@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 10:59:44 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/07 22:39:07 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/08 20:46:47 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,8 @@ void	print_cmdlst(t_cmdlst *cmd)
 		while (++i < cmd->arg_count)
 			ft_printf("%s ", cmd->args[i]);
 		ft_printf("\n");
-		if (cmd->output_file)
-			ft_printf("Output redirected to: %s\n", cmd->output_file);
+		if (cmd->outfiles)
+			heroflst_print(cmd->outfiles);
 		if (cmd->input_file)
 			ft_printf("Input redirected from: %s\n", cmd->input_file);
 		if (cmd->is_builtin)

@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 17:22:51 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/07 19:04:46 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/08 20:44:43 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ t_cmdlst	*cmdlst_new(char *exec, int maxargs)
 	cmd->append = 0;
 	cmd->heredoc = NULL;
 	cmd->next = NULL;
-	cmd->output_file = NULL;
+	cmd->outfiles = NULL;
 	cmd->input_file = NULL;
 	return (cmd);
 }
@@ -97,8 +97,8 @@ void	cmdlst_clear(t_cmdlst **lst)
 		if ((*lst)->cmd)
 			free((*lst)->cmd);
 		free_args(&(*lst)->args, (*lst)->arg_count);
-		if ((*lst)->output_file)
-			free((*lst)->output_file);
+		if ((*lst)->outfiles)
+			heroflst_clear(&(*lst)->outfiles);
 		if ((*lst)->input_file)
 			free((*lst)->input_file);
 		if ((*lst)->heredoc)
