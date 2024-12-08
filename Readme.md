@@ -441,6 +441,8 @@ Bash syntax errors:
   - [x] make multiple input redirects possible. This only requires being aware
     of that `cmdlst.input_file` might be overridden and therefore should be
     checked `if NULL` otherwise freed before. So this is easy!
+  - [ ] rewrite `exec_cmd` in a final way: to possible excution paths - 1) with
+    pipes, 2) pipeless
   - [ ] make multiple output redirects possible as described above. therefore
     implement `cmdlst.output_file` as `char **`. If we wanted to implement it
     like zsh where `cat shell.nix > bla > blub` really cats the file into both
