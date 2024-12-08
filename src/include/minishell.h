@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:44:43 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/08 18:56:41 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/08 20:30:49 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,13 @@ typedef enum e_tokerr
 
 /*********** Datatypes for parsing. ***********/
 
+/* Struct for recording heredoc delimiters & and output files. */
+typedef struct	s_heroflst
+{
+	char				*name;
+	struct s_heroflst	*next;
+}	t_heroflst;
+
 /* Command structure for parsing. */
 typedef struct s_cmdlst
 {
@@ -138,17 +145,10 @@ typedef struct s_cmdlst
 	int				is_builtin;
 	char			*heredoc;
 	int				append;
-	char			*output_file;
+	t_heroflst		*output_file;
 	char			*input_file;
 	struct s_cmdlst	*next;
 }	t_cmdlst;
-
-/* Struct for recording the heredoc delimiters. */
-typedef struct s_heredoc
-{
-	char				*delim;
-	struct	s_heredoc	*next;
-}	t_heredoc;
 
 /*********** Signal and terminal setup. ***********/
 
