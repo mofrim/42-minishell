@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:44:43 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/09 03:42:59 by elpah            ###   ########.fr       */
+/*   Updated: 2024/12/09 03:48:39 by elpah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -213,6 +213,7 @@ t_envlst	*envlst_new(char *name, char *value);
 t_envlst	*envlst_last(t_envlst *head);
 void		envlst_add_back(t_envlst **head, t_envlst *newend);
 int			envlst_size(t_envlst *lst);
+t_envlst	*envlst_copy(t_envlst *env);
 void		envlst_clear(t_envlst **lst);
 char		**get_env_array(t_envlst *el);
 char		*get_env_value(char *name, t_envlst *el);
