@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eobeng <eobeng@student.42.fr>              +#+  +:+       +#+        */
+/*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:44:43 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/07 21:37:35 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/09 03:30:04 by elpah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,6 +206,7 @@ void		parse_heredoc(t_toklst **tlst, t_cmdlst *cur_cmd);
 void		print_env(char **env);
 t_envlst	*parse_env(char **env);
 void		print_envlst(t_envlst *el);
+void		print_exported_variables(t_envlst *env);
 t_envlst	*envlst_new(char *name, char *value);
 t_envlst	*envlst_last(t_envlst *head);
 void		envlst_add_back(t_envlst **head, t_envlst *newend);
@@ -220,6 +221,7 @@ void		set_env_entry(char *name, char *value, t_envlst **el);
 int	env(t_envlst *env);
 
 /************Builtin Export**********/
+
 t_envlst *envlst_copy(t_envlst *env);
 void swap_env_vars(t_envlst *a, t_envlst *b);
 void sort_env_list(t_envlst *env);
