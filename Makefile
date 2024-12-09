@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: eobeng <eobeng@student.42.fr>              +#+  +:+       +#+         #
+#    By: elpah <elpah@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/02 00:03:28 by fmaurer           #+#    #+#              #
-#    Updated: 2024/12/07 21:38:12 by fmaurer          ###   ########.fr        #
+#    Updated: 2024/12/09 03:49:04 by elpah            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,6 +42,7 @@ SRCS =	$(SRC_DIR)/minishell.c \
 				$(PARSE_DIR)/par_parsing_helpers1.c \
 				$(PARSE_DIR)/par_parse_cmd_bltin.c \
 				$(PARSE_DIR)/par_parse_heredoc.c \
+				$(ENV_DIR)/env_copy.c \
 				$(ENV_DIR)/env_utils.c \
 				$(ENV_DIR)/env_envlst.c \
 				$(ENV_DIR)/env_parse.c \
