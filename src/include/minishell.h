@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:44:43 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/09 03:38:10 by elpah            ###   ########.fr       */
+/*   Updated: 2024/12/09 03:42:59 by elpah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,6 +204,7 @@ void		parse_heredoc(t_toklst **tlst, t_cmdlst *cur_cmd);
 
 /*********** Env. ***********/
 void		print_env(char **env);
+char		*find_name(char *str, char *equal_pos);
 char		**ft_split_input(char *str);
 t_envlst	*parse_env(char **env);
 void		print_envlst(t_envlst *el);
