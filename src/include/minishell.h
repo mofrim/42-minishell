@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:44:43 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/08 21:02:47 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/09 20:36:10 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,9 @@
 /* COM = Colors over minishell! */
 # include "colors.h"
 
-# define PROMPT "\033[1;33m=8-)\033[0m "
+/* The \001 and \002 esc seqs tell readline where non-printable characters start
+ * / end in the prompt. Fixes outputs problems after long text inputs. */
+# define PROMPT "\001\033[1;33m\002=8-)\001\033[0m\002 "
 
 /* Define termios type for easier reference. */
 typedef struct termios	t_termios;
