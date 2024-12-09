@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:44:43 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/09 03:30:04 by elpah            ###   ########.fr       */
+/*   Updated: 2024/12/09 03:38:10 by elpah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,7 +147,7 @@ typedef struct s_cmdlst
 typedef struct s_heredoc
 {
 	char				*delim;
-	struct	s_heredoc	*next;
+	struct s_heredoc	*next;
 }	t_heredoc;
 
 /*********** Signal and terminal setup. ***********/
@@ -204,6 +204,7 @@ void		parse_heredoc(t_toklst **tlst, t_cmdlst *cur_cmd);
 
 /*********** Env. ***********/
 void		print_env(char **env);
+char		**ft_split_input(char *str);
 t_envlst	*parse_env(char **env);
 void		print_envlst(t_envlst *el);
 void		print_exported_variables(t_envlst *env);
@@ -218,14 +219,14 @@ t_envlst	*get_env_entry_by_name(char *name, t_envlst *el);
 void		set_env_entry(char *name, char *value, t_envlst **el);
 
 /************Builtin Env**********/
-int	env(t_envlst *env);
+int			env(t_envlst *env);
 
 /************Builtin Export**********/
 
-t_envlst *envlst_copy(t_envlst *env);
-void swap_env_vars(t_envlst *a, t_envlst *b);
-void sort_env_list(t_envlst *env);
-int	export(t_envlst **env, char *arg);
+t_envlst	*envlst_copy(t_envlst *env);
+void		swap_env_vars(t_envlst *a, t_envlst *b);
+void		sort_env_list(t_envlst *env);
+int			export(t_envlst **env, char *arg);
 
 /*********** Exec. ***********/
 char		*get_exec_path(t_cmdlst *clst, char **env);
