@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bltin_export.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eobeng <eobeng@student.42.fr>              +#+  +:+       +#+        */
+/*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 09:50:30 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/06 22:55:34 by eobeng           ###   ########.fr       */
+/*   Updated: 2024/12/09 03:53:56 by elpah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,39 +16,55 @@
  * went fine. Return -1 if f.ex. name was not correctly formatted. */
 // TODO implement error checking
 
-// Export without any arguments prints a sorted env.
-t_envlst *
-envlst_copy(t_envlst *env)
+static char	*ft_strncpy(char *dest, char *src, unsigned int n)
 {
-	t_envlst *copy = NULL;
-	t_envlst *new_node;
+	unsigned int	counter;
 
-	while (env)
+	counter = 0;
+	while (src[counter] != '\0' && counter < n)
 	{
-		new_node = envlst_new(env->name, env->value);
-		envlst_add_back(&copy, new_node); // Add to the copy list
-		env = env->next;
+		dest[counter] = src[counter];
+		counter++;
 	}
-	return copy;
+	while (counter < n)
+	{
+		dest[counter] = '\0';
+		counter++;
+	}
+	return (dest);
+}
+
+char	*find_name(char *str, char *equal_pos)
+{
+	char	*result;
+
+	result = malloc(equal_pos - str + 1);
+	if (!result)
+		return (NULL);
+	ft_strncpy(result, str, equal_pos - str);
+	result[equal_pos - str] = '\0';
+	return (result);
 }
 
 // Swap Env
-void swap_env_vars(t_envlst *a, t_envlst *b)
+void	swap_env_vars(t_envlst *a, t_envlst *b)
 {
-	char *temp_name = a->name;
-	char *temp_value = a->value;
+	char	*temp_name;
+	char	*temp_value;
 
+	temp_name = a->name;
+	temp_value = a->value;
 	a->name = b->name;
 	a->value = b->value;
-
 	b->name = temp_name;
 	b->value = temp_value;
 }
 // Sort env
-void sort_env_list(t_envlst *env)
+
+void	sort_env_list(t_envlst *env)
 {
-	t_envlst *i;
-	t_envlst *j;
+	t_envlst	*i;
+	t_envlst	*j;
 
 	i = env;
 	while (i != NULL)
@@ -57,70 +73,31 @@ void sort_env_list(t_envlst *env)
 		while (j != NULL)
 		{
 			if (ft_strcmp(i->name, j->name) > 0)
-			{
 				swap_env_vars(i, j);
-			}
 			j = j->next;
 		}
 		i = i->next;
 	}
 }
-int export(t_envlst **env, char *arg)
+
+int	export(t_envlst **env, char *arg)
 {
-	char *name;
-	char *value;
-	char **str;
+	char		*name;
+	char		*value;
+	char		**str;
 
-	t_envlst *newvar;
-	t_envlst *env_copy;
-
-	// Assuming no argument was added and i only called export
 	if (arg == NULL)
-	{
-		env_copy = envlst_copy(*env);
-		sort_env_list(env_copy);
-
-		while (env_copy)
-		{
-			if (env_copy->value)
-				printf("declare -x %s=\"%s\"\n", env_copy->name, env_copy->value);
-			// here i am printing differently to match bash output
-			else
-				printf("declare -x %s\n", env_copy->name);
-			env_copy = env_copy->next;
-		}
-		envlst_clear(&env_copy);
-		return 0;
-	}
-	str = ft_split(arg, '=');
+		return (print_exported_variables(*env), 0);
+	str = ft_split_input(arg);
 	if (str && str[0])
 	{
 		name = str[0];
 		if (str[1] && str[1][0])
-		{
 			value = str[1];
-			set_env_entry(name, value, env);
-		}
 		else
-		{
-			set_env_entry(name, NULL, env);
-		};
-		free(str);
-		return (0);
+			value = NULL;
+		set_env_entry(name, value, env);
 	}
-
-	// if (str && str[0])
-	// {
-	//
-	// 	if (str[1])
-	// 		value = str[1];
-	// 	else
-	// 		value = NULL;
-	// 	set_env_entry(name, value, env);
-	// 	// newvar = envlst_new(name, value);
-	// 	// envlst_add_back(env, newvar);
-	// }
-
 	free(str);
 	return (0);
 }
