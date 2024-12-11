@@ -3,11 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   bltin_pwd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
+/*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 10:14:10 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/05 10:14:14 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/11 15:08:51 by elpah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	pwd(void)
+{
+	char	*str;
+
+	str = ft_calloc(1024, sizeof(char));
+	ft_printf("%s\n", getcwd(str, 500));
+	free(str);
+}
