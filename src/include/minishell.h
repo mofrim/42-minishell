@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:44:43 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/11 13:15:26 by elpah            ###   ########.fr       */
+/*   Updated: 2024/12/11 15:03:41 by elpah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -230,6 +230,9 @@ t_envlst	*envlst_copy(t_envlst *env);
 void		swap_env_vars(t_envlst *a, t_envlst *b);
 void		sort_env_list(t_envlst *env);
 int			export(t_envlst **env, char *arg);
+
+/*********** Builtin Pwd. ***********/
+void		pwd(void);
 
 /*********** Exec. ***********/
 char		*get_exec_path(t_cmdlst *clst, char **env);
