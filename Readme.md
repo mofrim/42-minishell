@@ -443,12 +443,26 @@ Bash syntax errors:
     checked `if NULL` otherwise freed before. So this is easy!
   - [ ] rewrite `exec_cmd` in a final way: to possible excution paths - 1) with
     pipes, 2) pipeless
-  - [ ] make multiple output redirects possible as described above. therefore
-    implement `cmdlst.output_file` as `char **`. If we wanted to implement it
-    like zsh where `cat shell.nix > bla > blub` really cats the file into both
-    files... how could we do it without running the command twice?
+  - [x] make multiple output redirects possible as described above.   
   - [ ] heredoc
   - [ ] continue working on the exec problem
-  - [ ] how to connect the stdout from builtins to the stdin? Use `dup()`!
+  - [x] how to connect the stdout from builtins to the stdin? Use `dup()`!
   - [ ] Implement `cmd 2>1` or `cmd 2>file` stuff. Certainly needs new tokens.
+    Possibilities for implementing advanced redir stuff:
+    - `[n]<word`: expansion of word will be opened for reading from filedes `n`.
+      if `n` not specified -> n=1.
+    - `[n]>word`: same but for writing
+    - `[n]>>word`: same for appending
+    - `&>word`: stdin and stderr will go to word. == `>word 2>&1`
+    - `&>>word`: same same for appending
 
+- **[2024-12-11 06:01]** Notes for advanced redirs:
+  - `echo "abcd" 2>1` really only redirects stderr to a file called `1`.
+  - `echo "abcd" 2>&1` outputs to stdout AND redirs stderr to stdout.
+  - `ls dirlist > myfile 2>&1` redirects both stderr and stdout to `myfile`,
+    bt `ls dirlist 2>&1 > myfile` redirects only stdout to `myfile` => the order
+    of redirs matters -> Implement redirs as a... **linked list** which can be
+    processed later.
+  - input redir only supports the format `[n]<word`.
+  - `>& echo "assddd"` will create a file `echo` with "assddd: command not
+    found" in it.
