@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:44:43 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/09 03:48:39 by elpah            ###   ########.fr       */
+/*   Updated: 2024/12/11 13:15:26 by elpah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -221,7 +221,8 @@ t_envlst	*get_env_entry_by_name(char *name, t_envlst *el);
 void		set_env_entry(char *name, char *value, t_envlst **el);
 
 /************Builtin Env**********/
-int			env(t_envlst *env);
+void		print_env_vars(t_envlst *el);
+int			env(t_envlst *env, char **str);
 
 /************Builtin Export**********/
 
