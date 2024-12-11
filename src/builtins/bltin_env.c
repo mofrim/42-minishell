@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 10:13:46 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/11 12:58:40 by elpah            ###   ########.fr       */
+/*   Updated: 2024/12/11 13:27:43 by elpah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,21 @@ void	print_env_vars(t_envlst *el)
 			ft_printf("%s=\"%s\"\n", el->name, el->value);
 		el = el->next;
 	}
-    return ;
+	return ;
 }
 
-int	env(t_envlst *env)
+int	env(t_envlst *env, char **str)
 {
-    print_env_vars(env);
-    return (0);
+	int	i;
+
+	i = 0;
+	while (str[i])
+		i++;
+	if (i > 1)
+	{
+		ft_printf("minishell: env: %s: No such file or directory\n", str[1]);
+		return (1);
+	}
+	print_env_vars(env);
+	return (0);
 }
