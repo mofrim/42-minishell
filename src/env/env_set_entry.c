@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 15:45:11 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/16 10:17:24 by elpah            ###   ########.fr       */
+/*   Updated: 2024/12/16 12:35:30 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,6 @@ void set_env_entry(char *name, char *value, t_envlst **el)
 		}
 		return ;
 	}
-	entry = envlst_new(ft_strdup(name), value);
+	entry = envlst_new(name, value);
 	envlst_add_back(el, entry);
 }
