@@ -262,4 +262,5 @@ void		sort_env_list(t_envlst *env);
 char		**ft_split_input(char *str);
 char		*find_name(char *str, char *equal_pos);
 void		print_env_vars(t_envlst *el);
+
 #endif
