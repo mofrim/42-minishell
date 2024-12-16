@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
+/*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 14:27:28 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/04 15:47:29 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/16 09:20:03 by elpah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,22 @@ void	print_envlst(t_envlst *el)
 {
 	while (el)
 	{
-		ft_printf("env name: %s, value: %s\n", el->name, el->value);
+		if (el->value)
+			ft_printf("declare -x %s=\"%s\"\n", el->name, el->value);
+		else
+			ft_printf("declare -x %s\n", el->name);
 		el = el->next;
 	}
+}
+
+void	print_exported_variables(t_envlst *env)
+{
+	t_envlst	*env_copy;
+
+	env_copy = envlst_copy(env);
+	sort_env_list(env_copy);
+	print_envlst(env_copy);
+	envlst_clear(&env_copy);
 }
 
 /* Get the value-string for a env-var name from envlst. */

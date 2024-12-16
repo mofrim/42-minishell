@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
+/*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:44:43 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/09 20:36:10 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/16 12:10:14 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -213,6 +213,7 @@ void		parse_heredoc(t_toklst **tlst, t_cmdlst *cur_cmd);
 
 /*********** Env. ***********/
 void		print_env(char **env);
+void		print_exported_variables(t_envlst *env);
 t_envlst	*parse_env(char **env);
 void		print_envlst(t_envlst *el);
 t_envlst	*envlst_new(char *name, char *value);
@@ -224,6 +225,7 @@ char		**get_env_array(t_envlst *el);
 char		*get_env_value(char *name, t_envlst *el);
 t_envlst	*get_env_entry_by_name(char *name, t_envlst *el);
 void		set_env_entry(char *name, char *value, t_envlst **el);
+t_envlst	*envlst_copy(t_envlst *env);
 
 /*********** Exec. ***********/
 char		*get_exec_path(t_cmdlst *clst, char **env);
@@ -236,12 +238,17 @@ int			exec_pipe(t_cmdlst *cmdl, char **env, t_envlst **el);
 int			open_redir_files(char *infile, t_heroflst *ofl, int append);
 
 /*********** Builtins. ***********/
-int			bltin_echo(char **arg, t_envlst **el);
+int			bltin_echo(char **s);
 int			bltin_cd(char **arg, t_envlst **el);
-int			bltin_pwd(char **arg, t_envlst **el);
-int			bltin_export(char **arg, t_envlst **el);
-int			bltin_unset(char **arg, t_envlst **el);
-int			bltin_env(char **arg, t_envlst **el);
+int			bltin_pwd(void);
+int			bltin_export(t_envlst **env, char *arg);
+int			bltin_unset(t_envlst **env, char **str);
+int			bltin_env(t_envlst *env, char **str);
 int			bltin_exit(void);
 
+/*********** Extra Utility Funtions. ***********/
+void		sort_env_list(t_envlst *env);
+char		**ft_split_input(char *str);
+char		*find_name(char *str, char *equal_pos);
+void		print_env_vars(t_envlst *el);
 #endif

@@ -1,23 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   bltin_pwd.c                                        :+:      :+:    :+:   */
+/*   env_copy.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/05 10:14:10 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/16 10:33:45 by elpah            ###   ########.fr       */
+/*   Created: 2024/12/09 03:45:25 by elpah             #+#    #+#             */
+/*   Updated: 2024/12/16 08:22:46 by elpah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	bltin_pwd(void)
+t_envlst	*envlst_copy(t_envlst *env)
 {
-	char	*str;
+	t_envlst	*copy;
+	t_envlst	*new_node;
 
-	str = ft_calloc(1024, sizeof(char));
-	ft_printf("%s\n", getcwd(str, 500));
-	free(str);
-	return (0);
+	copy = NULL;
+	while (env)
+	{
+		new_node = envlst_new(env->name, env->value);
+		envlst_add_back(&copy, new_node);
+		env = env->next;
+	}
+	return (copy);
 }
