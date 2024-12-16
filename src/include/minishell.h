@@ -87,7 +87,8 @@ typedef enum e_toktype
 	TOK_ROUTA1,
 	TOK_ROUTA2,
 	TOK_ROUTA_FILDES_IN,
-	TOK_ROUTA2_FILDES_OUT,
+	TOK_ROUTA_FILDES_OUT,
+	TOK_AND,
 	TOK_HERE,
 	TOK_HERE_DLIM,
 	TOK_SQUOT,
@@ -130,8 +131,12 @@ typedef enum e_tokerr
 	TOKERR_NL,
 	TOKERR_RIN,
 	TOKERR_ROUT,
+	TOKERR_ROUT2,
+	TOKERR_ROUT3,
 	TOKERR_ROUTA,
+	TOKERR_ROUTA2,
 	TOKERR_HERE,
+	TOKERR_AND
 }	t_tokerr;
 
 /*********** Datatypes for parsing. ***********/
@@ -170,6 +175,7 @@ void		error_exit(char *msg);
 int			ft_isspace(char c);
 void		free_ptrptr(char ***ptr);
 int			print_return_error_msg(char *prefix, char *msg, int error);
+int			ft_isnum(char c);
 
 /*********** Tokenization. ***********/
 
@@ -185,6 +191,7 @@ void		print_toklst(t_toklst *tlst);
 t_toklst	*tokenize(char *input, t_envlst *env);
 t_toklst	*tokenize_lvl1(char *input, t_envlst *env);
 int			tokenize_lvl2(t_toklst	**toklst);
+int			tokenize_lvl3(t_toklst	**toklst);
 int			check_toklst_lvl2(t_toklst *toklst);
 void		apply_redir_tokenization(t_token *prev, t_token *cur, \
 		t_token *next);

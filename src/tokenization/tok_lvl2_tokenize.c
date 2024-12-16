@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 10:57:29 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/11 20:48:45 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/16 20:53:15 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /* The helper-functions. */
 static void			apply_lvl2_tokenization(t_token *cur, t_token *next);
 static t_toktype	is_cmd_or_builtin(t_token *tok);
-static void			remove_quot_varsym_empty(t_toklst **toklst);
+static void			remove_obsolete_tokens(t_toklst **toklst);
 void				apply_redir_tokenization(t_token *prev, t_token *cur, \
 		t_token *next);
 
@@ -43,7 +43,7 @@ int	tokenize_lvl2(t_toklst	**toklst)
 
 	if (!check_toklst_lvl2(*toklst))
 		return (0);
-	remove_quot_varsym_empty(toklst);
+	remove_obsolete_tokens(toklst);
 	if (!*toklst)
 		return (0);
 	tl = *toklst;
@@ -84,7 +84,8 @@ static void	apply_lvl2_tokenization(t_token *cur, t_token *next)
 			next->type == TOK_WORD)
 		next->type = TOK_OF;
 	if ((cur->type == TOK_IF || cur->type == TOK_OF || \
-				cur->type == TOK_PIP) && next->type == TOK_WORD)
+		cur->type == TOK_PIP || cur->type == TOK_ROUT3_FILDES_OUT) \
+		&& next->type == TOK_WORD)
 		next->type = is_cmd_or_builtin(next);
 	if (cur->type == TOK_CMD && (next->type == TOK_WORD))
 		next->type = TOK_ARG;
@@ -105,7 +106,7 @@ void	toklst_remove_tok(t_toklst **toklst, t_toklst **tl)
 	*tl = tmp;
 }
 
-static void	remove_quot_varsym_empty(t_toklst **toklst)
+static void	remove_obsolete_tokens(t_toklst **toklst)
 {
 	t_toklst	*tl;
 
@@ -117,6 +118,8 @@ static void	remove_quot_varsym_empty(t_toklst **toklst)
 		else if (tl->token->type == TOK_DQUOT)
 			toklst_remove_tok(toklst, &tl);
 		else if (tl->token->type == TOK_SQUOT)
+			toklst_remove_tok(toklst, &tl);
+		else if (tl->token->type == TOK_AND)
 			toklst_remove_tok(toklst, &tl);
 		else if (tl->token->type == TOK_WORD && tl->token->value[0] == 0)
 			toklst_remove_tok(toklst, &tl);
