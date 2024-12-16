@@ -6,14 +6,15 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 11:55:17 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/05 23:25:38 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/11 20:50:28 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /* Would have made them all static if there wasn't normi. Still don't want them
- * in my minishell.h so, here are the prototypes needed in here: */
+ * in my minishell.h because they are not of global interest for the proj. So,
+ * here are the prototypes needed in here: */
 void	skip_whitespace(t_cmdline *cl);
 void	get_tok_pipe(t_token *tok, t_cmdline *cl, int *tok_found);
 void	get_tok_rin(t_token *tok, t_cmdline *cl, int *tok_found);
@@ -24,12 +25,16 @@ void	get_tok_word(t_token *tok, t_cmdline *cl, int *tok_found);
 void	get_tok_squotword(t_token *tok, t_cmdline *cl, int *tok_found);
 void	get_tok_dquotword(t_token *tok, t_cmdline *cl, int *tok_found);
 void	get_tok_var(t_token *tok, t_cmdline *cl, int *tok_found);
+void	get_tok_redir_out(t_token *tok, t_cmdline *cl, int *tok_found);
+void	get_tok_redir_outa(t_token *tok, t_cmdline *cl, int *tok_found);
 
 static void	get_tok_unquoted(t_token *tok, t_cmdline *cl, int *tok_found)
 {
 	get_tok_quot(tok, cl, tok_found);
 	get_tok_var(tok, cl, tok_found);
 	get_tok_pipe(tok, cl, tok_found);
+	get_tok_redir_out(tok, cl, tok_found);
+	get_tok_redir_outa(tok, cl, tok_found);
 	get_tok_rout(tok, cl, tok_found);
 	get_tok_here(tok, cl, tok_found);
 	get_tok_rin(tok, cl, tok_found);

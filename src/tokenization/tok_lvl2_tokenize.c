@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 10:57:29 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/06 15:02:56 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/11 20:48:45 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 static void			apply_lvl2_tokenization(t_token *cur, t_token *next);
 static t_toktype	is_cmd_or_builtin(t_token *tok);
 static void			remove_quot_varsym_empty(t_toklst **toklst);
+void				apply_redir_tokenization(t_token *prev, t_token *cur, \
+		t_token *next);
 
 /* Tokenization Level 2. Goal is to classify all the TOK_WORD tokens and rule
  * out some invalid syntax like
@@ -36,6 +38,7 @@ int	tokenize_lvl2(t_toklst	**toklst)
 {
 	t_token		*cur;
 	t_token		*next;
+	t_token		*prev;
 	t_toklst	*tl;
 
 	if (!check_toklst_lvl2(*toklst))
@@ -47,10 +50,13 @@ int	tokenize_lvl2(t_toklst	**toklst)
 	cur = tl->token;
 	if (cur->type == TOK_WORD)
 		cur->type = is_cmd_or_builtin(cur);
+	prev = NULL;
 	while (tl->next)
 	{
 		next = tl->next->token;
 		apply_lvl2_tokenization(cur, next);
+		apply_redir_tokenization(prev, cur, next);
+		prev = cur;
 		cur = next;
 		tl = tl->next;
 	}
@@ -74,7 +80,7 @@ static void	apply_lvl2_tokenization(t_token *cur, t_token *next)
 {
 	if (cur->type == TOK_RIN && next->type == TOK_WORD)
 		next->type = TOK_IF;
-	if ((cur->type == TOK_ROUT || cur->type == TOK_ROUTA) && \
+	if ((cur->type == TOK_ROUT0 || cur->type == TOK_ROUTA0) && \
 			next->type == TOK_WORD)
 		next->type = TOK_OF;
 	if ((cur->type == TOK_IF || cur->type == TOK_OF || \

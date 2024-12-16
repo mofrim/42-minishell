@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tok_get_next_helpers1.c                            :+:      :+:    :+:   */
+/*   tok_lvl1_get_next_helpers1.c                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 23:45:01 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/11/28 17:39:26 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/11 20:30:22 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	get_tok_rout(t_token *tok, t_cmdline *cl, int *tok_found)
 		{
 			if (!onemore || cl->input[cl->pos + onemore] != '>')
 			{
-				tok->type = TOK_ROUT;
+				tok->type = TOK_ROUT0;
 				tok->value = ft_strdup(">");
 				nullcheck(tok->value, "get_tok_rout()");
 				cl->pos++;
@@ -69,7 +69,7 @@ void	get_tok_rout(t_token *tok, t_cmdline *cl, int *tok_found)
 			}
 			if (onemore && cl->input[cl->pos + onemore] == '>')
 			{
-				tok->type = TOK_ROUTA;
+				tok->type = TOK_ROUTA0;
 				tok->value = ft_strdup(">>");
 				nullcheck(tok->value, "get_tok_rout()");
 				cl->pos += 2;
