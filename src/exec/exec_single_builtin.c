@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/07 23:15:39 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/16 10:20:10 by elpah            ###   ########.fr       */
+/*   Updated: 2024/12/16 12:21:37 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,13 +51,13 @@ static int	exec_single_builtin(t_cmdlst *cl, t_envlst **el)
 	if (!strcmp(cl->cmd, "cd"))
 		exit_status = bltin_cd(cl->args, el);
 	if (!strcmp(cl->cmd, "pwd"))
-		exit_status = bltin_pwd(cl->args, el);
+		exit_status = bltin_pwd();
 	if (!strcmp(cl->cmd, "export"))
 		exit_status= bltin_export(el, cl->args[1]);
 	if (!strcmp(cl->cmd, "unset"))
-		exit_status = bltin_unset(cl->args, el);
+		exit_status = bltin_unset(el, cl->args);
 	if (!strcmp(cl->cmd, "env"))
-		exit_status = bltin_env(cl->args, el);
+		exit_status = bltin_env(*el, cl->args);
 	if (!strcmp(cl->cmd, "exit"))
 		exit_status = bltin_exit();
 	return (exit_status);
