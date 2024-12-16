@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 09:50:30 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/16 09:31:04 by elpah            ###   ########.fr       */
+/*   Updated: 2024/12/16 13:09:43 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,14 +80,14 @@ void	sort_env_list(t_envlst *env)
 	}
 }
 
-int	bltin_export(t_envlst **env, char *arg)
+int	bltin_export_preout(t_envlst **env, char *arg)
 {
 	char		*name;
 	char		*value;
 	char		**str;
 
 	if (arg == NULL)
-		return (print_exported_variables(*env), 0);
+		return (0);
 	str = ft_split_input(arg);
 	if (str && str[0])
 	{
@@ -100,4 +100,31 @@ int	bltin_export(t_envlst **env, char *arg)
 	}
 	free(str);
 	return (0);
+}
+
+int	bltin_export_out(t_envlst **env, char *arg)
+{
+	if (arg == NULL)
+		return (print_exported_variables(*env), 0);
+	return (0);
+}
+
+int	bltin_export(t_cmdlst *cmdl, t_envlst **env)
+{
+	int	exit_status;
+	int	cpid;
+
+	exit_status = bltin_export_preout(env, cmdl->args[1]);
+	cpid = fork();
+	if (cpid == -1)
+		return (errno);
+	if (cpid == 0)
+	{
+		if (open_redir_files(cmdl->input_file, cmdl->outfiles, cmdl->append))
+			exit(errno);
+		bltin_export_out(env, cmdl->args[1]);
+		exit(exit_status);
+	}
+	waitpid(cpid, &exit_status, 0);
+	return (exit_status >> 8);
 }
