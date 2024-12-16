@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 21:44:21 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/12 18:07:02 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/16 14:32:43 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,3 +146,34 @@ void	get_tok_redir_outa(t_token *tok, t_cmdline *cl, int *tok_found)
 		}
 	}
 }
+
+/* Sorry for the hacky onemore flag 8) */
+void	get_tok_rout(t_token *tok, t_cmdline *cl, int *tok_found)
+{
+	int	onemore;
+
+	onemore = cl->length - cl->pos > 1;
+	if (!*tok_found)
+	{
+		if (cl->pos < cl->length - onemore && cl->input[cl->pos] == '>')
+		{
+			if (!onemore || cl->input[cl->pos + onemore] != '>')
+			{
+				tok->type = TOK_ROUT0;
+				tok->value = ft_strdup(">");
+				nullcheck(tok->value, "get_tok_rout()");
+				cl->pos++;
+				*tok_found = 1;
+			}
+			if (onemore && cl->input[cl->pos + onemore] == '>')
+			{
+				tok->type = TOK_ROUTA0;
+				tok->value = ft_strdup(">>");
+				nullcheck(tok->value, "get_tok_rout()");
+				cl->pos += 2;
+				*tok_found = 1;
+			}
+		}
+	}
+}
+
