@@ -3,19 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   bltin_pwd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
+/*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 10:14:10 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/08 01:06:28 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/16 10:33:45 by elpah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	bltin_pwd(char **arg, t_envlst **el)
+int	bltin_pwd(void)
 {
-	(void)arg;
-	(void)el;
-	ft_printf(RED "<< DEBUG >> bltin_pwd not yet implemented!\n" RST);
+	char	*str;
+
+	str = ft_calloc(1024, sizeof(char));
+	ft_printf("%s\n", getcwd(str, 500));
+	free(str);
 	return (0);
 }
