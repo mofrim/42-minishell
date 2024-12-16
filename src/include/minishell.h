@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:44:43 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/16 08:27:18 by elpah            ###   ########.fr       */
+/*   Updated: 2024/12/16 08:29:37 by elpah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -246,6 +246,8 @@ int			bltin_exit(void);
 
 /*********** Extra Utility Funtions. ***********/
 void		sort_env_list(t_envlst *env);
+char		**ft_split_input(char *str)
+
 
 
 #endif
