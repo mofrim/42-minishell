@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_parse.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
+/*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 19:11:04 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/07 19:25:04 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/16 08:28:58 by elpah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,4 +88,30 @@ t_envlst	*parse_env(char **env)
 		env++;
 	}
 	return (elst);
+}
+
+char	**ft_split_input(char *str)
+{
+	char	**result;
+	char	*equal_pos;
+
+	result = malloc(2 * sizeof(char *));
+	if (!result)
+		return (NULL);
+	equal_pos = ft_strchr(str, '=');
+	if (!equal_pos)
+	{
+		result[0] = ft_strdup(str);
+		result[1] = NULL;
+	}
+	else
+	{
+		result[0] = find_name(str, equal_pos);
+		if (!result[0])
+			return (free(result), NULL);
+		result[1] = ft_strdup(equal_pos + 1);
+		if (!result[1])
+			return (free(result[0]), free(result), NULL);
+	}
+	return (result);
 }
