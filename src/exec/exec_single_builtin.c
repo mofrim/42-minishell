@@ -6,13 +6,11 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/07 23:15:39 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/16 13:19:23 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/16 13:26:36 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static int	exec_single_builtin(t_cmdlst *cl, t_envlst **el);
 
 /* Execute the single builtin command. Also opens possible redirection files
  * beforehand.
@@ -23,7 +21,9 @@ static int	exec_single_builtin(t_cmdlst *cl, t_envlst **el);
 
 // This is the skeleton for executing a builtin. Copy this to the bltin_*.c file
 // and split the original function into bltin_*_out() and bltin_*_preout(). Take
-// export as an example.
+// export as an example!
+//
+// The skeleton:
 
 // int	exec_single_builtin(t_cmdlst *cmdl, t_envlst **el)
 // {
@@ -62,7 +62,7 @@ int	exec_single_builtin_cmd(t_cmdlst *cl, t_envlst **el)
 	if (!strcmp(cl->cmd, "unset"))
 		exit_status = bltin_unset(el, cl->args);
 	if (!strcmp(cl->cmd, "env"))
-		exit_status = bltin_env(*el, cl->args);
+		exit_status = bltin_env(cl, *el);
 	if (!strcmp(cl->cmd, "exit"))
 		exit_status = bltin_exit();
 	return (exit_status);

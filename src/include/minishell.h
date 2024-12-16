@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:44:43 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/16 13:11:36 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/16 13:23:55 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -238,14 +238,16 @@ int			exec_pipe(t_cmdlst *cmdl, char **env, t_envlst **el);
 int			open_redir_files(char *infile, t_heroflst *ofl, int append);
 
 /*********** Builtins. ***********/
-int			bltin_echo(char **s);
-int			bltin_cd(char **arg, t_envlst **el);
-int			bltin_pwd(void);
+
 int			bltin_export(t_cmdlst *cmdl, t_envlst **env);
 int			bltin_export_preout(t_envlst **env, char *arg);
 int			bltin_export_out(t_envlst **env, char *arg);
+int			bltin_env(t_cmdlst *cmdl, t_envlst *el);
+
+int			bltin_echo(char **s);
+int			bltin_cd(char **arg, t_envlst **el);
+int			bltin_pwd(void);
 int			bltin_unset(t_envlst **env, char **str);
-int			bltin_env(t_envlst *env, char **str);
 int			bltin_exit(void);
 
 /*********** Extra Utility Funtions. ***********/

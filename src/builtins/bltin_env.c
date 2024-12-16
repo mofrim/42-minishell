@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 10:13:46 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/16 10:51:47 by elpah            ###   ########.fr       */
+/*   Updated: 2024/12/16 13:27:20 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	print_env_vars(t_envlst *el)
 	return ;
 }
 
-int	bltin_env(t_envlst *env, char **str)
+static int	bltin_env_out(t_envlst *env, char **str)
 {
 	int	i;
 
@@ -37,4 +37,23 @@ int	bltin_env(t_envlst *env, char **str)
 	}
 	print_env_vars(env);
 	return (0);
+}
+
+int	bltin_env(t_cmdlst *cmdl, t_envlst *el)
+{
+	int	exit_status;
+	int	cpid;
+
+	exit_status = 0;
+	cpid = fork();
+	if (cpid == -1)
+		return (errno);
+	if (cpid == 0)
+	{
+		if (open_redir_files(cmdl->input_file, cmdl->outfiles, cmdl->append))
+			exit(errno);
+		exit(bltin_env_out(el, cmdl->args));
+	}
+	waitpid(cpid, &exit_status, 0);
+	return (exit_status >> 8);
 }
