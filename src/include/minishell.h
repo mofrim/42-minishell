@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:44:43 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/16 08:20:41 by elpah            ###   ########.fr       */
+/*   Updated: 2024/12/16 08:23:20 by elpah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -223,6 +223,8 @@ char		**get_env_array(t_envlst *el);
 char		*get_env_value(char *name, t_envlst *el);
 t_envlst	*get_env_entry_by_name(char *name, t_envlst *el);
 void		set_env_entry(char *name, char *value, t_envlst **el);
+t_envlst	*envlst_copy(t_envlst *env);
+
 
 /*********** Exec. ***********/
 char		*get_exec_path(t_cmdlst *clst, char **env);
