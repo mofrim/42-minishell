@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
+/*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:44:43 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/08 21:02:47 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/16 08:20:41 by elpah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -211,6 +211,7 @@ void		parse_heredoc(t_toklst **tlst, t_cmdlst *cur_cmd);
 
 /*********** Env. ***********/
 void		print_env(char **env);
+void		print_exported_variables(t_envlst *env);
 t_envlst	*parse_env(char **env);
 void		print_envlst(t_envlst *el);
 t_envlst	*envlst_new(char *name, char *value);
