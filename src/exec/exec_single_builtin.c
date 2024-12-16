@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_single_builtin.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
+/*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/07 23:15:39 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/08 21:10:47 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/16 10:20:10 by elpah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,13 +47,13 @@ static int	exec_single_builtin(t_cmdlst *cl, t_envlst **el)
 
 	exit_status = 0;
 	if (!strcmp(cl->cmd, "echo"))
-		exit_status = bltin_echo(cl->args, el);
+		exit_status = bltin_echo(cl->args);
 	if (!strcmp(cl->cmd, "cd"))
 		exit_status = bltin_cd(cl->args, el);
 	if (!strcmp(cl->cmd, "pwd"))
 		exit_status = bltin_pwd(cl->args, el);
 	if (!strcmp(cl->cmd, "export"))
-		exit_status = bltin_export(cl->args, el);
+		exit_status= bltin_export(el, cl->args[1]);
 	if (!strcmp(cl->cmd, "unset"))
 		exit_status = bltin_unset(cl->args, el);
 	if (!strcmp(cl->cmd, "env"))
