@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 21:31:43 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/12 15:19:47 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/16 20:33:40 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static int	print_tokentype2(t_token *token)
 	else if (token->type == TOK_ROUT_FILDES_IN)
 		ret = ft_printf("TOK_ROUT_FILDES_IN");
 	else if (token->type == TOK_ROUT3_FILDES_OUT)
-		ret = ft_printf("TOK_ROUT2_FILDES_OUT");
+		ret = ft_printf("TOK_ROUT3_FILDES_OUT");
 	return (ret);
 }
 
@@ -81,8 +81,10 @@ static int	print_tokentype3(t_token *token)
 		ret = ft_printf("TOK_ROUTA2");
 	else if (token->type == TOK_ROUTA_FILDES_IN)
 		ret = ft_printf("TOK_ROUTA_FILDES_IN");
-	else if (token->type == TOK_ROUTA2_FILDES_OUT)
-		ret = ft_printf("TOK_ROUTA2_FILDES_OUT");
+	else if (token->type == TOK_ROUTA_FILDES_OUT)
+		ret = ft_printf("TOK_ROUTA_FILDES_OUT");
+	else if (token->type == TOK_AND)
+		ret = ft_printf("TOK_AND");
 	return (ret);
 }
 

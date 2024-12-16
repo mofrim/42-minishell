@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 23:45:01 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/16 14:32:03 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/16 20:50:00 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,21 @@ void	get_tok_here(t_token *tok, t_cmdline *cl, int *tok_found)
 				cl->pos += 2;
 				*tok_found = 1;
 			}
+		}
+	}
+}
+
+void	get_tok_and(t_token *tok, t_cmdline *cl, int *tok_found)
+{
+	if (!*tok_found)
+	{
+		if (cl->input[cl->pos] == '&')
+		{
+			tok->type = TOK_AND;
+			tok->value = ft_strdup("&");
+			nullcheck(tok->value, "get_tok_and()");
+			cl->pos++;
+			*tok_found = 1;
 		}
 	}
 }
