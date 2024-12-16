@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:44:43 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/16 10:36:18 by elpah            ###   ########.fr       */
+/*   Updated: 2024/12/16 10:38:04 by elpah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -240,7 +240,7 @@ int			bltin_echo(char **s);
 int			bltin_cd(char **arg, t_envlst **el);
 int			bltin_pwd(void);
 int			bltin_export(t_envlst **env, char *arg);
-int			bltin_unset(char **arg, t_envlst **el);
+int			bltin_unset(t_envlst **env, char **str);
 int			bltin_env(char **arg, t_envlst **el);
 int			bltin_exit(void);
 
