@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 11:29:40 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/08 20:52:31 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/11 20:30:22 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	parse_pipe(t_toklst **toklst, t_cmdlst **cmd, t_cmdlst **cur_cmd, \
 			*toklst = (*toklst)->next;
 		else if ((*toklst)->token->type == TOK_PIP && \
 				((*toklst)->next->token->type == TOK_RIN || \
-				(*toklst)->next->token->type == TOK_ROUT))
+				(*toklst)->next->token->type == TOK_ROUT0))
 		{
 			*cur_cmd = cmdlst_new(NULL, maxargs);
 			cmdlst_add_back(cmd, *cur_cmd);
@@ -32,17 +32,18 @@ void	parse_pipe(t_toklst **toklst, t_cmdlst **cmd, t_cmdlst **cur_cmd, \
 	}
 }
 
-/* Parse a output redirect. */
+/* Parse a TOK_ROUT0 output redirect of format '>word', which equivalent to
+ * '1>word'.  */
 void	parse_rout(t_toklst **toklst, t_cmdlst *cur_cmd)
 {
 	t_heroflst *ofl;
 
-	if (*toklst && ((*toklst)->token->type == TOK_ROUT || \
-			(*toklst)->token->type == TOK_ROUTA))
+	if (*toklst && ((*toklst)->token->type == TOK_ROUT0 || \
+			(*toklst)->token->type == TOK_ROUTA0))
 	{
 		ofl = heroflst_new((*toklst)->next->token->value);
 		heroflst_add_back(&cur_cmd->outfiles, ofl);
-		if ((*toklst)->token->type == TOK_ROUTA)
+		if ((*toklst)->token->type == TOK_ROUTA0)
 			cur_cmd->append = 1;
 		else
 			cur_cmd->append = 0;

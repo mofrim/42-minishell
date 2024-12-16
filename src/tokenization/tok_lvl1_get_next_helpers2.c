@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 23:47:57 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/06 12:45:21 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/11 23:27:16 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ void	get_tok_word(t_token *tok, t_cmdline *cl, int *tok_found)
 				cl->input[cl->pos] != '|' && \
 				cl->input[cl->pos] != '>' && \
 				cl->input[cl->pos] != '<' && \
+				cl->input[cl->pos] != '&' && \
 				cl->input[cl->pos] != '"' && \
 				cl->input[cl->pos] != '$' && \
 				cl->input[cl->pos] != '\'')

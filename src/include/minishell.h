@@ -67,30 +67,35 @@ typedef struct s_envlst
 
 /*********** Datatypes for tokenization. ***********/
 
-/* The highest Token Number. Useful for iterating over Tokens, maybe?! */
-# define TOKEN_MAX 17
-
 /* Token types... are these really all? */
 typedef enum e_toktype
 {
-	TOK_WORD		= 0,
-	TOK_CMD			= 1,
-	TOK_ARG			= 2,
-	TOK_PIP			= 3,
-	TOK_ROUT		= 4,
-	TOK_RIN			= 5,
-	TOK_OF			= 6,
-	TOK_IF			= 7,
-	TOK_ROUTA		= 8,
-	TOK_HERE		= 9,
-	TOK_HERE_DLIM	= 10,
-	TOK_SQUOT		= 11,
-	TOK_DQUOT		= 12,
-	TOK_VAR_SYM		= 13,
-	TOK_VAR_NAME	= 14,
-	TOK_VAR_QUOT	= 15,
-	TOK_BLTIN		= 16,
-	TOK_EOF			= 17
+	TOK_WORD,
+	TOK_CMD,
+	TOK_ARG,
+	TOK_PIP,
+	TOK_ROUT0,
+	TOK_ROUT1,
+	TOK_ROUT2,
+	TOK_ROUT3,
+	TOK_ROUT_FILDES_IN,
+	TOK_ROUT3_FILDES_OUT,
+	TOK_RIN,
+	TOK_OF,
+	TOK_IF,
+	TOK_ROUTA0,
+	TOK_ROUTA1,
+	TOK_ROUTA2,
+	TOK_ROUTA_FILDES_IN,
+	TOK_ROUTA2_FILDES_OUT,
+	TOK_HERE,
+	TOK_HERE_DLIM,
+	TOK_SQUOT,
+	TOK_DQUOT,
+	TOK_VAR_SYM,
+	TOK_VAR_NAME,
+	TOK_VAR_QUOT,
+	TOK_BLTIN
 }	t_toktype;
 
 /* Token structure */
@@ -181,6 +186,8 @@ t_toklst	*tokenize(char *input, t_envlst *env);
 t_toklst	*tokenize_lvl1(char *input, t_envlst *env);
 int			tokenize_lvl2(t_toklst	**toklst);
 int			check_toklst_lvl2(t_toklst *toklst);
+void		apply_redir_tokenization(t_token *prev, t_token *cur, \
+		t_token *next);
 
 /*********** Parsing. ***********/
 
