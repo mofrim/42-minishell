@@ -78,16 +78,17 @@ typedef enum e_toktype
 	TOK_ROUT1,
 	TOK_ROUT2,
 	TOK_ROUT3,
-	TOK_ROUT_FILDES_IN,
-	TOK_ROUT3_FILDES_OUT,
+	TOK_ROUT_FDIN,
+	TOK_ROUT3_FDIN,
+	TOK_ROUT3_FDOUT,
 	TOK_RIN,
 	TOK_OF,
 	TOK_IF,
 	TOK_ROUTA0,
 	TOK_ROUTA1,
 	TOK_ROUTA2,
-	TOK_ROUTA_FILDES_IN,
-	TOK_ROUTA_FILDES_OUT,
+	TOK_ROUTA_FDIN,
+	TOK_ROUTA_FDOUT,
 	TOK_AND,
 	TOK_HERE,
 	TOK_HERE_DLIM,
@@ -135,11 +136,24 @@ typedef enum e_tokerr
 	TOKERR_ROUT3,
 	TOKERR_ROUTA,
 	TOKERR_ROUTA2,
+	TOKERR_REDIR,
 	TOKERR_HERE,
 	TOKERR_AND
 }	t_tokerr;
 
 /*********** Datatypes for parsing. ***********/
+
+/* Enum with all possible redirtypes we support. */
+typedef enum e_redirtype
+{
+	RE_ROUT0,
+	RE_ROUT1,
+	RE_ROUT2,
+	RE_ROUT3,
+	RE_ROUTA0,
+	RE_ROUTA1,
+	RE_ROUTA2
+}	t_redirtype;
 
 /* Struct for recording heredoc delimiters & and output files. */
 typedef struct	s_heroflst
@@ -147,6 +161,17 @@ typedef struct	s_heroflst
 	char				*name;
 	struct s_heroflst	*next;
 }	t_heroflst;
+
+/* Struct for saving all redirects. */
+typedef struct	s_redirlst
+{
+	t_redirtype			redtype;
+	int					fd_in;
+	int					fd_out;
+	char				*outfile;
+	char				*infile;
+	struct s_redirlst	*next;
+}	t_redirlst;
 
 /* Command structure for parsing. */
 typedef struct s_cmdlst
@@ -157,7 +182,8 @@ typedef struct s_cmdlst
 	int				is_builtin;
 	char			*heredoc;
 	int				append;
-	t_heroflst		*outfiles;
+	// t_heroflst		*outfiles;
+	t_redirlst		*outfiles;
 	char			*input_file;
 	struct s_cmdlst	*next;
 }	t_cmdlst;
@@ -176,6 +202,7 @@ int			ft_isspace(char c);
 void		free_ptrptr(char ***ptr);
 int			print_return_error_msg(char *prefix, char *msg, int error);
 int			ft_isnum(char c);
+int			get_posint_numstr(char *s);
 
 /*********** Tokenization. ***********/
 
@@ -186,8 +213,10 @@ void		toklst_clear(t_toklst **lst);
 int			toklst_size(t_toklst *lst);
 void		toklst_del(t_toklst **lst, t_toklst *delme);
 void		toklst_remove_tok(t_toklst **toklst, t_toklst **tl);
+void		remove_obsolete_tokens(t_toklst **toklst);
 void		print_tokentype(t_token *token);
 void		print_toklst(t_toklst *tlst);
+
 t_toklst	*tokenize(char *input, t_envlst *env);
 t_toklst	*tokenize_lvl1(char *input, t_envlst *env);
 int			tokenize_lvl2(t_toklst	**toklst);
@@ -195,6 +224,9 @@ int			tokenize_lvl3(t_toklst	**toklst);
 int			check_toklst_lvl2(t_toklst *toklst);
 void		apply_redir_tokenization(t_token *prev, t_token *cur, \
 		t_token *next);
+
+t_toktype	is_cmd_or_builtin(t_token *tok);
+int			is_rout_tok(t_toktype tok);
 
 /*********** Parsing. ***********/
 
@@ -213,6 +245,13 @@ t_heroflst	*heroflst_last(t_heroflst *head);
 void		heroflst_add_back(t_heroflst **head, t_heroflst *newend);
 void		heroflst_clear(t_heroflst **lst);
 void		heroflst_print(t_heroflst *lst);
+
+t_redirlst	*redirlst_new(t_redirlst new);
+t_redirlst	*redirlst_last(t_redirlst *head);
+void		redirlst_add_back(t_redirlst **head, t_redirlst *newend);
+void		redirlst_clear(t_redirlst **lst);
+void		redirlst_print(t_redirlst *lst);
+void		init_redirlst_var(t_redirlst *var);
 
 t_cmdlst	*parse_tokenlist(t_toklst *toklst);
 void		parse_command(t_toklst **toklst, t_cmdlst **cmd, \
@@ -249,7 +288,7 @@ int			exec_single(t_cmdlst *cmdl, char **env, t_envlst **el);
 int			exec_single_redir_cmd(t_cmdlst *cmdl, char **env);
 int			exec_single_builtin_cmd(t_cmdlst *cmdl, t_envlst **el);
 int			exec_pipe(t_cmdlst *cmdl, char **env, t_envlst **el);
-int			open_redir_files(char *infile, t_heroflst *ofl, int append);
+int			open_redir_files(char *infile, t_redirlst *ofl, int append);
 
 /*********** Builtins. ***********/
 

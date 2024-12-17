@@ -6,7 +6,7 @@
 #    By: elpah <elpah@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/02 00:03:28 by fmaurer           #+#    #+#              #
-#    Updated: 2024/12/16 15:37:31 by fmaurer          ###   ########.fr        #
+#    Updated: 2024/12/17 07:11:12 by fmaurer          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,6 +30,7 @@ SRCS =	$(SRC_DIR)/minishell.c \
 				$(TOK_DIR)/tok_tokenlist.c \
 				$(TOK_DIR)/tok_tokenlist_del.c \
 				$(TOK_DIR)/tok_tokprint.c \
+				$(TOK_DIR)/tok_utils.c \
 				$(TOK_DIR)/tok_lvl1_tokenize.c \
 				$(TOK_DIR)/tok_lvl1_get_next_tok.c \
 				$(TOK_DIR)/tok_lvl1_get_next_helpers1.c \
@@ -43,6 +44,8 @@ SRCS =	$(SRC_DIR)/minishell.c \
 				$(PARSE_DIR)/par_cmdlist.c \
 				$(PARSE_DIR)/par_heroflst.c \
 				$(PARSE_DIR)/par_parsing.c \
+				$(PARSE_DIR)/par_parse_redir.c \
+				$(PARSE_DIR)/par_redirlst.c \
 				$(PARSE_DIR)/par_parsing_helpers1.c \
 				$(PARSE_DIR)/par_parse_cmd_bltin.c \
 				$(PARSE_DIR)/par_parse_heredoc.c \

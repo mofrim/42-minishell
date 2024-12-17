@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:46:50 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/12 15:26:38 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/16 21:20:37 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,16 +55,16 @@ static void	init_shell(t_envlst **el, t_termios	*old_settings, t_toklst **tl, \
 
 static void	evaluate_cmdline(t_toklst **tl, t_envlst **el)
 {
-	// t_cmdlst	*cl;
-	// char		*status_str;
-	// int			status_int;
-	//
-	// cl = parse_tokenlist(*tl);
-	// status_int = exec_cmd(cl, el);
-	// status_str = ft_itoa(status_int);
-	// set_env_entry("?", status_str, el);
-	// free(status_str);
-	// cmdlst_clear(&cl);
+	t_cmdlst	*cl;
+	char		*status_str;
+	int			status_int;
+
+	cl = parse_tokenlist(*tl);
+	status_int = exec_cmd(cl, el);
+	status_str = ft_itoa(status_int);
+	set_env_entry("?", status_str, el);
+	free(status_str);
+	cmdlst_clear(&cl);
 	toklst_clear(tl);
 }
 

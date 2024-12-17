@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 17:22:51 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/08 20:44:43 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/16 21:37:21 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ void	cmdlst_clear(t_cmdlst **lst)
 			free((*lst)->cmd);
 		free_args(&(*lst)->args, (*lst)->arg_count);
 		if ((*lst)->outfiles)
-			heroflst_clear(&(*lst)->outfiles);
+			redirlst_clear(&(*lst)->outfiles);
 		if ((*lst)->input_file)
 			free((*lst)->input_file);
 		if ((*lst)->heredoc)

@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 10:59:44 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/08 20:46:47 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/16 21:55:27 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,10 @@ t_cmdlst	*parse_tokenlist(t_toklst *toklst)
 	remove_heredoc(&toklst);
 	maxargs = get_max_argnum(toklst);
 
+#ifdef DEBUG
 	ft_printf(RED "<< DEBUG >> toklst in parse_tokenlist:\n" RST);
 	print_toklst(toklst);
+#endif
 
 	cmd = cmdlst_new(NULL, maxargs);
 	cur_cmd = cmd;
@@ -41,8 +43,12 @@ t_cmdlst	*parse_tokenlist(t_toklst *toklst)
 		parse_rin(&toklst, cur_cmd);
 		parse_heredoc(&toklst, cur_cmd);
 	}
+
+#ifdef DEBUG
 	ft_printf(RED "<< DEBUG >> cmdlst:\n" RST);
 	print_cmdlst(cmd);
+#endif
+
 	return (cmd);
 }
 
@@ -59,7 +65,10 @@ void	print_cmdlst(t_cmdlst *cmd)
 			ft_printf("%s ", cmd->args[i]);
 		ft_printf("\n");
 		if (cmd->outfiles)
-			heroflst_print(cmd->outfiles);
+		{
+			ft_printf("Output redirects:\n", cmd->input_file);
+			redirlst_print(cmd->outfiles);
+		}
 		if (cmd->input_file)
 			ft_printf("Input redirected from: %s\n", cmd->input_file);
 		if (cmd->is_builtin)
@@ -87,6 +96,8 @@ static void	remove_heredoc(t_toklst **toklst)
 	}
 }
 
+/* Get the maximum number of args per one cmd present in the current cmdline
+ * input. */
 static int	get_max_argnum(t_toklst *tl)
 {
 	int	argcnt;

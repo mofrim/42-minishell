@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 10:57:29 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/16 20:53:15 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/17 07:24:33 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,8 @@
 
 /* The helper-functions. */
 static void			apply_lvl2_tokenization(t_token *cur, t_token *next);
-static t_toktype	is_cmd_or_builtin(t_token *tok);
-static void			remove_obsolete_tokens(t_toklst **toklst);
 void				apply_redir_tokenization(t_token *prev, t_token *cur, \
-		t_token *next);
+												t_token *next);
 
 /* Tokenization Level 2. Goal is to classify all the TOK_WORD tokens and rule
  * out some invalid syntax like
@@ -63,28 +61,14 @@ int	tokenize_lvl2(t_toklst	**toklst)
 	return (1);
 }
 
-static t_toktype	is_cmd_or_builtin(t_token *tok)
-{
-	char	*val;
-
-	val = tok->value;
-	if (!ft_strcmp(val, "echo") || !ft_strcmp(val, "cd") || \
-			!ft_strcmp(val, "pwd") || !ft_strcmp(val, "export") || \
-			!ft_strcmp(val, "unset") || !ft_strcmp(val, "env") || \
-			!ft_strcmp(val, "exit"))
-		return (TOK_BLTIN);
-	return (TOK_CMD);
-}
-
 static void	apply_lvl2_tokenization(t_token *cur, t_token *next)
 {
 	if (cur->type == TOK_RIN && next->type == TOK_WORD)
 		next->type = TOK_IF;
-	if ((cur->type == TOK_ROUT0 || cur->type == TOK_ROUTA0) && \
-			next->type == TOK_WORD)
+	if (is_rout_tok(cur->type) && next->type == TOK_WORD)
 		next->type = TOK_OF;
-	if ((cur->type == TOK_IF || cur->type == TOK_OF || \
-		cur->type == TOK_PIP || cur->type == TOK_ROUT3_FILDES_OUT) \
+	if ((cur->type == TOK_IF || cur->type == TOK_OF || cur->type == TOK_PIP || \
+		cur->type == TOK_ROUTA_FDOUT || cur->type == TOK_ROUT3_FDOUT) \
 		&& next->type == TOK_WORD)
 		next->type = is_cmd_or_builtin(next);
 	if (cur->type == TOK_CMD && (next->type == TOK_WORD))
@@ -95,35 +79,4 @@ static void	apply_lvl2_tokenization(t_token *cur, t_token *next)
 		next->type = TOK_ARG;
 	if (cur->type == TOK_HERE && next->type == TOK_WORD)
 		next->type = TOK_HERE_DLIM;
-}
-
-void	toklst_remove_tok(t_toklst **toklst, t_toklst **tl)
-{
-	t_toklst	*tmp;
-
-	tmp = (*tl)->next;
-	toklst_del(toklst, *tl);
-	*tl = tmp;
-}
-
-static void	remove_obsolete_tokens(t_toklst **toklst)
-{
-	t_toklst	*tl;
-
-	tl = *toklst;
-	while (tl)
-	{
-		if (tl->token->type == TOK_VAR_SYM)
-			toklst_remove_tok(toklst, &tl);
-		else if (tl->token->type == TOK_DQUOT)
-			toklst_remove_tok(toklst, &tl);
-		else if (tl->token->type == TOK_SQUOT)
-			toklst_remove_tok(toklst, &tl);
-		else if (tl->token->type == TOK_AND)
-			toklst_remove_tok(toklst, &tl);
-		else if (tl->token->type == TOK_WORD && tl->token->value[0] == 0)
-			toklst_remove_tok(toklst, &tl);
-		else
-			tl = tl->next;
-	}
 }
