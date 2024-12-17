@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 21:44:21 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/16 20:12:53 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/17 00:17:16 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,9 @@ void	get_tok_redir_out12(t_token *tok, t_cmdline *cl, int *tok_found)
 			cl->pos++;
 			*tok_found = 1;
 		}
+		// FIXME: this is not yet working! f.ex. 'echo "abc" 2>&bla' is now
+		// detected as TOK_ROUT2 with TOK_ARG 2 and TOK_OF bla. But this should
+		// be an error!
 		else if (cl->length - pos >= 2 && (!ft_strncmp(&inp[pos], "&>", 2) || \
 				(!ft_isnum(inp[pos + 2]) && !ft_strncmp(&inp[pos], ">&", 2))))
 		{

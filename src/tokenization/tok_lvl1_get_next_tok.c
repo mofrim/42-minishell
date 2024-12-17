@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 11:55:17 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/16 20:50:52 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/17 07:08:03 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ static void	get_tok_unquoted(t_token *tok, t_cmdline *cl, int *tok_found)
 	get_tok_var(tok, cl, tok_found);
 	get_tok_pipe(tok, cl, tok_found);
 	get_tok_redir_outa(tok, cl, tok_found);
-	get_tok_redir_out12(tok, cl, tok_found);
 	get_tok_redir_out3(tok, cl, tok_found);
+	get_tok_redir_out12(tok, cl, tok_found);
 	get_tok_rout(tok, cl, tok_found);
 	get_tok_here(tok, cl, tok_found);
 	get_tok_rin(tok, cl, tok_found);

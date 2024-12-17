@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 13:10:05 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/16 18:38:30 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/17 00:09:57 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,3 +42,20 @@ int	ft_isnum(char c)
 	return (0);
 }
 
+/* Determine wether a string represents a positive int number. Return its value
+ * if true, -1 otherwise. */
+int	get_posint_numstr(char *s)
+{
+	long	num;
+
+	num = 0;
+	while (ft_isdigit(*s))
+	{
+		num = num * 10 + *s++ - '0';
+		if (num > INT_MAX)
+			return (-1);
+	}
+	if (!ft_isdigit(*s) && *s)
+		return (-1);
+	return (num);
+}
