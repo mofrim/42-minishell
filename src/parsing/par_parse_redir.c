@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 21:23:43 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/18 22:50:59 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/18 23:18:14 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,13 @@ void	parse_rout(t_toklst **toklst, t_cmdlst *cur_cmd)
 	if (*toklst && (*toklst)->token->type == TOK_ROUT2)
 		parse_rout2(toklst, cur_cmd);
 	if (*toklst && ((*toklst)->token->type == TOK_ROUT3 || \
-		(*toklst)->token->type == TOK_ROUT3_FDIN ))
+		(*toklst)->token->type == TOK_ROUT3_FDIN))
 		parse_rout3(toklst, cur_cmd);
 }
 
 void	parse_rout0(t_toklst **toklst, t_cmdlst *cur_cmd)
 {
-	t_redirlst rfl;
+	t_redirlst	rfl;
 
 	init_redirlst_var(&rfl);
 	if ((*toklst)->token->type == TOK_ROUTA0)
@@ -48,7 +48,7 @@ void	parse_rout0(t_toklst **toklst, t_cmdlst *cur_cmd)
 
 void	parse_rout1(t_toklst **toklst, t_cmdlst *cur_cmd)
 {
-	t_redirlst rfl;
+	t_redirlst	rfl;
 
 	init_redirlst_var(&rfl);
 	rfl.redtype = RE_ROUT1;
@@ -60,7 +60,7 @@ void	parse_rout1(t_toklst **toklst, t_cmdlst *cur_cmd)
 
 void	parse_rout2(t_toklst **toklst, t_cmdlst *cur_cmd)
 {
-	t_redirlst rfl;
+	t_redirlst	rfl;
 
 	init_redirlst_var(&rfl);
 	rfl.redtype = RE_ROUT2;
@@ -71,7 +71,7 @@ void	parse_rout2(t_toklst **toklst, t_cmdlst *cur_cmd)
 
 void	parse_rout3(t_toklst **toklst, t_cmdlst *cur_cmd)
 {
-	t_redirlst rfl;
+	t_redirlst	rfl;
 
 	init_redirlst_var(&rfl);
 	rfl.redtype = RE_ROUT3;
