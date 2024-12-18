@@ -6,17 +6,13 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 11:10:41 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/07 18:25:23 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/18 22:38:14 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	parse_args(t_toklst **toklst, t_cmdlst **cur_cmd);
-
-/* Parse a TOK_CMD and following TOK_ARGs. NULL-terminate the args-array in any
- * case because execve() needs this! Reminder: arg_count is initialized to 1, so
- * this will also work if there is only a cmd without args.*/
+/* Parse a TOK_CMD.*/
 void	parse_command(t_toklst **toklst, t_cmdlst **cmd, t_cmdlst **cur_cmd, \
 		int maxargs)
 {
@@ -31,10 +27,10 @@ void	parse_command(t_toklst **toklst, t_cmdlst **cmd, t_cmdlst **cur_cmd, \
 			(*cur_cmd)->cmd = ft_strdup((*toklst)->token->value);
 		(*cur_cmd)->args[0] = ft_strdup((*cur_cmd)->cmd);
 		*toklst = (*toklst)->next;
-		parse_args(toklst, cur_cmd);
 	}
 }
 
+/* Parse a builtin cmd. */
 void	parse_builtin(t_toklst **toklst, t_cmdlst **cmd, t_cmdlst **cur_cmd, \
 		int maxargs)
 {
@@ -50,11 +46,11 @@ void	parse_builtin(t_toklst **toklst, t_cmdlst **cmd, t_cmdlst **cur_cmd, \
 		(*cur_cmd)->args[0] = ft_strdup((*cur_cmd)->cmd);
 		(*cur_cmd)->is_builtin = 1;
 		*toklst = (*toklst)->next;
-		parse_args(toklst, cur_cmd);
 	}
 }
 
-static void	parse_args(t_toklst **toklst, t_cmdlst **cur_cmd)
+/* Parse any TOK_ARG. */
+void	parse_args(t_toklst **toklst, t_cmdlst **cur_cmd)
 {
 	while (*toklst && (*toklst)->token->type == TOK_ARG)
 	{

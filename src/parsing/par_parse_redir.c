@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 21:23:43 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/18 21:19:15 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/18 22:50:59 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 static void	parse_rout0(t_toklst **toklst, t_cmdlst *cur_cmd);
 static void	parse_rout1(t_toklst **toklst, t_cmdlst *cur_cmd);
 static void	parse_rout2(t_toklst **toklst, t_cmdlst *cur_cmd);
+static void	parse_rout3(t_toklst **toklst, t_cmdlst *cur_cmd);
 static void	parse_rout3(t_toklst **toklst, t_cmdlst *cur_cmd);
 
 void	parse_rout(t_toklst **toklst, t_cmdlst *cur_cmd)

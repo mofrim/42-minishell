@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 10:59:44 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/16 21:55:27 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/18 22:36:34 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ t_cmdlst	*parse_tokenlist(t_toklst *toklst)
 	while (toklst)
 	{
 		parse_command(&toklst, &cmd, &cur_cmd, maxargs);
+		parse_args(&toklst, &cur_cmd);
 		parse_builtin(&toklst, &cmd, &cur_cmd, maxargs);
 		parse_pipe(&toklst, &cmd, &cur_cmd, maxargs);
 		parse_rout(&toklst, cur_cmd);

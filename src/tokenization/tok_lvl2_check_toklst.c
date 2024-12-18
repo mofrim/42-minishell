@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 18:45:36 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/17 08:06:39 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/18 22:51:33 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ int	check_toklst_lvl2(t_toklst *toklst)
 		next = toklst->next->token;
 		if (prev && !check_rout3(prev, cur, next))
 				return (token_error_int(TOKERR_REDIR, next->value));
-		if (is_special_tok(cur->type) && is_special_tok(next->type))
+		if (is_special_tok(cur->type) && is_special_tok(next->type) && \
+			!(cur->type == TOK_PIP && is_redir_tok(next->type)))
 			return (show_tokerr(next->type));
 		prev = cur;
 		cur = next;
@@ -44,6 +45,7 @@ int	check_toklst_lvl2(t_toklst *toklst)
 		return (token_error_int(TOKERR_NL, NULL));
 	return (1);
 }
+
 int	check_rout3(t_token *prev, t_token *cur, t_token *next)
 {
 	if (cur->type == TOK_ROUT3 && get_posint_numstr(prev->value) >= 0 && \

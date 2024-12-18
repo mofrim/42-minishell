@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 06:39:12 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/17 17:45:08 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/18 22:05:22 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,8 @@ static void	tokenize_rout1(t_token *prev, t_token *cur, t_token *next)
 /* deal with '&>' token.  */
 static void	tokenize_rout2(t_token *prev, t_token *cur, t_token *next)
 {
-	prev->type = TOK_ARG;
+	if (prev->type == TOK_WORD)
+		prev->type = TOK_ARG;
 	next->type = TOK_OF;
 }
 

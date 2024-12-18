@@ -227,6 +227,7 @@ void		apply_redir_tokenization(t_token *prev, t_token *cur, \
 
 t_toktype	is_cmd_or_builtin(t_token *tok);
 int			is_rout_tok(t_toktype tok);
+int			is_redir_tok(t_toktype tok);
 
 /*********** Parsing. ***********/
 
@@ -256,6 +257,7 @@ void		init_redirlst_var(t_redirlst *var);
 t_cmdlst	*parse_tokenlist(t_toklst *toklst);
 void		parse_command(t_toklst **toklst, t_cmdlst **cmd, \
 		t_cmdlst **cur_cmd, int maxargs);
+void		parse_args(t_toklst **toklst, t_cmdlst **cur_cmd);
 void		parse_builtin(t_toklst **toklst, t_cmdlst **cmd, \
 		t_cmdlst **cur_cmd, int maxargs);
 void		parse_pipe(t_toklst **toklst, t_cmdlst **cmd, \
