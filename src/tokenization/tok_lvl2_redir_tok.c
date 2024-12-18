@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 06:39:12 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/17 08:07:27 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/17 17:45:08 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ void	apply_redir_tokenization(t_token *prev, t_token *cur, \
 
 static void	tokenize_rout1(t_token *prev, t_token *cur, t_token *next)
 {
-	if (get_posint_numstr(prev->value) >= 0 && next->type == TOK_WORD)
+	if (get_posint_numstr(prev->value) >= 0 && (next->type == TOK_WORD || \
+				next->type == TOK_OF))
 		prev->type = TOK_ROUT_FDIN;
 	else
 		prev->type = TOK_ARG;
