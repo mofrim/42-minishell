@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 21:23:43 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/17 00:11:18 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/18 21:19:15 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ void	parse_rout2(t_toklst **toklst, t_cmdlst *cur_cmd)
 	(*toklst) = (*toklst)->next->next;
 }
 
-// FIXME: WIP
 void	parse_rout3(t_toklst **toklst, t_cmdlst *cur_cmd)
 {
 	t_redirlst rfl;
@@ -82,7 +81,7 @@ void	parse_rout3(t_toklst **toklst, t_cmdlst *cur_cmd)
 		redirlst_add_back(&cur_cmd->outfiles, redirlst_new(rfl));
 		(*toklst) = (*toklst)->next->next->next;
 	}
-	if ((*toklst)->token->type == TOK_ROUT3)
+	else if ((*toklst)->token->type == TOK_ROUT3)
 	{
 		rfl.fd_out = get_posint_numstr((*toklst)->next->token->value);
 		redirlst_add_back(&cur_cmd->outfiles, redirlst_new(rfl));
