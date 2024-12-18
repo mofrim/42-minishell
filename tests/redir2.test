@@ -1,0 +1,1 @@
+echo "echo 2>&1" | ./minishell | tail -n 8 | head -n 5
