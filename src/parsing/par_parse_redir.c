@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 21:23:43 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/20 12:56:35 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/20 17:17:22 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	parse_rout1(t_toklst **toklst, t_cmdlst *cur_cmd)
 	init_redirlst_var(&rfl);
 	rfl.redtype = RE_ROUT1;
 	rfl.fd_from = ft_atoi((*toklst)->token->value);
-	rfl.outfile = ft_strdup((*toklst)->next->next->token->value);
+	rfl.outfile = (*toklst)->next->next->token->value;
 	redirlst_add_back(&cur_cmd->outfiles, redirlst_new(rfl));
 	(*toklst) = (*toklst)->next->next->next;
 }
@@ -64,7 +64,7 @@ void	parse_rout2(t_toklst **toklst, t_cmdlst *cur_cmd)
 
 	init_redirlst_var(&rfl);
 	rfl.redtype = RE_ROUT2;
-	rfl.outfile = ft_strdup((*toklst)->next->token->value);
+	rfl.outfile = (*toklst)->next->token->value;
 	redirlst_add_back(&cur_cmd->outfiles, redirlst_new(rfl));
 	(*toklst) = (*toklst)->next->next;
 }
