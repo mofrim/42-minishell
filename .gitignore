@@ -1,0 +1,16 @@
+.direnv/
+.envrc
+minishell
+obj/
+tokenizing_old.c
+tok_test.c
+syntax.c
+playground/*
+.cache/
+compile_commands.json
+core
+.vscode/
+src/minishell_dbg.c
+moep
+
+!playground/fildes42.c
