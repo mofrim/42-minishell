@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 15:48:38 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/06 11:52:12 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/20 12:44:38 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char	*get_exec_path(t_cmdlst *clst, char **env)
 
 	if (stat(clst->cmd, &sb) == 0)
 		if ((sb.st_mode & S_IFREG) == S_IFREG && !access(clst->cmd, X_OK))
-			return (clst->cmd);
+			return (ft_strdup(clst->cmd));
 	path_split = get_path_from_env(env);
 	i = -1;
 	while (path_split[++i])

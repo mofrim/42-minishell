@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/08 15:39:14 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/16 10:19:15 by elpah            ###   ########.fr       */
+/*   Updated: 2024/12/20 12:41:25 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,13 @@ int	exec_single_simple_cmd(t_cmdlst *cmdl, char **env)
 		return (ENOENT);
 	}
 	free(cmdl->args[0]);
-	cmdl->args[0] = exec_path;
+	cmdl->args[0] = ft_strdup(exec_path);
+	free(exec_path);
 	cpid = fork();
 	if (cpid < 0)
 		error_exit("fork failed");
 	if (cpid == 0)
-		execve(exec_path, cmdl->args, env);
+		execve(cmdl->args[0], cmdl->args, env);
 	else
 		waitpid(cpid, &status, 0);
 	return (status);
