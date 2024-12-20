@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 10:13:46 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/16 13:27:20 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/20 13:36:42 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	bltin_env(t_cmdlst *cmdl, t_envlst *el)
 		return (errno);
 	if (cpid == 0)
 	{
-		if (open_redir_files(cmdl->input_file, cmdl->outfiles, cmdl->append))
+		if (open_redir_files(cmdl->input_file, cmdl->outfiles))
 			exit(errno);
 		exit(bltin_env_out(el, cmdl->args));
 	}

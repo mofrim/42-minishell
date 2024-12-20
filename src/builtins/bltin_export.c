@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 09:50:30 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/16 13:09:43 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/20 13:36:26 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ int	bltin_export(t_cmdlst *cmdl, t_envlst **env)
 		return (errno);
 	if (cpid == 0)
 	{
-		if (open_redir_files(cmdl->input_file, cmdl->outfiles, cmdl->append))
+		if (open_redir_files(cmdl->input_file, cmdl->outfiles))
 			exit(errno);
 		bltin_export_out(env, cmdl->args[1]);
 		exit(exit_status);
