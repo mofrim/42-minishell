@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:44:43 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/16 13:23:55 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/20 12:54:14 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,16 @@ typedef struct s_envlst
 
 /*********** Datatypes for tokenization. ***********/
 
-/* Token types... are these really all? */
+/* Token types... are these really all? 
+ *
+ * TOK_ROUT0:	simple '> word'
+ * TOK_ROUT1:	'[n]> word'. word is always TOK_OF! no fildes num exansion!
+ * TOK_ROUT2:	'&>word'. this is the only legit sequence involving &>! in
+ * 				'2&>1' the '2' is counted as an arg and the outfile will be 
+ * 				called '1'! redir stdout & stderr to word.
+ * TOK_ROUT3:	'[n]>&word'
+ *
+ * */
 typedef enum e_toktype
 {
 	TOK_WORD,
@@ -78,17 +87,17 @@ typedef enum e_toktype
 	TOK_ROUT1,
 	TOK_ROUT2,
 	TOK_ROUT3,
-	TOK_ROUT_FDIN,
-	TOK_ROUT3_FDIN,
-	TOK_ROUT3_FDOUT,
+	TOK_ROUT_FDFROM,
+	TOK_ROUT3_FDFROM,
+	TOK_ROUT3_FDTO,
 	TOK_RIN,
 	TOK_OF,
 	TOK_IF,
 	TOK_ROUTA0,
 	TOK_ROUTA1,
 	TOK_ROUTA2,
-	TOK_ROUTA_FDIN,
-	TOK_ROUTA_FDOUT,
+	TOK_ROUTA_FDFROM,
+	TOK_ROUTA_FDTO,
 	TOK_AND,
 	TOK_HERE,
 	TOK_HERE_DLIM,
@@ -166,8 +175,8 @@ typedef struct	s_heroflst
 typedef struct	s_redirlst
 {
 	t_redirtype			redtype;
-	int					fd_in;
-	int					fd_out;
+	int					fd_from;
+	int					fd_to;
 	char				*outfile;
 	char				*infile;
 	struct s_redirlst	*next;
@@ -182,7 +191,6 @@ typedef struct s_cmdlst
 	int				is_builtin;
 	char			*heredoc;
 	int				append;
-	// t_heroflst		*outfiles;
 	t_redirlst		*outfiles;
 	char			*input_file;
 	struct s_cmdlst	*next;
@@ -290,19 +298,15 @@ int			exec_single(t_cmdlst *cmdl, char **env, t_envlst **el);
 int			exec_single_redir_cmd(t_cmdlst *cmdl, char **env);
 int			exec_single_builtin_cmd(t_cmdlst *cmdl, t_envlst **el);
 int			exec_pipe(t_cmdlst *cmdl, char **env, t_envlst **el);
-int			open_redir_files(char *infile, t_redirlst *ofl, int append);
+int			open_redir_files(char *infile, t_redirlst *ofl);
 
 /*********** Builtins. ***********/
-
-int			bltin_export(t_cmdlst *cmdl, t_envlst **env);
-int			bltin_export_preout(t_envlst **env, char *arg);
-int			bltin_export_out(t_envlst **env, char *arg);
-int			bltin_env(t_cmdlst *cmdl, t_envlst *el);
-
 int			bltin_echo(char **s);
 int			bltin_cd(char **arg, t_envlst **el);
 int			bltin_pwd(void);
+int			bltin_export(t_envlst **env, char *arg);
 int			bltin_unset(t_envlst **env, char **str);
+int			bltin_env(t_envlst *env, char **str);
 int			bltin_exit(void);
 
 /*********** Extra Utility Funtions. ***********/

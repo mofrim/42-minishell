@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 06:39:12 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/18 22:05:22 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/20 12:53:50 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static void	tokenize_rout1(t_token *prev, t_token *cur, t_token *next)
 {
 	if (get_posint_numstr(prev->value) >= 0 && (next->type == TOK_WORD || \
 				next->type == TOK_OF))
-		prev->type = TOK_ROUT_FDIN;
+		prev->type = TOK_ROUT_FDFROM;
 	else
 		prev->type = TOK_ARG;
 	if (next->type == TOK_WORD)
@@ -61,13 +61,13 @@ static void	tokenize_rout3(t_token *prev, t_token *cur, t_token *next)
 	if (get_posint_numstr(prev->value) >= 0 && \
 			get_posint_numstr(next->value) >= 0)
 	{
-		prev->type = TOK_ROUT3_FDIN;
-		next->type = TOK_ROUT3_FDOUT;
+		prev->type = TOK_ROUT3_FDFROM;
+		next->type = TOK_ROUT3_FDTO;
 	}
 	else if (get_posint_numstr(prev->value) == -1)
 	{
 		prev->type = TOK_ARG;
-		next->type = TOK_ROUT3_FDOUT;
+		next->type = TOK_ROUT3_FDTO;
 	}
 }
 
@@ -76,13 +76,13 @@ static void	tokenize_routa1(t_token *prev, t_token *cur, t_token *next)
 	if (get_posint_numstr(prev->value) >= 0 && \
 			get_posint_numstr(next->value) >= 0)
 	{
-		prev->type = TOK_ROUTA_FDIN;
-		next->type = TOK_ROUTA_FDOUT;
+		prev->type = TOK_ROUTA_FDFROM;
+		next->type = TOK_ROUTA_FDTO;
 	}
 	else if (get_posint_numstr(prev->value) >= 0 && \
 			get_posint_numstr(next->value) == -1)
 	{
-		prev->type = TOK_ROUTA_FDIN;
+		prev->type = TOK_ROUTA_FDFROM;
 		next->type = TOK_OF;
 	}
 	else

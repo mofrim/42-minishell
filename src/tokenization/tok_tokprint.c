@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 21:31:43 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/17 00:04:31 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/20 12:53:50 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,9 @@ static int	print_tokentype2(t_token *token)
 		ret = ft_printf("TOK_ROUT2");
 	else if (token->type == TOK_ROUT3)
 		ret = ft_printf("TOK_ROUT3");
-	else if (token->type == TOK_ROUT_FDIN)
+	else if (token->type == TOK_ROUT_FDFROM)
 		ret = ft_printf("TOK_ROUT_FILDES_IN");
-	else if (token->type == TOK_ROUT3_FDOUT)
+	else if (token->type == TOK_ROUT3_FDTO)
 		ret = ft_printf("TOK_ROUT3_FILDES_OUT");
 	return (ret);
 }
@@ -79,11 +79,11 @@ static int	print_tokentype3(t_token *token)
 		ret = ft_printf("TOK_ROUTA1");
 	else if (token->type == TOK_ROUTA2)
 		ret = ft_printf("TOK_ROUTA2");
-	else if (token->type == TOK_ROUTA_FDIN)
+	else if (token->type == TOK_ROUTA_FDFROM)
 		ret = ft_printf("TOK_ROUTA_FILDES_IN");
-	else if (token->type == TOK_ROUT3_FDIN)
+	else if (token->type == TOK_ROUT3_FDFROM)
 		ret = ft_printf("TOK_ROUT3_FDIN");
-	else if (token->type == TOK_ROUTA_FDOUT)
+	else if (token->type == TOK_ROUTA_FDTO)
 		ret = ft_printf("TOK_ROUTA_FILDES_OUT");
 	else if (token->type == TOK_AND)
 		ret = ft_printf("TOK_AND");

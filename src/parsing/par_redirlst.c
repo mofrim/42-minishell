@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/08 19:26:24 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/16 21:54:34 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/20 12:54:14 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ t_redirlst	*redirlst_new(t_redirlst new)
 	if (!nn)
 		return (NULL);
 	nn->redtype = new.redtype;
-	nn->fd_in = new.fd_in;
-	nn->fd_out = new.fd_out;
+	nn->fd_from = new.fd_from;
+	nn->fd_to = new.fd_to;
 	nn->outfile = ft_strdup(new.outfile);
 	nn->infile = ft_strdup(new.infile);
 	nn->next = NULL;
@@ -81,8 +81,8 @@ void	redirlst_print(t_redirlst *lst)
 	while (lst)
 	{
 		ft_printf("{type: %d, ", lst->redtype);
-		ft_printf("fd_in: %d, ", lst->fd_in);
-		ft_printf("fd_out: %d, ", lst->fd_out);
+		ft_printf("fd_in: %d, ", lst->fd_from);
+		ft_printf("fd_out: %d, ", lst->fd_to);
 		ft_printf("infile: %s, ", lst->infile);
 		ft_printf("outfile: %s}\n", lst->outfile);
 		lst = lst->next;
@@ -93,8 +93,8 @@ void	redirlst_print(t_redirlst *lst)
 void	init_redirlst_var(t_redirlst *var)
 {
 	var->redtype = 0;
-	var->fd_in = 0;
-	var->fd_out = 0;
+	var->fd_from = 0;
+	var->fd_to = 0;
 	var->outfile = NULL;
 	var->infile = NULL;
 	var->next = NULL;
