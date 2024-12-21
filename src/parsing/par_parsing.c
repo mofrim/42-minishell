@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 10:59:44 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/18 22:36:34 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/21 09:50:29 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,6 @@ t_cmdlst	*parse_tokenlist(t_toklst *toklst)
 		return (NULL);
 	remove_heredoc(&toklst);
 	maxargs = get_max_argnum(toklst);
-
-#ifdef DEBUG
-	ft_printf(RED "<< DEBUG >> toklst in parse_tokenlist:\n" RST);
-	print_toklst(toklst);
-#endif
-
 	cmd = cmdlst_new(NULL, maxargs);
 	cur_cmd = cmd;
 	while (toklst)
