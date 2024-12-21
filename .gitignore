@@ -13,4 +13,10 @@ core
 src/minishell_dbg.c
 moep
 
+
 !playground/fildes42.c
+42
+
+tests/*
+!tests/*.test
+!tests/*.c
