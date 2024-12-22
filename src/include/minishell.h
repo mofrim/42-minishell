@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:44:43 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/20 13:35:17 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/22 20:54:23 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -296,18 +296,20 @@ int			exec_cmd(t_cmdlst *cmdl, t_envlst **el);
 int			exec_redir_cmd(t_cmdlst *cmdl, char **env);
 int			exec_single(t_cmdlst *cmdl, char **env, t_envlst **el);
 int			exec_single_redir_cmd(t_cmdlst *cmdl, char **env);
-int			exec_single_builtin_cmd(t_cmdlst *cmdl, t_envlst **el);
+int			exec_single_builtin_cmd(t_cmdlst *cl, t_envlst **el);
 int			exec_pipe(t_cmdlst *cmdl, char **env, t_envlst **el);
 int			open_redir_files(char *infile, t_redirlst *ofl);
 
 /*********** Builtins. ***********/
 
-int			bltin_export(t_cmdlst *cmdl, t_envlst **env);
-int			bltin_export_preout(t_envlst **env, char *arg);
-int			bltin_export_out(t_envlst **env, char *arg);
-int			bltin_env(t_cmdlst *cmdl, t_envlst *el);
+// FIXed process management
+int			bltin_export_preout(t_cmdlst *cl, t_envlst **el);
+int			bltin_export_out(t_cmdlst *cl, t_envlst **el);
+int			bltin_env(t_cmdlst *cl, t_envlst **el);
 
-int			bltin_echo(char **s);
+int			bltin_echo(t_cmdlst *cl);
+
+// not FIXed or does not matter
 int			bltin_cd(char **arg, t_envlst **el);
 int			bltin_pwd(void);
 int			bltin_unset(t_envlst **env, char **str);

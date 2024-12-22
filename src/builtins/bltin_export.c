@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 09:50:30 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/20 13:36:26 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/22 20:49:24 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,15 +80,15 @@ void	sort_env_list(t_envlst *env)
 	}
 }
 
-int	bltin_export_preout(t_envlst **env, char *arg)
+int	bltin_export_preout(t_cmdlst *cl, t_envlst **el)
 {
 	char		*name;
 	char		*value;
 	char		**str;
 
-	if (arg == NULL)
+	if (cl->args[1] == NULL)
 		return (0);
-	str = ft_split_input(arg);
+	str = ft_split_input(cl->args[1]);
 	if (str && str[0])
 	{
 		name = str[0];
@@ -96,35 +96,16 @@ int	bltin_export_preout(t_envlst **env, char *arg)
 			value = str[1];
 		else
 			value = NULL;
-		set_env_entry(name, value, env);
+		set_env_entry(name, value, el);
 	}
 	free(str);
 	return (0);
 }
 
-int	bltin_export_out(t_envlst **env, char *arg)
+int	bltin_export_out(t_cmdlst *cl, t_envlst **el)
 {
-	if (arg == NULL)
-		return (print_exported_variables(*env), 0);
+
+	if (cl->args[1] == NULL)
+		return (print_exported_variables(*el), 0);
 	return (0);
-}
-
-int	bltin_export(t_cmdlst *cmdl, t_envlst **env)
-{
-	int	exit_status;
-	int	cpid;
-
-	exit_status = bltin_export_preout(env, cmdl->args[1]);
-	cpid = fork();
-	if (cpid == -1)
-		return (errno);
-	if (cpid == 0)
-	{
-		if (open_redir_files(cmdl->input_file, cmdl->outfiles))
-			exit(errno);
-		bltin_export_out(env, cmdl->args[1]);
-		exit(exit_status);
-	}
-	waitpid(cpid, &exit_status, 0);
-	return (exit_status >> 8);
 }
