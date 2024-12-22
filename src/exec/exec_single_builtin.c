@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/07 23:15:39 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/22 21:07:59 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/22 21:14:46 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	exec_single_builtin_cmd(t_cmdlst *cl, t_envlst **el)
 
 	exit_status = 0;
 	if (!strcmp(cl->cmd, "echo"))
-		exit_status = bltin_echo(cl);
+		exit_status = exec_single_builtin(cl, el, NULL, bltin_echo);
 	if (!strcmp(cl->cmd, "cd"))
 		exit_status = bltin_cd(cl->args, el);
 	if (!strcmp(cl->cmd, "pwd"))

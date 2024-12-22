@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:44:43 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/22 20:54:23 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/22 21:14:57 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -306,8 +306,7 @@ int			open_redir_files(char *infile, t_redirlst *ofl);
 int			bltin_export_preout(t_cmdlst *cl, t_envlst **el);
 int			bltin_export_out(t_cmdlst *cl, t_envlst **el);
 int			bltin_env(t_cmdlst *cl, t_envlst **el);
-
-int			bltin_echo(t_cmdlst *cl);
+int			bltin_echo(t_cmdlst *cl, t_envlst **el);
 
 // not FIXed or does not matter
 int			bltin_cd(char **arg, t_envlst **el);
