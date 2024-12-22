@@ -6,14 +6,14 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/07 23:15:39 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/22 21:14:46 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/22 22:58:06 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /**
- * Generalized buitlin execution function.
+ * Generalized builtin execution function.
  *
  * Params: cmdlst, envlst, function handling pre-output stuff that changes data
  * which should be available to main process, function handling output stuff
@@ -29,17 +29,20 @@ int	exec_single_builtin(t_cmdlst *cl, t_envlst **el, \
 	exit_status = 0;
 	if (bltin_preout)
 		exit_status = bltin_preout(cl, el);
-	cpid = fork();
-	if (cpid == -1)
-		return (errno);
-	if (cpid == 0)
+	if (bltin_out)
 	{
-		if (open_redir_files(cl->input_file, cl->outfiles))
-			exit(errno);
-		bltin_out(cl, el);
-		exit(exit_status);
+		cpid = fork();
+		if (cpid == -1)
+			return (errno);
+		if (cpid == 0)
+		{
+			if (open_redir_files(cl->input_file, cl->outfiles))
+				exit(errno);
+			bltin_out(cl, el);
+			exit(exit_status);
+		}
+		waitpid(cpid, &exit_status, 0);
 	}
-	waitpid(cpid, &exit_status, 0);
 	return (exit_status >> 8);
 }
 
@@ -55,12 +58,12 @@ int	exec_single_builtin_cmd(t_cmdlst *cl, t_envlst **el)
 	if (!strcmp(cl->cmd, "cd"))
 		exit_status = bltin_cd(cl->args, el);
 	if (!strcmp(cl->cmd, "pwd"))
-		exit_status = bltin_pwd();
+		exit_status = exec_single_builtin(cl, el, NULL, bltin_pwd);
 	if (!strcmp(cl->cmd, "export"))
 		exit_status = exec_single_builtin(cl, el, bltin_export_preout, \
 				bltin_export_out);
 	if (!strcmp(cl->cmd, "unset"))
-		exit_status = bltin_unset(el, cl->args);
+		exit_status = exec_single_builtin(cl, el, bltin_unset, NULL);
 	if (!strcmp(cl->cmd, "env"))
 		exit_status = exec_single_builtin(cl, el, NULL, bltin_env);
 	if (!strcmp(cl->cmd, "exit"))
