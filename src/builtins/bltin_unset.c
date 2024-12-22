@@ -6,23 +6,22 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 10:14:32 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/16 10:37:45 by elpah            ###   ########.fr       */
+/*   Updated: 2024/12/22 22:52:26 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-
-void unset_free(t_envlst *ptr)
+void	unset_free(t_envlst *ptr)
 {
 	if (!ptr)
-		return;
+		return ;
 	free(ptr->name);
 	free(ptr->value);
 	free(ptr);
 }
 
-int check(char **key)
+int	check(char **key)
 {
 	if (!key[1])
 	{
@@ -37,19 +36,20 @@ int check(char **key)
 	return (1);
 }
 
-int bltin_unset(t_envlst **env, char **str)
+int	bltin_unset(t_cmdlst *cl, t_envlst **el)
 {
-	t_envlst *ptr;
-	t_envlst *prev;
-	t_envlst *ptr2;
+	t_envlst	*ptr;
+	t_envlst	*prev;
+	t_envlst	*ptr2;
+	char		**str;
 
-	if (!env || !*env || !check(str))
+	str = cl->args;
+	if (!el || !*el || !check(str))
 		return (0);
-
-	ptr = *env;
+	ptr = *el;
 	if (!ft_strcmp(ptr->name, str[1]))
 	{
-		*env = ptr->next;
+		*el = ptr->next;
 		unset_free(ptr);
 		return (0);
 	}
@@ -65,5 +65,5 @@ int bltin_unset(t_envlst **env, char **str)
 		}
 		ptr = ptr->next;
 	}
-	return 		(0);
+	return (0);
 }

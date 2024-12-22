@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 10:13:37 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/22 21:14:00 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/22 22:54:01 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	bltin_echo(t_cmdlst *cl, t_envlst **el)
 	char	**str;
 	char	**args;
 
-
+	(void)el;
 	args = cl->args;
 	i = 0;
 	if (array_length(args) == 1)
@@ -53,6 +53,4 @@ int	bltin_echo(t_cmdlst *cl, t_envlst **el)
 	if (!(!ft_strncmp(args[1], "-n", 2) && ft_strlen(args[1]) == 2))
 		ft_printf("\n");
 	return (0);
-	
 }
-

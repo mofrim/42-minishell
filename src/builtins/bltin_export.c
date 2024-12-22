@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 09:50:30 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/22 20:49:24 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/22 22:57:33 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,9 @@
 /* Export env-var with name and value to global envlst. Return 0 if everything
  * went fine. Return -1 if f.ex. name was not correctly formatted. */
 // TODO implement error checking
+
+// FIXME: export bla="yadayada" should work as expected, i.e. set the env-var
+// `zzz` to the string yadayada, without the quotes.
 
 static char	*ft_strncpy(char *dest, char *src, unsigned int n)
 {
@@ -104,7 +107,6 @@ int	bltin_export_preout(t_cmdlst *cl, t_envlst **el)
 
 int	bltin_export_out(t_cmdlst *cl, t_envlst **el)
 {
-
 	if (cl->args[1] == NULL)
 		return (print_exported_variables(*el), 0);
 	return (0);
