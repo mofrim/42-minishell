@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 23:35:30 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/08 18:56:38 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/23 18:12:37 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,6 @@ void	nullcheck(void *p, char *msg)
  * 3 parameter int-value. */
 int	print_return_error_msg(char *prefix, char *msg, int error)
 {
-		ft_fprintf(STDERR_FILENO, "%s: %s\n", prefix, msg);
+		ft_dprintf(STDERR_FILENO, "%s: %s\n", prefix, msg);
 		return (error);
 }
