@@ -6,7 +6,7 @@
 #    By: elpah <elpah@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/02 00:03:28 by fmaurer           #+#    #+#              #
-#    Updated: 2024/12/17 07:11:12 by fmaurer          ###   ########.fr        #
+#    Updated: 2024/12/24 08:32:06 by fmaurer          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -68,6 +68,7 @@ SRCS =	$(SRC_DIR)/minishell.c \
 				$(EXEC_DIR)/exec_single_redir.c \
 				$(EXEC_DIR)/exec_single_builtin.c \
 				$(EXEC_DIR)/exec_open_redir_files.c \
+				$(EXEC_DIR)/exec_proc_redirlst_helpers.c \
 				$(EXEC_DIR)/exec_pipe.c
 
 
