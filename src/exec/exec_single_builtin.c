@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/07 23:15:39 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/22 22:58:06 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/23 18:28:46 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	exec_single_builtin_cmd(t_cmdlst *cl, t_envlst **el)
 		exit_status = exec_single_builtin(cl, el, NULL, bltin_pwd);
 	if (!strcmp(cl->cmd, "export"))
 		exit_status = exec_single_builtin(cl, el, bltin_export_preout, \
-				bltin_export_out);
+					bltin_export_out);
 	if (!strcmp(cl->cmd, "unset"))
 		exit_status = exec_single_builtin(cl, el, bltin_unset, NULL);
 	if (!strcmp(cl->cmd, "env"))
