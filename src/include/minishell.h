@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:44:43 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/22 22:59:54 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/25 17:34:20 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,7 +147,8 @@ typedef enum e_tokerr
 	TOKERR_ROUTA2,
 	TOKERR_REDIR,
 	TOKERR_HERE,
-	TOKERR_AND
+	TOKERR_AND,
+	TOKERR_FDFROM
 }	t_tokerr;
 
 /*********** Datatypes for parsing. ***********/
@@ -233,6 +234,7 @@ int			check_toklst_lvl2(t_toklst *toklst);
 void		apply_redir_tokenization(t_token *prev, t_token *cur, \
 		t_token *next);
 
+int			token_error_int(t_tokerr te, char *tok);
 t_toktype	is_cmd_or_builtin(t_token *tok);
 int			is_rout_tok(t_toktype tok);
 int			is_redir_tok(t_toktype tok);

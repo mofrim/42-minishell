@@ -6,7 +6,7 @@
 #    By: elpah <elpah@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/02 00:03:28 by fmaurer           #+#    #+#              #
-#    Updated: 2024/12/24 08:32:06 by fmaurer          ###   ########.fr        #
+#    Updated: 2024/12/25 17:37:57 by fmaurer          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,6 +31,7 @@ SRCS =	$(SRC_DIR)/minishell.c \
 				$(TOK_DIR)/tok_tokenlist_del.c \
 				$(TOK_DIR)/tok_tokprint.c \
 				$(TOK_DIR)/tok_utils.c \
+				$(TOK_DIR)/tok_tokerr_int.c \
 				$(TOK_DIR)/tok_lvl1_tokenize.c \
 				$(TOK_DIR)/tok_lvl1_get_next_tok.c \
 				$(TOK_DIR)/tok_lvl1_get_next_helpers1.c \
