@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 15:24:38 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/25 17:43:12 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/26 10:56:21 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,6 @@ int	check_toklst_lvl3(t_toklst*toklst)
 int	check_tok_lvl3(t_token *prev, t_token *cur, t_token *next)
 {
 	if (cur->type == TOK_ROUT1 && next->type == TOK_ROUT_FDFROM)
-		return (token_error_int(TOKERR_FDFROM, next->value));
+		return (print_tokerr(TOKERR_FDFROM, next->value));
 	return (1);
 }

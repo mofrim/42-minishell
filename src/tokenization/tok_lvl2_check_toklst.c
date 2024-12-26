@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 18:45:36 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/25 17:37:34 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/26 10:57:44 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,11 @@
 
 static int	is_special_tok(t_toktype tok);
 static int	check_rout3(t_token *prev, t_token *cur, t_token *next);
-static int	show_first_tokerr(t_toktype tok);
-static int	show_tokerr(t_toktype tok);
+static int	show_first_tokerr_lvl2(t_toktype tok);
+static int	show_tokerr_lvl2(t_toktype tok);
 
 /* toklst cannot be NULL because this is checked in tokenize() beforehand. */
+// FIXME: maybe refactor so show_first_tokerr_lvl2 is not needed
 int	check_toklst_lvl2(t_toklst *toklst)
 {
 	t_token	*cur;
@@ -25,23 +26,23 @@ int	check_toklst_lvl2(t_toklst *toklst)
 	t_token	*prev;
 
 	cur = toklst->token;
-	if (toklst->next == NULL && !show_first_tokerr(cur->type))
+	if (toklst->next == NULL && !show_first_tokerr_lvl2(cur->type))
 		return (0);
 	prev = NULL;
 	while (toklst->next)
 	{
 		next = toklst->next->token;
 		if (prev && !check_rout3(prev, cur, next))
-				return (token_error_int(TOKERR_REDIR, next->value));
+				return (print_tokerr(TOKERR_REDIR, next->value));
 		if (is_special_tok(cur->type) && is_special_tok(next->type) && \
 			!(cur->type == TOK_PIP && is_redir_tok(next->type)))
-			return (show_tokerr(next->type));
+			return (show_tokerr_lvl2(next->type));
 		prev = cur;
 		cur = next;
 		toklst = toklst->next;
 	}
 	if (is_special_tok(cur->type))
-		return (token_error_int(TOKERR_NL, NULL));
+		return (print_tokerr(TOKERR_NL, NULL));
 	return (1);
 }
 
@@ -63,42 +64,42 @@ int	is_special_tok(t_toktype tok)
 	return (0);
 }
 
-int	show_first_tokerr(t_toktype tok)
+int	show_first_tokerr_lvl2(t_toktype tok)
 {
 	if (tok == TOK_RIN || tok == TOK_ROUT0 || tok == TOK_ROUT1 || \
 		tok == TOK_ROUT2 || tok == TOK_ROUT3 || tok == TOK_ROUTA0 || \
 		tok == TOK_ROUTA1 || tok == TOK_ROUTA2)
-		return (token_error_int(TOKERR_NL, NULL));
+		return (print_tokerr(TOKERR_NL, NULL));
 	if (tok == TOK_PIP)
-		return (token_error_int(TOKERR_PIP, NULL));
+		return (print_tokerr(TOKERR_PIP, NULL));
 	if (tok == TOK_HERE)
-		return (token_error_int(TOKERR_NL, NULL));
+		return (print_tokerr(TOKERR_NL, NULL));
 	return (1);
 }
 
-int	show_tokerr(t_toktype tok)
+int	show_tokerr_lvl2(t_toktype tok)
 {
 	if (tok == TOK_RIN)
-		return (token_error_int(TOKERR_RIN, NULL));
+		return (print_tokerr(TOKERR_RIN, NULL));
 	if (tok == TOK_ROUT0)
-		return (token_error_int(TOKERR_ROUT, NULL));
+		return (print_tokerr(TOKERR_ROUT, NULL));
 	if (tok == TOK_ROUT1)
-		return (token_error_int(TOKERR_ROUT, NULL));
+		return (print_tokerr(TOKERR_ROUT, NULL));
 	if (tok == TOK_ROUT2)
-		return (token_error_int(TOKERR_ROUT2, NULL));
+		return (print_tokerr(TOKERR_ROUT2, NULL));
 	if (tok == TOK_ROUT3)
-		return (token_error_int(TOKERR_ROUT3, NULL));
+		return (print_tokerr(TOKERR_ROUT3, NULL));
 	if (tok == TOK_ROUTA0)
-		return (token_error_int(TOKERR_ROUTA, NULL));
+		return (print_tokerr(TOKERR_ROUTA, NULL));
 	if (tok == TOK_ROUTA1)
-		return (token_error_int(TOKERR_ROUTA, NULL));
+		return (print_tokerr(TOKERR_ROUTA, NULL));
 	if (tok == TOK_ROUTA2)
-		return (token_error_int(TOKERR_ROUTA2, NULL));
+		return (print_tokerr(TOKERR_ROUTA2, NULL));
 	if (tok == TOK_PIP)
-		return (token_error_int(TOKERR_PIP, NULL));
+		return (print_tokerr(TOKERR_PIP, NULL));
 	if (tok == TOK_HERE)
-		return (token_error_int(TOKERR_HERE, NULL));
+		return (print_tokerr(TOKERR_HERE, NULL));
 	if (tok == TOK_AND)
-		return (token_error_int(TOKERR_AND, NULL));
+		return (print_tokerr(TOKERR_AND, NULL));
 	return (0);
 }
