@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 15:24:38 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/26 10:56:21 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/26 11:14:57 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ static	void	apply_lvl3_tokenization(t_token *prev, t_token *cur, \
 static	int		check_toklst_lvl3(t_toklst *toklst);
 static	int		check_tok_lvl3(t_token *prev, t_token *cur, t_token *next);
 
+// FIXME: comment. explain what is done here and why. maybe remove prev variable
+// bc it is unused (would be an compile error anyway).
 int	tokenize_lvl3(t_toklst	**toklst)
 {
 	t_token		*cur;
@@ -45,6 +47,7 @@ int	tokenize_lvl3(t_toklst	**toklst)
 	return (1);
 }
 
+// FIXME: comment & explain.
 static void	apply_lvl3_tokenization(t_token *prev, t_token *cur, \
 		t_token *next, int *cmd_already)
 {

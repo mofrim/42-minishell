@@ -6,23 +6,23 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 17:26:43 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/26 11:02:30 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/26 11:15:36 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	token_error_int_part1(t_tokerr te, char *tok);
-static void	token_error_int_part2(t_tokerr te, char *tok);
+static void	print_tokerr_part1(t_tokerr te, char *tok);
+static void	print_tokerr_part2(t_tokerr te, char *tok);
 
 int	print_tokerr(t_tokerr te, char *tok)
 {
-	token_error_int_part1(te, tok);
-	token_error_int_part2(te, tok);
+	print_tokerr_part1(te, tok);
+	print_tokerr_part2(te, tok);
 	return (0);
 }
 
-void	token_error_int_part1(t_tokerr te, char *tok)
+void	print_tokerr_part1(t_tokerr te, char *tok)
 {
 	if (te == TOKERR_NL)
 		ft_dprintf(2, ERRMSG_SYNTAX "\'\\n\'\n");
@@ -42,7 +42,7 @@ void	token_error_int_part1(t_tokerr te, char *tok)
 		ft_dprintf(2, ERRMSG_SYNTAX "\'&>>\'\n");
 }
 
-void	token_error_int_part2(t_tokerr te, char *tok)
+void	print_tokerr_part2(t_tokerr te, char *tok)
 {
 	if (te == TOKERR_HERE)
 		ft_dprintf(2, ERRMSG_SYNTAX "\'<<\'\n");
