@@ -6,13 +6,13 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 21:44:21 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/20 12:15:53 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/26 19:59:55 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/* Find possible token candidates of type [n]>word or [n]&>[n]. 
+/**
  * Possible tokens:
  *
  * TOK_ROUT0:	simple '> word'
@@ -41,6 +41,35 @@
  * 2) >&word: word = digits, redir stdout to fildes -> TOK_ROUT3
  * 3) >&word: word != digits, redir stdouterr to file word -> TOK_ROUT2
  */
+
+/* The easiest output redir. Classify tokens of the simple form '>' and '>>',
+ * where there is no possible fd number involved. */
+void	get_tok_rout(t_token *tok, t_cmdline *cl, int *tok_found)
+{
+	if (!*tok_found)
+	{
+		if (cl->length - cl->pos >= 1 && cl->input[cl->pos] == '>' && \
+			cl->input[cl->pos + 1] != '>')
+		{
+			tok->type = TOK_ROUT0;
+			tok->value = ft_strdup(">");
+			nullcheck(tok->value, "get_tok_rout()");
+			cl->pos++;
+			*tok_found = 1;
+		}
+		if (cl->length - cl->pos >= 1 && \
+				!ft_strncmp(&cl->input[cl->pos], ">>", 2))
+		{
+			tok->type = TOK_ROUTA0;
+			tok->value = ft_strdup(">>");
+			nullcheck(tok->value, "get_tok_rout()");
+			cl->pos += 2;
+			*tok_found = 1;
+		}
+	}
+}
+
+/* Classify possible token candidates of type [n]>word or &>word. */
 void	get_tok_redir_out12(t_token *tok, t_cmdline *cl, int *tok_found)
 {
 	char	*inp;
@@ -69,9 +98,13 @@ void	get_tok_redir_out12(t_token *tok, t_cmdline *cl, int *tok_found)
 	}
 }
 
-// if '[n]>&bla' -> this would be an error. if 'bla>&[n]' with n being
-// valid fd this would dup stdout to fd n, if fd n not valid -> "Bad
-// fd". but still both are to be treated like TOK_ROUT3
+/**
+ * Get the [n]>&word token candidates.
+ *
+ * If '[n]>&bla' -> this would be an error. if 'bla>&[n]' with n being
+ * valid fd this would dup stdout to fd n, if fd n not valid -> "Bad
+ * fd". but still both are to be treated like TOK_ROUT3 
+ */
 void	get_tok_redir_out3(t_token *tok, t_cmdline *cl, int *tok_found)
 {
 	char	*inp;
@@ -100,7 +133,10 @@ void	get_tok_redir_out3(t_token *tok, t_cmdline *cl, int *tok_found)
 	}
 }
 
-/* From the bash man:
+/**
+ * Get '>>' and '&>>' tokens.
+ *
+ * From the bash man:
  *
  * The format for appending standard output and standard error is:
  *               &>>word
@@ -117,9 +153,8 @@ void	get_tok_redir_out3(t_token *tok, t_cmdline *cl, int *tok_found)
  * There is no '[n]&>>word' for appending!
  *
  * '&>>' simply redirects and append stdout and stderr to the file specified
- * after it! anything before. it is the same as '&>' but with appending!
+ * after it! It is the same as '&>' but with appending!
  */
-
 void	get_tok_redir_outa(t_token *tok, t_cmdline *cl, int *tok_found)
 {
 	char	*inp;
@@ -134,6 +169,7 @@ void	get_tok_redir_outa(t_token *tok, t_cmdline *cl, int *tok_found)
 		{
 			tok->type = TOK_ROUTA1;
 			tok->value = ft_strdup(">>");
+			nullcheck(tok->value, "get_tok_outa()");
 			cl->pos += 2;
 			*tok_found = 1;
 		}
@@ -141,32 +177,8 @@ void	get_tok_redir_outa(t_token *tok, t_cmdline *cl, int *tok_found)
 		{
 			tok->type = TOK_ROUTA2;
 			tok->value = ft_strdup("&>>");
+			nullcheck(tok->value, "get_tok_outa()");
 			cl->pos += 3;
-			*tok_found = 1;
-		}
-	}
-}
-
-void	get_tok_rout(t_token *tok, t_cmdline *cl, int *tok_found)
-{
-	if (!*tok_found)
-	{
-		if (cl->length - cl->pos >= 1 && cl->input[cl->pos] == '>' && \
-			cl->input[cl->pos + 1] != '>')
-		{
-			tok->type = TOK_ROUT0;
-			tok->value = ft_strdup(">");
-			nullcheck(tok->value, "get_tok_rout()");
-			cl->pos++;
-			*tok_found = 1;
-		}
-		if (cl->length - cl->pos >= 1 && \
-				!ft_strncmp(&cl->input[cl->pos], ">>", 2))
-		{
-			tok->type = TOK_ROUTA0;
-			tok->value = ft_strdup(">>");
-			nullcheck(tok->value, "get_tok_rout()");
-			cl->pos += 2;
 			*tok_found = 1;
 		}
 	}
