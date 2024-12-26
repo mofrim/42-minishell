@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 15:24:38 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/26 11:14:57 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/26 19:40:42 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,16 @@ static	void	apply_lvl3_tokenization(t_token *prev, t_token *cur, \
 static	int		check_toklst_lvl3(t_toklst *toklst);
 static	int		check_tok_lvl3(t_token *prev, t_token *cur, t_token *next);
 
-// FIXME: comment. explain what is done here and why. maybe remove prev variable
-// bc it is unused (would be an compile error anyway).
+/**
+ * Do the lvl3 tokenization.
+ *
+ * So far in lvl3 we have to fix some false tokenizations from lvl2 thje correct
+ * classifaction of TOK_CMD and TOK_BLTIN tokens. So this function scans through
+ * the whole toklst, finds the first TOK_CMD/BLTIN sets the cmd_already flag.
+ * After that if there is another TOK_CMD/BLTIN before the next pipe this is a
+ * false classification. This token then needs to beand gets turned into
+ * TOK_ARG.
+ */
 int	tokenize_lvl3(t_toklst	**toklst)
 {
 	t_token		*cur;
@@ -47,7 +55,7 @@ int	tokenize_lvl3(t_toklst	**toklst)
 	return (1);
 }
 
-// FIXME: comment & explain.
+/* Actually apply the lvl3 tokenization. */
 static void	apply_lvl3_tokenization(t_token *prev, t_token *cur, \
 		t_token *next, int *cmd_already)
 {
@@ -59,8 +67,12 @@ static void	apply_lvl3_tokenization(t_token *prev, t_token *cur, \
 		*cmd_already = 1;
 }
 
-/* Check toklst before lvl3. return(0) cases:
- * - `ls 1>2>3`*/
+/* Check toklst before lvl3
+ *
+ * return(0) cases:
+ * - f.ex. `ls 1>2>3`
+ */
+// FIXME: before submission, if not needed until then, remove prev.
 int	check_toklst_lvl3(t_toklst*toklst)
 {
 	t_token	*cur;
@@ -81,6 +93,7 @@ int	check_toklst_lvl3(t_toklst*toklst)
 	return (1);
 }
 
+// FIXME: before submission, if not needed until then, remove prev.
 int	check_tok_lvl3(t_token *prev, t_token *cur, t_token *next)
 {
 	if (cur->type == TOK_ROUT1 && next->type == TOK_ROUT_FDFROM)
