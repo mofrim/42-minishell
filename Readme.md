@@ -490,3 +490,12 @@ Bash syntax errors:
       >&-        # closes the standard output
       n>&-       # closes the ouput from file descriptor n
       n<&-       # closes the input from file descripor n
+
+- **[2024-12-26 20:14]** time for some todos again:
+
+  + implement `[n]<file` as opening `file` for reading as fildes `n`.
+    TOK_RIN1. `cat 42<` is TOKERR_NL!!
+  + maybe implement `<> file` for opening stdin and stdout to `file`
+  + that should be enough redir stuff!
+  + implement pipes
+  + implement the heredoc
