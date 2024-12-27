@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 23:35:30 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/23 18:12:37 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/27 23:37:33 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ void	nullcheck(void *p, char *msg)
 
 /* Print errors msg with in the format "prefix: error_msg" to stderr and return
  * 3 parameter int-value. */
-int	print_return_error_msg(char *prefix, char *msg, int error)
+int	minish_errormsg(char *prefix, char *msg, int error)
 {
-		ft_dprintf(STDERR_FILENO, "%s: %s\n", prefix, msg);
+		ft_dprintf(STDERR_FILENO, "minishell: %s: %s\n", prefix, msg);
 		return (error);
 }

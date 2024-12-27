@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 15:43:14 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/16 12:26:38 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/27 23:46:17 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,12 @@ int	exec_cmd(t_cmdlst *cmdl, t_envlst **el)
 	int		exit_status;
 
 	exit_status = 0;
-	env_arr = get_env_array(*el);
 	if (cmdl->cmd == NULL)
 		return (ENOENT);
+	env_arr = get_env_array(*el);
+	nullcheck(env_arr, "exec_cmd()");
 	if (cmdl->next)
-		exit_status = exec_pipe(cmdl, env_arr, el);
+		exit_status = exec_pipeline(cmdl, env_arr, el);
 	else
 		exit_status = exec_single(cmdl, env_arr, el);
 	free_ptrptr(&env_arr);

@@ -6,7 +6,7 @@
 #    By: elpah <elpah@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/02 00:03:28 by fmaurer           #+#    #+#              #
-#    Updated: 2024/12/27 16:58:09 by fmaurer          ###   ########.fr        #
+#    Updated: 2024/12/27 22:56:53 by fmaurer          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -68,12 +68,13 @@ SRCS =	$(SRC_DIR)/minishell.c \
 				$(EXEC_DIR)/exec.c \
 				$(EXEC_DIR)/exec_get_exec_path.c \
 				$(EXEC_DIR)/exec_single.c \
-				$(EXEC_DIR)/exec_single_redir.c \
 				$(EXEC_DIR)/exec_single_builtin.c \
 				$(EXEC_DIR)/exec_open_redir_files.c \
 				$(EXEC_DIR)/exec_proc_redirlst_in.c \
 				$(EXEC_DIR)/exec_proc_redirlst_out.c \
-				$(EXEC_DIR)/exec_pipe.c
+				$(EXEC_DIR)/exec_pipe.c \
+				$(EXEC_DIR)/exec_pipe_cmd.c \
+				$(EXEC_DIR)/exec_pipe_bltin.c
 
 
 # SRCS = $(patsubst ./%.c,%.c,$(SRCS_IN))

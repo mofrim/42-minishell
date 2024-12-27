@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_proc_redirlst_helpers.c                       :+:      :+:    :+:   */
+/*   exec_proc_redirlst_out.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 08:17:00 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/24 08:56:02 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/27 23:02:10 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,8 @@ int	proc_redirlst_rout0(t_redirlst *ofl)
 	rval = dup2(fd, STDOUT_FILENO);
 	close(fd);
 	if (rval == -1)
-	{
-		ft_dprintf(2, "minishell: dup2(%d, %d) failed\n", fd, STDOUT_FILENO);
-		return (errno);
-	}
+		return (ft_dprintf(2, "minishell: dup2(%d, %d) failed\n", fd, \
+					STDOUT_FILENO), errno);
 	return (0);
 }
 
@@ -49,10 +47,8 @@ int	proc_redirlst_rout1(t_redirlst *ofl)
 	rval = dup2(fd, ofl->fd_from);
 	close(fd);
 	if (rval == -1)
-	{
-		ft_dprintf(2, "minishell: dup2(%d, %d) failed\n", fd, ofl->fd_from);
-		return (errno);
-	}
+		return (ft_dprintf(2, "minishell: dup2(%d, %d) failed\n", fd, \
+					ofl->fd_from), errno);
 	return (0);
 }
 
@@ -70,18 +66,12 @@ int	proc_redirlst_rout2(t_redirlst *ofl)
 		return (errno);
 	rval = dup2(fd, STDOUT_FILENO);
 	if (rval == -1)
-	{
-		close(fd);
-		ft_dprintf(2, "minishell: dup2(%d, %d) failed\n", fd, STDOUT_FILENO);
-		return (errno);
-	}
+		return (close(fd), ft_dprintf(2, "minishell: dup2(%d, %d) failed\n", \
+					fd, STDOUT_FILENO), errno);
 	rval = dup2(fd, STDERR_FILENO);
 	close(fd);
 	if (rval == -1)
-	{
-		ft_dprintf(2, "minishell: dup2(%d, %d) failed\n", fd, STDERR_FILENO);
-		return (errno);
-	}
+		return (ft_dprintf(2, "minishell: dup2(%d, %d) failed\n", fd, STDERR_FILENO), errno);
 	return (0);
 }
 

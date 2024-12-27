@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 14:43:30 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/06 11:50:51 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/27 23:44:53 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ char	**get_env_array(t_envlst *el)
 
 	lstsize = envlst_size(el);
 	env = malloc(sizeof(char *) * (lstsize + 1));
+	if (!env)
+		return (NULL);
 	i = -1;
 	while (++i < lstsize)
 	{

@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 15:24:38 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/26 19:40:42 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/27 19:33:32 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,11 @@ static void	apply_lvl3_tokenization(t_token *prev, t_token *cur, \
 		cur->type = TOK_ARG;
 	else if (cur->type == TOK_CMD || cur->type == TOK_BLTIN)
 		*cmd_already = 1;
+	else if (cur->type == TOK_WORD && !*cmd_already)
+	{
+		cur->type = TOK_CMD;
+		*cmd_already = 1;
+	}
 }
 
 /* Check toklst before lvl3

@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:44:43 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/27 18:05:20 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/28 00:04:43 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -211,6 +211,15 @@ typedef struct s_cmdlst
 	struct s_cmdlst	*next;
 }	t_cmdlst;
 
+/*********** Exec bltin_pipe struct. ***********/
+
+typedef struct s_bltin_pipargs
+{
+	t_cmdlst	*cl;
+	t_envlst	**el;
+	int			*prev_read;
+}	t_bltin_pipargs;
+
 /*********** Signal and terminal setup. ***********/
 
 void		signal_handler(int signum);
@@ -223,7 +232,7 @@ void		nullcheck(void *p, char *msg);
 void		error_exit(char *msg);
 int			ft_isspace(char c);
 void		free_ptrptr(char ***ptr);
-int			print_return_error_msg(char *prefix, char *msg, int error);
+int			minish_errormsg(char *prefix, char *msg, int error);
 int			ft_isnum(char c);
 int			get_posint_numstr(char *s);
 
@@ -311,9 +320,8 @@ char		*get_exec_path(t_cmdlst *clst, char **env);
 int			exec_cmd(t_cmdlst *cmdl, t_envlst **el);
 int			exec_redir_cmd(t_cmdlst *cmdl, char **env);
 int			exec_single(t_cmdlst *cmdl, char **env, t_envlst **el);
-int			exec_single_redir_cmd(t_cmdlst *cmdl, char **env);
 int			exec_single_builtin_cmd(t_cmdlst *cl, t_envlst **el);
-int			exec_pipe(t_cmdlst *cmdl, char **env, t_envlst **el);
+int			exec_pipeline(t_cmdlst *cmdl, char **env, t_envlst **el);
 int			open_redir_files(t_redirlst *rdl);
 
 /*********** Builtins. ***********/
