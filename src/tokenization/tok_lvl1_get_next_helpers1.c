@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 23:45:01 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/16 20:50:00 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/27 15:16:19 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,21 +28,6 @@ void	get_tok_pipe(t_token *tok, t_cmdline *cl, int *tok_found)
 			tok->type = TOK_PIP;
 			tok->value = ft_strdup("|");
 			nullcheck(tok->value, "get_tok_pipe()");
-			cl->pos++;
-			*tok_found = 1;
-		}
-	}
-}
-
-void	get_tok_rin(t_token *tok, t_cmdline *cl, int *tok_found)
-{
-	if (!*tok_found)
-	{
-		if (cl->input[cl->pos] == '<')
-		{
-			tok->type = TOK_RIN;
-			tok->value = ft_strdup("<");
-			nullcheck(tok->value, "get_tok_rin()");
 			cl->pos++;
 			*tok_found = 1;
 		}

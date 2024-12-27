@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 11:55:17 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/17 07:08:03 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/27 15:31:52 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 void	skip_whitespace(t_cmdline *cl);
 void	get_tok_pipe(t_token *tok, t_cmdline *cl, int *tok_found);
 void	get_tok_rin(t_token *tok, t_cmdline *cl, int *tok_found);
+void	get_tok_rinout(t_token *tok, t_cmdline *cl, int *tok_found);
 void	get_tok_rout(t_token *tok, t_cmdline *cl, int *tok_found);
 void	get_tok_here(t_token *tok, t_cmdline *cl, int *tok_found);
 void	get_tok_quot(t_token *tok, t_cmdline *cl, int *tok_found);
@@ -36,6 +37,7 @@ static void	get_tok_unquoted(t_token *tok, t_cmdline *cl, int *tok_found)
 	get_tok_quot(tok, cl, tok_found);
 	get_tok_var(tok, cl, tok_found);
 	get_tok_pipe(tok, cl, tok_found);
+	get_tok_rinout(tok, cl, tok_found);
 	get_tok_redir_outa(tok, cl, tok_found);
 	get_tok_redir_out3(tok, cl, tok_found);
 	get_tok_redir_out12(tok, cl, tok_found);

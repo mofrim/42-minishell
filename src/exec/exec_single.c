@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/08 15:39:14 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/20 12:41:25 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/27 16:15:55 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	exec_single(t_cmdlst *cmdl, char **env, t_envlst **el)
 	exit_status = 0;
 	if (cmdl->is_builtin)
 		exit_status = exec_single_builtin_cmd(cmdl, el);
-	else if (!cmdl->input_file && !cmdl->outfiles)
+	else if (!cmdl->redirs)
 		exit_status = exec_single_simple_cmd(cmdl, env);
 	else
 		exit_status = exec_single_redir_cmd(cmdl, env);

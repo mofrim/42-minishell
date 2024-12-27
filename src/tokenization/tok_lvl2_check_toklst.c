@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 18:45:36 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/26 10:57:44 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/27 15:21:17 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	is_special_tok(t_toktype tok)
 {
 	if (tok == TOK_ROUTA0 || tok == TOK_ROUTA1 || tok == TOK_ROUTA2 || \
 		tok == TOK_ROUT0 || tok == TOK_ROUT1 || tok == TOK_ROUT2 || \
-		tok == TOK_ROUT3 || tok == TOK_HERE || tok == TOK_RIN || \
+		tok == TOK_ROUT3 || tok == TOK_HERE || tok == TOK_RIN0 || \
 		tok == TOK_PIP || tok == TOK_AND)
 		return (1);
 	return (0);
@@ -66,7 +66,7 @@ int	is_special_tok(t_toktype tok)
 
 int	show_first_tokerr_lvl2(t_toktype tok)
 {
-	if (tok == TOK_RIN || tok == TOK_ROUT0 || tok == TOK_ROUT1 || \
+	if (tok == TOK_RIN0 || tok == TOK_ROUT0 || tok == TOK_ROUT1 || \
 		tok == TOK_ROUT2 || tok == TOK_ROUT3 || tok == TOK_ROUTA0 || \
 		tok == TOK_ROUTA1 || tok == TOK_ROUTA2)
 		return (print_tokerr(TOKERR_NL, NULL));
@@ -79,7 +79,7 @@ int	show_first_tokerr_lvl2(t_toktype tok)
 
 int	show_tokerr_lvl2(t_toktype tok)
 {
-	if (tok == TOK_RIN)
+	if (tok == TOK_RIN0)
 		return (print_tokerr(TOKERR_RIN, NULL));
 	if (tok == TOK_ROUT0)
 		return (print_tokerr(TOKERR_ROUT, NULL));

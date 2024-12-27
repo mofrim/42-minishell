@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:44:43 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/26 11:03:13 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/27 18:05:20 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,9 @@
 
 /* pipe, dup, write, waitpid, execve */
 # include <unistd.h>
+
+/* strerror */
+# include <string.h>
 
 /* For ft_printf(), ft_strlen(), ... */
 # include "libft.h"
@@ -90,14 +93,20 @@ typedef enum e_toktype
 	TOK_ROUT_FDFROM,
 	TOK_ROUT3_FDFROM,
 	TOK_ROUT3_FDTO,
-	TOK_RIN,
-	TOK_OF,
-	TOK_IF,
 	TOK_ROUTA0,
 	TOK_ROUTA1,
 	TOK_ROUTA2,
 	TOK_ROUTA_FDFROM,
 	TOK_ROUTA_FDTO,
+	TOK_RIN0,
+	TOK_RIN1,
+	TOK_RIN_FDTO,
+	TOK_RINOUT0,
+	TOK_RINOUT1,
+	TOK_OF,
+	TOK_IF,
+	TOK_IFOF,
+	TOK_IFOF_FD,
 	TOK_AND,
 	TOK_HERE,
 	TOK_HERE_DLIM,
@@ -159,6 +168,9 @@ typedef enum e_tokerr
 /* Enum with all possible redirtypes we support. */
 typedef enum e_redirtype
 {
+	RE_RIN0,
+	RE_RIN1,
+	RE_RINOUT,
 	RE_ROUT0,
 	RE_ROUT1,
 	RE_ROUT2,
@@ -195,8 +207,7 @@ typedef struct s_cmdlst
 	int				is_builtin;
 	char			*heredoc;
 	int				append;
-	t_redirlst		*outfiles;
-	char			*input_file;
+	t_redirlst		*redirs;
 	struct s_cmdlst	*next;
 }	t_cmdlst;
 
@@ -303,7 +314,7 @@ int			exec_single(t_cmdlst *cmdl, char **env, t_envlst **el);
 int			exec_single_redir_cmd(t_cmdlst *cmdl, char **env);
 int			exec_single_builtin_cmd(t_cmdlst *cl, t_envlst **el);
 int			exec_pipe(t_cmdlst *cmdl, char **env, t_envlst **el);
-int			open_redir_files(char *infile, t_redirlst *ofl);
+int			open_redir_files(t_redirlst *rdl);
 
 /*********** Builtins. ***********/
 

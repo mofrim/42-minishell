@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 21:31:43 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/21 09:42:05 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/27 18:05:22 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ static int	print_tokentype2(t_token *token)
 	ret = 0;
 	if (token->type == TOK_SQUOT)
 		ret = ft_printf("TOK_SQUOT");
-	else if (token->type == TOK_RIN)
-		ret = ft_printf("TOK_RIN");
+	else if (token->type == TOK_RIN0)
+		ret = ft_printf("TOK_RIN0");
 	else if (token->type == TOK_OF)
 		ret = ft_printf("TOK_OF");
 	else if (token->type == TOK_IF)
@@ -67,7 +67,6 @@ static int	print_tokentype2(t_token *token)
 		ret = ft_printf("TOK_ROUT3_FDTO");
 	return (ret);
 }
-
 static int	print_tokentype3(t_token *token)
 {
 	int	ret;
@@ -87,6 +86,24 @@ static int	print_tokentype3(t_token *token)
 		ret = ft_printf("TOK_ROUTA_FDTO");
 	else if (token->type == TOK_AND)
 		ret = ft_printf("TOK_AND");
+	else if (token->type == TOK_RINOUT0)
+		ret = ft_printf("TOK_RINOUT");
+	else if (token->type == TOK_RIN1)
+		ret = ft_printf("TOK_RIN1");
+	else if (token->type == TOK_IFOF)
+		ret = ft_printf("TOK_IFOF");
+	return (ret);
+}
+
+static int	print_tokentype4(t_token *token)
+{
+	int	ret;
+
+	ret = 0;
+	if (token->type == TOK_RIN_FDTO)
+		ret = ft_printf("TOK_RIN_FDTO");
+	else if (token->type == TOK_IFOF_FD)
+		ret = ft_printf("TOK_IFOF_FD");
 	return (ret);
 }
 
@@ -97,8 +114,10 @@ void	print_tokentype(t_token *token)
 		return ;
 	else if (print_tokentype2(token))
 		return ;
+	else if (print_tokentype3(token))
+		return ;
 	else
-		print_tokentype3(token);
+		print_tokentype4(token);
 }
 
 void	print_toklst(t_toklst *tlst)

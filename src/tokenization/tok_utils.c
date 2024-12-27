@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 07:10:47 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/18 22:50:01 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/27 15:21:17 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	is_redir_tok(t_toktype tok)
 {
 	if (tok == TOK_ROUTA0 || tok == TOK_ROUTA1 || tok == TOK_ROUTA2 || \
 		tok == TOK_ROUT0 || tok == TOK_ROUT1 || tok == TOK_ROUT2 || \
-		tok == TOK_ROUT3 || tok == TOK_RIN)
+		tok == TOK_ROUT3 || tok == TOK_RIN0)
 		return (1);
 	return (0);
 }

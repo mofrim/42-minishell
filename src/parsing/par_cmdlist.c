@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 17:22:51 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/16 21:37:21 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/27 16:14:56 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,7 @@ t_cmdlst	*cmdlst_new(char *exec, int maxargs)
 	cmd->append = 0;
 	cmd->heredoc = NULL;
 	cmd->next = NULL;
-	cmd->outfiles = NULL;
-	cmd->input_file = NULL;
+	cmd->redirs = NULL;
 	return (cmd);
 }
 
@@ -97,10 +96,8 @@ void	cmdlst_clear(t_cmdlst **lst)
 		if ((*lst)->cmd)
 			free((*lst)->cmd);
 		free_args(&(*lst)->args, (*lst)->arg_count);
-		if ((*lst)->outfiles)
-			redirlst_clear(&(*lst)->outfiles);
-		if ((*lst)->input_file)
-			free((*lst)->input_file);
+		if ((*lst)->redirs)
+			redirlst_clear(&(*lst)->redirs);
 		if ((*lst)->heredoc)
 			free((*lst)->heredoc);
 		free(*lst);

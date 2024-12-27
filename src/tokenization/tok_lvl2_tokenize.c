@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 10:57:29 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/20 12:53:50 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/27 15:21:17 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	tokenize_lvl2(t_toklst	**toklst)
 
 static void	apply_lvl2_tokenization(t_token *cur, t_token *next)
 {
-	if (cur->type == TOK_RIN && next->type == TOK_WORD)
+	if (cur->type == TOK_RIN0 && next->type == TOK_WORD)
 		next->type = TOK_IF;
 	else if (is_rout_tok(cur->type) && next->type == TOK_WORD)
 		next->type = TOK_OF;

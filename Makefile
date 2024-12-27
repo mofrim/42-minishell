@@ -6,7 +6,7 @@
 #    By: elpah <elpah@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/02 00:03:28 by fmaurer           #+#    #+#              #
-#    Updated: 2024/12/25 17:37:57 by fmaurer          ###   ########.fr        #
+#    Updated: 2024/12/27 16:58:09 by fmaurer          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,6 +38,7 @@ SRCS =	$(SRC_DIR)/minishell.c \
 				$(TOK_DIR)/tok_lvl1_get_next_helpers2.c \
 				$(TOK_DIR)/tok_lvl1_get_next_var.c \
 				$(TOK_DIR)/tok_lvl1_get_next_redir_out.c \
+				$(TOK_DIR)/tok_lvl1_get_next_redir_in.c \
 				$(TOK_DIR)/tok_lvl2_tokenize.c \
 				$(TOK_DIR)/tok_lvl2_check_toklst.c \
 				$(TOK_DIR)/tok_lvl2_redir_tok.c \
@@ -45,9 +46,10 @@ SRCS =	$(SRC_DIR)/minishell.c \
 				$(PARSE_DIR)/par_cmdlist.c \
 				$(PARSE_DIR)/par_heroflst.c \
 				$(PARSE_DIR)/par_parsing.c \
-				$(PARSE_DIR)/par_parse_redir.c \
+				$(PARSE_DIR)/par_parse_redir_out.c \
+				$(PARSE_DIR)/par_parse_redir_in.c \
 				$(PARSE_DIR)/par_redirlst.c \
-				$(PARSE_DIR)/par_parsing_helpers1.c \
+				$(PARSE_DIR)/par_parse_pipe.c \
 				$(PARSE_DIR)/par_parse_cmd_bltin.c \
 				$(PARSE_DIR)/par_parse_heredoc.c \
 				$(ENV_DIR)/env_utils.c \
@@ -69,7 +71,8 @@ SRCS =	$(SRC_DIR)/minishell.c \
 				$(EXEC_DIR)/exec_single_redir.c \
 				$(EXEC_DIR)/exec_single_builtin.c \
 				$(EXEC_DIR)/exec_open_redir_files.c \
-				$(EXEC_DIR)/exec_proc_redirlst_helpers.c \
+				$(EXEC_DIR)/exec_proc_redirlst_in.c \
+				$(EXEC_DIR)/exec_proc_redirlst_out.c \
 				$(EXEC_DIR)/exec_pipe.c
 
 

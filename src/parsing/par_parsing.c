@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 10:59:44 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/21 09:50:29 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/27 16:14:32 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,13 +59,11 @@ void	print_cmdlst(t_cmdlst *cmd)
 		while (++i < cmd->arg_count)
 			ft_printf("%s ", cmd->args[i]);
 		ft_printf("\n");
-		if (cmd->outfiles)
+		if (cmd->redirs)
 		{
-			ft_printf("Output redirects:\n", cmd->input_file);
-			redirlst_print(cmd->outfiles);
+			ft_printf("Redirects:\n");
+			redirlst_print(cmd->redirs);
 		}
-		if (cmd->input_file)
-			ft_printf("Input redirected from: %s\n", cmd->input_file);
 		if (cmd->is_builtin)
 			ft_printf("Is builtin!\n");
 		if (cmd->heredoc)
