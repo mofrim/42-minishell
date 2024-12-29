@@ -6,34 +6,24 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/27 22:55:40 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/28 00:20:24 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/29 12:41:47 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	set_exec_path(t_cmdlst *cl, char **env)
-{
-	char	*exec_path;
-
-	exec_path = get_exec_path(cl, env);
-	if (exec_path == NULL)
-		return (minish_errormsg(cl->cmd, "command not found!", ENOENT));
-	free(cl->args[0]);
-	cl->args[0] = ft_strdup(exec_path);
-	free(exec_path);
-	return (0);
-}
-
+/* The pipe redirects have to be done *before* all other redirs.
+ * QUESTION: Why?*/
 static void	run_child(t_cmdlst *cl, int pipefd[2], int prev_read, char **env)
 {
-	if (open_redir_files(cl->redirs) != 0)
-		exit(errno);
 	close(pipefd[0]);
 	dup2(pipefd[1], STDOUT_FILENO);
 	close(pipefd[1]);
 	dup2(prev_read, STDIN_FILENO);
 	close(prev_read);
+	if (open_redir_files(cl->redirs) != 0)
+		exit(errno);
+	signal(SIGINT, sigint_handler);
 	execve(cl->args[0], cl->args, env);
 }
 
@@ -76,10 +66,11 @@ int	exec_pipe_cmd_last(t_cmdlst *cmdl, char **env, t_envlst **el, int prev_read)
 		return (minish_errormsg("exec_pipe_cmd_last", "fork failed!", errno));
 	if (cpid == 0)
 	{
-		if (open_redir_files(cmdl->redirs))
-			exit(errno);
 		dup2(prev_read, STDIN_FILENO);
 		close(prev_read);
+		if (open_redir_files(cmdl->redirs))
+			exit(errno);
+		signal(SIGINT, sigint_handler);
 		execve(cmdl->args[0], cmdl->args, env);
 	}
 	else

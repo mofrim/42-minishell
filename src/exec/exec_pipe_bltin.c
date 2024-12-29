@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/27 23:50:08 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/28 00:27:54 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/29 12:42:14 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,13 @@ int	exec_pipe_bltin(t_cmdlst *cl, t_envlst **el, int *prev_read)
 static void	run_child(t_bltin_pipargs args, int pipefd[2], int status, \
 		int (*bltin_out)(t_cmdlst *, t_envlst **))
 {
-	if (open_redir_files(args.cl->redirs) != 0)
-		exit(errno);
 	close(pipefd[0]);
 	dup2(pipefd[1], STDOUT_FILENO);
 	close(pipefd[1]);
 	dup2(*args.prev_read, STDIN_FILENO);
 	close(*args.prev_read);
+	if (open_redir_files(args.cl->redirs) != 0)
+		exit(errno);
 	bltin_out(args.cl, args.el);
 	exit(status);
 }
@@ -134,10 +134,10 @@ int	run_pipe_bltin_last(t_bltin_pipargs args, \
 			return (minish_errormsg("run_pipe_bltin", "fork failed", errno));
 		if (cpid == 0)
 		{
-			if (open_redir_files(args.cl->redirs))
-				exit(errno);
 			dup2(*args.prev_read, STDIN_FILENO);
 			close(*args.prev_read);
+			if (open_redir_files(args.cl->redirs))
+				exit(errno);
 			bltin_out(args.cl, args.el);
 			exit(status);
 		}

@@ -6,18 +6,18 @@
 #    By: elpah <elpah@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/02 00:03:28 by fmaurer           #+#    #+#              #
-#    Updated: 2024/12/27 22:56:53 by fmaurer          ###   ########.fr        #
+#    Updated: 2024/12/28 21:20:14 by fmaurer          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 
-SRC_DIR		= ./src
-EXEC_DIR	= $(SRC_DIR)/exec
-PARSE_DIR	= $(SRC_DIR)/parsing
-ENV_DIR	= $(SRC_DIR)/env
-BLTIN_DIR	= $(SRC_DIR)/builtins
-TOK_DIR	= $(SRC_DIR)/tokenization
+SRC_DIR		=	./src
+EXEC_DIR	=	$(SRC_DIR)/exec
+PARSE_DIR	=	$(SRC_DIR)/parsing
+ENV_DIR	=		$(SRC_DIR)/env
+BLTIN_DIR	=	$(SRC_DIR)/builtins
+TOK_DIR	=		$(SRC_DIR)/tokenization
 
 
 SRCS =	$(SRC_DIR)/minishell.c \
@@ -66,21 +66,23 @@ SRCS =	$(SRC_DIR)/minishell.c \
 				$(BLTIN_DIR)/bltin_pwd.c \
 				$(BLTIN_DIR)/bltin_unset.c \
 				$(EXEC_DIR)/exec.c \
+				$(EXEC_DIR)/exec_utils.c \
 				$(EXEC_DIR)/exec_get_exec_path.c \
 				$(EXEC_DIR)/exec_single.c \
 				$(EXEC_DIR)/exec_single_builtin.c \
 				$(EXEC_DIR)/exec_open_redir_files.c \
 				$(EXEC_DIR)/exec_proc_redirlst_in.c \
 				$(EXEC_DIR)/exec_proc_redirlst_out.c \
-				$(EXEC_DIR)/exec_pipe.c \
+				$(EXEC_DIR)/exec_pipeline.c \
 				$(EXEC_DIR)/exec_pipe_cmd.c \
 				$(EXEC_DIR)/exec_pipe_bltin.c
 
 
-# SRCS = $(patsubst ./%.c,%.c,$(SRCS_IN))
+SRCS_I = $(patsubst ./src/%/%.c,%.c,$(SRCS))
+SRCS_IN = $(patsubst ./src/%/%.c,%.c,$(SRCS_I))
 
 OBJDIR = obj
-OBJS = $(patsubst %.c,$(OBJDIR)/%.o,$(SRCS))
+OBJS = $(patsubst %.c,$(OBJDIR)/%.o,$(SRCS_IN))
 
 RL_PATH = ./readline
 RL_LIBS = $(RL_PATH)/libreadline.a $(RL_PATH)/libhistory.a
@@ -115,6 +117,8 @@ log_msg = $(MSGOPN) $(1) $(MSGEND)
 
 # all: $(NAME)
 all: debug
+# all:
+# 	echo $(SRCS_IN)
 
 $(OBJDIR)/%.o: %.c $(HDRS)| $(OBJDIR)
 	@echo -e "$(call log_msg,Compiling $<...)"
@@ -127,7 +131,7 @@ $(OBJDIR)/%.o: %.c $(HDRS)| $(OBJDIR)
 
 $(NAME): $(OBJS) | $(LIBFT)
 	@echo -e "$(call log_msg,Compiling $(NAME)...)"
-	$(CC) $(CFLAGS) $(LIB_PATHS) $(INC) -o $@ $^ $(LIBS_DEV) $(RL_LIBS)
+	$(CC) $(CFLAGS) -DREADLINE_LIBRARY $(LIB_PATHS) $(INC) -o $@ $^ $(LIBS_DEV) $(RL_LIBS)
 
 $(LIBFT):
 	@echo -e "$(call log_msg,Compiling libft...)"

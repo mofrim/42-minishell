@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:44:43 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/28 00:04:43 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/29 10:54:05 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,13 @@
 /* For FILE (needed by readline), perror */
 # include <stdio.h>
 
+/* ioctl */
+# include <sys/ioctl.h>
+
 /* open and constants like O_RDONLY */
 # include <fcntl.h>
 
-/* pipe, dup, write, waitpid, execve */
+/* pipe, dup, write, waitpid, execve, STDIN_FILENO, _POSIX_VDISABLE */
 # include <unistd.h>
 
 /* strerror */
@@ -34,10 +37,10 @@
 /* For add_history() */
 # include "history.h"
 
-/* For signal */
+/* For signal, kill */
 # include <signal.h>
 
-/* For temios */
+/* For t_termios, tcsetattr, tcgetattr, ISIG, VQUIT, ... */
 # include <termios.h>
 
 /* For malloc, free */
@@ -52,8 +55,8 @@
 /* COM = Colors over minishell! */
 # include "colors.h"
 
-/* The \001 and \002 esc seqs tell readline where non-printable characters start
- * / end in the prompt. Fixes outputs problems after long text inputs. */
+/* The \001 and \002 esc seqs tell readline where non-printable characters 
+ * start / end in the prompt. Fixes outputs problems after long text inputs. */
 # define PROMPT "\001\033[1;33m\002=8-)\001\033[0m\002 "
 
 /* Define termios type for easier reference. */
@@ -181,14 +184,14 @@ typedef enum e_redirtype
 }	t_redirtype;
 
 /* Struct for recording heredoc delimiters & and output files. */
-typedef struct	s_heroflst
+typedef struct s_heroflst
 {
 	char				*name;
 	struct s_heroflst	*next;
 }	t_heroflst;
 
 /* Struct for saving all redirects. */
-typedef struct	s_redirlst
+typedef struct s_redirlst
 {
 	t_redirtype			redtype;
 	int					fd_from;
@@ -222,7 +225,7 @@ typedef struct s_bltin_pipargs
 
 /*********** Signal and terminal setup. ***********/
 
-void		signal_handler(int signum);
+void		sigint_handler(int signum);
 void		signal_setup(void (*sig_handler)(int));
 void		term_setup(struct termios *old_settings);
 
@@ -323,6 +326,7 @@ int			exec_single(t_cmdlst *cmdl, char **env, t_envlst **el);
 int			exec_single_builtin_cmd(t_cmdlst *cl, t_envlst **el);
 int			exec_pipeline(t_cmdlst *cmdl, char **env, t_envlst **el);
 int			open_redir_files(t_redirlst *rdl);
+int			set_exec_path(t_cmdlst *cl, char **env);
 
 /*********** Builtins. ***********/
 

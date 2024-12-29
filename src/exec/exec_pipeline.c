@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_pipe.c                                        :+:      :+:    :+:   */
+/*   exec_pipeline.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 12:07:34 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/28 00:28:13 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/29 11:37:53 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ int	exec_pipeline(t_cmdlst *cl, char **env, t_envlst **el)
 
 	prev_read = dup(0);
 	status = 0;
+	signal(SIGINT, SIG_IGN);
 	while (cl->next)
 	{
 		if (cl->is_builtin)
@@ -38,7 +39,8 @@ int	exec_pipeline(t_cmdlst *cl, char **env, t_envlst **el)
 		exec_pipe_bltin_last(cl, el, &prev_read);
 	else
 		exec_pipe_cmd_last(cl, env, el, prev_read);
-	while (wait(&status) != -1)
+	while (!(wait(&status) == -1 && errno == ECHILD))
 		;
+	signal(SIGINT, sigint_handler);
 	return (status);
 }
