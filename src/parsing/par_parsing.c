@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 10:59:44 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/27 16:14:32 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/29 12:29:47 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,16 +52,17 @@ void	print_cmdlst(t_cmdlst *cmd)
 {
 	int	i;
 
+	ft_printf(GRN "-- cmdlst start --\n" RST, cmd->cmd);
 	while (cmd)
 	{
-		ft_printf("-- cmd start --\nCommand: %s\nArguments: ", cmd->cmd);
+	ft_printf(GRN "-- cmd --\n" RST "Command: %s\nArguments: " , cmd->cmd);
 		i = 0;
 		while (++i < cmd->arg_count)
 			ft_printf("%s ", cmd->args[i]);
 		ft_printf("\n");
 		if (cmd->redirs)
 		{
-			ft_printf("Redirects:\n");
+			ft_printf("Redirects: ");
 			redirlst_print(cmd->redirs);
 		}
 		if (cmd->is_builtin)
@@ -70,9 +71,9 @@ void	print_cmdlst(t_cmdlst *cmd)
 			ft_printf("HEREDOC: %s\n", cmd->heredoc);
 		if (cmd->next)
 			ft_printf("Piped to: %s\n", cmd->next->cmd);
-		ft_printf("-- cmd end --\n");
 		cmd = cmd->next;
 	}
+	ft_printf(GRN "-- cmdlst end --\n\n" RST);
 }
 
 static void	remove_heredoc(t_toklst **toklst)
