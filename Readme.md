@@ -499,3 +499,31 @@ Bash syntax errors:
   + that should be enough redir stuff!
   + implement pipes
   + implement the heredoc
+
+- **[2024-12-29 10:37]** Some notes on signal processing
+  claude told me: 
+
+      *the only signal-related settings that are inherited across execve() are:*
+
+      + the signal mask
+      + the set of pending signals
+      + signal dispositions that were set to SIG_IGN
+
+  => this is funny! bc atm i set SIGINT to SIG_IGN before fork the child and if
+  i do not reset SIGINT to something else SIGINT will still be ignored inside
+  any execve-ed program. **BUT** if i set SIGINT to call my normal
+  signal_handler this will also be replaced by the default handler in the
+  subprocess 🤯
+
+  + `wait(NULL)` returns -1 and sets `errno = ECHILD` if there is no more child
+    to wait for... so the correct way to wait for childs to finish would be
+    ```c
+    while (!(wait(NULL) == -1 && errno == ECHILD))
+        if (errno && errno != ECHILD)
+          printf("something bad has happened.");
+    ```
+
+  Why does hitting `Ctrl-C` with a cmdline like `cat < shell.nix | sleep 2 |
+  echo "bla"` work in our minishell? I mean, form how i understand our current
+  signal handling the `echo` should still be executed ?!?!
+  **-> clarify that!**
