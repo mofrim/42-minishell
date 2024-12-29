@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:44:43 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/29 10:54:05 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/29 19:23:56 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -228,6 +228,8 @@ typedef struct s_bltin_pipargs
 void		sigint_handler(int signum);
 void		signal_setup(void (*sig_handler)(int));
 void		term_setup(struct termios *old_settings);
+int			ft_wifsignaled(int status);
+int 		ft_wexitstatus(int status);
 
 /*********** Utils ***********/
 

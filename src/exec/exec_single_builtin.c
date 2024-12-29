@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/07 23:15:39 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/27 16:16:08 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/29 19:52:25 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	exec_single_builtin_cmd(t_cmdlst *cl, t_envlst **el)
 		exit_status = exec_single_builtin(cl, el, NULL, bltin_env);
 	if (!strcmp(cl->cmd, "exit"))
 		exit_status = bltin_exit();
-	return (exit_status);
+	return (exit_status << 8);
 }
 
 /*

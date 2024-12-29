@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:46:50 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/27 16:59:02 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/29 19:54:12 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static void	init_shell(t_envlst **el, t_termios	*old_settings, t_toklst **tl, \
 {
 	*el = parse_env(envp);
 	envlst_add_back(el, envlst_new("?", "0"));
-	signal_setup(signal_handler);
+	signal_setup(sigint_handler);
 	term_setup(old_settings);
 	*tl = NULL;
 }
@@ -61,17 +61,19 @@ static void	evaluate_cmdline(t_toklst **tl, t_envlst **el)
 
 	cl = parse_tokenlist(*tl);
 	status_int = exec_cmd(cl, el);
-	status_str = ft_itoa(status_int);
+	status_str = ft_itoa(ft_wexitstatus(status_int));
 	set_env_entry("?", status_str, el);
 	free(status_str);
 	cmdlst_clear(&cl);
 	toklst_clear(tl);
+	if (ft_wifsignaled(status_int))
+		ft_putchar_fd('\n', STDOUT_FILENO);
 }
 
 static void	cleanup_and_exit(t_termios *old_settings, t_envlst **el, \
 		t_toklst **tl)
 {
-	ft_printf("exit");
+	ft_printf("exit\n");
 	tcsetattr(STDIN_FILENO, TCSANOW, old_settings);
 	rl_clear_history();
 	envlst_clear(el);

@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/08 15:39:14 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/29 10:54:05 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/29 19:47:44 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,5 +50,5 @@ int	exec_single_cmd(t_cmdlst *cl, char **env)
 	}
 	waitpid(cpid, &status, 0);
 	signal_setup(sigint_handler);
-	return (status >> 8);
+	return (status);
 }
