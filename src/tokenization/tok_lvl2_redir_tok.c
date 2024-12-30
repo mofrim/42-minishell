@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 06:39:12 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/27 18:24:57 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/30 10:40:46 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ void	apply_redir_tokenization(t_token *prev, t_token *cur, \
  * n>word where n is some positive int. Set the toktypes accordingly. */
 static void	tokenize_rout1(t_token *prev, t_token *cur, t_token *next)
 {
+	(void)cur;
 	if (get_posint_numstr(prev->value) >= 0 && (next->type == TOK_WORD || \
 				next->type == TOK_OF))
 		prev->type = TOK_ROUT_FDFROM;
@@ -59,6 +60,7 @@ static void	tokenize_rout1(t_token *prev, t_token *cur, t_token *next)
 /* deal with '&>' token.  */
 static void	tokenize_rout2(t_token *prev, t_token *cur, t_token *next)
 {
+	(void)cur;
 	if (prev->type == TOK_WORD)
 		prev->type = TOK_ARG;
 	next->type = TOK_OF;
@@ -67,6 +69,7 @@ static void	tokenize_rout2(t_token *prev, t_token *cur, t_token *next)
 /* deal with '>&' token. */
 static void	tokenize_rout3(t_token *prev, t_token *cur, t_token *next)
 {
+	(void)cur;
 	if (get_posint_numstr(prev->value) >= 0 && \
 			get_posint_numstr(next->value) >= 0)
 	{
@@ -82,6 +85,7 @@ static void	tokenize_rout3(t_token *prev, t_token *cur, t_token *next)
 
 static void	tokenize_routa1(t_token *prev, t_token *cur, t_token *next)
 {
+	(void)cur;
 	if (get_posint_numstr(prev->value) >= 0 && \
 			get_posint_numstr(next->value) >= 0)
 	{
@@ -100,6 +104,8 @@ static void	tokenize_routa1(t_token *prev, t_token *cur, t_token *next)
 
 static void	tokenize_routa2(t_token *prev, t_token *cur, t_token *next)
 {
+	(void)prev;
+	(void)cur;
 	next->type = TOK_OF;
 }
 

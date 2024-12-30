@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/27 16:00:04 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/27 18:20:07 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/30 10:42:17 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ static void	parse_rin0(t_toklst **toklst, t_cmdlst *cur_cmd, t_toktype ttype)
 {
 	t_redirlst	rfl;
 
+	(void)ttype;
 	init_redirlst_var(&rfl);
 	rfl.redtype = RE_RIN0;
 	rfl.infile = (*toklst)->next->token->value;
@@ -47,6 +48,7 @@ void	parse_rin1(t_toklst **toklst, t_cmdlst *cur_cmd, t_toktype ttype)
 {
 	t_redirlst	rfl;
 
+	(void)ttype;
 	init_redirlst_var(&rfl);
 	rfl.redtype = RE_RIN1;
 	rfl.fd_to = ft_atoi((*toklst)->token->value);

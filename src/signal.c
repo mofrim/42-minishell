@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 23:24:37 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/29 19:53:19 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/30 10:39:00 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 // be tested. if set: kill all children.
 void	sigint_handler(int signum)
 {
+	(void)signum;
 	while (wait(NULL) != -1 && errno != ECHILD)
 		;
 	ft_printf("^C\n");

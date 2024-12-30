@@ -25,6 +25,8 @@ int	main(int ac, char **av, char **envp)
 	t_toklst	*tlst;
 	t_envlst	*el;
 
+	(void)ac;
+	(void)av;
 	init_shell(&el, &old_settings, &tlst, envp);
 	while (1)
 	{

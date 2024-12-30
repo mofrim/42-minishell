@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 17:26:43 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/26 11:15:36 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/30 10:39:23 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int	print_tokerr(t_tokerr te, char *tok)
 
 void	print_tokerr_part1(t_tokerr te, char *tok)
 {
+	(void)tok;
 	if (te == TOKERR_NL)
 		ft_dprintf(2, ERRMSG_SYNTAX "\'\\n\'\n");
 	if (te == TOKERR_PIP)

@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 19:11:04 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/16 08:39:50 by elpah            ###   ########.fr       */
+/*   Updated: 2024/12/30 10:42:35 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ static char	*splitjoin(char **s)
 {
 	char	*joi;
 	char	*tmp;
-	char	*tmp1;
 
 	joi = NULL;
 	while (*s)

@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/08 15:39:14 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/30 02:19:12 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/30 10:42:59 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ int	exec_single(t_cmdlst *cmdl, char **env, t_envlst **el)
 /* Exec a single not pipelined cmd with redirs. */
 int	exec_single_cmd(t_cmdlst *cl, char **env)
 {
-	char	*exec_path;
 	int		cpid;
 	int		status;
 	int		err_exec_path;

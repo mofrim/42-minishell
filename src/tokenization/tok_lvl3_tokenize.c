@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 15:24:38 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/27 19:33:32 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/30 10:41:32 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ int	tokenize_lvl3(t_toklst	**toklst)
 static void	apply_lvl3_tokenization(t_token *prev, t_token *cur, \
 		t_token *next, int *cmd_already)
 {
+	(void)next;
+	(void)prev;
 	if (cur->type == TOK_PIP)
 		*cmd_already = 0;
 	else if ((cur->type == TOK_CMD || cur->type == TOK_WORD) && *cmd_already)
@@ -101,6 +103,7 @@ int	check_toklst_lvl3(t_toklst*toklst)
 // FIXME: before submission, if not needed until then, remove prev.
 int	check_tok_lvl3(t_token *prev, t_token *cur, t_token *next)
 {
+	(void)prev;
 	if (cur->type == TOK_ROUT1 && next->type == TOK_ROUT_FDFROM)
 		return (print_tokerr(TOKERR_FDFROM, next->value));
 	return (1);
