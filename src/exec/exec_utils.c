@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 21:09:58 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/28 21:11:41 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/30 02:34:20 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,23 @@
  * 0 if nothing goes wrong, value != 0 otherwise.*/
 int	set_exec_path(t_cmdlst *cl, char **env)
 {
-	char	*exec_path;
+	char		*exec_path;
+	struct stat	sb;
 
 	exec_path = get_exec_path(cl, env);
 	if (exec_path == NULL)
-		return (minish_errormsg(cl->cmd, "command not found!", ENOENT));
+	{
+		if (!stat(cl->cmd, &sb) && (sb.st_mode & S_IFDIR) == S_IFDIR)
+			return (free(exec_path), \
+					minish_errormsg(cl->cmd, "is a directory", 126));
+		else
+			return (minish_errormsg(cl->cmd, "command not found!", 127));
+	}
+	if (!ft_strcmp(exec_path, ""))
+		return (free(exec_path), \
+				minish_errormsg("permission denied", cl->cmd, 126));
 	free(cl->args[0]);
 	cl->args[0] = ft_strdup(exec_path);
 	free(exec_path);
 	return (0);
 }
-

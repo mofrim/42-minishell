@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/08 15:39:14 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/29 19:47:44 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/30 02:19:12 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,11 @@ int	exec_single_cmd(t_cmdlst *cl, char **env)
 	char	*exec_path;
 	int		cpid;
 	int		status;
+	int		err_exec_path;
 
-	exec_path = get_exec_path(cl, env);
-	if (set_exec_path(cl, env) != 0)
-		return (ENOENT);
+	err_exec_path = set_exec_path(cl, env);
+	if (err_exec_path)
+		return (err_exec_path);
 	signal(SIGINT, SIG_IGN);
 	cpid = fork();
 	if (cpid < 0)

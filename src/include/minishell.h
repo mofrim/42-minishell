@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:44:43 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/29 19:23:56 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/30 02:30:54 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,9 @@
 
 /* ioctl */
 # include <sys/ioctl.h>
+
+/* stat */
+#include <sys/stat.h>
 
 /* open and constants like O_RDONLY */
 # include <fcntl.h>
