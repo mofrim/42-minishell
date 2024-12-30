@@ -6,23 +6,22 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 10:14:32 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/16 10:37:45 by elpah            ###   ########.fr       */
+/*   Updated: 2024/12/30 04:28:15 by elpah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-
-void unset_free(t_envlst *ptr)
+void	unset_free(t_envlst *ptr)
 {
 	if (!ptr)
-		return;
+		return ;
 	free(ptr->name);
 	free(ptr->value);
 	free(ptr);
 }
 
-int check(char **key)
+int	check(char **key)
 {
 	if (!key[1])
 	{
@@ -37,21 +36,19 @@ int check(char **key)
 	return (1);
 }
 
-int bltin_unset(t_envlst **env, char **str)
+int	bltin_unset(t_envlst **env, char **str)
 {
-	t_envlst *ptr;
-	t_envlst *prev;
-	t_envlst *ptr2;
+	t_envlst	*ptr;
+	t_envlst	*prev;
+	t_envlst	*ptr2;
 
 	if (!env || !*env || !check(str))
 		return (0);
-
 	ptr = *env;
 	if (!ft_strcmp(ptr->name, str[1]))
 	{
 		*env = ptr->next;
-		unset_free(ptr);
-		return (0);
+		return (unset_free(ptr), 0);
 	}
 	prev = ptr;
 	while (ptr && ptr->next)
@@ -60,10 +57,9 @@ int bltin_unset(t_envlst **env, char **str)
 		{
 			ptr2 = ptr->next;
 			ptr->next = ptr->next->next;
-			unset_free(ptr2);
-			return (0);
+			return (unset_free(ptr2), 0);
 		}
 		ptr = ptr->next;
 	}
-	return 		(0);
+	return (0);
 }
