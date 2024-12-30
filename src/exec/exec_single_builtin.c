@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/07 23:15:39 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/29 19:52:25 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/30 02:12:25 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,20 +53,20 @@ int	exec_single_builtin_cmd(t_cmdlst *cl, t_envlst **el)
 	int		exit_status;
 
 	exit_status = 0;
-	if (!strcmp(cl->cmd, "echo"))
+	if (!ft_strcmp(cl->cmd, "echo"))
 		exit_status = exec_single_builtin(cl, el, NULL, bltin_echo);
-	if (!strcmp(cl->cmd, "cd"))
+	if (!ft_strcmp(cl->cmd, "cd"))
 		exit_status = bltin_cd(cl->args, el);
-	if (!strcmp(cl->cmd, "pwd"))
+	if (!ft_strcmp(cl->cmd, "pwd"))
 		exit_status = exec_single_builtin(cl, el, NULL, bltin_pwd);
-	if (!strcmp(cl->cmd, "export"))
+	if (!ft_strcmp(cl->cmd, "export"))
 		exit_status = exec_single_builtin(cl, el, bltin_export_preout, \
 					bltin_export_out);
-	if (!strcmp(cl->cmd, "unset"))
+	if (!ft_strcmp(cl->cmd, "unset"))
 		exit_status = exec_single_builtin(cl, el, bltin_unset, NULL);
-	if (!strcmp(cl->cmd, "env"))
+	if (!ft_strcmp(cl->cmd, "env"))
 		exit_status = exec_single_builtin(cl, el, NULL, bltin_env);
-	if (!strcmp(cl->cmd, "exit"))
+	if (!ft_strcmp(cl->cmd, "exit"))
 		exit_status = bltin_exit();
 	return (exit_status << 8);
 }

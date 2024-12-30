@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 14:27:28 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/16 09:20:03 by elpah            ###   ########.fr       */
+/*   Updated: 2024/12/30 02:13:17 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ char	*get_env_value(char *name, t_envlst *el)
 {
 	while (el)
 	{
-		if (!strcmp(name, el->name))
+		if (!ft_strcmp(name, el->name))
 			return (el->value);
 		el = el->next;
 	}
@@ -60,7 +60,7 @@ t_envlst	*get_env_entry_by_name(char *name, t_envlst *el)
 {
 	while (el)
 	{
-		if (!strcmp(name, el->name))
+		if (!ft_strcmp(name, el->name))
 			return (el);
 		el = el->next;
 	}

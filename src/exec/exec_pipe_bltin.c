@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/27 23:50:08 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/29 12:42:14 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/30 02:12:52 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,20 +28,20 @@ int	exec_pipe_bltin(t_cmdlst *cl, t_envlst **el, int *prev_read)
 	args.cl = cl;
 	args.el = el;
 	args.prev_read = prev_read;
-	if (!strcmp(cl->cmd, "echo"))
+	if (!ft_strcmp(cl->cmd, "echo"))
 		exit_status = run_pipe_bltin(args, NULL, bltin_echo);
-	if (!strcmp(cl->cmd, "cd"))
+	if (!ft_strcmp(cl->cmd, "cd"))
 		exit_status = bltin_cd(cl->args, el);
-	if (!strcmp(cl->cmd, "pwd"))
+	if (!ft_strcmp(cl->cmd, "pwd"))
 		exit_status = run_pipe_bltin(args, NULL, bltin_pwd);
-	if (!strcmp(cl->cmd, "export"))
+	if (!ft_strcmp(cl->cmd, "export"))
 		exit_status = run_pipe_bltin(args, bltin_export_preout, \
 					bltin_export_out);
-	if (!strcmp(cl->cmd, "unset"))
+	if (!ft_strcmp(cl->cmd, "unset"))
 		exit_status = run_pipe_bltin(args, bltin_unset, NULL);
-	if (!strcmp(cl->cmd, "env"))
+	if (!ft_strcmp(cl->cmd, "env"))
 		exit_status = run_pipe_bltin(args, NULL, bltin_env);
-	if (!strcmp(cl->cmd, "exit"))
+	if (!ft_strcmp(cl->cmd, "exit"))
 		exit_status = bltin_exit();
 	return (exit_status);
 }
@@ -99,20 +99,20 @@ int	exec_pipe_bltin_last(t_cmdlst *cl, t_envlst **el, int *prev_read)
 	args.cl = cl;
 	args.el = el;
 	args.prev_read = prev_read;
-	if (!strcmp(cl->cmd, "echo"))
+	if (!ft_strcmp(cl->cmd, "echo"))
 		exit_status = run_pipe_bltin_last(args, NULL, bltin_echo);
-	if (!strcmp(cl->cmd, "cd"))
+	if (!ft_strcmp(cl->cmd, "cd"))
 		exit_status = bltin_cd(cl->args, el);
-	if (!strcmp(cl->cmd, "pwd"))
+	if (!ft_strcmp(cl->cmd, "pwd"))
 		exit_status = run_pipe_bltin_last(args, NULL, bltin_pwd);
-	if (!strcmp(cl->cmd, "export"))
+	if (!ft_strcmp(cl->cmd, "export"))
 		exit_status = run_pipe_bltin_last(args, bltin_export_preout, \
 					bltin_export_out);
-	if (!strcmp(cl->cmd, "unset"))
+	if (!ft_strcmp(cl->cmd, "unset"))
 		exit_status = run_pipe_bltin_last(args, bltin_unset, NULL);
-	if (!strcmp(cl->cmd, "env"))
+	if (!ft_strcmp(cl->cmd, "env"))
 		exit_status = run_pipe_bltin_last(args, NULL, bltin_env);
-	if (!strcmp(cl->cmd, "exit"))
+	if (!ft_strcmp(cl->cmd, "exit"))
 		exit_status = bltin_exit();
 	return (exit_status);
 }
