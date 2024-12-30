@@ -6,90 +6,89 @@
 #    By: elpah <elpah@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/02 00:03:28 by fmaurer           #+#    #+#              #
-#    Updated: 2024/12/28 21:20:14 by fmaurer          ###   ########.fr        #
+#    Updated: 2024/12/30 10:37:56 by fmaurer          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 
 SRC_DIR		=	./src
-EXEC_DIR	=	$(SRC_DIR)/exec
-PARSE_DIR	=	$(SRC_DIR)/parsing
-ENV_DIR	=		$(SRC_DIR)/env
-BLTIN_DIR	=	$(SRC_DIR)/builtins
-TOK_DIR	=		$(SRC_DIR)/tokenization
 
+# using the *magic* VPATH variable for finding my sources 🤯. also possible to
+# use it like: `vpath %.c dir1/ dir2/ ...`. more on this ->
+# https://makefiletutorial.com/#the-vpath-directive
+#
+# TLDR; this will make make find the correct source file `./src/exec/bla.c` for
+# any obj called `obj/bla.o`
+VPATH	=	./src ./src/exec ./src/parsing ./src/env ./src/builtins \
+				./src/tokenization
 
-SRCS =	$(SRC_DIR)/minishell.c \
-				$(SRC_DIR)/term_setup.c \
-				$(SRC_DIR)/signal.c \
-				$(SRC_DIR)/utils.c \
-				$(SRC_DIR)/error_exit_utils.c \
-				$(TOK_DIR)/tok_tokenize.c \
-				$(TOK_DIR)/tok_cmdline.c \
-				$(TOK_DIR)/tok_tokenlist.c \
-				$(TOK_DIR)/tok_tokenlist_del.c \
-				$(TOK_DIR)/tok_tokprint.c \
-				$(TOK_DIR)/tok_utils.c \
-				$(TOK_DIR)/tok_tokerr_int.c \
-				$(TOK_DIR)/tok_lvl1_tokenize.c \
-				$(TOK_DIR)/tok_lvl1_get_next_tok.c \
-				$(TOK_DIR)/tok_lvl1_get_next_helpers1.c \
-				$(TOK_DIR)/tok_lvl1_get_next_helpers2.c \
-				$(TOK_DIR)/tok_lvl1_get_next_var.c \
-				$(TOK_DIR)/tok_lvl1_get_next_redir_out.c \
-				$(TOK_DIR)/tok_lvl1_get_next_redir_in.c \
-				$(TOK_DIR)/tok_lvl2_tokenize.c \
-				$(TOK_DIR)/tok_lvl2_check_toklst.c \
-				$(TOK_DIR)/tok_lvl2_redir_tok.c \
-				$(TOK_DIR)/tok_lvl3_tokenize.c \
-				$(PARSE_DIR)/par_cmdlist.c \
-				$(PARSE_DIR)/par_heroflst.c \
-				$(PARSE_DIR)/par_parsing.c \
-				$(PARSE_DIR)/par_parse_redir_out.c \
-				$(PARSE_DIR)/par_parse_redir_in.c \
-				$(PARSE_DIR)/par_redirlst.c \
-				$(PARSE_DIR)/par_parse_pipe.c \
-				$(PARSE_DIR)/par_parse_cmd_bltin.c \
-				$(PARSE_DIR)/par_parse_heredoc.c \
-				$(ENV_DIR)/env_utils.c \
-				$(ENV_DIR)/env_envlst.c \
-				$(ENV_DIR)/env_parse.c \
-				$(ENV_DIR)/env_get_env_array.c \
-				$(ENV_DIR)/env_set_entry.c \
-				$(ENV_DIR)/env_copy.c \
-				$(BLTIN_DIR)/bltin_export.c \
-				$(BLTIN_DIR)/bltin_cd.c \
-				$(BLTIN_DIR)/bltin_echo.c \
-				$(BLTIN_DIR)/bltin_env.c \
-				$(BLTIN_DIR)/bltin_exit.c \
-				$(BLTIN_DIR)/bltin_pwd.c \
-				$(BLTIN_DIR)/bltin_unset.c \
-				$(EXEC_DIR)/exec.c \
-				$(EXEC_DIR)/exec_utils.c \
-				$(EXEC_DIR)/exec_get_exec_path.c \
-				$(EXEC_DIR)/exec_single.c \
-				$(EXEC_DIR)/exec_single_builtin.c \
-				$(EXEC_DIR)/exec_open_redir_files.c \
-				$(EXEC_DIR)/exec_proc_redirlst_in.c \
-				$(EXEC_DIR)/exec_proc_redirlst_out.c \
-				$(EXEC_DIR)/exec_pipeline.c \
-				$(EXEC_DIR)/exec_pipe_cmd.c \
-				$(EXEC_DIR)/exec_pipe_bltin.c
-
-
-SRCS_I = $(patsubst ./src/%/%.c,%.c,$(SRCS))
-SRCS_IN = $(patsubst ./src/%/%.c,%.c,$(SRCS_I))
+SRCS =	minishell.c \
+				term_setup.c \
+				signal.c \
+				utils.c \
+				error_exit_utils.c \
+				tok_tokenize.c \
+				tok_cmdline.c \
+				tok_tokenlist.c \
+				tok_tokenlist_del.c \
+				tok_tokprint.c \
+				tok_utils.c \
+				tok_tokerr_int.c \
+				tok_lvl1_tokenize.c \
+				tok_lvl1_get_next_tok.c \
+				tok_lvl1_get_next_helpers1.c \
+				tok_lvl1_get_next_helpers2.c \
+				tok_lvl1_get_next_var.c \
+				tok_lvl1_get_next_redir_out.c \
+				tok_lvl1_get_next_redir_in.c \
+				tok_lvl2_tokenize.c \
+				tok_lvl2_check_toklst.c \
+				tok_lvl2_redir_tok.c \
+				tok_lvl3_tokenize.c \
+				par_cmdlist.c \
+				par_heroflst.c \
+				par_parsing.c \
+				par_parse_redir_out.c \
+				par_parse_redir_in.c \
+				par_redirlst.c \
+				par_parse_pipe.c \
+				par_parse_cmd_bltin.c \
+				par_parse_heredoc.c \
+				env_utils.c \
+				env_envlst.c \
+				env_parse.c \
+				env_get_env_array.c \
+				env_set_entry.c \
+				env_copy.c \
+				bltin_export.c \
+				bltin_cd.c \
+				bltin_echo.c \
+				bltin_env.c \
+				bltin_exit.c \
+				bltin_pwd.c \
+				bltin_unset.c \
+				exec.c \
+				exec_utils.c \
+				exec_get_exec_path.c \
+				exec_single.c \
+				exec_single_builtin.c \
+				exec_open_redir_files.c \
+				exec_proc_redirlst_in.c \
+				exec_proc_redirlst_out.c \
+				exec_pipeline.c \
+				exec_pipe_cmd.c \
+				exec_pipe_bltin.c
 
 OBJDIR = obj
-OBJS = $(patsubst %.c,$(OBJDIR)/%.o,$(SRCS_IN))
+OBJS = $(patsubst %.c,$(OBJDIR)/%.o,$(SRCS))
+OBJS_DBG = $(patsubst %.c,$(OBJDIR)/dbg-%.o,$(SRCS))
 
 RL_PATH = ./readline
 RL_LIBS = $(RL_PATH)/libreadline.a $(RL_PATH)/libhistory.a
 
 CC = clang
-# CFLAGS = -Wall -Werror -Wextra
-CFLAGS =
+CFLAGS = -Wall -Werror -Wextra
 
 # adding libft
 LIBFT_PATH	= ./libft
@@ -115,23 +114,28 @@ MSGEND = $(YLW)]]$(EOC)
 
 log_msg = $(MSGOPN) $(1) $(MSGEND)
 
-# all: $(NAME)
-all: debug
+all: $(NAME)
+# all: debug
 # all:
-# 	echo $(SRCS_IN)
+# 	echo $(SRCS)
 
 $(OBJDIR)/%.o: %.c $(HDRS)| $(OBJDIR)
 	@echo -e "$(call log_msg,Compiling $<...)"
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) $(INC) -c $< -o $@
+
+$(OBJDIR)/dbg-%.o: %.c $(HDRS)| $(OBJDIR)
+	@echo -e "$(call log_msg,Compiling $<...)"
+	$(CC) $(CFLAGS) $(INC) -g -O0 -DDEBUG -c $< -o $@
 
 ## This is the recipe for prod, without readline submodule
 # $(NAME): $(OBJS) | $(LIBFT)
 # 	@echo -e "$(call log_msg,Compiling $(NAME)...)"
-# 	$(CC) $(CFLAGS) $(LIB_PATHS) -o $@ $^ $(LIBS) -lreadline
+# 	$(CC) $(CFLAGS) $(LIB_PATHS) $(INC) -o $@ $^ $(LIBS) -lreadline
 
-$(NAME): $(OBJS) | $(LIBFT)
+$(NAME): $(OBJS) | $(LIBFT) $(RL_LIBS)
 	@echo -e "$(call log_msg,Compiling $(NAME)...)"
-	$(CC) $(CFLAGS) -DREADLINE_LIBRARY $(LIB_PATHS) $(INC) -o $@ $^ $(LIBS_DEV) $(RL_LIBS)
+	$(CC) $(CFLAGS) -DREADLINE_LIBRARY $(LIB_PATHS) $(INC) -o $@ $^ $(LIBS_DEV) \
+		$(RL_LIBS)
 
 $(LIBFT):
 	@echo -e "$(call log_msg,Compiling libft...)"
@@ -147,9 +151,10 @@ $(RL_LIBS):
 # empty rule ?!?! i just want change detection for them in the end...
 $(HDRS):
 
-debug: $(SRCS) $(RL_LIBS) $(HDRS)| $(LIBFT)
+debug: $(OBJS_DBG) | $(LIBFT) $(RL_LIBS)
 	@echo -e "$(call log_msg,Compiling debug...)"
-	$(CC) $(CFLAGS) -g -O0 -DDEBUG -DREADLINE_LIBRARY $(LIB_PATHS) $(INC) -o $(NAME) $(SRCS) $(LIBS_DEV) $(RL_LIBS)
+	$(CC) $(CFLAGS) -g -O0 -DDEBUG -DREADLINE_LIBRARY $(LIB_PATHS) $(INC) -o \
+		$(NAME) $^ $(LIBS_DEV) $(RL_LIBS)
 
 $(OBJDIR):
 	mkdir -p obj
