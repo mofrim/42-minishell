@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:44:43 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/30 04:21:34 by elpah            ###   ########.fr       */
+/*   Updated: 2024/12/30 05:26:55 by elpah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -247,9 +247,11 @@ int			bltin_echo(char **s);
 int			bltin_cd(char **arg, t_envlst **el);
 int			bltin_pwd(void);
 int			bltin_unset(t_envlst **env, char **str);
-int			bltin_exit(void);
+int			bltin_exit(t_envlst **env, char **str);
 
 /*********** Extra Utility Funtions. ***********/
+void		free_envlst(t_envlst *env);
+void		free_environment(t_envlst *env);
 int			array_length(char **str);
 void		sort_env_list(t_envlst *env);
 char		**ft_split_input(char *str);
@@ -260,5 +262,6 @@ char		*get_current_dir(void);
 void		update_oldpwd(t_envlst *data);
 void		update_pwd(t_envlst *data);
 int			cd_home(t_envlst **env);
+int			is_number(char *str);
 
 #endif
