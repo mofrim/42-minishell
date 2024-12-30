@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:44:43 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/16 13:23:55 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/30 04:21:34 by elpah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,7 @@ typedef enum e_tokerr
 /*********** Datatypes for parsing. ***********/
 
 /* Struct for recording heredoc delimiters & and output files. */
-typedef struct	s_heroflst
+typedef struct s_heroflst
 {
 	char				*name;
 	struct s_heroflst	*next;
@@ -243,7 +243,6 @@ int			bltin_export(t_cmdlst *cmdl, t_envlst **env);
 int			bltin_export_preout(t_envlst **env, char *arg);
 int			bltin_export_out(t_envlst **env, char *arg);
 int			bltin_env(t_cmdlst *cmdl, t_envlst *el);
-
 int			bltin_echo(char **s);
 int			bltin_cd(char **arg, t_envlst **el);
 int			bltin_pwd(void);
@@ -251,8 +250,15 @@ int			bltin_unset(t_envlst **env, char **str);
 int			bltin_exit(void);
 
 /*********** Extra Utility Funtions. ***********/
+int			array_length(char **str);
 void		sort_env_list(t_envlst *env);
 char		**ft_split_input(char *str);
 char		*find_name(char *str, char *equal_pos);
 void		print_env_vars(t_envlst *el);
+void		update_env_value(t_envlst *lst, char *name, char *new_value);
+char		*get_current_dir(void);
+void		update_oldpwd(t_envlst *data);
+void		update_pwd(t_envlst *data);
+int			cd_home(t_envlst **env);
+
 #endif
