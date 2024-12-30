@@ -6,16 +6,16 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 15:24:38 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/30 10:41:32 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/30 18:57:30 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static	void	apply_lvl3_tokenization(t_token *prev, t_token *cur, \
-										t_token *next, int *cmd_found);
-static	int		check_toklst_lvl3(t_toklst *toklst);
-static	int		check_tok_lvl3(t_token *prev, t_token *cur, t_token *next);
+static int	check_toklst_lvl3(t_toklst *toklst);
+static int	check_tok_lvl3(t_token *prev, t_token *cur, t_token *next);
+static void	apply_lvl3_tokenization(t_token *prev, t_token *cur, \
+		t_token *next, int *cmd_found);
 
 /**
  * Do the lvl3 tokenization.
@@ -80,7 +80,7 @@ static void	apply_lvl3_tokenization(t_token *prev, t_token *cur, \
  * - f.ex. `ls 1>2>3`
  */
 // FIXME: before submission, if not needed until then, remove prev.
-int	check_toklst_lvl3(t_toklst*toklst)
+int	check_toklst_lvl3(t_toklst *toklst)
 {
 	t_token	*cur;
 	t_token	*next;
