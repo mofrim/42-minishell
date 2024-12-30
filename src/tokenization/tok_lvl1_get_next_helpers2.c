@@ -6,11 +6,27 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 23:47:57 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/11 23:27:16 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/30 20:48:36 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	get_tok_emptyquot(t_token *tok, t_cmdline *cl, int *tok_found)
+{
+	if (!*tok_found)
+	{
+		if (cl->length - cl->pos > 1 && \
+				!ft_strncmp(&cl->input[cl->pos], "\"\"", 2))
+		{
+			tok->type = TOK_WORD;
+			tok->value = ft_strdup("");
+			nullcheck(tok->value, "get_tok_emptyquot()");
+			cl->pos += 2;
+			*tok_found = 1;
+		}
+	}
+}
 
 void	get_tok_quot(t_token *tok, t_cmdline *cl, int *tok_found)
 {
@@ -105,7 +121,7 @@ void	get_tok_dquotword(t_token *tok, t_cmdline *cl, int *tok_found)
 					cl->input[cl->pos] != '$')
 				cl->pos++;
 			length = cl->pos - start;
-			word = malloc(length + 1);
+			word = ft_calloc(sizeof(char), length + 1);
 			nullcheck(word, "get_tok_dquotword()");
 			ft_strlcpy(word, &cl->input[start], length + 1);
 			tok->value = word;

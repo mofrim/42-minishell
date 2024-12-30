@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 10:57:29 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/30 19:02:32 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/30 21:36:00 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,9 @@ static void	apply_lvl2_tokenization(t_token *cur, t_token *next)
 		next->type = TOK_IF;
 	else if (is_rout_tok(cur->type) && next->type == TOK_WORD)
 		next->type = TOK_OF;
-	else if ((cur->type == TOK_IF || cur->type == TOK_OF || cur->type == TOK_PIP || \
-		cur->type == TOK_ROUTA_FDTO || cur->type == TOK_ROUT3_FDTO) \
-		&& next->type == TOK_WORD)
+	else if ((cur->type == TOK_IF || cur->type == TOK_OF || \
+	cur->type == TOK_PIP || cur->type == TOK_ROUTA_FDTO || \
+	cur->type == TOK_ROUT3_FDTO) && next->type == TOK_WORD)
 		next->type = is_cmd_or_builtin(next);
 	else if (cur->type == TOK_CMD && (next->type == TOK_WORD))
 		next->type = TOK_ARG;

@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 07:10:47 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/27 15:21:17 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/30 21:36:20 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,6 @@ void	remove_obsolete_tokens(t_toklst **toklst)
 		else if (tl->token->type == TOK_SQUOT)
 			toklst_remove_tok(toklst, &tl);
 		else if (tl->token->type == TOK_AND)
-			toklst_remove_tok(toklst, &tl);
-		else if (tl->token->type == TOK_WORD && tl->token->value[0] == 0)
 			toklst_remove_tok(toklst, &tl);
 		else
 			tl = tl->next;

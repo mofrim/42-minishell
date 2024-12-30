@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tok_lvl1_get_tok_var.c                             :+:      :+:    :+:   */
+/*   tok_lvl1_get_next_var.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 17:18:10 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/06 11:57:31 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/30 20:41:25 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	get_tok_var(t_token *tok, t_cmdline *cl, int *tok_found)
 	}
 }
 
-static char	*get_var_value_from_env(char	*name, t_envlst *env)
+static char	*get_var_value_from_env(char *name, t_envlst *env)
 {
 	char	*var;
 
