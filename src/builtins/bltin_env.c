@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 10:13:46 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/22 21:01:01 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/30 23:25:11 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,8 @@ int	bltin_env(t_cmdlst *cl, t_envlst **el)
 		i++;
 	if (i > 1)
 	{
-		ft_printf("minishell: env: %s: No such file or directory\n", \
-				cl->args[1]);
-		return (1);
+		ft_dprintf(2, "env: '%s': No such file or directory\n", cl->args[1]);
+		return (127);
 	}
 	print_env_vars(*el);
 	return (0);

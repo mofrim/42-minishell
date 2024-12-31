@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/27 23:50:08 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/30 02:12:52 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/31 00:01:05 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	exec_pipe_bltin(t_cmdlst *cl, t_envlst **el, int *prev_read)
 	return (exit_status);
 }
 
-static void	run_child(t_bltin_pipargs args, int pipefd[2], int status, \
+static void	run_child(t_bltin_pipargs args, int pipefd[2],
 		int (*bltin_out)(t_cmdlst *, t_envlst **))
 {
 	close(pipefd[0]);
@@ -55,31 +55,28 @@ static void	run_child(t_bltin_pipargs args, int pipefd[2], int status, \
 	dup2(*args.prev_read, STDIN_FILENO);
 	close(*args.prev_read);
 	if (open_redir_files(args.cl->redirs) != 0)
-		exit(errno);
-	bltin_out(args.cl, args.el);
-	exit(status);
+		exit(errno + 128);
+	exit(bltin_out(args.cl, args.el));
 }
 
 int	run_pipe_bltin(t_bltin_pipargs args, \
 		int (*bltin_preout)(t_cmdlst *, t_envlst **), \
 		int (*bltin_out)(t_cmdlst *, t_envlst **))
 {
-	int	status;
 	int	cpid;
 	int	pipefd[2];
 
-	status = 0;
 	if (pipe(pipefd) == -1)
 		return (minish_errormsg("run_pipe_bltin", "create pipe failed", errno));
 	if (bltin_preout)
-		status = bltin_preout(args.cl, args.el);
+		bltin_preout(args.cl, args.el);
 	if (bltin_out)
 	{
 		cpid = fork();
 		if (cpid < 0)
 			return (minish_errormsg("run_pipe_bltin", "fork failed", errno));
 		if (cpid == 0)
-			run_child(args, pipefd, status, bltin_out);
+			run_child(args, pipefd, bltin_out);
 		else
 		{
 			close (pipefd[1]);
@@ -87,7 +84,7 @@ int	run_pipe_bltin(t_bltin_pipargs args, \
 			*args.prev_read = pipefd[0];
 		}
 	}
-	return (status);
+	return (0);
 }
 
 int	exec_pipe_bltin_last(t_cmdlst *cl, t_envlst **el, int *prev_read)
@@ -121,12 +118,10 @@ int	run_pipe_bltin_last(t_bltin_pipargs args, \
 		int (*bltin_preout)(t_cmdlst *, t_envlst **), \
 		int (*bltin_out)(t_cmdlst *, t_envlst **))
 {
-	int	status;
 	int	cpid;
 
-	status = 0;
 	if (bltin_preout)
-		status = bltin_preout(args.cl, args.el);
+		bltin_preout(args.cl, args.el);
 	if (bltin_out)
 	{
 		cpid = fork();
@@ -138,10 +133,9 @@ int	run_pipe_bltin_last(t_bltin_pipargs args, \
 			close(*args.prev_read);
 			if (open_redir_files(args.cl->redirs))
 				exit(errno);
-			bltin_out(args.cl, args.el);
-			exit(status);
+			exit(bltin_out(args.cl, args.el));
 		}
 	}
 	close (*args.prev_read);
-	return (status);
+	return (0);
 }

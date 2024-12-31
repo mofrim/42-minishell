@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/07 23:15:39 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/30 02:12:25 by fmaurer          ###   ########.fr       */
+/*   Updated: 2024/12/30 23:24:10 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	exec_single_builtin(t_cmdlst *cl, t_envlst **el, \
 
 	exit_status = 0;
 	if (bltin_preout)
-		exit_status = bltin_preout(cl, el);
+		bltin_preout(cl, el);
 	if (bltin_out)
 	{
 		cpid = fork();
@@ -38,12 +38,12 @@ int	exec_single_builtin(t_cmdlst *cl, t_envlst **el, \
 		{
 			if (open_redir_files(cl->redirs))
 				exit(errno);
-			bltin_out(cl, el);
+			exit_status = bltin_out(cl, el);
 			exit(exit_status);
 		}
 		waitpid(cpid, &exit_status, 0);
 	}
-	return (exit_status >> 8);
+	return (exit_status);
 }
 
 /* Finally find the correct builtin function, call it & return their
@@ -68,7 +68,7 @@ int	exec_single_builtin_cmd(t_cmdlst *cl, t_envlst **el)
 		exit_status = exec_single_builtin(cl, el, NULL, bltin_env);
 	if (!ft_strcmp(cl->cmd, "exit"))
 		exit_status = bltin_exit();
-	return (exit_status << 8);
+	return (exit_status);
 }
 
 /*
