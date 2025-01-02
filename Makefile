@@ -121,11 +121,11 @@ all: $(NAME)
 
 $(OBJDIR)/%.o: %.c $(HDRS)| $(OBJDIR)
 	@echo -e "$(call log_msg,Compiling $<...)"
-	$(CC) $(CFLAGS) $(INC) -c $< -o $@
+	$(CC) $(CFLAGS) $(INC) -DREADLINE_LIBRARY -c $< -o $@
 
 $(OBJDIR)/dbg-%.o: %.c $(HDRS)| $(OBJDIR)
 	@echo -e "$(call log_msg,Compiling $<...)"
-	$(CC) $(CFLAGS) $(INC) -g -O0 -DDEBUG -c $< -o $@
+	$(CC) $(CFLAGS) $(INC) -g -O0 -DDEBUG -DREADLINE_LIBRARY -c $< -o $@
 
 ## This is the recipe for prod, without readline submodule
 # $(NAME): $(OBJS) | $(LIBFT)

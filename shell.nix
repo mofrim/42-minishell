@@ -13,8 +13,9 @@ pkgs.mkShell {
   nativeBuildInputs = with pkgs; [
     clang-tools
     clang_12
-    readline
-    readline.man
+    ncurses
+    # readline
+    # readline.man
   ];
 
   shellHook = ''
