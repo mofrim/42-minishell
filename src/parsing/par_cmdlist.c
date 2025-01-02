@@ -31,6 +31,7 @@ t_cmdlst	*cmdlst_new(char *exec, int maxargs)
 	cmd->arg_count = 1;
 	cmd->is_builtin = 0;
 	cmd->append = 0;
+	cmd->exit_flag = 0;
 	cmd->heredoc = NULL;
 	cmd->next = NULL;
 	cmd->redirs = NULL;

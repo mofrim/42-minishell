@@ -211,6 +211,7 @@ typedef struct s_cmdlst
 	char			**args;
 	int				arg_count;
 	int				is_builtin;
+	int				exit_flag;
 	char			*heredoc;
 	int				append;
 	t_redirlst		*redirs;
@@ -342,9 +343,10 @@ int			bltin_echo(t_cmdlst *cl, t_envlst **el);
 int			bltin_pwd(t_cmdlst *cl, t_envlst **el);
 int			bltin_unset(t_cmdlst *cl, t_envlst **el);
 
-// WIP...
+int			bltin_exit_preout(t_cmdlst *cl, t_envlst **el);
+int			bltin_exit_out(t_cmdlst *cl, t_envlst **el);
+
 int			bltin_cd(char **arg, t_envlst **el);
-int			bltin_exit(void);
 
 /*********** Extra Utility Funtions. ***********/
 void		sort_env_list(t_envlst *env);

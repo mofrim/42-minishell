@@ -42,7 +42,7 @@ int	exec_pipe_bltin(t_cmdlst *cl, t_envlst **el, int *prev_read)
 	if (!ft_strcmp(cl->cmd, "env"))
 		exit_status = run_pipe_bltin(args, NULL, bltin_env);
 	if (!ft_strcmp(cl->cmd, "exit"))
-		exit_status = bltin_exit();
+		exit_status = run_pipe_bltin(args, bltin_exit_preout, bltin_exit_out);
 	return (exit_status);
 }
 
@@ -110,7 +110,8 @@ int	exec_pipe_bltin_last(t_cmdlst *cl, t_envlst **el, int *prev_read)
 	if (!ft_strcmp(cl->cmd, "env"))
 		exit_status = run_pipe_bltin_last(args, NULL, bltin_env);
 	if (!ft_strcmp(cl->cmd, "exit"))
-		exit_status = bltin_exit();
+		exit_status = run_pipe_bltin_last(args, bltin_exit_preout, \
+				bltin_exit_out);
 	return (exit_status);
 }
 

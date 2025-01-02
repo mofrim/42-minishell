@@ -67,7 +67,8 @@ int	exec_single_builtin_cmd(t_cmdlst *cl, t_envlst **el)
 	if (!ft_strcmp(cl->cmd, "env"))
 		exit_status = exec_single_builtin(cl, el, NULL, bltin_env);
 	if (!ft_strcmp(cl->cmd, "exit"))
-		exit_status = bltin_exit();
+		exit_status = exec_single_builtin(cl, el, bltin_exit_preout, \
+				bltin_exit_out);
 	return (exit_status);
 }
 
