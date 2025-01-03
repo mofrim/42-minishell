@@ -53,9 +53,10 @@ void	print_cmdlst(t_cmdlst *cmd)
 	int	i;
 
 	ft_printf(GRN "-- cmdlst start --\n" RST, cmd->cmd);
+	ft_printf(GRN "number of cmds: %d\n" RST, cmd->cmd_count);
 	while (cmd)
 	{
-	ft_printf(GRN "-- cmd --\n" RST "Command: %s\nArguments: " , cmd->cmd);
+		ft_printf(GRN "-- cmd --\n" RST "Command: %s\nArguments: ", cmd->cmd);
 		i = 0;
 		while (++i < cmd->arg_count)
 			ft_printf("%s ", cmd->args[i]);

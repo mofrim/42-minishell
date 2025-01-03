@@ -12,8 +12,8 @@
 
 #include "minishell.h"
 
-/* The pipe redirects have to be done *before* all other redirs.
- * QUESTION: Why?*/
+/* The pipe redirects have to be done *before* all other redirs. */
+
 static void	run_child(t_cmdlst *cl, int pipefd[2], int prev_read, char **env)
 {
 	close(pipefd[0]);
@@ -23,7 +23,7 @@ static void	run_child(t_cmdlst *cl, int pipefd[2], int prev_read, char **env)
 	close(prev_read);
 	if (open_redir_files(cl->redirs) != 0)
 		exit(errno);
-	signal(SIGINT, sigint_handler);
+	signal(SIGINT, SIG_DFL);
 	execve(cl->args[0], cl->args, env);
 }
 
@@ -49,7 +49,7 @@ int	exec_pipe_cmd(t_cmdlst *cl, char **env, int *prev_read)
 		close (*prev_read);
 		*prev_read = pipefd[0];
 	}
-	return (0);
+	return (cpid);
 }
 
 int	exec_pipe_cmd_last(t_cmdlst *cl, char **env, int prev_read)
@@ -65,14 +65,14 @@ int	exec_pipe_cmd_last(t_cmdlst *cl, char **env, int prev_read)
 		return (minish_errormsg("exec_pipe_cmd_last", "fork failed!", errno));
 	if (cpid == 0)
 	{
-		if (open_redir_files(cl->redirs))
-			exit(errno);
 		dup2(prev_read, STDIN_FILENO);
 		close(prev_read);
+		if (open_redir_files(cl->redirs))
+			exit(errno);
 		signal(SIGINT, sigint_handler);
 		execve(cl->args[0], cl->args, env);
 	}
 	else
 		close (prev_read);
-	return (0);
+	return (cpid);
 }

@@ -12,34 +12,46 @@
 
 #include "minishell.h"
 
-int	exec_pipe_cmd(t_cmdlst *cl, char **env, int *prev_read);
-int	exec_pipe_cmd_last(t_cmdlst *cl, char **env, int prev_read);
-int	exec_pipe_redir_cmd(t_cmdlst *cl, char **env);
-int	exec_pipe_bltin(t_cmdlst *cl, t_envlst **el, int *prev_read);
-int	exec_pipe_bltin_last(t_cmdlst *cl, t_envlst **el, int *prev_read);
+pid_t		exec_pipe_cmd(t_cmdlst *cl, char **env, int *prev_read);
+pid_t		exec_pipe_cmd_last(t_cmdlst *cl, char **env, int prev_read);
+pid_t		exec_pipe_bltin(t_cmdlst *cl, t_envlst **el, int *prev_read);
+pid_t		exec_pipe_bltin_last(t_cmdlst *cl, t_envlst **el, int *prev_read);
+static void	wait_for_each_child(pid_t *pids, int pidindx, int *status);
 
 int	exec_pipeline(t_cmdlst *cl, char **env, t_envlst **el)
 {
-	int prev_read;
-	int	status;
+	int		prev_read;
+	int		status;
+	pid_t	*pids;
+	int		pidindx;
 
+	pids = malloc(sizeof(pid_t) * cl->cmd_count);
 	prev_read = dup(0);
 	status = 0;
-	signal(SIGINT, SIG_IGN);
+	pidindx = 0;
 	while (cl->next)
 	{
 		if (cl->is_builtin)
-			exec_pipe_bltin(cl, el, &prev_read);
+			pids[pidindx++] = exec_pipe_bltin(cl, el, &prev_read);
 		else
-			exec_pipe_cmd(cl, env, &prev_read);
+			pids[pidindx++] = exec_pipe_cmd(cl, env, &prev_read);
 		cl = cl->next;
 	}
 	if (cl->is_builtin)
-		exec_pipe_bltin_last(cl, el, &prev_read);
+		pids[pidindx++] = exec_pipe_bltin_last(cl, el, &prev_read);
 	else
-		exec_pipe_cmd_last(cl, env, prev_read);
+		pids[pidindx++] = exec_pipe_cmd_last(cl, env, prev_read);
+	wait_for_each_child(pids, pidindx, &status);
 	while (!(wait(&status) == -1 && errno == ECHILD))
 		;
-	signal(SIGINT, sigint_handler);
-	return (status);
+	return (free(pids), status);
+}
+
+static void	wait_for_each_child(pid_t *pids, int pidindx, int *status)
+{
+	int	i;
+
+	i = -1;
+	while (++i < pidindx)
+		waitpid(pids[i], status, 0);
 }

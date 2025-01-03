@@ -210,6 +210,7 @@ typedef struct s_cmdlst
 	char			*cmd;
 	char			**args;
 	int				arg_count;
+	int				cmd_count;
 	int				is_builtin;
 	int				exit_flag;
 	char			*heredoc;

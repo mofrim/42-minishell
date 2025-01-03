@@ -20,22 +20,23 @@
  * */
 t_cmdlst	*cmdlst_new(char *exec, int maxargs)
 {
-	t_cmdlst	*cmd;
+	t_cmdlst	*cl;
 
-	cmd = malloc(sizeof(t_cmdlst));
-	nullcheck(cmd, "cmdlst_new()");
-	if (!cmd)
+	cl = malloc(sizeof(t_cmdlst));
+	nullcheck(cl, "cmdlst_new()");
+	if (!cl)
 		return (NULL);
-	cmd->cmd = ft_strdup(exec);
-	cmd->args = malloc(sizeof(char *) * (maxargs + 2));
-	cmd->arg_count = 1;
-	cmd->is_builtin = 0;
-	cmd->append = 0;
-	cmd->exit_flag = 0;
-	cmd->heredoc = NULL;
-	cmd->next = NULL;
-	cmd->redirs = NULL;
-	return (cmd);
+	cl->cmd = ft_strdup(exec);
+	cl->args = malloc(sizeof(char *) * (maxargs + 2));
+	cl->arg_count = 1;
+	cl->cmd_count = 1;
+	cl->is_builtin = 0;
+	cl->append = 0;
+	cl->exit_flag = 0;
+	cl->heredoc = NULL;
+	cl->next = NULL;
+	cl->redirs = NULL;
+	return (cl);
 }
 
 t_cmdlst	*cmdlst_last(t_cmdlst *head)

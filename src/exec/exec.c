@@ -25,10 +25,12 @@ int	exec_cmd(t_cmdlst *cmdl, t_envlst **el)
 		return (ENOENT);
 	env_arr = get_env_array(*el);
 	nullcheck(env_arr, "exec_cmd()");
+	signal(SIGINT, SIG_IGN);
 	if (cmdl->next)
 		exit_status = exec_pipeline(cmdl, env_arr, el);
 	else
 		exit_status = exec_single(cmdl, env_arr, el);
+	signal(SIGINT, sigint_handler);
 	free_ptrptr(&env_arr);
 	return (exit_status);
 }

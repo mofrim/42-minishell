@@ -22,6 +22,7 @@ void	parse_command(t_toklst **toklst, t_cmdlst **cmd, t_cmdlst **cur_cmd, \
 		{
 			*cur_cmd = cmdlst_new((*toklst)->token->value, maxargs);
 			cmdlst_add_back(cmd, *cur_cmd);
+			(*cmd)->cmd_count++;
 		}
 		else
 			(*cur_cmd)->cmd = ft_strdup((*toklst)->token->value);
@@ -40,6 +41,7 @@ void	parse_builtin(t_toklst **toklst, t_cmdlst **cmd, t_cmdlst **cur_cmd, \
 		{
 			*cur_cmd = cmdlst_new((*toklst)->token->value, maxargs);
 			cmdlst_add_back(cmd, *cur_cmd);
+			(*cmd)->cmd_count++;
 		}
 		else
 			(*cur_cmd)->cmd = ft_strdup((*toklst)->token->value);

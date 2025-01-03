@@ -45,10 +45,10 @@ int	exec_single_cmd(t_cmdlst *cl, char **env)
 	{
 		if (open_redir_files(cl->redirs))
 			exit(errno);
-		signal(SIGINT, sigint_handler);
+		signal(SIGINT, SIG_DFL);
 		execve(cl->args[0], cl->args, env);
 	}
 	waitpid(cpid, &status, 0);
-	signal_setup(sigint_handler);
+	signal(SIGINT, sigint_handler);
 	return (status);
 }
