@@ -12,18 +12,15 @@
 
 #include "minishell.h"
 
-// TODO: maybe create another generic function for exec_pipe_bltin and
-// exec_pipe_bltin_last because all of their code is redundant except for the
-// run_child function name;
-
-static pid_t	run_pipe_bltin(t_bltin_pipargs args, \
-		int (*bltin_preout)(t_cmdlst *, t_envlst **), \
-		int (*bltin_out)(t_cmdlst *, t_envlst **));
-static pid_t	run_pipe_bltin_last(t_bltin_pipargs args, \
-		int (*bltin_preout)(t_cmdlst *, t_envlst **), \
-		int (*bltin_out)(t_cmdlst *, t_envlst **));
-
-pid_t	exec_pipe_bltin(t_cmdlst *cl, t_envlst **el, int *prev_read)
+/* The generic bltin execution function for pipelines. Born from the idea to
+ * redruce duplicate code. Well. Maybe this is a little bit to generic. But i
+ * like it. Only made to be called one time with run_pipe_bltin() and another
+ * time with run_pipe_bltin_last(). Due to norminette this is done in
+ * exec_pipeline.c */
+pid_t	exec_pipe_bltin_generic(t_cmdlst *cl, t_envlst **el, int *prev_read, \
+							pid_t (*run_pipe_func)(t_bltin_pipargs, \
+								int (*bltin_preout)(t_cmdlst *, t_envlst **), \
+								int (*bltin_out)(t_cmdlst *, t_envlst **)))
 {
 	pid_t			cpid;
 	t_bltin_pipargs	args;
@@ -32,21 +29,22 @@ pid_t	exec_pipe_bltin(t_cmdlst *cl, t_envlst **el, int *prev_read)
 	args.el = el;
 	args.prev_read = prev_read;
 	if (!ft_strcmp(cl->cmd, "echo"))
-		cpid = run_pipe_bltin(args, NULL, bltin_echo);
+		cpid = run_pipe_func(args, NULL, bltin_echo);
 	if (!ft_strcmp(cl->cmd, "cd"))
 		cpid = bltin_cd(cl->args, el);
 	if (!ft_strcmp(cl->cmd, "pwd"))
-		cpid = run_pipe_bltin(args, NULL, bltin_pwd);
+		cpid = run_pipe_func(args, NULL, bltin_pwd);
 	if (!ft_strcmp(cl->cmd, "export"))
-		cpid = run_pipe_bltin(args, bltin_export_preout, \
+		cpid = run_pipe_func(args, bltin_export_preout, \
 					bltin_export_out);
 	if (!ft_strcmp(cl->cmd, "unset"))
-		cpid = run_pipe_bltin(args, bltin_unset, NULL);
+		cpid = run_pipe_func(args, bltin_unset, NULL);
 	if (!ft_strcmp(cl->cmd, "env"))
-		cpid = run_pipe_bltin(args, NULL, bltin_env);
+		cpid = run_pipe_func(args, NULL, bltin_env);
 	if (!ft_strcmp(cl->cmd, "exit"))
-		cpid = run_pipe_bltin(args, bltin_exit_preout, bltin_exit_out);
+		cpid = run_pipe_func(args, bltin_exit_preout, bltin_exit_out);
 	return (cpid);
+
 }
 
 static void	run_child(t_bltin_pipargs args, int pipefd[2],
@@ -88,34 +86,6 @@ pid_t	run_pipe_bltin(t_bltin_pipargs args, \
 			*args.prev_read = pipefd[0];
 		}
 	}
-	return (cpid);
-}
-
-pid_t	exec_pipe_bltin_last(t_cmdlst *cl, t_envlst **el, int *prev_read)
-{
-	pid_t			cpid;
-	t_bltin_pipargs	args;
-
-	cpid = 0;
-	args.cl = cl;
-	args.el = el;
-	args.prev_read = prev_read;
-	if (!ft_strcmp(cl->cmd, "echo"))
-		cpid = run_pipe_bltin_last(args, NULL, bltin_echo);
-	if (!ft_strcmp(cl->cmd, "cd"))
-		cpid = bltin_cd(cl->args, el);
-	if (!ft_strcmp(cl->cmd, "pwd"))
-		cpid = run_pipe_bltin_last(args, NULL, bltin_pwd);
-	if (!ft_strcmp(cl->cmd, "export"))
-		cpid = run_pipe_bltin_last(args, bltin_export_preout, \
-					bltin_export_out);
-	if (!ft_strcmp(cl->cmd, "unset"))
-		cpid = run_pipe_bltin_last(args, bltin_unset, NULL);
-	if (!ft_strcmp(cl->cmd, "env"))
-		cpid = run_pipe_bltin_last(args, NULL, bltin_env);
-	if (!ft_strcmp(cl->cmd, "exit"))
-		cpid = run_pipe_bltin_last(args, bltin_exit_preout, \
-				bltin_exit_out);
 	return (cpid);
 }
 
