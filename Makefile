@@ -6,7 +6,7 @@
 #    By: elpah <elpah@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/02 00:03:28 by fmaurer           #+#    #+#              #
-#    Updated: 2024/12/30 10:37:56 by fmaurer          ###   ########.fr        #
+#    Updated: 2025/01/03 22:23:10 by fmaurer          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,7 +46,8 @@ SRCS =	minishell.c \
 				tok_lvl2_check_toklst.c \
 				tok_lvl2_redir_tok.c \
 				tok_lvl3_tokenize.c \
-				par_cmdlist.c \
+				par_cmdlst.c \
+				par_cmdlst_first_last.c \
 				par_heroflst.c \
 				par_parsing.c \
 				par_parse_redir_out.c \

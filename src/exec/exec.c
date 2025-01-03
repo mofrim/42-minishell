@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 15:43:14 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/27 23:46:17 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/03 22:35:17 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,4 +34,3 @@ int	exec_cmd(t_cmdlst *cmdl, t_envlst **el)
 	free_ptrptr(&env_arr);
 	return (exit_status);
 }
-

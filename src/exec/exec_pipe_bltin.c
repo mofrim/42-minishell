@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/27 23:50:08 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/31 00:01:05 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/03 22:35:06 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ pid_t	exec_pipe_bltin_generic(t_cmdlst *cl, t_envlst **el, int *prev_read, \
 	if (!ft_strcmp(cl->cmd, "exit"))
 		cpid = run_pipe_func(args, bltin_exit_preout, bltin_exit_out);
 	return (cpid);
-
 }
 
 static void	run_child(t_bltin_pipargs args, int pipefd[2],

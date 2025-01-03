@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   par_cmdlist.c                                      :+:      :+:    :+:   */
+/*   par_cmdlst.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 17:22:51 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/27 16:14:56 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/03 22:30:55 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
  * Why maxargs+2? Because we always want to have at least a arg-array which is
  * able to store cmd as argv[0] and a NULL termination.
  *
+ * Making this a bidirectional linked list in order to be able to find the head
+ * of list from some other list member for setting the exit_flag in exit_bltin.
  * */
 t_cmdlst	*cmdlst_new(char *exec, int maxargs)
 {
@@ -31,24 +33,12 @@ t_cmdlst	*cmdlst_new(char *exec, int maxargs)
 	cl->arg_count = 1;
 	cl->cmd_count = 1;
 	cl->is_builtin = 0;
-	cl->append = 0;
 	cl->exit_flag = 0;
 	cl->heredoc = NULL;
 	cl->next = NULL;
+	cl->prev = NULL;
 	cl->redirs = NULL;
 	return (cl);
-}
-
-t_cmdlst	*cmdlst_last(t_cmdlst *head)
-{
-	t_cmdlst	*cur;
-
-	if (!head)
-		return (NULL);
-	cur = head;
-	while (cur->next != NULL)
-		cur = cur->next;
-	return (cur);
 }
 
 void	cmdlst_add_back(t_cmdlst **head, t_cmdlst *newend)
@@ -64,6 +54,7 @@ void	cmdlst_add_back(t_cmdlst **head, t_cmdlst *newend)
 	}
 	oldend = cmdlst_last(*head);
 	oldend->next = newend;
+	newend->prev = oldend;
 }
 
 /* Free args-split from cmdlst-struct. If argcnt == 1, only args[0] which is the

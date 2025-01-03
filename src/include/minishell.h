@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:44:43 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/30 02:30:54 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/03 22:33:23 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include <sys/ioctl.h>
 
 /* stat */
-#include <sys/stat.h>
+# include <sys/stat.h>
 
 /* open and constants like O_RDONLY */
 # include <fcntl.h>
@@ -214,9 +214,9 @@ typedef struct s_cmdlst
 	int				is_builtin;
 	int				exit_flag;
 	char			*heredoc;
-	int				append;
 	t_redirlst		*redirs;
 	struct s_cmdlst	*next;
+	struct s_cmdlst	*prev;
 }	t_cmdlst;
 
 /*********** Exec bltin_pipe struct. ***********/
@@ -234,7 +234,7 @@ void		sigint_handler(int signum);
 void		signal_setup(void (*sig_handler)(int));
 void		term_setup(struct termios *old_settings);
 int			ft_wifsignaled(int status);
-int 		ft_wexitstatus(int status);
+int			ft_wexitstatus(int status);
 
 /*********** Utils ***********/
 
@@ -281,6 +281,7 @@ t_token		*get_next_token(t_cmdline *cl);
 
 t_cmdlst	*cmdlst_new(char *exec, int maxargs);
 t_cmdlst	*cmdlst_last(t_cmdlst *head);
+t_cmdlst	*cmdlst_head(t_cmdlst *cur);
 void		cmdlst_add_back(t_cmdlst **head, t_cmdlst *newend);
 void		cmdlst_clear(t_cmdlst **lst);
 

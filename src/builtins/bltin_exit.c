@@ -6,11 +6,10 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 10:13:58 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/08 01:05:42 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/03 22:31:49 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf/ft_printf.h"
 #include "minishell.h"
 
 static long	get_long_numstr(char *s);
@@ -58,13 +57,18 @@ static int	check_numstr_long(char *s);
  * -> do the exit but print error msg "numeric arg required" and return 2
  * 5) the same holds for only one numerical arg which is to big or small
  */
+
+/* Do the actual exit_flag setting which needs to be available to parent
+ * process of course. Therefore needed to make the cmdlst bidirectional in order
+ * to find the head of the list to set the flag there. */
 int	bltin_exit_preout(t_cmdlst *cl, t_envlst **el)
 {
 	(void)el;
 	if (cl->arg_count == 1)
 		cl->exit_flag = 1;
-	else if (cl->arg_count == 2 && check_numstr_long(cl->args[1]) >= 0)
-		cl->exit_flag = 1;
+	else if (cl->arg_count == 2 && check_numstr_long(cl->args[1]) >= 0 && \
+			!cmdlst_head(cl)->next)
+		cmdlst_head(cl)->exit_flag = 1;
 	return (0);
 }
 
