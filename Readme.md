@@ -582,4 +582,228 @@ Bash syntax errors:
           The exit status of the last command is available in the special
           parameter $? (see Special Parameters). 
 
+- **[2025-01-03 01:06]** Chat with claude about the pipe problem:
+  i have written the following C code in order to implement execution of chains
+  of commands piping the standard output of the previous command to the stdin of
+  the next command like in f.ex. bash's pipeline:
+
+  ```c
+  int    exec_pipeline(t_cmdlst cl, char *env, t_envlst **el)
+  {
+      int prev_read;
+      int    status;
+      prev_read = dup(0);
+      status = 0;
+      signal(SIGINT, SIG_IGN);
+      while (cl->next)
+      {
+          if (cl->is_builtin)
+              exec_pipe_bltin(cl, el, &prev_read);
+          else
+              exec_pipe_cmd(cl, env, &prev_read);
+          cl = cl->next;
+      }
+      if (cl->is_builtin)
+          exec_pipe_bltin_last(cl, el, &prev_read);
+      else
+          exec_pipe_cmd_last(cl, env, prev_read);
+      while (!(wait(&status) == -1 && errno == ECHILD))
+          ft_printf(RED "<< DEBUG >> status = %d\n" RST, status);
+      signal(SIGINT, sigint_handler);
+      ft_printf(RED "<< DEBUG >> final status = %d\n" RST, status);
+      return (status);
+  }
+
+  static void    run_child(t_cmdlst cl, int pipefd[2], int prev_read, char *env)
+  {
+      close(pipefd[0]);
+      dup2(pipefd[1], STDOUT_FILENO);
+      close(pipefd[1]);
+      dup2(prev_read, STDIN_FILENO);
+      close(prev_read);
+      if (open_redir_files(cl->redirs) != 0)
+          exit(errno);
+      signal(SIGINT, sigint_handler);
+      execve(cl->args[0], cl->args, env);
+  }
+
+  int    exec_pipe_cmd(t_cmdlst cl, char *env, int *prev_read)
+  {
+      int        pipefd[2];
+      pid_t    cpid;
+      int        err_exec_path;
+      if (pipe(pipefd) == -1)
+          return (minish_errormsg("exec_pipe_cmd", "create pipe failed", errno));
+      err_exec_path = set_exec_path(cl, env);
+      if (err_exec_path)
+          return (err_exec_path);
+      cpid = fork();
+      if (cpid < 0)
+          return (minish_errormsg("exec_pipe_cmd", "fork failed", errno));
+      if (cpid == 0)
+          run_child(cl, pipefd, *prev_read, env);
+      else
+      {
+          close (pipefd[1]);
+          close (*prev_read);
+          *prev_read = pipefd[0];
+          ft_printf(RED "<< DEBUG >> prev_read = %d\n" RST, prev_read);
+      }
+      return (0);
+  }
+
+  int    exec_pipe_cmd_last(t_cmdlst cl, char *env, int prev_read)
+  {
+      pid_t    cpid;
+      int        err_exec_path;
+      err_exec_path = set_exec_path(cl, env);
+      if (err_exec_path)
+          return (err_exec_path);
+      cpid = fork();
+      if (cpid < 0)
+          return (minish_errormsg("exec_pipe_cmd_last", "fork failed!", errno))
+      if(cpid == 0)
+      {
+          dup2(prev_read, STDIN_FILENO);
+          close(prev_read);
+          if (open_redir_files(cl->redirs))
+              exit(errno);
+          signal(SIGINT, sigint_handler);
+          execve(cl->args[0], cl->args, env);
+      }
+      else
+          close (prev_read);
+      return (0);
+  }
+  ```
+
+  if i call this with a long pipline like
+  ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls some calls to ls exit with exit code
+  13 BROKEN_PIPE. Why is that?
+
+  Claude's Answer:
+
+  This is happening because of a race condition in how the processes are being
+  created and how their pipes are being handled. Let me explain:
+
+  1. When you have a pipeline like `ls|ls|ls|ls...`, each `ls` command tries to
+     write its output to a pipe that's being read by the next command in the
+     chain.
+
+  2. The issue occurs because there's no guarantee about the order in which
+     these processes will actually execute. Some later `ls` commands might
+     finish and exit before earlier ones in the pipeline.
+
+  3. When a process writing to a pipe exits while the reading end is still open,
+     everything works fine. However, when a process tries to write to a pipe
+     whose reading end has been closed (because the next process already
+     finished), it receives a SIGPIPE signal, which by default terminates the
+     process with exit code 13 (EPIPE - Broken pipe).
+
+  To fix this, you have two main options:
+
+  1. Either ignore SIGPIPE in the child processes before executing the command:
+
+  ```c 
+  static void run_child(t_cmdlst cl, int pipefd[2], int prev_read, char
+      *env) 
+  { 
+    signal(SIGPIPE, SIG_IGN);  // Add this line 
+    close(pipefd[0]);
+    dup2(pipefd[1], STDOUT_FILENO); 
+    // ... rest of the function 
+  } 
+  ```
+
+  2. Or wait for each process in the pipeline in order, which ensures that
+     processes don't exit before their output can be consumed:
+
+  ```c 
+  int exec_pipeline(t_cmdlst cl, char *env, t_envlst **el) 
+  { 
+    int prev_read;
+    int status; 
+    pid_t *pids;  // Array to store process IDs int cmd_count = 0;
+    t_cmdlst current = cl;
+
+    // Count commands 
+    while (current) 
+    { 
+      cmd_count++; 
+      current = current->next;
+    }
+
+    pids = malloc(sizeof(pid_t) * cmd_count); 
+    int pid_index = 0;
+    prev_read = dup(0); 
+    status = 0; 
+    signal(SIGINT, SIG_IGN);
+
+    // Execute pipeline storing PIDs 
+    while (cl->next) 
+    { 
+      if (cl->is_builtin)
+        exec_pipe_bltin(cl, el, &prev_read); 
+      else 
+      { 
+        pids[pid_index++] = exec_pipe_cmd(cl, env, &prev_read); 
+      } 
+      cl = cl->next; 
+    }
+    if (cl->is_builtin) 
+      exec_pipe_bltin_last(cl, el, &prev_read); 
+    else
+      pids[pid_index++] = exec_pipe_cmd_last(cl, env, prev_read);
+    // Wait for processes in order 
+    for (int i = 0; i < pid_index; i++)
+      waitpid(pids[i], &status, 0);
+    // Clean up remaining processes if any
+    while (!(wait(&status) == -1 && errno == ECHILD));
+    free(pids);
+    signal(SIGINT, sigint_handler);
+      return (status);
+    }
+    free(pids); 
+    signal(SIGINT, sigint_handler); 
+    return (status); 
+  }
+  ```
+
+  This second approach requires modifying your `exec_pipe_cmd` and
+  `exec_pipe_cmd_last` functions to return the child process ID instead of 0.
+
+  The first approach (ignoring SIGPIPE) is simpler but might mask other
+  legitimate pipe errors. The second approach (ordered waiting) is more robust
+  but requires more code changes. Both will solve the EPIPE errors you're
+  seeing.
+
+  And me again:
+
+  Yeah... i have tried with removing the `close(pipefd[0]);` inside the
+  run_child function. This also made the BROKE_PIPE errors go away. What do you
+  think about that solution?`
+
+  That solution would technically work but it's not ideal from a resource
+  management perspective. Here's why:
+
+  By keeping the read end of the pipe open in the child process, you're
+  preventing SIGPIPE because the pipe technically still has an open reader.
+  However, this means you're leaving unused file descriptors open in each
+  process. While this might not be a huge issue for a small pipeline, it's not a
+  clean solution because:
+
+      Each process will have all the read ends of previous pipes open
+      unnecessarily These file descriptors remain open until the process exits
+      It could potentially hit file descriptor limits in very long pipelines It
+      masks the underlying synchronization issue rather than addressing it
+
+  The SIGPIPE signal exists specifically to handle the case where a reader exits
+  before a writer is done - it's part of the pipe mechanism's design. Either
+  handling SIGPIPE explicitly or ensuring proper process synchronization (as in
+  the ordered wait solution) would be more "correct" approaches.
+
+  But I understand the appeal of your solution - it's simple and it works. If
+  you're building this for learning purposes and don't need production-level
+  robustness, it's a creative way to solve the immediate problem. Just be aware
+  of the trade-offs.
 
