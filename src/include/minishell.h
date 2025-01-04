@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:44:43 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/04 04:42:41 by elpah            ###   ########.fr       */
+/*   Updated: 2025/01/04 04:48:26 by elpah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -356,4 +356,5 @@ void		print_env_vars(t_envlst *el);
 void		handle_dash(char **args, int i);
 void		handle_backslash(char **args, int i);
 void		handle_invalid(char **args, int i);
+void		check_valid_vars(char **args);
 #endif
