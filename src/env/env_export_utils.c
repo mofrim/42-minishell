@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 04:34:46 by elpah             #+#    #+#             */
-/*   Updated: 2025/01/04 04:40:11 by elpah            ###   ########.fr       */
+/*   Updated: 2025/01/04 04:45:36 by elpah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,4 +65,30 @@ void	handle_dash(char **args, int i)
 			j++;
 		}
 	}
+}
+
+void	check_valid_vars(char **args)
+{
+	int	i;
+	int	error;
+
+	i = 1;
+	error = 0;
+	while (args[i])
+	{
+		if (args[i][0] == '\\')
+			handle_backslash(args, i);
+		else if (!(ft_isalpha(args[i][0]) || args[i][0] == '_'))
+		{
+			error = 1;
+			if (ft_isdigit(args[i][0])
+				|| ft_strchr("!@$%%-+{}[],.()<>|~;", args[i][0]))
+				ft_printf("export: `%s' : not a valid identifier\n", args[i]);
+			else
+				handle_dash(args, i);
+		}
+		i++;
+	}
+	if (error)
+		ft_printf("Some invalid variables/options were skipped.\n");
 }
