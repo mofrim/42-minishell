@@ -6,7 +6,7 @@
 #    By: elpah <elpah@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/02 00:03:28 by fmaurer           #+#    #+#              #
-#    Updated: 2024/12/30 10:37:56 by fmaurer          ###   ########.fr        #
+#    Updated: 2025/01/04 04:35:14 by elpah            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -61,6 +61,7 @@ SRCS =	minishell.c \
 				env_get_env_array.c \
 				env_set_entry.c \
 				env_copy.c \
+				env_export_utils.c \
 				bltin_export.c \
 				bltin_cd.c \
 				bltin_echo.c \
