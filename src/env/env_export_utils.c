@@ -6,11 +6,23 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 04:34:46 by elpah             #+#    #+#             */
-/*   Updated: 2025/01/04 04:45:36 by elpah            ###   ########.fr       */
+/*   Updated: 2025/01/04 04:47:11 by elpah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char	*find_name(char *str, char *equal_pos)
+{
+	char	*result;
+
+	result = malloc(equal_pos - str + 1);
+	if (!result)
+		return (NULL);
+	ft_strncpy(result, str, equal_pos - str);
+	result[equal_pos - str] = '\0';
+	return (result);
+}
 
 void	handle_invalid(char **args, int i)
 {
