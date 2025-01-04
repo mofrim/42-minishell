@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:44:43 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/03 22:33:23 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/05 04:48:41 by elpah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,13 +210,13 @@ typedef struct s_cmdlst
 	char			*cmd;
 	char			**args;
 	int				arg_count;
-	int				cmd_count;
 	int				is_builtin;
 	int				exit_flag;
 	char			*heredoc;
+	int				append;
+	int				preout_flag;
 	t_redirlst		*redirs;
 	struct s_cmdlst	*next;
-	struct s_cmdlst	*prev;
 }	t_cmdlst;
 
 /*********** Exec bltin_pipe struct. ***********/
@@ -281,7 +281,6 @@ t_token		*get_next_token(t_cmdline *cl);
 
 t_cmdlst	*cmdlst_new(char *exec, int maxargs);
 t_cmdlst	*cmdlst_last(t_cmdlst *head);
-t_cmdlst	*cmdlst_head(t_cmdlst *cur);
 void		cmdlst_add_back(t_cmdlst **head, t_cmdlst *newend);
 void		cmdlst_clear(t_cmdlst **lst);
 
@@ -355,5 +354,6 @@ void		sort_env_list(t_envlst *env);
 char		**ft_split_input(char *str);
 char		*find_name(char *str, char *equal_pos);
 void		print_env_vars(t_envlst *el);
+int			check_valid_vars(char **args);
 
 #endif

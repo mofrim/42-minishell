@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 09:50:30 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/22 22:57:33 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/05 05:01:59 by elpah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,36 +18,6 @@
 
 // FIXME: export bla="yadayada" should work as expected, i.e. set the env-var
 // `zzz` to the string yadayada, without the quotes.
-
-static char	*ft_strncpy(char *dest, char *src, unsigned int n)
-{
-	unsigned int	counter;
-
-	counter = 0;
-	while (src[counter] != '\0' && counter < n)
-	{
-		dest[counter] = src[counter];
-		counter++;
-	}
-	while (counter < n)
-	{
-		dest[counter] = '\0';
-		counter++;
-	}
-	return (dest);
-}
-
-char	*find_name(char *str, char *equal_pos)
-{
-	char	*result;
-
-	result = malloc(equal_pos - str + 1);
-	if (!result)
-		return (NULL);
-	ft_strncpy(result, str, equal_pos - str);
-	result[equal_pos - str] = '\0';
-	return (result);
-}
 
 // Swap Env
 void	swap_env_vars(t_envlst *a, t_envlst *b)
@@ -85,29 +55,38 @@ void	sort_env_list(t_envlst *env)
 
 int	bltin_export_preout(t_cmdlst *cl, t_envlst **el)
 {
-	char		*name;
-	char		*value;
-	char		**str;
+	char	*name;
+	char	*value;
+	char	**str;
+	int		i;
+	int		invalid_found;
 
+	invalid_found = 0;
 	if (cl->args[1] == NULL)
 		return (0);
-	str = ft_split_input(cl->args[1]);
-	if (str && str[0])
+	invalid_found = check_valid_vars(cl->args);
+	i = 0;
+	while (cl->args[++i] != NULL)
 	{
-		name = str[0];
-		if (str[1] && str[1][0])
-			value = str[1];
-		else
-			value = NULL;
-		set_env_entry(name, value, el);
+		value = NULL;
+		str = ft_split_input(cl->args[i]);
+		if (str && str[0])
+		{
+			name = str[0];
+			if (str[1] && str[1][0])
+				value = str[1];
+			set_env_entry(name, value, el);
+		}
+		free(str);
 	}
-	free(str);
-	return (0);
+	return (invalid_found);
 }
 
 int	bltin_export_out(t_cmdlst *cl, t_envlst **el)
 {
+	if (cl->preout_flag)
+		return (1);
 	if (cl->args[1] == NULL)
-		return (print_exported_variables(*el), 0);
+		print_exported_variables(*el);
 	return (0);
 }
