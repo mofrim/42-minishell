@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:44:43 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/03 22:33:23 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/05 21:09:04 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -214,6 +214,7 @@ typedef struct s_cmdlst
 	int				is_builtin;
 	int				exit_flag;
 	char			*heredoc;
+	int				preout_flag;
 	t_redirlst		*redirs;
 	struct s_cmdlst	*next;
 	struct s_cmdlst	*prev;
@@ -355,5 +356,6 @@ void		sort_env_list(t_envlst *env);
 char		**ft_split_input(char *str);
 char		*find_name(char *str, char *equal_pos);
 void		print_env_vars(t_envlst *el);
+int			check_valid_vars(char **args);
 
 #endif
