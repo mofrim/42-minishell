@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/27 23:50:08 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/03 22:35:06 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/03 23:50:59 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ pid_t	exec_pipe_bltin_generic(t_cmdlst *cl, t_envlst **el, int *prev_read, \
 	return (cpid);
 }
 
+// FIXME: get clarity about the exit codes here! are they correct?
 static void	run_child(t_bltin_pipargs args, int pipefd[2],
 		int (*bltin_out)(t_cmdlst *, t_envlst **))
 {
@@ -59,6 +60,8 @@ static void	run_child(t_bltin_pipargs args, int pipefd[2],
 	exit(bltin_out(args.cl, args.el));
 }
 
+// FIXME: get clarity about the exit codes here! are they correct?
+// might something bad happen if -1 is returned?
 pid_t	run_pipe_bltin(t_bltin_pipargs args, \
 		int (*bltin_preout)(t_cmdlst *, t_envlst **), \
 		int (*bltin_out)(t_cmdlst *, t_envlst **))
@@ -88,6 +91,8 @@ pid_t	run_pipe_bltin(t_bltin_pipargs args, \
 	return (cpid);
 }
 
+// FIXME: get clarity about the exit codes here! are they correct?
+// might something bad happen if -1 is returned?
 pid_t	run_pipe_bltin_last(t_bltin_pipargs args, \
 		int (*bltin_preout)(t_cmdlst *, t_envlst **), \
 		int (*bltin_out)(t_cmdlst *, t_envlst **))
