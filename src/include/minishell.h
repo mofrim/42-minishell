@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:44:43 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/30 02:30:54 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/04 04:42:41 by elpah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include <sys/ioctl.h>
 
 /* stat */
-#include <sys/stat.h>
+# include <sys/stat.h>
 
 /* open and constants like O_RDONLY */
 # include <fcntl.h>
@@ -233,7 +233,7 @@ void		sigint_handler(int signum);
 void		signal_setup(void (*sig_handler)(int));
 void		term_setup(struct termios *old_settings);
 int			ft_wifsignaled(int status);
-int 		ft_wexitstatus(int status);
+int			ft_wexitstatus(int status);
 
 /*********** Utils ***********/
 
@@ -353,5 +353,7 @@ void		sort_env_list(t_envlst *env);
 char		**ft_split_input(char *str);
 char		*find_name(char *str, char *equal_pos);
 void		print_env_vars(t_envlst *el);
-
+void		handle_dash(char **args, int i);
+void		handle_backslash(char **args, int i);
+void		handle_invalid(char **args, int i);
 #endif
