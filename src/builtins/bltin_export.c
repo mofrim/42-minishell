@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 09:50:30 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/04 04:46:48 by elpah            ###   ########.fr       */
+/*   Updated: 2025/01/04 05:01:22 by elpah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,24 +18,6 @@
 
 // FIXME: export bla="yadayada" should work as expected, i.e. set the env-var
 // `zzz` to the string yadayada, without the quotes.
-
-static char	*ft_strncpy(char *dest, char *src, unsigned int n)
-{
-	unsigned int	counter;
-
-	counter = 0;
-	while (src[counter] != '\0' && counter < n)
-	{
-		dest[counter] = src[counter];
-		counter++;
-	}
-	while (counter < n)
-	{
-		dest[counter] = '\0';
-		counter++;
-	}
-	return (dest);
-}
 
 // Swap Env
 void	swap_env_vars(t_envlst *a, t_envlst *b)
@@ -69,6 +51,32 @@ void	sort_env_list(t_envlst *env)
 		}
 		i = i->next;
 	}
+}
+
+void	check_valid_vars(char **args)
+{
+	int	i;
+	int	error;
+
+	i = 1;
+	error = 0;
+	while (args[i])
+	{
+		if (args[i][0] == '\\')
+			handle_backslash(args, i);
+		else if (!(ft_isalpha(args[i][0]) || args[i][0] == '_'))
+		{
+			error = 1;
+			if (ft_isdigit(args[i][0]) || ft_strchr("!@$%%-+{}[],.()<>|~;",
+				args[i][0]))
+				ft_printf("export: `%s' : not a valid identifier\n", args[i]);
+			else
+				handle_dash(args, i);
+		}
+		i++;
+	}
+	if (error)
+		ft_printf("Some invalid variables/options were skipped.\n");
 }
 
 int	bltin_export_preout(t_cmdlst *cl, t_envlst **el)
