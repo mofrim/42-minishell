@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 04:34:46 by elpah             #+#    #+#             */
-/*   Updated: 2025/01/05 04:35:28 by elpah            ###   ########.fr       */
+/*   Updated: 2025/01/05 05:02:31 by elpah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,4 +56,33 @@ int	is_valid_identifier(const char *str)
 		i++;
 	}
 	return (1);
+}
+
+int	check_valid_vars(char **args)
+{
+	int	i;
+	int	j;
+	int	error;
+
+	i = 1;
+	j = 1;
+	error = 0;
+	while (args[i])
+	{
+		if (!is_valid_identifier(args[i]))
+		{
+			ft_printf("export: `%s': not a valid identifier\n", args[i]);
+			free(args[i]);
+			error = 1;
+		}
+		else
+		{
+			if (i != j)
+				args[j] = args[i];
+			j++;
+		}
+		i++;
+	}
+	args[j] = NULL;
+	return (error);
 }

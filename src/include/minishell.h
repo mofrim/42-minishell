@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:44:43 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/05 04:36:45 by elpah            ###   ########.fr       */
+/*   Updated: 2025/01/05 04:48:41 by elpah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -355,6 +355,5 @@ char		**ft_split_input(char *str);
 char		*find_name(char *str, char *equal_pos);
 void		print_env_vars(t_envlst *el);
 int			check_valid_vars(char **args);
-int			is_valid_identifier(const char *str);
 
 #endif

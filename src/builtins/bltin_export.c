@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 09:50:30 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/04 05:01:22 by elpah            ###   ########.fr       */
+/*   Updated: 2025/01/05 05:01:59 by elpah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,64 +53,40 @@ void	sort_env_list(t_envlst *env)
 	}
 }
 
-void	check_valid_vars(char **args)
-{
-	int	i;
-	int	error;
-
-	i = 1;
-	error = 0;
-	while (args[i])
-	{
-		if (args[i][0] == '\\')
-			handle_backslash(args, i);
-		else if (!(ft_isalpha(args[i][0]) || args[i][0] == '_'))
-		{
-			error = 1;
-			if (ft_isdigit(args[i][0]) || ft_strchr("!@$%%-+{}[],.()<>|~;",
-				args[i][0]))
-				ft_printf("export: `%s' : not a valid identifier\n", args[i]);
-			else
-				handle_dash(args, i);
-		}
-		i++;
-	}
-	if (error)
-		ft_printf("Some invalid variables/options were skipped.\n");
-}
-
 int	bltin_export_preout(t_cmdlst *cl, t_envlst **el)
 {
-	char		*name;
-	char		*value;
-	char		**str;
-	int			i;
+	char	*name;
+	char	*value;
+	char	**str;
+	int		i;
+	int		invalid_found;
 
-	i = 1;
+	invalid_found = 0;
 	if (cl->args[1] == NULL)
 		return (0);
-	check_valid_vars(cl->args);
-	while (cl->args[i] != NULL)
+	invalid_found = check_valid_vars(cl->args);
+	i = 0;
+	while (cl->args[++i] != NULL)
 	{
+		value = NULL;
 		str = ft_split_input(cl->args[i]);
 		if (str && str[0])
 		{
 			name = str[0];
 			if (str[1] && str[1][0])
 				value = str[1];
-			else
-				value = NULL;
 			set_env_entry(name, value, el);
 		}
 		free(str);
-		i++;
 	}
-	return (0);
+	return (invalid_found);
 }
 
 int	bltin_export_out(t_cmdlst *cl, t_envlst **el)
 {
+	if (cl->preout_flag)
+		return (1);
 	if (cl->args[1] == NULL)
-		return (print_exported_variables(*el), 0);
+		print_exported_variables(*el);
 	return (0);
 }
