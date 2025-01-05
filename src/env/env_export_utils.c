@@ -6,39 +6,22 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 04:34:46 by elpah             #+#    #+#             */
-/*   Updated: 2025/01/05 05:02:31 by elpah            ###   ########.fr       */
+/*   Updated: 2025/01/05 21:18:51 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*ft_strncpy(char *dest, char *src, unsigned int n)
-{
-	unsigned int	counter;
-
-	counter = 0;
-	while (src[counter] != '\0' && counter < n)
-	{
-		dest[counter] = src[counter];
-		counter++;
-	}
-	while (counter < n)
-	{
-		dest[counter] = '\0';
-		counter++;
-	}
-	return (dest);
-}
-
 char	*find_name(char *str, char *equal_pos)
 {
 	char	*result;
+	int		copy_len;
 
-	result = malloc(equal_pos - str + 1);
+	copy_len = equal_pos - str + 1;
+	result = malloc(copy_len);
 	if (!result)
 		return (NULL);
-	ft_strncpy(result, str, equal_pos - str);
-	result[equal_pos - str] = '\0';
+	ft_strlcpy(result, str, copy_len);
 	return (result);
 }
 
