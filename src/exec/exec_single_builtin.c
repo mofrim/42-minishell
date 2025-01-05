@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/07 23:15:39 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/05 04:37:47 by elpah            ###   ########.fr       */
+/*   Updated: 2025/01/05 21:42:52 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,10 @@ int	exec_single_builtin(t_cmdlst *cl, t_envlst **el,
 {
 	int	exit_status;
 	int	cpid;
-	int	invalid_args_flag;
 
 	exit_status = 0;
-	invalid_args_flag = 0;
-	invalid_args_flag = bltin_preout(cl, el);
-	cl->preout_flag = invalid_args_flag;
+	if (bltin_preout)
+		cl->preout_flag = bltin_preout(cl, el);
 	if (bltin_out)
 	{
 		cpid = fork();
@@ -40,8 +38,7 @@ int	exec_single_builtin(t_cmdlst *cl, t_envlst **el,
 		{
 			if (open_redir_files(cl->redirs))
 				exit(errno);
-			exit_status = bltin_out(cl, el);
-			exit(exit_status);
+			exit(bltin_out(cl, el));
 		}
 		waitpid(cpid, &exit_status, 0);
 	}
