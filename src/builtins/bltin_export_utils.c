@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 04:34:46 by elpah             #+#    #+#             */
-/*   Updated: 2025/01/05 21:18:51 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/05 21:25:22 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	*find_name(char *str, char *equal_pos)
 	return (result);
 }
 
-int	is_valid_identifier(const char *str)
+static int	is_valid_identifier(const char *str)
 {
 	int	i;
 
@@ -68,4 +68,30 @@ int	check_valid_vars(char **args)
 	}
 	args[j] = NULL;
 	return (error);
+}
+
+char	**ft_split_input(char *str)
+{
+	char	**result;
+	char	*equal_pos;
+
+	result = malloc(2 * sizeof(char *));
+	if (!result)
+		return (NULL);
+	equal_pos = ft_strchr(str, '=');
+	if (!equal_pos)
+	{
+		result[0] = ft_strdup(str);
+		result[1] = NULL;
+	}
+	else
+	{
+		result[0] = find_name(str, equal_pos);
+		if (!result[0])
+			return (free(result), NULL);
+		result[1] = ft_strdup(equal_pos + 1);
+		if (!result[1])
+			return (free(result[0]), free(result), NULL);
+	}
+	return (result);
 }
