@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 04:34:46 by elpah             #+#    #+#             */
-/*   Updated: 2025/01/04 05:00:51 by elpah            ###   ########.fr       */
+/*   Updated: 2025/01/05 04:35:28 by elpah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,57 +42,18 @@ char	*find_name(char *str, char *equal_pos)
 	return (result);
 }
 
-void	handle_invalid(char **args, int i)
+int	is_valid_identifier(const char *str)
 {
-	int	j;
+	int	i;
 
-	j = i;
-	ft_printf("export: `%s': not a valid identifier\n", args[i]);
-	while (args[j] != NULL)
+	if (!ft_isalpha(str[0]) && str[0] != '_')
+		return (0);
+	i = 1;
+	while (str[i] && str[i] != '=')
 	{
-		args[j] = args[j + 1];
-		j++;
+		if (!ft_isalnum(str[i]) && str[i] != '_')
+			return (0);
+		i++;
 	}
-}
-
-void	handle_backslash(char **args, int i)
-{
-	int	k;
-
-	k = 0;
-	if (args[i][1] == '\\')
-	{
-		handle_invalid(args, i);
-		return ;
-	}
-	else if (ft_isalpha(args[i][1]) || args[i][1] == '_'
-			|| args[i][1] == '-' || args[i][1] == '\0')
-	{
-		while (args[i][k] != '\0')
-		{
-			args[i][k] = args[i][k + 1];
-			k++;
-		}
-	}
-	else
-		handle_invalid(args, i);
-}
-
-void	handle_dash(char **args, int i)
-{
-	int	j;
-
-	j = i;
-	if (args[i][0] == '-' && args[i][1] != '\0'
-		&& !ft_strchr("nfp", args[i][1]))
-	{
-		ft_printf("export: -%c: invalid option\n", args[i][1]);
-		ft_printf("export: usage: export ");
-		ft_printf("[-nf][name[= value]...] or export -p\n");
-		while (args[j] != NULL)
-		{
-			args[j] = args[j + 1];
-			j++;
-		}
-	}
+	return (1);
 }
