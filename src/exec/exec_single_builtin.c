@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/07 23:15:39 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/30 23:24:10 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/05 04:37:47 by elpah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,18 @@
  * which should be available to main process, function handling output stuff
  * which gets executed in a child process with all redirects active.
  */
-int	exec_single_builtin(t_cmdlst *cl, t_envlst **el, \
-		int (*bltin_preout)(t_cmdlst *, t_envlst **), \
-		int (*bltin_out)(t_cmdlst *, t_envlst **))
+int	exec_single_builtin(t_cmdlst *cl, t_envlst **el,
+						int (*bltin_preout)(t_cmdlst *, t_envlst **),
+						int (*bltin_out)(t_cmdlst *, t_envlst **))
 {
 	int	exit_status;
 	int	cpid;
+	int	invalid_args_flag;
 
 	exit_status = 0;
-	if (bltin_preout)
-		bltin_preout(cl, el);
+	invalid_args_flag = 0;
+	invalid_args_flag = bltin_preout(cl, el);
+	cl->preout_flag = invalid_args_flag;
 	if (bltin_out)
 	{
 		cpid = fork();
