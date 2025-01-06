@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 13:10:05 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/17 00:09:57 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/06 13:13:52 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,3 +59,18 @@ int	get_posint_numstr(char *s)
 		return (-1);
 	return (num);
 }
+
+/* Return the size of a char** array returned from a ft_split call. */
+int	splitsize(char **s)
+{
+	int	i;
+
+	i = 0;
+	while (*s)
+	{
+		i++;
+		s++;
+	}
+	return (i);
+}
+

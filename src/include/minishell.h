@@ -246,9 +246,11 @@ void		free_ptrptr(char ***ptr);
 int			minish_errormsg(char *prefix, char *msg, int error);
 int			ft_isnum(char c);
 int			get_posint_numstr(char *s);
+int			splitsize(char **s);
 
 /*********** Tokenization. ***********/
 
+t_token		*init_token(char *value, int type);
 t_toklst	*toklst_new(t_token *tok);
 t_toklst	*toklst_last(t_toklst *head);
 void		toklst_add_back(t_toklst **head, t_toklst *newend);
