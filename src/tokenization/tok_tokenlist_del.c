@@ -6,13 +6,13 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 12:17:51 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/06 14:47:55 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/06 17:17:16 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	free_one_toklst(t_toklst *lst)
+void	free_one_toklst(t_toklst *lst)
 {
 	free(lst->token->value);
 	free(lst->token);
