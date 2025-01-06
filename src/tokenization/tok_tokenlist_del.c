@@ -6,17 +6,25 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 12:17:51 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/06 00:08:25 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/06 14:47:55 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	free_one(t_toklst *lst)
+static void	free_one_toklst(t_toklst *lst)
 {
 	free(lst->token->value);
 	free(lst->token);
 	free(lst);
+}
+
+static void	del_first_toklst_member(t_toklst **lst)
+{
+	t_toklst	*next;
+	next = (*lst)->next;
+	free_one_toklst(*lst);
+	*lst = next;
 }
 
 /* Delete one toklst member from a tokenlist. */
@@ -29,9 +37,7 @@ void	toklst_del(t_toklst **lst, t_toklst *delme)
 	tmp = *lst;
 	if (*lst && delme && *lst == delme)
 	{
-		next = (*lst)->next;
-		free_one(tmp);
-		*lst = next;
+		del_first_toklst_member(lst);
 		return ;
 	}
 	while (tmp)
@@ -41,8 +47,10 @@ void	toklst_del(t_toklst **lst, t_toklst *delme)
 		if (tmp == delme)
 		{
 			next = tmp->next;
-			free_one(tmp);
+			free_one_toklst(tmp);
 			prev->next = next;
+			if (next)
+				next->prev = prev;
 			return ;
 		}
 		tmp = tmp->next;

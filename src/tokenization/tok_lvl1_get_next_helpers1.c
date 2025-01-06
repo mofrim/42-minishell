@@ -6,12 +6,13 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 23:45:01 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/27 15:16:19 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/06 11:36:10 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+// FIXME: obsolete??!?!
 void	skip_whitespace(t_cmdline *cl)
 {
 	while (cl->pos < cl->length && \
@@ -68,4 +69,18 @@ void	get_tok_and(t_token *tok, t_cmdline *cl, int *tok_found)
 			*tok_found = 1;
 		}
 	}
+}
+
+void	get_tok_white(t_token *tok, t_cmdline *cl, int *tok_found)
+{
+	if (!*tok_found && ft_isspace(cl->input[cl->pos]))
+	{
+		while (ft_isspace(cl->input[cl->pos]))
+			cl->pos++;
+		tok->type = TOK_WHITE;
+		tok->value = ft_strdup(" ");
+		nullcheck(tok->value, "get_tok_white()");
+		*tok_found = 1;
+	}
+
 }

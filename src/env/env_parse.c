@@ -6,24 +6,11 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 19:11:04 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/05 21:25:10 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/06 13:14:05 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static int	splitsize(char **s)
-{
-	int	i;
-
-	i = 0;
-	while (*s)
-	{
-		i++;
-		s++;
-	}
-	return (i);
-}
 
 static char	*splitjoin(char **s)
 {

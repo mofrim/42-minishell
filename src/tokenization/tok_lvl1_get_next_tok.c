@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 11:55:17 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/30 20:47:46 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/06 13:18:51 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,12 @@ void	get_tok_redir_out12(t_token *tok, t_cmdline *cl, int *tok_found);
 void	get_tok_redir_out3(t_token *tok, t_cmdline *cl, int *tok_found);
 void	get_tok_and(t_token *tok, t_cmdline *cl, int *tok_found);
 void	get_tok_emptyquot(t_token *tok, t_cmdline *cl, int *tok_found);
+void	get_tok_white(t_token *tok, t_cmdline *cl, int *tok_found);
 
 /* The order in this function is extremly relevant! */
 static void	get_tok_unquoted(t_token *tok, t_cmdline *cl, int *tok_found)
 {
+	get_tok_white(tok, cl, tok_found);
 	get_tok_emptyquot(tok, cl, tok_found);
 	get_tok_quot(tok, cl, tok_found);
 	get_tok_var(tok, cl, tok_found);
@@ -58,16 +60,19 @@ static void	get_tok_quoted(t_token *tok, t_cmdline *cl, int *tok_found)
 	get_tok_dquotword(tok, cl, tok_found);
 }
 
+// TODO: if there was input like `blalba"asdsd"` so there was no whitespace in
+// between preceeding or following text and a quoted string both strings should
+// be joined later on.
 t_token	*get_next_token(t_cmdline *cl)
 {
 	t_token	*token;
 	int		tok_found;
 
-	if (!cl->dquot_flag && !cl->squot_flag)
-		skip_whitespace(cl);
+	// if (!cl->dquot_flag && !cl->squot_flag)
+	// 	skip_whitespace(cl);
 	if (cl->pos >= cl->length)
 		return (NULL);
-	token = malloc(sizeof(t_token));
+	token = init_token(NULL, TOK_NULL);
 	nullcheck(token, "get_next_token()");
 	tok_found = 0;
 	while (cl->pos < cl->length && !tok_found)

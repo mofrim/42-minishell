@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 17:22:51 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/03 22:30:55 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/06 09:42:04 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ t_cmdlst	*cmdlst_new(char *exec, int maxargs)
 		return (NULL);
 	cl->cmd = ft_strdup(exec);
 	cl->args = malloc(sizeof(char *) * (maxargs + 2));
+	cl->args[0] = NULL;
+	cl->args[1] = NULL;
 	cl->arg_count = 1;
 	cl->cmd_count = 1;
 	cl->is_builtin = 0;

@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 17:22:51 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/05 13:31:29 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/06 13:28:09 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ t_toklst	*toklst_new(t_token *tok)
 		return (NULL);
 	nn->token = tok;
 	nn->next = NULL;
+	nn->prev = NULL;
 	return (nn);
 }
 
@@ -49,6 +50,7 @@ void	toklst_add_back(t_toklst **head, t_toklst *newend)
 	}
 	oldend = toklst_last(*head);
 	oldend->next = newend;
+	newend->prev = oldend;
 }
 
 void	toklst_clear(t_toklst **lst)

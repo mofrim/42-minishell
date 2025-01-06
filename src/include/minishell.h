@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:44:43 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/06 10:16:12 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/06 13:27:02 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,8 @@ typedef struct s_envlst
  * */
 typedef enum e_toktype
 {
+	TOK_NULL,
+	TOK_WHITE,
 	TOK_WORD,
 	TOK_CMD,
 	TOK_ARG,
@@ -148,6 +150,7 @@ typedef struct s_toklst
 {
 	t_token			*token;
 	struct s_toklst	*next;
+	struct s_toklst	*prev;
 }	t_toklst;
 
 typedef enum e_tokerr
@@ -258,7 +261,6 @@ void		toklst_clear(t_toklst **lst);
 int			toklst_size(t_toklst *lst);
 void		toklst_del(t_toklst **lst, t_toklst *delme);
 void		toklst_remove_tok(t_toklst **toklst, t_toklst **tl);
-void		remove_obsolete_tokens(t_toklst **toklst);
 void		print_tokentype(t_token *token);
 void		print_toklst(t_toklst *tlst);
 

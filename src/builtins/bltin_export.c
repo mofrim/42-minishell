@@ -6,11 +6,31 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 09:50:30 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/06 10:16:28 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/06 14:51:43 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+/* There 4 possibilities for valid export args:
+ *
+ * 1) export "zzz"="moep". leading tokenization: args[1]="zzz", args[2]="=" and
+ * args[3]="moep"
+ *
+ * 2) export "zzz"=moep. leading to arg[1]="zzz", args[2]="=moep"}
+ *
+ * 3) export zzz="laksdjf askdjf". -> args[1]="zzz=", args[2]="laksdjf..."
+ *
+ * 4) export zzz=adsfs asdf -> args[1]="zzz=", args[2]="adsfs", args[3]="asdf"
+ *
+ * How to do `export z="z=z"` -> args[1]="z=", args[2]="z=z"
+ *
+ * Bash can distinguish between `export z="z=z"` -> envvar z = "z=z" and `export
+ * "z=z"` -> envvar z = "z"
+ *
+ *
+ * => somehow i need to preserve the args for export differently.
+ */
 
 int		is_valid_identifier(const char *str);
 char	*find_name(char *str, char *equal_pos);
@@ -33,12 +53,7 @@ int	bltin_export_preout(t_cmdlst *cl, t_envlst **el)
 	char	*value;
 	char	**str;
 	int		i;
-	int		invalid_found;
 
-	invalid_found = 0;
-	if (cl->args[1] == NULL)
-		return (0);
-	invalid_found = check_valid_vars(cl->args);
 	i = 0;
 	while (cl->args[++i] != NULL)
 	{
@@ -47,13 +62,15 @@ int	bltin_export_preout(t_cmdlst *cl, t_envlst **el)
 		if (str && str[0])
 		{
 			name = str[0];
+			if (!is_valid_identifier(name))
+				return (1);
 			if (str[1] && str[1][0])
 				value = str[1];
 			set_env_entry(name, value, el);
 		}
 		free(str);
 	}
-	return (invalid_found);
+	return (0);
 }
 
 int	bltin_export_out(t_cmdlst *cl, t_envlst **el)

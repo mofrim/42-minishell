@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 15:24:38 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/30 18:57:30 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/06 14:20:17 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,9 @@
 
 static int	check_toklst_lvl3(t_toklst *toklst);
 static int	check_tok_lvl3(t_token *prev, t_token *cur, t_token *next);
-static void	apply_lvl3_tokenization(t_token *prev, t_token *cur, \
-		t_token *next, int *cmd_found);
+static void	apply_lvl3_tokenization(t_token *cur, int *cmd_already);
+static void	lvl3_remove_obsolete_tokens(t_toklst **toklst);
+void		lvl3_retok_white_cmds(t_toklst **tlst);
 
 /**
  * Do the lvl3 tokenization.
@@ -30,37 +31,29 @@ static void	apply_lvl3_tokenization(t_token *prev, t_token *cur, \
 int	tokenize_lvl3(t_toklst	**toklst)
 {
 	t_token		*cur;
-	t_token		*next;
-	t_token		*prev;
 	t_toklst	*tl;
 	int			cmd_already;
 
 	if (!*toklst)
 		return (0);
+	lvl3_remove_obsolete_tokens(toklst);
 	if (!check_toklst_lvl3(*toklst))
 		return (0);
 	tl = *toklst;
-	cur = tl->token;
-	prev = NULL;
 	cmd_already = 0;
-	while (tl->next)
+	while (tl)
 	{
-		next = tl->next->token;
-		apply_lvl3_tokenization(prev, cur, next, &cmd_already);
-		prev = cur;
-		cur = next;
+		cur = tl->token;
+		apply_lvl3_tokenization(cur, &cmd_already);
 		tl = tl->next;
 	}
-	apply_lvl3_tokenization(prev, cur, next, &cmd_already);
+	lvl3_retok_white_cmds(toklst);
 	return (1);
 }
 
 /* Actually apply the lvl3 tokenization. */
-static void	apply_lvl3_tokenization(t_token *prev, t_token *cur, \
-		t_token *next, int *cmd_already)
+static void	apply_lvl3_tokenization(t_token *cur, int *cmd_already)
 {
-	(void)next;
-	(void)prev;
 	if (cur->type == TOK_PIP)
 		*cmd_already = 0;
 	else if ((cur->type == TOK_CMD || cur->type == TOK_WORD) && *cmd_already)
@@ -107,4 +100,21 @@ int	check_tok_lvl3(t_token *prev, t_token *cur, t_token *next)
 	if (cur->type == TOK_ROUT1 && next->type == TOK_ROUT_FDFROM)
 		return (print_tokerr(TOKERR_FDFROM, next->value));
 	return (1);
+}
+
+/* Remove whitespace and NULLed tokens from last lvl. */
+void	lvl3_remove_obsolete_tokens(t_toklst **toklst)
+{
+	t_toklst	*tl;
+
+	tl = *toklst;
+	while (tl)
+	{
+		if (tl->token->type == TOK_WHITE)
+			toklst_remove_tok(toklst, &tl);
+		else if (tl->token->type == TOK_NULL)
+			toklst_remove_tok(toklst, &tl);
+		else
+			tl = tl->next;
+	}
 }
