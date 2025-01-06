@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/27 23:50:08 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/03 23:50:59 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/06 09:32:05 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ pid_t	run_pipe_bltin(t_bltin_pipargs args, \
 	if (pipe(pipefd) == -1)
 		return (minish_errormsg("run_pipe_bltin", "create pipe failed", errno));
 	if (bltin_preout)
-		bltin_preout(args.cl, args.el);
+		args.cl->preout_flag = bltin_preout(args.cl, args.el);
 	if (bltin_out)
 	{
 		cpid = fork();
