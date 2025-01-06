@@ -6,7 +6,7 @@
 #    By: elpah <elpah@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/02 00:03:28 by fmaurer           #+#    #+#              #
-#    Updated: 2025/01/05 21:26:25 by fmaurer          ###   ########.fr        #
+#    Updated: 2025/01/06 08:36:31 by fmaurer          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -94,6 +94,8 @@ CFLAGS = -Wall -Werror -Wextra
 
 # adding libft
 LIBFT_PATH	= ./libft
+LIBFT_SRCS	= $(wildcard ./libft/*.c ./libft/ft_printf/*.c \
+							./libft/ft_dprintf/*.c ./libft/get_next_line/*.c)
 LIBFT				= $(LIBFT_PATH)/libft.a
 LIB_PATHS += -L$(LIBFT_PATH) -L$(RL_PATH)
 
@@ -134,12 +136,12 @@ $(OBJDIR)/dbg-%.o: %.c $(HDRS)| $(OBJDIR)
 # 	@echo -e "$(call log_msg,Compiling $(NAME)...)"
 # 	$(CC) $(CFLAGS) $(LIB_PATHS) $(INC) -o $@ $^ $(LIBS) -lreadline
 
-$(NAME): $(OBJS) | $(LIBFT) $(RL_LIBS)
+$(NAME): $(OBJS) $(LIBFT) | $(RL_LIBS)
 	@echo -e "$(call log_msg,Compiling $(NAME)...)"
 	$(CC) $(CFLAGS) -DREADLINE_LIBRARY $(LIB_PATHS) $(INC) -o $@ $^ $(LIBS_DEV) \
 		$(RL_LIBS)
 
-$(LIBFT):
+$(LIBFT): $(LIBFT_SRCS)
 	@echo -e "$(call log_msg,Compiling libft...)"
 	make -C $(LIBFT_PATH) all
 
