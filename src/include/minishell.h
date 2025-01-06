@@ -271,7 +271,7 @@ void		apply_redir_tokenization(t_token *prev, t_token *cur, \
 		t_token *next);
 
 int			print_tokerr(t_tokerr te, char *tok);
-t_toktype	is_cmd_or_builtin(t_token *tok);
+t_toktype	is_cmd_or_builtin(char *val);
 int			is_rout_tok(t_toktype tok);
 int			is_redir_tok(t_toktype tok);
 

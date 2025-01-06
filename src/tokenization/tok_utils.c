@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 07:10:47 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/30 21:36:20 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/06 13:21:11 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,15 @@
 
 /* If given token is a builtin return TOK_BUILTIN, else if token represents a
  * positive number -> TOK_CMD, else -> TOK_WORD. */
-t_toktype	is_cmd_or_builtin(t_token *tok)
+t_toktype	is_cmd_or_builtin(char *val)
 {
-	char	*val;
 
-	val = tok->value;
 	if (!ft_strcmp(val, "echo") || !ft_strcmp(val, "cd") || \
 			!ft_strcmp(val, "pwd") || !ft_strcmp(val, "export") || \
 			!ft_strcmp(val, "unset") || !ft_strcmp(val, "env") || \
 			!ft_strcmp(val, "exit"))
 		return (TOK_BLTIN);
-	else if (get_posint_numstr(tok->value) == -1)
+	else if (get_posint_numstr(val) == -1)
 		return (TOK_CMD);
 	return (TOK_WORD);
 }
@@ -59,23 +57,17 @@ void	toklst_remove_tok(t_toklst **toklst, t_toklst **tl)
 	*tl = tmp;
 }
 
-/* Remove some obsolete tokens in lvl2. */
-void	remove_obsolete_tokens(t_toklst **toklst)
+t_token	*init_token(char *value, int type)
 {
-	t_toklst	*tl;
+	t_token	*tok;
 
-	tl = *toklst;
-	while (tl)
-	{
-		if (tl->token->type == TOK_VAR_SYM)
-			toklst_remove_tok(toklst, &tl);
-		else if (tl->token->type == TOK_DQUOT)
-			toklst_remove_tok(toklst, &tl);
-		else if (tl->token->type == TOK_SQUOT)
-			toklst_remove_tok(toklst, &tl);
-		else if (tl->token->type == TOK_AND)
-			toklst_remove_tok(toklst, &tl);
-		else
-			tl = tl->next;
-	}
+	tok = malloc(sizeof(t_token));
+	if (!tok)
+		return (NULL);
+	tok->type = type;
+	if (value)
+		tok->value = ft_strdup(value);
+	else
+		tok->value = NULL;
+	return (tok);
 }
