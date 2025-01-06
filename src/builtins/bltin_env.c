@@ -6,13 +6,13 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 10:13:46 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/30 23:25:11 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/06 10:07:43 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	print_env_vars(t_envlst *el)
+static void	print_env_vars(t_envlst *el)
 {
 	while (el)
 	{

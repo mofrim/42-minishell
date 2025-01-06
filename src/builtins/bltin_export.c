@@ -6,18 +6,15 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 09:50:30 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/05 05:01:59 by elpah            ###   ########.fr       */
+/*   Updated: 2025/01/06 10:07:27 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/* Export env-var with name and value to global envlst. Return 0 if everything
- * went fine. Return -1 if f.ex. name was not correctly formatted. */
-// TODO implement error checking
-
-// FIXME: export bla="yadayada" should work as expected, i.e. set the env-var
-// `zzz` to the string yadayada, without the quotes.
+int	is_valid_identifier(const char *str);
+char	*find_name(char *str, char *equal_pos);
+char	**ft_split_input(char *str);
 
 // Swap Env
 void	swap_env_vars(t_envlst *a, t_envlst *b)

@@ -1,17 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_export_utils.c                                 :+:      :+:    :+:   */
+/*   bltin_export_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 04:34:46 by elpah             #+#    #+#             */
-/*   Updated: 2025/01/05 21:25:22 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/06 10:05:50 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/* Find the name in a export arg string like `varname=value`. */
 char	*find_name(char *str, char *equal_pos)
 {
 	char	*result;
@@ -25,11 +26,12 @@ char	*find_name(char *str, char *equal_pos)
 	return (result);
 }
 
-static int	is_valid_identifier(const char *str)
+/* Check envvar name for invalid chars. */
+int	is_valid_identifier(const char *str)
 {
 	int	i;
 
-	if (!ft_isalpha(str[0]) && str[0] != '_')
+	if ((!ft_isalpha(str[0]) && str[0] != '_') || *str == 0)
 		return (0);
 	i = 1;
 	while (str[i] && str[i] != '=')
@@ -39,35 +41,6 @@ static int	is_valid_identifier(const char *str)
 		i++;
 	}
 	return (1);
-}
-
-int	check_valid_vars(char **args)
-{
-	int	i;
-	int	j;
-	int	error;
-
-	i = 1;
-	j = 1;
-	error = 0;
-	while (args[i])
-	{
-		if (!is_valid_identifier(args[i]))
-		{
-			ft_printf("export: `%s': not a valid identifier\n", args[i]);
-			free(args[i]);
-			error = 1;
-		}
-		else
-		{
-			if (i != j)
-				args[j] = args[i];
-			j++;
-		}
-		i++;
-	}
-	args[j] = NULL;
-	return (error);
 }
 
 char	**ft_split_input(char *str)

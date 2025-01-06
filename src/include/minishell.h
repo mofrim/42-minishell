@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:44:43 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/05 21:09:04 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/06 10:06:56 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -350,12 +350,4 @@ int			bltin_exit_preout(t_cmdlst *cl, t_envlst **el);
 int			bltin_exit_out(t_cmdlst *cl, t_envlst **el);
 
 int			bltin_cd(char **arg, t_envlst **el);
-
-/*********** Extra Utility Funtions. ***********/
-void		sort_env_list(t_envlst *env);
-char		**ft_split_input(char *str);
-char		*find_name(char *str, char *equal_pos);
-void		print_env_vars(t_envlst *el);
-int			check_valid_vars(char **args);
-
 #endif
