@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 08:17:00 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/27 23:02:10 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/06 17:31:01 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,8 @@ int	proc_redirlst_rout2(t_redirlst *ofl)
 	rval = dup2(fd, STDERR_FILENO);
 	close(fd);
 	if (rval == -1)
-		return (ft_dprintf(2, "minishell: dup2(%d, %d) failed\n", fd, STDERR_FILENO), errno);
+		return (ft_dprintf(2, "minishell: dup2(%d, %d) failed\n", fd, \
+					STDERR_FILENO), errno);
 	return (0);
 }
 

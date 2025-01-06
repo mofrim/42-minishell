@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 10:14:32 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/22 22:52:26 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/06 17:27:49 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ int	check(char **key)
 int	bltin_unset(t_cmdlst *cl, t_envlst **el)
 {
 	t_envlst	*ptr;
-	t_envlst	*prev;
 	t_envlst	*ptr2;
 	char		**str;
 
@@ -53,7 +52,6 @@ int	bltin_unset(t_cmdlst *cl, t_envlst **el)
 		unset_free(ptr);
 		return (0);
 	}
-	prev = ptr;
 	while (ptr && ptr->next)
 	{
 		if (!ft_strcmp(ptr->next->name, str[1]))

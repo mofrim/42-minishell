@@ -32,6 +32,6 @@ void	nullcheck(void *p, char *msg)
  * 3 parameter int-value. */
 int	minish_errormsg(char *prefix, char *msg, int error)
 {
-		ft_dprintf(STDERR_FILENO, "minishell: %s: %s\n", prefix, msg);
-		return (error);
+	ft_dprintf(STDERR_FILENO, "minishell: %s: %s\n", prefix, msg);
+	return (error);
 }

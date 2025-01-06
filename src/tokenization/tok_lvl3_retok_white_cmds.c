@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 12:22:58 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/06 17:19:02 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/06 17:23:43 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	insert_splitcmd_in_toklst(t_toklst *splitcmd_toklst, t_toklst **tl,
 	*tl = (*tl)->next;
 }
 
-void		lvl3_retok_white_cmds(t_toklst **tlst)
+void	lvl3_retok_white_cmds(t_toklst **tlst)
 {
 	t_toklst	*tl;
 	t_token		*tok;

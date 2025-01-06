@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 12:17:51 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/06 17:17:16 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/06 17:23:06 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	free_one_toklst(t_toklst *lst)
 static void	del_first_toklst_member(t_toklst **lst)
 {
 	t_toklst	*next;
+
 	next = (*lst)->next;
 	free_one_toklst(*lst);
 	*lst = next;
