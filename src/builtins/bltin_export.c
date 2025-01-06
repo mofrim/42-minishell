@@ -6,48 +6,25 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 09:50:30 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/06 10:07:27 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/06 10:16:28 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	is_valid_identifier(const char *str);
+int		is_valid_identifier(const char *str);
 char	*find_name(char *str, char *equal_pos);
 char	**ft_split_input(char *str);
+void	sort_env_list(t_envlst *env);
 
-// Swap Env
-void	swap_env_vars(t_envlst *a, t_envlst *b)
+void	print_exported_variables(t_envlst *env)
 {
-	char	*temp_name;
-	char	*temp_value;
+	t_envlst	*env_copy;
 
-	temp_name = a->name;
-	temp_value = a->value;
-	a->name = b->name;
-	a->value = b->value;
-	b->name = temp_name;
-	b->value = temp_value;
-}
-// Sort env
-
-void	sort_env_list(t_envlst *env)
-{
-	t_envlst	*i;
-	t_envlst	*j;
-
-	i = env;
-	while (i != NULL)
-	{
-		j = i->next;
-		while (j != NULL)
-		{
-			if (ft_strcmp(i->name, j->name) > 0)
-				swap_env_vars(i, j);
-			j = j->next;
-		}
-		i = i->next;
-	}
+	env_copy = envlst_copy(env);
+	sort_env_list(env_copy);
+	print_envlst(env_copy);
+	envlst_clear(&env_copy);
 }
 
 int	bltin_export_preout(t_cmdlst *cl, t_envlst **el)

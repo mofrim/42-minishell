@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 04:34:46 by elpah             #+#    #+#             */
-/*   Updated: 2025/01/06 10:05:50 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/06 10:16:39 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,3 +68,38 @@ char	**ft_split_input(char *str)
 	}
 	return (result);
 }
+
+// Swap Env
+void	swap_env_vars(t_envlst *a, t_envlst *b)
+{
+	char	*temp_name;
+	char	*temp_value;
+
+	temp_name = a->name;
+	temp_value = a->value;
+	a->name = b->name;
+	a->value = b->value;
+	b->name = temp_name;
+	b->value = temp_value;
+}
+
+// Sort env
+void	sort_env_list(t_envlst *env)
+{
+	t_envlst	*i;
+	t_envlst	*j;
+
+	i = env;
+	while (i != NULL)
+	{
+		j = i->next;
+		while (j != NULL)
+		{
+			if (ft_strcmp(i->name, j->name) > 0)
+				swap_env_vars(i, j);
+			j = j->next;
+		}
+		i = i->next;
+	}
+}
+

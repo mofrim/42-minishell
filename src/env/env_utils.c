@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 14:27:28 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/30 02:13:17 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/06 10:16:13 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,16 +31,6 @@ void	print_envlst(t_envlst *el)
 			ft_printf("declare -x %s\n", el->name);
 		el = el->next;
 	}
-}
-
-void	print_exported_variables(t_envlst *env)
-{
-	t_envlst	*env_copy;
-
-	env_copy = envlst_copy(env);
-	sort_env_list(env_copy);
-	print_envlst(env_copy);
-	envlst_clear(&env_copy);
 }
 
 /* Get the value-string for a env-var name from envlst. */
