@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 04:34:46 by elpah             #+#    #+#             */
-/*   Updated: 2025/01/06 10:16:39 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/06 16:18:13 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ char	**ft_split_input(char *str)
 	char	**result;
 	char	*equal_pos;
 
-	result = malloc(2 * sizeof(char *));
+	result = malloc(3 * sizeof(char *));
 	if (!result)
 		return (NULL);
 	equal_pos = ft_strchr(str, '=');
@@ -66,6 +66,7 @@ char	**ft_split_input(char *str)
 		if (!result[1])
 			return (free(result[0]), free(result), NULL);
 	}
+	result[2] = NULL;
 	return (result);
 }
 
