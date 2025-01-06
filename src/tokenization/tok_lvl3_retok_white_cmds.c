@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 12:22:58 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/06 17:10:59 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/06 17:19:02 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,6 @@ t_toklst	*split_cmd(char *cmdstr)
 	return (tlst);
 }
 
-void	free_tok(t_token *tok)
-{
-	free(tok->value);
-	free(tok);
-}
-
 /* Insert the split cmd with its args into the toklst at the same position where
  * it was before. */
 void	insert_splitcmd_in_toklst(t_toklst *splitcmd_toklst, t_toklst **tl,
@@ -62,16 +56,15 @@ void	insert_splitcmd_in_toklst(t_toklst *splitcmd_toklst, t_toklst **tl,
 	if (toklst_size(*tlst) == 1)
 	{
 		*tlst = splitcmd_toklst;
-		free_tok((*tl)->token);
+		free_one_toklst(*tl);
 		*tl = NULL;
 		return ;
 	}
-	ft_printf(RED "<< DEBUG >> (*tl)->prev->value = %p\n" RST, (*tl)->prev->token->value);
 	if ((*tl)->prev)
 		(*tl)->prev->next = splitcmd_toklst;
 	if ((*tl)->next)
 		(*tl)->next->prev = toklst_last(splitcmd_toklst);
-	free_tok((*tl)->token);
+	free_one_toklst(*tl);
 	*tl = (*tl)->next;
 }
 
@@ -88,7 +81,6 @@ void		lvl3_retok_white_cmds(t_toklst **tlst)
 		if ((tok->type == TOK_CMD || tok->type == TOK_BLTIN) && \
 				has_whitespace(tok->value))
 		{
-			ft_printf(RED "<< DEBUG >> tok->value in retok = %s\n" RST, tok->value);
 			splitcmd_toklst = split_cmd(tok->value);
 			insert_splitcmd_in_toklst(splitcmd_toklst, &tl, tlst);
 		}
