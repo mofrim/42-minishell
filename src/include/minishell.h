@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:44:43 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/06 13:27:02 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/06 17:10:59 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -245,7 +245,7 @@ int			ft_wexitstatus(int status);
 void		nullcheck(void *p, char *msg);
 void		error_exit(char *msg);
 int			ft_isspace(char c);
-void		free_ptrptr(char ***ptr);
+void		free_ptr2ptr(char ***ptr);
 int			minish_errormsg(char *prefix, char *msg, int error);
 int			ft_isnum(char c);
 int			get_posint_numstr(char *s);

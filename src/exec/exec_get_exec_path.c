@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 15:48:38 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/30 02:09:54 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/06 17:10:59 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,12 @@ char	*get_exec_path(t_cmdlst *cl, char **env)
 	{
 		exec_path = join_exec_path_strings(path_split[i], cl->cmd);
 		if (check_exec_path(exec_path) == 1)
-			return (free_ptrptr(&path_split), exec_path);
+			return (free_ptr2ptr(&path_split), exec_path);
 		if (check_exec_path(exec_path) == 2)
 			return (ft_strdup(""));
 		free(exec_path);
 	}
-	free_ptrptr(&path_split);
+	free_ptr2ptr(&path_split);
 	return (NULL);
 }
 

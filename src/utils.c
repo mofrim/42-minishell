@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 13:10:05 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/06 13:13:52 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/06 17:10:59 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	ft_isspace(char c)
 }
 
 /* Free a NULL terminated (char **) array. */
-void	free_ptrptr(char ***ptr)
+void	free_ptr2ptr(char ***ptr)
 {
 	char	**tmp;
 
@@ -31,6 +31,7 @@ void	free_ptrptr(char ***ptr)
 		(*ptr)++;
 	}
 	free(tmp);
+	tmp = NULL;
 }
 
 /* Check if char argument is a number in [0,9] or not. Return 1 if true, 0

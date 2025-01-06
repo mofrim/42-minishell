@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 12:22:58 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/06 14:49:56 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/06 17:10:59 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ t_toklst	*split_cmd(char *cmdstr)
 		new = init_token(cmdstr_split[i], TOK_ARG);
 		toklst_add_back(&tlst, toklst_new(new));
 	}
-	free_ptrptr(&cmdstr_split);
+	free_ptr2ptr(&cmdstr_split);
 	return (tlst);
 }
 
