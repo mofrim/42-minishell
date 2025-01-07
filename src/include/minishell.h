@@ -192,12 +192,12 @@ typedef enum e_redirtype
 	RE_ROUTA2
 }	t_redirtype;
 
-/* Struct for recording heredoc delimiters & and output files. */
-typedef struct s_heroflst
+/* Struct for recording heredoc delimiters. */
+typedef struct s_herdlst
 {
 	char				*name;
-	struct s_heroflst	*next;
-}	t_heroflst;
+	struct s_herdlst	*next;
+}	t_herdlst;
 
 /* Struct for saving all redirects. */
 typedef struct s_redirlst
@@ -219,7 +219,7 @@ typedef struct s_cmdlst
 	int				cmd_count;
 	int				is_builtin;
 	int				exit_flag;
-	char			*heredoc;
+	t_herdlst		*heredocs;
 	int				preout_flag;
 	t_redirlst		*redirs;
 	struct s_cmdlst	*next;
@@ -295,11 +295,11 @@ t_cmdlst	*cmdlst_head(t_cmdlst *cur);
 void		cmdlst_add_back(t_cmdlst **head, t_cmdlst *newend);
 void		cmdlst_clear(t_cmdlst **lst);
 
-t_heroflst	*heroflst_new(char *name);
-t_heroflst	*heroflst_last(t_heroflst *head);
-void		heroflst_add_back(t_heroflst **head, t_heroflst *newend);
-void		heroflst_clear(t_heroflst **lst);
-void		heroflst_print(t_heroflst *lst);
+t_herdlst	*herdlst_new(char *name);
+t_herdlst	*herdlst_last(t_herdlst *head);
+void		herdlst_add_back(t_herdlst **head, t_herdlst *newend);
+void		herdlst_clear(t_herdlst **lst);
+void		herdlst_print(t_herdlst *lst);
 
 t_redirlst	*redirlst_new(t_redirlst new);
 t_redirlst	*redirlst_last(t_redirlst *head);

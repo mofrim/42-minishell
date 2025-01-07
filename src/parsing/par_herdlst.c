@@ -1,24 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   par_heroflst.c                                     :+:      :+:    :+:   */
+/*   par_herdlst.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/08 19:26:24 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/08 20:46:58 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/07 18:48:19 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/* Create new heroflst entry. String duplication is handled *inside* this
+/* Create new herdlst entry. String duplication is handled *inside* this
  * function! */
-t_heroflst	*heroflst_new(char *name)
+t_herdlst	*herdlst_new(char *name)
 {
-	t_heroflst	*nn;
+	t_herdlst	*nn;
 
-	nn = (t_heroflst *) malloc(sizeof(t_heroflst));
+	nn = (t_herdlst *) malloc(sizeof(t_herdlst));
 	if (!nn)
 		return (NULL);
 	nn->name = ft_strdup(name);
@@ -26,9 +26,9 @@ t_heroflst	*heroflst_new(char *name)
 	return (nn);
 }
 
-t_heroflst	*heroflst_last(t_heroflst *head)
+t_herdlst	*herdlst_last(t_herdlst *head)
 {
-	t_heroflst	*cur;
+	t_herdlst	*cur;
 
 	if (!head)
 		return (NULL);
@@ -38,9 +38,9 @@ t_heroflst	*heroflst_last(t_heroflst *head)
 	return (cur);
 }
 
-void	heroflst_add_back(t_heroflst **head, t_heroflst *newend)
+void	herdlst_add_back(t_herdlst **head, t_herdlst *newend)
 {
-	t_heroflst	*oldend;
+	t_herdlst	*oldend;
 
 	if (!newend)
 		return ;
@@ -49,13 +49,13 @@ void	heroflst_add_back(t_heroflst **head, t_heroflst *newend)
 		*head = newend;
 		return ;
 	}
-	oldend = heroflst_last(*head);
+	oldend = herdlst_last(*head);
 	oldend->next = newend;
 }
 
-void	heroflst_clear(t_heroflst **lst)
+void	herdlst_clear(t_herdlst **lst)
 {
-	t_heroflst	*tmp;
+	t_herdlst	*tmp;
 
 	if (!*lst)
 		return ;
@@ -69,7 +69,7 @@ void	heroflst_clear(t_heroflst **lst)
 	*lst = NULL;
 }
 
-void	heroflst_print(t_heroflst *lst)
+void	herdlst_print(t_herdlst *lst)
 {
 	while (lst)
 	{
