@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 15:24:38 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/07 12:19:06 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/07 12:30:47 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ void		lvl3_retok_white_cmds(t_toklst **tlst);
 int	tokenize_lvl3(t_toklst	**toklst)
 {
 	t_token		*cur;
-	t_token		*next;
 	t_toklst	*tl;
 	int			cmd_already;
 
@@ -43,9 +42,7 @@ int	tokenize_lvl3(t_toklst	**toklst)
 	while (tl)
 	{
 		cur = tl->token;
-		if (tl->next)
-			next = tl->next->token;
-		apply_lvl3_tokenization(cur, next, &cmd_already);
+		apply_lvl3_tokenization(cur, &cmd_already);
 		tl = tl->next;
 	}
 	lvl3_retok_white_cmds(toklst);
@@ -53,8 +50,7 @@ int	tokenize_lvl3(t_toklst	**toklst)
 }
 
 /* Actually apply the lvl3 tokenization. */
-static void	apply_lvl3_tokenization(t_token *cur, t_token *next,
-									int *cmd_already)
+static void	apply_lvl3_tokenization(t_token *cur, int *cmd_already)
 {
 	if (cur->type == TOK_PIP)
 		*cmd_already = 0;
@@ -67,8 +63,6 @@ static void	apply_lvl3_tokenization(t_token *cur, t_token *next,
 		cur->type = TOK_CMD;
 		*cmd_already = 1;
 	}
-	else if (cur->type == TOK_HERE && next->type == TOK_WORD)
-		next->type = TOK_HERE_DLIM;
 }
 
 /* Check toklst before lvl3
