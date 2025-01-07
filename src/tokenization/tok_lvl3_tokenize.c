@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 15:24:38 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/06 14:20:17 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/07 10:55:19 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ static void	apply_lvl3_tokenization(t_token *cur, int *cmd_already)
  * return(0) cases:
  * - f.ex. `ls 1>2>3`
  */
-// FIXME: before submission, if not needed until then, remove prev.
 int	check_toklst_lvl3(t_toklst *toklst)
 {
 	t_token	*cur;
@@ -93,7 +92,6 @@ int	check_toklst_lvl3(t_toklst *toklst)
 	return (1);
 }
 
-// FIXME: before submission, if not needed until then, remove prev.
 int	check_tok_lvl3(t_token *prev, t_token *cur, t_token *next)
 {
 	(void)prev;
@@ -102,7 +100,10 @@ int	check_tok_lvl3(t_token *prev, t_token *cur, t_token *next)
 	return (1);
 }
 
-/* Remove whitespace and NULLed tokens from last lvl. */
+/* Remove whitespace and NULLed tokens from last lvl. A token will be
+ * TOK_NULLed if it was part of a non TOK_WHITE seperated token list. So all
+ * members of that list will have been merged into the first member of the
+ * list. */
 void	lvl3_remove_obsolete_tokens(t_toklst **toklst)
 {
 	t_toklst	*tl;

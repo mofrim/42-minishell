@@ -6,12 +6,13 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 12:22:58 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/06 17:23:43 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/07 10:52:20 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/* Return 1 if there is was a whitespace found in str. */
 static int	has_whitespace(char *str)
 {
 	if (!str || !*str)
@@ -25,6 +26,9 @@ static int	has_whitespace(char *str)
 	return (0);
 }
 
+/* Split the cmdstr by spaces...  */
+// TODO: handle splitting by any whitespace char by implementing a generalized
+// ft_split
 t_toklst	*split_cmd(char *cmdstr)
 {
 	t_toklst	*tlst;
@@ -68,6 +72,12 @@ void	insert_splitcmd_in_toklst(t_toklst *splitcmd_toklst, t_toklst **tl,
 	*tl = (*tl)->next;
 }
 
+/* Split up any TOK_CMD or TOK_BLTIN that contains whitespaces into
+ * - first word becomes a TOK_BLTIN / TOK_CMD
+ * - following words become TOK_ARGs
+ *
+ * This is also the way handles it. try with `export bla="ls --color > blub"`
+ * you will see the redirection is not expanded but interpreted as an arg. */
 void	lvl3_retok_white_cmds(t_toklst **tlst)
 {
 	t_toklst	*tl;
