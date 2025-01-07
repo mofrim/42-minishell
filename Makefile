@@ -52,7 +52,7 @@ SRCS =	minishell.c \
 				tok_lvl3_retok_white_cmds.c \
 				par_cmdlst.c \
 				par_cmdlst_first_last.c \
-				par_heroflst.c \
+				par_herdlst.c \
 				par_parsing.c \
 				par_parse_redir_out.c \
 				par_parse_redir_in.c \
