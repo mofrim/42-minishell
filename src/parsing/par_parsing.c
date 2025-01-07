@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 10:59:44 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/29 12:29:47 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/07 20:59:48 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	print_cmdlst(t_cmdlst *cmd)
 		ft_printf(GRN "-- cmd --\n" RST "Command: %s\nArguments: ", cmd->cmd);
 		i = 0;
 		while (++i < cmd->arg_count)
-			ft_printf("%s ", cmd->args[i]);
+			ft_printf("'%s' ", cmd->args[i]);
 		ft_printf("\n");
 		if (cmd->redirs)
 		{
