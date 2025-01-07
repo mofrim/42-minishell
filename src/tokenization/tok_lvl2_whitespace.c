@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 12:08:06 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/07 21:50:52 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/07 22:26:03 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -33,7 +33,8 @@ void	lvl2_whitespace_tokenization(t_toklst **toklst)
 	{
 		next = tl->next->token;
 		lvl2_apply_whitespace_tokenization(prev, cur, next);
-		prev = cur;
+		if (cur->type != TOK_NULL)
+			prev = cur;
 		cur = next;
 		tl = tl->next;
 	}
