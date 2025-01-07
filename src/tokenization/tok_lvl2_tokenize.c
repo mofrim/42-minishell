@@ -6,14 +6,15 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 10:57:29 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/06 13:21:45 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/07 12:11:12 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /* The helper-functions. */
-static void	apply_lvl2_tokenization(t_token *prev, t_token *cur, t_token *next);
+void		lvl2_whitespace_tokenization(t_toklst **toklst);
+static void	lvl2_apply_tokenization(t_token *prev, t_token *cur, t_token *next);
 static void	lvl2_remove_obsolete_tokens(t_toklst **toklst);
 
 /* Tokenization Level 2. Goal is to classify all the TOK_WORD tokens and rule
@@ -39,7 +40,8 @@ int	tokenize_lvl2(t_toklst	**toklst)
 	t_toklst	*tl;
 
 	lvl2_remove_obsolete_tokens(toklst);
-	if (!check_toklst_lvl2(*toklst))
+	lvl2_whitespace_tokenization(toklst);
+	if (!lvl2_check_toklst(*toklst))
 		return (0);
 	if (!*toklst)
 		return (0);
@@ -51,7 +53,7 @@ int	tokenize_lvl2(t_toklst	**toklst)
 	while (tl->next)
 	{
 		next = tl->next->token;
-		apply_lvl2_tokenization(prev, cur, next);
+		lvl2_apply_tokenization(prev, cur, next);
 		prev = cur;
 		cur = next;
 		tl = tl->next;
@@ -59,27 +61,8 @@ int	tokenize_lvl2(t_toklst	**toklst)
 	return (1);
 }
 
-static void	apply_lvl2_whitespace_tokenization(t_token *prev, t_token *cur,
-												t_token *next)
+static void	lvl2_apply_tokenization(t_token *prev, t_token *cur, t_token *next)
 {
-	char	*tmp;
-
-	(void)prev;
-	if ((cur->type == TOK_CMD || cur->type == TOK_BLTIN || \
-				cur->type == TOK_WORD || cur->type == TOK_ARG) && \
-			(next->type == TOK_CMD || next->type == TOK_BLTIN \
-			|| next->type == TOK_WORD || next->type == TOK_ARG))
-	{
-		tmp = cur->value;
-		cur->value = ft_strjoin(cur->value, next->value);
-		next->type = TOK_NULL;
-		free(tmp);
-	}
-}
-
-static void	apply_lvl2_tokenization(t_token *prev, t_token *cur, t_token *next)
-{
-	apply_lvl2_whitespace_tokenization(prev, cur, next);
 	if (cur->type == TOK_RIN0 && next->type == TOK_WORD)
 		next->type = TOK_IF;
 	else if (is_rout_tok(cur->type) && next->type == TOK_WORD)

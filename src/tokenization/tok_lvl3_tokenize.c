@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 15:24:38 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/07 10:55:19 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/07 12:04:04 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 static int	check_toklst_lvl3(t_toklst *toklst);
 static int	check_tok_lvl3(t_token *prev, t_token *cur, t_token *next);
 static void	apply_lvl3_tokenization(t_token *cur, int *cmd_already);
-static void	lvl3_remove_obsolete_tokens(t_toklst **toklst);
 void		lvl3_retok_white_cmds(t_toklst **tlst);
 
 /**
@@ -36,7 +35,6 @@ int	tokenize_lvl3(t_toklst	**toklst)
 
 	if (!*toklst)
 		return (0);
-	lvl3_remove_obsolete_tokens(toklst);
 	if (!check_toklst_lvl3(*toklst))
 		return (0);
 	tl = *toklst;
@@ -98,24 +96,4 @@ int	check_tok_lvl3(t_token *prev, t_token *cur, t_token *next)
 	if (cur->type == TOK_ROUT1 && next->type == TOK_ROUT_FDFROM)
 		return (print_tokerr(TOKERR_FDFROM, next->value));
 	return (1);
-}
-
-/* Remove whitespace and NULLed tokens from last lvl. A token will be
- * TOK_NULLed if it was part of a non TOK_WHITE seperated token list. So all
- * members of that list will have been merged into the first member of the
- * list. */
-void	lvl3_remove_obsolete_tokens(t_toklst **toklst)
-{
-	t_toklst	*tl;
-
-	tl = *toklst;
-	while (tl)
-	{
-		if (tl->token->type == TOK_WHITE)
-			toklst_remove_tok(toklst, &tl);
-		else if (tl->token->type == TOK_NULL)
-			toklst_remove_tok(toklst, &tl);
-		else
-			tl = tl->next;
-	}
 }

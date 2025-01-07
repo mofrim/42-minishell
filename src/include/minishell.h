@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:44:43 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/06 17:17:49 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/07 12:03:31 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -269,7 +269,7 @@ t_toklst	*tokenize(char *input, t_envlst *env);
 t_toklst	*tokenize_lvl1(char *input, t_envlst *env);
 int			tokenize_lvl2(t_toklst	**toklst);
 int			tokenize_lvl3(t_toklst	**toklst);
-int			check_toklst_lvl2(t_toklst *toklst);
+int			lvl2_check_toklst(t_toklst *toklst);
 void		apply_redir_tokenization(t_token *prev, t_token *cur, \
 		t_token *next);
 
