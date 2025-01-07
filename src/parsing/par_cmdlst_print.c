@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 18:56:12 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/07 19:10:27 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/07 22:55:25 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,18 +37,18 @@ static void	print_cmd(t_cmdlst *cl)
 {
 	int	i;
 
-	ft_printf(GRN "-- cmd --\n" RST "Command: %s\nArguments: ", cl->cmd);
+	ft_printf(GRN "-- cmd --\n" RST "command: %s\nargs: ", cl->cmd);
 	i = 0;
 	while (++i < cl->arg_count)
-		ft_printf("%s ", cl->args[i]);
+		ft_printf("'%s' ", cl->args[i]);
 	ft_printf("\n");
 	if (cl->redirs)
 	{
-		ft_printf("Redirects: ");
+		ft_printf("redirects: ");
 		redirlst_print(cl->redirs);
 	}
 	if (cl->is_builtin)
-		ft_printf("Is builtin!\n");
+		ft_printf("is builtin!\n");
 	if (cl->heredocs)
 	{
 		ft_printf("heredocs: ");
@@ -56,5 +56,5 @@ static void	print_cmd(t_cmdlst *cl)
 		ft_printf("\n");
 	}
 	if (cl->next)
-		ft_printf("Piped to: %s\n", cl->next->cmd);
+		ft_printf("piped to: %s\n", cl->next->cmd);
 }
