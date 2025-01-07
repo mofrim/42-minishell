@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 10:57:29 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/07 12:11:12 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/07 12:17:48 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,6 @@ static void	lvl2_apply_tokenization(t_token *prev, t_token *cur, t_token *next)
 		next->type = TOK_ARG;
 	else if (cur->type == TOK_ARG && next->type == TOK_WORD)
 		next->type = TOK_ARG;
-	else if (cur->type == TOK_HERE && next->type == TOK_WORD)
-		next->type = TOK_HERE_DLIM;
 	apply_redir_tokenization(prev, cur, next);
 }
 
