@@ -6,11 +6,12 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:46:50 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/06 12:06:51 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/07 16:43:13 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "unistd.h"
 
 static void	cleanup_and_exit(t_termios *old_settings, t_envlst **el, \
 		t_toklst **tl);
@@ -31,8 +32,15 @@ int	main(int ac, char **av, char **envp)
 	init_shell(&el, &old_settings, &tlst, envp);
 	while (1)
 	{
-		if (!exit_flag)
+		if (isatty(STDIN_FILENO))
 			input = readline(PROMPT);
+		else
+		{
+			char *line;
+			line = get_next_line(STDIN_FILENO);
+			input = ft_strtrim(line, "\n");
+			free(line);
+		}
 		if (!input || exit_flag)
 			cleanup_and_exit(&old_settings, &el, &tlst);
 		if (*input != 0)
