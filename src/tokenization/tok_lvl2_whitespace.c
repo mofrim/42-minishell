@@ -6,11 +6,12 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 12:08:06 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/07 12:13:49 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/07 21:50:52 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
 
+static int	is_mergable_token(t_token tok);
 static void	lvl2_remove_white_tokens(t_toklst **toklst);
 static void	lvl2_apply_whitespace_tokenization(t_token *prev, t_token *cur,
 				t_token *next);
@@ -26,6 +27,7 @@ void	lvl2_whitespace_tokenization(t_toklst **toklst)
 	t_toklst	*tl;
 
 	tl = *toklst;
+	prev = NULL;
 	cur = tl->token;
 	while (tl->next)
 	{
@@ -41,24 +43,39 @@ void	lvl2_whitespace_tokenization(t_toklst **toklst)
 /* If at this lvl we find some TOK_CMD,BLTIN,ARG or WORD which is *not* followed
  * by a TOK_WHITE but directly tokens of the same kind, this means there was at
  * input cmdline no whitespace between them. In our current tokenization concept
- * this means: merge them all into the current token. 
+ * this means: merge them all into the current token.
+ * The `else if` handles the case where we have multiple mergable tokens in a
+ * row.
  */
 static void	lvl2_apply_whitespace_tokenization(t_token *prev, t_token *cur,
 												t_token *next)
 {
 	char	*tmp;
 
-	(void)prev;
-	if ((cur->type == TOK_CMD || cur->type == TOK_BLTIN || \
-				cur->type == TOK_WORD || cur->type == TOK_ARG) && \
-			(next->type == TOK_CMD || next->type == TOK_BLTIN \
-			|| next->type == TOK_WORD || next->type == TOK_ARG))
+	if (is_mergable_token(*cur) && is_mergable_token(*next))
 	{
 		tmp = cur->value;
 		cur->value = ft_strjoin(cur->value, next->value);
 		next->type = TOK_NULL;
 		free(tmp);
 	}
+	else if (prev && cur->type == TOK_NULL && is_mergable_token(*prev) && \
+			is_mergable_token(*next))
+	{
+		tmp = prev->value;
+		prev->value = ft_strjoin(prev->value, next->value);
+		next->type = TOK_NULL;
+		free(tmp);
+	}
+}
+
+/* Helper function for lvl2_apply_whitespace_tokenization. */
+static int	is_mergable_token(t_token tok)
+{
+	if (tok.type == TOK_CMD || tok.type == TOK_BLTIN || tok.type == TOK_WORD \
+			|| tok.type == TOK_ARG)
+		return (1);
+	return (0);
 }
 
 /* Remove whitespace and NULLed tokens from last lvl. A token will be
