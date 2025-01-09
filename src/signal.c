@@ -6,11 +6,13 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 23:24:37 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/30 10:39:00 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/14 10:34:44 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	g_signal;
 
 // FIXME... this is not correct so far. when i run minishell inside of minishell
 // prompt is displayed twice or even 4 times.
@@ -28,6 +30,18 @@ void	sigint_handler(int signum)
 	rl_replace_line("", 1);
 	rl_on_new_line();
 	rl_redisplay();
+}
+
+void	heredoc_sig_handler(int signum)
+{
+	if (signum == SIGINT)
+	{
+		g_signal = 1;
+		ft_printf("^C");
+		if (ioctl(STDIN_FILENO, TIOCSTI, "\n") == -1)
+			perror("ioctl failed");
+		rl_done = 1;
+	}
 }
 
 /* QUESTION: do i need this? doesn't a simple call to signal() with individual

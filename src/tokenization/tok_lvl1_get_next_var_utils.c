@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 08:47:18 by elpah             #+#    #+#             */
-/*   Updated: 2025/01/13 13:11:03 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/13 22:36:14 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
  * - alphanumeric or
  * - underscore or
  * - or a special varname like $? (.., $$, $*, $@) */
-static int	is_valid_var_name(char next)
+int	is_valid_var_name(char next)
 {
 	if (ft_isalnum(next) || next == '_' || next == '?')
 		return (1);

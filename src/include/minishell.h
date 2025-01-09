@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:44:43 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/12 00:24:58 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/14 10:33:00 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,7 +189,8 @@ typedef enum e_redirtype
 	RE_ROUT3,
 	RE_ROUTA0,
 	RE_ROUTA1,
-	RE_ROUTA2
+	RE_ROUTA2,
+	RE_HERE
 }	t_redirtype;
 
 /* Struct for recording heredoc delimiters. */
@@ -235,6 +236,14 @@ typedef struct s_bltin_pipargs
 	int			*prev_read;
 }	t_bltin_pipargs;
 
+/*********** Heredoc tmpfile struct. ***********/
+
+typedef struct s_htmpfile
+{
+	char	*filename;
+	int		fd;
+}	t_htmpfile;
+
 /*********** Signal and terminal setup. ***********/
 
 void		sigint_handler(int signum);
@@ -242,6 +251,7 @@ void		signal_setup(void (*sig_handler)(int));
 void		term_setup(struct termios *old_settings);
 int			ft_wifsignaled(int status);
 int			ft_wexitstatus(int status);
+void		heredoc_sig_handler(int signum);
 
 /*********** Utils ***********/
 
@@ -281,6 +291,7 @@ t_toktype	is_cmd_or_builtin(char *val);
 int			is_rout_tok(t_toktype tok);
 int			is_redir_tok(t_toktype tok);
 int			is_word_tok(t_toktype tt);
+int			is_valid_var_name(char next);
 
 /*********** Parsing. ***********/
 
@@ -346,6 +357,11 @@ int			exec_single_builtin_cmd(t_cmdlst *cl, t_envlst **el);
 int			exec_pipeline(t_cmdlst *cmdl, char **env, t_envlst **el);
 int			open_redir_files(t_redirlst *rdl);
 int			set_exec_path(t_cmdlst *cl, char **env);
+
+/*********** The HEREDOC. ***********/
+
+int			heredoc(t_cmdlst *cmdl, t_envlst *el);
+void		heredoc_cleanup(t_cmdlst *cl);
 
 /*********** Builtins. ***********/
 
