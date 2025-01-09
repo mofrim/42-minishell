@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "unistd.h"
 
 static void	read_prompt(char **input);
 static void	cleanup_and_exit(t_termios *old_settings, t_envlst **el, \
