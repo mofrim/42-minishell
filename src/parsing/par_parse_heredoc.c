@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 14:06:22 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/06 17:28:45 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/13 16:10:38 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,16 @@
 void	parse_heredoc(t_toklst **tlst, t_cmdlst *cur_cmd)
 {
 	t_toklst	*tl;
+	t_redirlst	rfl;
 
 	tl = *tlst;
 	if (tl && tl->token->type == TOK_HERE_DLIM)
 	{
-		cur_cmd->heredoc = ft_strdup(tl->token->value);
+		herdlst_add_back(&cur_cmd->heredocs, herdlst_new(tl->token->value));
+		init_redirlst_var(&rfl);
+		rfl.redtype = RE_HERE;
+		rfl.infile = tl->token->value;
+		redirlst_add_back(&cur_cmd->redirs, redirlst_new(rfl));
 		*tlst = (*tlst)->next;
 	}
 }

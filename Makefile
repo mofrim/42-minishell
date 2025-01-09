@@ -6,7 +6,7 @@
 #    By: elpah <elpah@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/02 00:03:28 by fmaurer           #+#    #+#              #
-#    Updated: 2025/01/12 08:47:07 by elpah            ###   ########.fr        #
+#    Updated: 2025/01/13 20:59:38 by fmaurer          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ SRC_DIR		=	./src
 # TLDR; this will make make find the correct source file `./src/exec/bla.c` for
 # any obj called `obj/bla.o`
 VPATH	=	./src ./src/exec ./src/parsing ./src/env ./src/builtins \
-				./src/tokenization
+				./src/tokenization ./src/heredoc
 
 SRCS =	minishell.c \
 				term_setup.c \
@@ -85,7 +85,10 @@ SRCS =	minishell.c \
 				exec_proc_redirlst_out.c \
 				exec_pipeline.c \
 				exec_pipe_cmd.c \
-				exec_pipe_bltin.c
+				exec_pipe_bltin.c \
+				heredoc.c \
+				heredoc_tmpfile.c \
+				heredoc_utils.c
 
 OBJDIR = obj
 OBJS = $(patsubst %.c,$(OBJDIR)/%.o,$(SRCS))

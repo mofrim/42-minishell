@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:46:50 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/07 18:32:55 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/13 21:01:20 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ static int	evaluate_cmdline(t_toklst **tl, t_envlst **el)
 	int			exit_flag;
 
 	cl = parse_tokenlist(*tl);
+	heredoc(cl, *el);
 	status_int = exec_cmd(cl, el);
 	if (status_int == 126 || status_int == 127)
 		status_str = ft_itoa(status_int);
@@ -79,6 +80,7 @@ static int	evaluate_cmdline(t_toklst **tl, t_envlst **el)
 	set_env_entry("?", status_str, el);
 	free(status_str);
 	exit_flag = cl->exit_flag;
+	heredoc_cleanup(cl);
 	cmdlst_clear(&cl);
 	toklst_clear(tl);
 	return (exit_flag);
