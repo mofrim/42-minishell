@@ -6,13 +6,14 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:46:50 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/07 17:02:08 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/07 18:32:55 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "unistd.h"
 
+static void	read_prompt(char **input);
 static void	cleanup_and_exit(t_termios *old_settings, t_envlst **el, \
 		t_toklst **tl);
 static int	evaluate_cmdline(t_toklst **tl, t_envlst **el);
@@ -32,15 +33,8 @@ int	main(int ac, char **av, char **envp)
 	init_shell(&el, &old_settings, &tlst, envp);
 	while (1)
 	{
-		if (isatty(STDIN_FILENO))
-			input = readline(PROMPT);
-		else
-		{
-			char *line;
-			line = get_next_line(STDIN_FILENO);
-			input = ft_strtrim(line, "\n");
-			free(line);
-		}
+		if (!exit_flag)
+			read_prompt(&input);
 		if (!input || exit_flag)
 			cleanup_and_exit(&old_settings, &el, &tlst);
 		if (*input != 0)
@@ -97,10 +91,29 @@ static void	cleanup_and_exit(t_termios *old_settings, t_envlst **el, \
 	int	status;
 
 	status = ft_atoi(get_env_entry_by_name("?", *el)->value);
+	if (isatty(STDIN_FILENO))
+		ft_printf("exit\n");
 	tcsetattr(STDIN_FILENO, TCSANOW, old_settings);
 	rl_clear_history();
 	envlst_clear(el);
 	if (*tl)
 		toklst_clear(tl);
 	exit(status);
+}
+
+/* Read the prompt. Either via readline when input is coming from terminal in
+ * interactive mode, or using get_next_line when input is coming in
+ * non-interactive mode, f.ex. during testing. */
+static void	read_prompt(char **input)
+{
+	char	*line;
+
+	if (isatty(STDIN_FILENO))
+		*input = readline(PROMPT);
+	else
+	{
+		line = get_next_line(STDIN_FILENO);
+		*input = ft_strtrim(line, "\n");
+		free(line);
+	}
 }
