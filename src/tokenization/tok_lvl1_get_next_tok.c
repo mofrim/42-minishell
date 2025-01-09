@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 11:55:17 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/06 13:18:51 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/09 12:29:03 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	get_tok_word(t_token *tok, t_cmdline *cl, int *tok_found);
 void	get_tok_squotword(t_token *tok, t_cmdline *cl, int *tok_found);
 void	get_tok_dquotword(t_token *tok, t_cmdline *cl, int *tok_found);
 void	get_tok_var(t_token *tok, t_cmdline *cl, int *tok_found);
+void	get_tok_var_name(t_token *tok, t_cmdline *cl, int *tok_found);
 void	get_tok_redir_outa(t_token *tok, t_cmdline *cl, int *tok_found);
 void	get_tok_redir_out12(t_token *tok, t_cmdline *cl, int *tok_found);
 void	get_tok_redir_out3(t_token *tok, t_cmdline *cl, int *tok_found);
@@ -40,6 +41,7 @@ static void	get_tok_unquoted(t_token *tok, t_cmdline *cl, int *tok_found)
 	get_tok_emptyquot(tok, cl, tok_found);
 	get_tok_quot(tok, cl, tok_found);
 	get_tok_var(tok, cl, tok_found);
+	get_tok_var_name(tok, cl, tok_found);
 	get_tok_pipe(tok, cl, tok_found);
 	get_tok_rinout(tok, cl, tok_found);
 	get_tok_redir_outa(tok, cl, tok_found);
@@ -55,6 +57,7 @@ static void	get_tok_unquoted(t_token *tok, t_cmdline *cl, int *tok_found)
 static void	get_tok_quoted(t_token *tok, t_cmdline *cl, int *tok_found)
 {
 	get_tok_quot(tok, cl, tok_found);
+	get_tok_var_name(tok, cl, tok_found);
 	get_tok_var(tok, cl, tok_found);
 	get_tok_squotword(tok, cl, tok_found);
 	get_tok_dquotword(tok, cl, tok_found);
