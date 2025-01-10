@@ -6,7 +6,7 @@
 #    By: elpah <elpah@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/02 00:03:28 by fmaurer           #+#    #+#              #
-#    Updated: 2025/01/07 12:14:16 by fmaurer          ###   ########.fr        #
+#    Updated: 2025/01/10 09:53:31 by fmaurer          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -91,8 +91,11 @@ OBJS_DBG = $(patsubst %.c,$(OBJDIR)/dbg-%.o,$(SRCS))
 RL_PATH = ./readline
 RL_LIBS = $(RL_PATH)/libreadline.a $(RL_PATH)/libhistory.a
 
+
 CC = clang
-CFLAGS = -Wall -Werror -Wextra
+# FIXME: change before submission
+# CFLAGS = -Wall -Werror -Wextra
+CFLAGS = -g -Wall -Werror -Wextra
 
 # adding libft
 LIBFT_PATH	= ./libft
