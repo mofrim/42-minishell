@@ -59,3 +59,19 @@ Of course this is all only happening in script-mode not in interactive mode!!!
   - but what about $"HOME" ??? 
     + if input is `$"EXISTING_VAR"`, `/run/current-system/sw/bin/echo` fails
     + if input is `$"NOT_EXISTING_VAR"`, none fails.
+
+# the solution 🥳!
+
+i had a little buffer overflow / stack smash / what ever going on in
+`ft_strtrim` where i wrote a `0` byte one byte after the allowed allocated
+memory for the trimmed string. this somehow corrupted the `char **env_arr` array
+at some point. or the `char *line` thingy in the `read_prompt` or the `char
+*input` in the main function. seemingly random corruption errors hinting to this
+little error. and francinette didn't find it too, back then.
+
+So the takeway is:
+
+    If you run into seemingly random mem corruption errors with "invalid
+    pointer" or "double free" errors where they can not be, better run valgrind
+    sooner than later as it will point you to error locations more accurately
+    than gdb or strace.
