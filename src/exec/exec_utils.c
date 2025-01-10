@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 21:09:58 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/30 02:34:20 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/10 14:02:09 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,7 @@ int	set_exec_path(t_cmdlst *cl, char **env)
 	if (exec_path == NULL)
 	{
 		if (!stat(cl->cmd, &sb) && (sb.st_mode & S_IFDIR) == S_IFDIR)
-			return (free(exec_path), \
-					minish_errormsg(cl->cmd, "is a directory", 126));
+			return (minish_errormsg(cl->cmd, "is a directory", 126));
 		else
 			return (minish_errormsg(cl->cmd, "command not found!", 127));
 	}
