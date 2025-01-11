@@ -5,15 +5,15 @@
 ">>" asd
 
 >">" asd
-/bin/rm -f ">"
+rm -f ">"
 
 >> '$USER'
 cat $USER
-/bin/rm -f '$USER'
+rm -f '$USER'
 
 >> '$USER'
 cat '$USER'
-/bin/rm -f '$USER'
+rm -f '$USER'
 
 "echo "
 
@@ -53,15 +53,15 @@ $USER
 
 >> "$H"OM"E"
 cat OME
-/bin/rm -f OME
+rm -f OME
 
 >> "$USER'$USER'"
 cat "$USER'$USER'"
-/bin/rm -f "$USER'$USER'"
+rm -f "$USER'$USER'"
 
 >> "$USER"
 cat $USER
-/bin/rm -f $USER
+rm -f $USER
 
 cd $HOME/Desktop/
 pwd
