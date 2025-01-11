@@ -6,20 +6,26 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 12:22:58 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/07 10:52:20 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/11 22:29:53 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/* Return 1 if there is was a whitespace found in str. */
+/* Return 1 if there was a whitespace followed by non-whitespace characters
+ * found in str. */
 static int	has_whitespace(char *str)
 {
+	int	got_white;
+
+	got_white = 0;
 	if (!str || !*str)
 		return (0);
 	while (*str)
 	{
-		if (ft_isspace(*str))
+		if (ft_isspace(*str) && !got_white)
+			got_white = 1;
+		if (!ft_isspace(*str) && got_white)
 			return (1);
 		str++;
 	}
