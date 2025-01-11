@@ -1,9 +1,11 @@
 #!/usr/bin/env bash
 
 # Change if you store the tester in another PATH
-export MINISHELL_PATH=..
+export MINISHELL_PATH=../
+export MINISHELL_TEST_PATH=../..
 export EXECUTABLE=minishell
-RUNDIR=./42_minishell_tester
+export TESTDIR=TESTDIR
+RUNDIR=../42_minishell_tester
 
 NL=$'\n'
 TAB=$'\t'
@@ -132,6 +134,8 @@ test_no_env() {
 }
 
 test_mandatory_leaks() {
+	mkdir $TESTDIR
+	cd $TESTDIR
 	FILES="${RUNDIR}/cmds/mand/*"
 	for file in $FILES
 	do
@@ -140,9 +144,13 @@ test_mandatory_leaks() {
 			test_leaks $file
 		fi
 	done
+	cd ..
+	rm -rfI $TESTDIR out
 }
 
 test_mandatory() {
+	mkdir $TESTDIR
+	cd $TESTDIR
 	FILES="${RUNDIR}/cmds/mand/*"
 	for file in $FILES
 	do
@@ -151,6 +159,8 @@ test_mandatory() {
 			test_from_file $file
 		fi
 	done
+	cd ..
+	rm -rfI $TESTDIR out
 }
 
 test_mini_death() {
@@ -244,7 +254,7 @@ test_from_file() {
 				((line_count++))
 			done
 			# INPUT=${INPUT%?}
-		echo -n "$INPUT" | $MINISHELL_PATH/$EXECUTABLE 2>tmp_err_minishell >tmp_out_minishell
+		echo -n "$INPUT" | $MINISHELL_TEST_PATH/$EXECUTABLE 2>tmp_err_minishell >tmp_out_minishell
 			exit_minishell=$?
 			echo -n "enable -n .$NL$INPUT" | bash 2>tmp_err_bash >tmp_out_bash
 			exit_bash=$?
@@ -304,13 +314,14 @@ test_from_file() {
 }
 
 test_leaks() {
+	exec 42<>"$1"
 	IFS=''
 	i=1
 	end_of_file=0
 	line_count=0
 	while [[ $end_of_file == 0 ]] ;
 	do
-		read -r line
+		read -u 42 -r line
 		end_of_file=$?
 		((line_count++))
 		if [[ $line == \#* ]] || [[ $line == "" ]] ; then
@@ -331,7 +342,7 @@ test_leaks() {
 				((line_count++))
 			done
 			# INPUT=${INPUT%?}
-			echo -n "$INPUT" | $MINISHELL_PATH/$EXECUTABLE 2>tmp_err_minishell >tmp_out_minishell
+			echo -n "$INPUT" | $MINISHELL_TEST_PATH/$EXECUTABLE 2>tmp_err_minishell >tmp_out_minishell
 			exit_minishell=$?
 			echo -n "enable -n .$NL$INPUT" | bash 2>tmp_err_bash >tmp_out_bash
 			exit_bash=$?
@@ -402,7 +413,9 @@ test_leaks() {
 				THREE=0
 			fi
 		fi
-	done < "$1"
+		read -r
+	done
+	# done < "$1"
 }
 
 test_without_env() {
