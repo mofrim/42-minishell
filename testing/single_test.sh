@@ -4,8 +4,15 @@
 NL=$'\n'
 INPUT=""
 
-## enter line from test file here
-line='/usr/bin/env echo $"42$"'
+## enter *single* line from test file here
+# line='/usr/bin/env echo $"42$"'
+
+## for setting multiline tests
+read -r -d '' line << 'EOF'
+>> '$USER'
+cat $USER
+rm -f '$USER'
+EOF
 
 ## no need to touch this
 INPUT+="$line$NL"

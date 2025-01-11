@@ -36,6 +36,9 @@ main() {
 				TESTFILES+=" ${RUNDIR}/cmds/mand/0_compare_parsing.sh"
 				TESTFILES+=" ${RUNDIR}/cmds/mand/10_parsing_hell.sh"
 				;;
+			"parsinghell" | "ph") 
+				TESTFILES+=" ${RUNDIR}/cmds/mand/10_parsing_hell.sh"
+				;;
 			"redirections" | "r")
 				TESTFILES+=" ${RUNDIR}/cmds/mand/1_redirs.sh"
 				;;
@@ -271,6 +274,8 @@ test_from_file() {
 				((ONE++))
 			fi
 			echo -ne "\033[1;33mSTD_ERR:\033[m "
+			# for stderr we are onlu testing IF there was any output to stderr. the
+			# exact content does not matter.
 			if [[ -s tmp_err_minishell && ! -s tmp_err_bash ]] || [[ ! -s tmp_err_minishell && -s tmp_err_bash ]] ;
 			then
 				echo -ne "❌  " |  tr '\n' ' '
