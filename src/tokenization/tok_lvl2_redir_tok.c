@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 06:39:12 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/30 10:40:46 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/12 00:29:00 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,12 @@ void	apply_redir_tokenization(t_token *prev, t_token *cur, \
 static void	tokenize_rout1(t_token *prev, t_token *cur, t_token *next)
 {
 	(void)cur;
-	if (get_posint_numstr(prev->value) >= 0 && (next->type == TOK_WORD || \
+	if (get_posint_numstr(prev->value) >= 0 && (is_word_tok(next->type) || 
 				next->type == TOK_OF))
 		prev->type = TOK_ROUT_FDFROM;
 	else
 		prev->type = TOK_ARG;
-	if (next->type == TOK_WORD)
+	if (is_word_tok(next->type))
 		next->type = TOK_OF;
 }
 
@@ -61,7 +61,7 @@ static void	tokenize_rout1(t_token *prev, t_token *cur, t_token *next)
 static void	tokenize_rout2(t_token *prev, t_token *cur, t_token *next)
 {
 	(void)cur;
-	if (prev->type == TOK_WORD)
+	if (is_word_tok(prev->type))
 		prev->type = TOK_ARG;
 	next->type = TOK_OF;
 }
@@ -119,7 +119,7 @@ static void	tokenize_rin1(t_token *prev, t_token *cur, t_token *next)
 		cur->type = TOK_RIN0;
 		prev->type = TOK_ARG;
 	}
-	if (next->type == TOK_WORD)
+	if (is_word_tok(next->type))
 		next->type = TOK_IF;
 }
 
@@ -132,6 +132,6 @@ static void	tokenize_rinout(t_token *prev, t_token *cur, t_token *next)
 		prev->type = TOK_ARG;
 		cur->type = TOK_RINOUT0;
 	}
-	if (next->type == TOK_WORD || next->type == TOK_ARG)
+	if (is_word_tok(next->type) || next->type == TOK_ARG)
 		next->type = TOK_IFOF;
 }

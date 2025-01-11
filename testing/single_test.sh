@@ -9,9 +9,8 @@ INPUT=""
 
 ## for setting multiline tests
 read -r -d '' line << 'EOF'
->> '$USER'
-cat $USER
-rm -f '$USER'
+>">" asd
+rm -f ">"
 EOF
 
 ## no need to touch this

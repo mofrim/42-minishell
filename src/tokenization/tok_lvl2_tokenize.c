@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 10:57:29 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/07 19:08:11 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/12 00:27:13 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,21 +63,21 @@ int	tokenize_lvl2(t_toklst	**toklst)
 
 static void	lvl2_apply_tokenization(t_token *prev, t_token *cur, t_token *next)
 {
-	if (cur->type == TOK_RIN0 && next->type == TOK_WORD)
+	if (cur->type == TOK_RIN0 && is_word_tok(next->type))
 		next->type = TOK_IF;
-	else if (is_rout_tok(cur->type) && next->type == TOK_WORD)
+	else if (is_rout_tok(cur->type) && is_word_tok(next->type))
 		next->type = TOK_OF;
 	else if ((cur->type == TOK_IF || cur->type == TOK_OF || \
 	cur->type == TOK_PIP || cur->type == TOK_ROUTA_FDTO || \
-	cur->type == TOK_ROUT3_FDTO) && next->type == TOK_WORD)
+	cur->type == TOK_ROUT3_FDTO) && is_word_tok(next->type))
 		next->type = is_cmd_or_builtin(next->value);
-	else if (cur->type == TOK_CMD && (next->type == TOK_WORD))
+	else if (cur->type == TOK_CMD && is_word_tok(next->type))
 		next->type = TOK_ARG;
-	else if (cur->type == TOK_BLTIN && next->type == TOK_WORD)
+	else if (cur->type == TOK_BLTIN && is_word_tok(next->type))
 		next->type = TOK_ARG;
-	else if (cur->type == TOK_ARG && next->type == TOK_WORD)
+	else if (cur->type == TOK_ARG && is_word_tok(next->type))
 		next->type = TOK_ARG;
-	else if (cur->type == TOK_HERE && next->type == TOK_WORD)
+	else if (cur->type == TOK_HERE && is_word_tok(next->type))
 		next->type = TOK_HERE_DLIM;
 	apply_redir_tokenization(prev, cur, next);
 }
