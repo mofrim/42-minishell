@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:44:43 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/11 10:53:53 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/11 23:54:57 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ typedef struct s_envlst
  * 				'2&>1' the '2' is counted as an arg and the outfile will be 
  * 				called '1'! redir stdout & stderr to word.
  * TOK_ROUT3:	'[n]>&word'
+ * TOK_QCMD:	quoted cmd means: don't split me in tok lvl3!
  *
  * */
 typedef enum e_toktype
@@ -91,7 +92,9 @@ typedef enum e_toktype
 	TOK_NULL,
 	TOK_WHITE,
 	TOK_WORD,
+	TOK_QWORD,
 	TOK_CMD,
+	TOK_QCMD,
 	TOK_ARG,
 	TOK_PIP,
 	TOK_ROUT0,
