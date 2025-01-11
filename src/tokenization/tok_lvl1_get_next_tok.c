@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 11:55:17 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/09 12:29:03 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/12 00:33:31 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 /* Would have made them all static if there wasn't normi. Still don't want them
  * in my minishell.h because they are not of global interest for the proj. So,
  * here are the prototypes needed in here: */
-void	skip_whitespace(t_cmdline *cl);
 void	get_tok_pipe(t_token *tok, t_cmdline *cl, int *tok_found);
 void	get_tok_rin(t_token *tok, t_cmdline *cl, int *tok_found);
 void	get_tok_rinout(t_token *tok, t_cmdline *cl, int *tok_found);
