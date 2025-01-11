@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 21:31:43 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/06 12:05:12 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/11 23:44:38 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ static int	print_tokentype2(t_token *token)
 		ret = ft_printf("TOK_ROUT3_FDTO");
 	return (ret);
 }
+
 static int	print_tokentype3(t_token *token)
 {
 	int	ret;
@@ -108,20 +109,9 @@ static int	print_tokentype4(t_token *token)
 		ret = ft_printf("TOK_WHITE");
 	else if (token->type == TOK_NULL)
 		ret = ft_printf("TOK_NULL");
+	else if (token->type == TOK_QWORD)
+		ret = ft_printf("TOK_QWORD");
 	return (ret);
-}
-
-
-void	print_tokentype(t_token *token)
-{
-	if (print_tokentype1(token))
-		return ;
-	else if (print_tokentype2(token))
-		return ;
-	else if (print_tokentype3(token))
-		return ;
-	else
-		print_tokentype4(token);
 }
 
 void	print_toklst(t_toklst *tlst)
@@ -134,7 +124,14 @@ void	print_toklst(t_toklst *tlst)
 	while (tlst)
 	{
 		ft_printf("token: ");
-		print_tokentype(tlst->token);
+		if (print_tokentype1(tlst->token))
+			;
+		else if (print_tokentype2(tlst->token))
+			;
+		else if (print_tokentype3(tlst->token))
+			;
+		else
+			print_tokentype4(tlst->token);
 		ft_printf(", value: `%s`\n", tlst->token->value);
 		tlst = tlst->next;
 	}
