@@ -6,7 +6,7 @@
 #    By: elpah <elpah@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/02 00:03:28 by fmaurer           #+#    #+#              #
-#    Updated: 2025/01/07 12:14:16 by fmaurer          ###   ########.fr        #
+#    Updated: 2025/01/12 00:24:22 by fmaurer          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,6 +34,7 @@ SRCS =	minishell.c \
 				tok_tokenlist_del.c \
 				tok_tokprint.c \
 				tok_utils.c \
+				tok_utils2.c \
 				tok_tokerr_int.c \
 				tok_lvl1_tokenize.c \
 				tok_lvl1_get_next_tok.c \
@@ -91,8 +92,11 @@ OBJS_DBG = $(patsubst %.c,$(OBJDIR)/dbg-%.o,$(SRCS))
 RL_PATH = ./readline
 RL_LIBS = $(RL_PATH)/libreadline.a $(RL_PATH)/libhistory.a
 
+
 CC = clang
-CFLAGS = -Wall -Werror -Wextra
+# FIXME: change before submission
+# CFLAGS = -Wall -Werror -Wextra
+CFLAGS = -g -Wall -Werror -Wextra
 
 # adding libft
 LIBFT_PATH	= ./libft

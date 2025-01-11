@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 15:24:38 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/07 12:30:47 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/12 00:07:42 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,14 @@ static int	check_tok_lvl3(t_token *prev, t_token *cur, t_token *next);
 static void	apply_lvl3_tokenization(t_token *cur, int *cmd_already);
 void		lvl3_retok_white_cmds(t_toklst **tlst);
 
-/**
+/*
  * Do the lvl3 tokenization.
  *
- * So far in lvl3 we have to fix some false tokenizations from lvl2 thje correct
- * classifaction of TOK_CMD and TOK_BLTIN tokens. So this function scans through
+ * So far in lvl3 we have to fix some false tokenizations from lvl2 & correctly
+ * classify TOK_CMD and TOK_BLTIN tokens. So this function scans through
  * the whole toklst, finds the first TOK_CMD/BLTIN sets the cmd_already flag.
  * After that if there is another TOK_CMD/BLTIN before the next pipe this is a
- * false classification. This token then needs to beand gets turned into
+ * false classification. This token then needs to be and gets turned into
  * TOK_ARG.
  */
 int	tokenize_lvl3(t_toklst	**toklst)
@@ -54,13 +54,19 @@ static void	apply_lvl3_tokenization(t_token *cur, int *cmd_already)
 {
 	if (cur->type == TOK_PIP)
 		*cmd_already = 0;
-	else if ((cur->type == TOK_CMD || cur->type == TOK_WORD) && *cmd_already)
+	else if ((cur->type == TOK_CMD || cur->type == TOK_WORD || \
+				cur->type == TOK_QWORD) && *cmd_already)
 		cur->type = TOK_ARG;
 	else if (cur->type == TOK_CMD || cur->type == TOK_BLTIN)
 		*cmd_already = 1;
 	else if (cur->type == TOK_WORD && !*cmd_already)
 	{
 		cur->type = TOK_CMD;
+		*cmd_already = 1;
+	}
+	else if (cur->type == TOK_QWORD && !*cmd_already)
+	{
+		cur->type = TOK_QCMD;
 		*cmd_already = 1;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:44:43 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/11 23:54:57 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/12 00:24:58 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -280,6 +280,7 @@ int			print_tokerr(t_tokerr te, char *tok);
 t_toktype	is_cmd_or_builtin(char *val);
 int			is_rout_tok(t_toktype tok);
 int			is_redir_tok(t_toktype tok);
+int			is_word_tok(t_toktype tt);
 
 /*********** Parsing. ***********/
 

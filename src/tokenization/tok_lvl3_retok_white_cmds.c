@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 12:22:58 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/07 10:52:20 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/12 00:07:26 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,5 +96,7 @@ void	lvl3_retok_white_cmds(t_toklst **tlst)
 		}
 		else
 			tl = tl->next;
+		if (tok->type == TOK_QCMD)
+			tok->type = TOK_CMD;
 	}
 }

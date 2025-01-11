@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 12:08:06 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/07 22:26:03 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/11 23:46:11 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -74,7 +74,7 @@ static void	lvl2_apply_whitespace_tokenization(t_token *prev, t_token *cur,
 static int	is_mergable_token(t_token tok)
 {
 	if (tok.type == TOK_CMD || tok.type == TOK_BLTIN || tok.type == TOK_WORD \
-			|| tok.type == TOK_ARG)
+			|| tok.type == TOK_ARG || tok.type == TOK_QWORD)
 		return (1);
 	return (0);
 }
