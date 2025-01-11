@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/27 23:50:08 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/06 09:32:05 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/11 09:49:38 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ pid_t	exec_pipe_bltin_generic(t_cmdlst *cl, t_envlst **el, int *prev_read, \
 	if (!ft_strcmp(cl->cmd, "echo"))
 		cpid = run_pipe_func(args, NULL, bltin_echo);
 	if (!ft_strcmp(cl->cmd, "cd"))
-		cpid = bltin_cd(cl->args, el);
+		cpid = run_pipe_func(args, bltin_cd_preout, bltin_cd_out);
 	if (!ft_strcmp(cl->cmd, "pwd"))
 		cpid = run_pipe_func(args, NULL, bltin_pwd);
 	if (!ft_strcmp(cl->cmd, "export"))

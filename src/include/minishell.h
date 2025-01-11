@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:44:43 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/07 12:03:31 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/11 10:53:53 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -317,6 +317,7 @@ void		parse_rin(t_toklst **toklst, t_cmdlst *cur_cmd);
 void		parse_heredoc(t_toklst **tlst, t_cmdlst *cur_cmd);
 
 /*********** Env. ***********/
+
 void		print_env(char **env);
 t_envlst	*parse_env(char **env);
 void		print_envlst(t_envlst *el);
@@ -332,6 +333,7 @@ void		set_env_entry(char *name, char *value, t_envlst **el);
 t_envlst	*envlst_copy(t_envlst *env);
 
 /*********** Exec. ***********/
+
 char		*get_exec_path(t_cmdlst *clst, char **env);
 int			exec_cmd(t_cmdlst *cmdl, t_envlst **el);
 int			exec_redir_cmd(t_cmdlst *cmdl, char **env);
@@ -345,13 +347,16 @@ int			set_exec_path(t_cmdlst *cl, char **env);
 
 int			bltin_export_preout(t_cmdlst *cl, t_envlst **el);
 int			bltin_export_out(t_cmdlst *cl, t_envlst **el);
+
+int			bltin_exit_preout(t_cmdlst *cl, t_envlst **el);
+int			bltin_exit_out(t_cmdlst *cl, t_envlst **el);
+
+int			bltin_cd_preout(t_cmdlst *cl, t_envlst **el);
+int			bltin_cd_out(t_cmdlst *cl, t_envlst **el);
+
 int			bltin_env(t_cmdlst *cl, t_envlst **el);
 int			bltin_echo(t_cmdlst *cl, t_envlst **el);
 int			bltin_pwd(t_cmdlst *cl, t_envlst **el);
 int			bltin_unset(t_cmdlst *cl, t_envlst **el);
 
-int			bltin_exit_preout(t_cmdlst *cl, t_envlst **el);
-int			bltin_exit_out(t_cmdlst *cl, t_envlst **el);
-
-int			bltin_cd(char **arg, t_envlst **el);
 #endif
