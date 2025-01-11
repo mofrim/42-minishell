@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/27 22:55:40 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/30 11:05:19 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/11 22:07:20 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,9 @@ static void	run_child(t_cmdlst *cl, int pipefd[2], int prev_read, char **env)
 	if (open_redir_files(cl->redirs) != 0)
 		exit(errno);
 	signal(SIGINT, SIG_DFL);
-	execve(cl->args[0], cl->args, env);
+	if (cl->cmd)
+		execve(cl->args[0], cl->args, env);
+	exit(0);
 }
 
 int	exec_pipe_cmd(t_cmdlst *cl, char **env, int *prev_read)
@@ -70,7 +72,9 @@ int	exec_pipe_cmd_last(t_cmdlst *cl, char **env, int prev_read)
 		if (open_redir_files(cl->redirs))
 			exit(errno);
 		signal(SIGINT, sigint_handler);
-		execve(cl->args[0], cl->args, env);
+		if (cl->cmd)
+			execve(cl->args[0], cl->args, env);
+		exit(0);
 	}
 	else
 		close (prev_read);
