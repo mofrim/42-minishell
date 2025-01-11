@@ -134,7 +134,7 @@ test_no_env() {
 }
 
 test_mandatory_leaks() {
-	mkdir $TESTDIR
+	mkdir -p $TESTDIR
 	cd $TESTDIR
 	FILES="${RUNDIR}/cmds/mand/*"
 	for file in $FILES
@@ -149,7 +149,7 @@ test_mandatory_leaks() {
 }
 
 test_mandatory() {
-	mkdir $TESTDIR
+	mkdir -p $TESTDIR
 	cd $TESTDIR
 	FILES="${RUNDIR}/cmds/mand/*"
 	for file in $FILES
@@ -295,7 +295,8 @@ test_from_file() {
 			INPUT=""
 			((i++))
 			((TEST_COUNT++))
-			echo -e "\033[0;90m$1:$tmp_line_count\033[m  "
+			# echo -e "\033[0;90m$1:$tmp_line_count\033[m  "
+			echo -e "\033[0;90m${1#.}:$tmp_line_count\033[m  "
 			if [[ $ONE == 1 && $TWO == 1 && $THREE == 1 ]] ;
 			then
 				((GOOD_TEST++))
@@ -486,7 +487,8 @@ test_without_env() {
 			INPUT=""
 			((i++))
 			((TEST_COUNT++))
-			echo -e "\033[0;90m$1:$tmp_line_count\033[m  "
+			# echo -e "\033[0;90m$1:$tmp_line_count\033[m  "
+			echo -e "\033[0;90m${1#.}:$tmp_line_count\033[m  "
 			if [[ $ONE == 1 && $TWO == 1 && $THREE == 1 ]] ;
 			then
 				((GOOD_TEST++))

@@ -134,7 +134,7 @@ test_no_env() {
 }
 
 test_mandatory_leaks() {
-	mkdir $TESTDIR
+	mkdir -p $TESTDIR
 	cd $TESTDIR
 	FILES="${RUNDIR}/cmds/mand/*"
 	for file in $FILES
@@ -149,7 +149,7 @@ test_mandatory_leaks() {
 }
 
 test_mandatory() {
-	mkdir $TESTDIR
+	mkdir -p $TESTDIR
 	cd $TESTDIR
 	FILES="${RUNDIR}/cmds/mand/*"
 	for file in $FILES
