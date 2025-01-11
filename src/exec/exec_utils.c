@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 21:09:58 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/10 14:02:09 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/11 22:01:42 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ int	set_exec_path(t_cmdlst *cl, char **env)
 	char		*exec_path;
 	struct stat	sb;
 
+	if (cl->cmd == NULL && cl->redirs)
+		return (0);
 	exec_path = get_exec_path(cl, env);
 	if (exec_path == NULL)
 	{

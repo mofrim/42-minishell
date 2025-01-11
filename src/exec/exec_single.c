@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/08 15:39:14 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/30 10:42:59 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/11 22:06:48 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,9 @@ int	exec_single_cmd(t_cmdlst *cl, char **env)
 		if (open_redir_files(cl->redirs))
 			exit(errno);
 		signal(SIGINT, SIG_DFL);
-		execve(cl->args[0], cl->args, env);
+		if (cl->cmd)
+			execve(cl->args[0], cl->args, env);
+		exit(0);
 	}
 	waitpid(cpid, &status, 0);
 	signal(SIGINT, sigint_handler);

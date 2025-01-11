@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 15:43:14 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/06 17:10:59 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/11 21:59:10 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	exec_cmd(t_cmdlst *cmdl, t_envlst **el)
 	int		exit_status;
 
 	exit_status = 0;
-	if (cmdl->cmd == NULL)
+	if (cmdl->cmd == NULL && cmdl->redirs == NULL)
 		return (ENOENT);
 	env_arr = get_env_array(*el);
 	nullcheck(env_arr, "exec_cmd()");
