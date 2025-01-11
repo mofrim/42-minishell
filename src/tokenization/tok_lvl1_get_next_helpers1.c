@@ -6,19 +6,11 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 23:45:01 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/06 11:36:10 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/12 00:33:39 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// FIXME: obsolete??!?!
-void	skip_whitespace(t_cmdline *cl)
-{
-	while (cl->pos < cl->length && \
-			ft_isspace(cl->input[cl->pos]))
-		cl->pos++;
-}
 
 void	get_tok_pipe(t_token *tok, t_cmdline *cl, int *tok_found)
 {
