@@ -3,44 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   tok_lvl1_get_next_var.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
+/*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 17:18:10 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/11 23:49:28 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/13 09:24:14 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 void		get_tok_word(t_token *tok, t_cmdline *cl, int *tok_found);
-static char	*get_var_value_from_env(char	*name, t_envlst *env);
-static int	is_full_var(char *inp, int len, int pos);
-static int	is_isolated_varsym(char *inp, int len, int pos);
+static char	*get_var_value_from_env(char *name, t_envlst *env);
+void		handle_full_var(t_token *tok, t_cmdline *cl, int *tok_found);
+void		handle_isolated_var(t_token *tok, t_cmdline *cl, int *tok_found);
 
+/* Tokenize and kind of parse a var.
+ *
+ * The basic rules for var parsing / tokenizing in bash are var names can
+ * only consist of alphanumeric characters and underscores. Everything else like
+ * "$..." cannot be a variable! So in this case we will have a isolated
+ * var-symbol. That's all. */
 void	get_tok_var(t_token *tok, t_cmdline *cl, int *tok_found)
 {
 	if (!*tok_found && !cl->squot_flag && !cl->var_flag)
 	{
-		if (is_full_var(cl->input, cl->length, cl->pos))
-		{
-			tok->type = TOK_VAR_SYM;
-			tok->value = ft_strdup("$");
-			nullcheck(tok->value, "get_tok_var()");
-			cl->pos++;
-			cl->var_flag = 1;
-			*tok_found = 1;
-		}
-		else if (is_isolated_varsym(cl->input, cl->length, cl->pos))
-		{
-			tok->type = TOK_WORD;
-			if (ft_isspace(cl->input[cl->pos + 1]))
-				tok->value = ft_strdup("$");
-			else
-				tok->value = ft_strdup("");
-			nullcheck(tok->value, "get_tok_var()");
-			cl->pos++;
-			*tok_found = 1;
-		}
+		handle_full_var(tok, cl, tok_found);
+		if (*tok_found)
+			return ;
+		handle_isolated_var(tok, cl, tok_found);
 	}
 }
 
@@ -58,26 +48,6 @@ void	get_tok_var_name(t_token *tok, t_cmdline *cl, int *tok_found)
 		free(tmp);
 		cl->var_flag = 0;
 	}
-}
-
-static int	is_full_var(char *inp, int len, int pos)
-{
-	if (len - pos > 1 && inp[pos] == '$' && inp[pos + 1] != '$' && \
-			inp[pos + 1] != '"' && inp[pos + 1] != '\'' && \
-			!ft_isspace(inp[pos + 1]))
-		return (1);
-	return (0);
-}
-
-static int	is_isolated_varsym(char *inp, int len, int pos)
-{
-	if (len - pos == 1)
-		return (1);
-	if (len - pos > 1 && inp[pos] == '$' && (inp[pos + 1] == '$' || \
-				inp[pos + 1] == '"' || inp[pos + 1] == '\'' || \
-				ft_isspace(inp[pos + 1])))
-		return (1);
-	return (0);
 }
 
 static char	*get_var_value_from_env(char *name, t_envlst *env)
