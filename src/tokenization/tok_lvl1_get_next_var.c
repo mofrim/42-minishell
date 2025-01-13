@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 17:18:10 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/13 09:24:14 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/13 10:40:17 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,17 +34,39 @@ void	get_tok_var(t_token *tok, t_cmdline *cl, int *tok_found)
 	}
 }
 
+/* If char is a special varname (for now only '?'), return that as a string.
+ * Else NULL. */
+static char	*get_special_varname(char c)
+{
+	if (c == '?')
+		return (ft_strdup("?"));
+	return (NULL);
+}
+
+
+/* Get the var name. Special var names have priority! */
 void	get_tok_var_name(t_token *tok, t_cmdline *cl, int *tok_found)
 {
 	char	*tmp;
 
 	if (!*tok_found && cl->var_flag)
 	{
-		get_tok_word(tok, cl, tok_found);
+		tmp = get_special_varname(cl->input[cl->pos]);
+		if (tmp)
+		{
+			tok->value = ft_strdup(tmp);
+			cl->pos++;
+			*tok_found = 1;
+			free(tmp);
+		}
+		else
+			get_tok_word(tok, cl, tok_found);
 		tmp = tok->value;
 		tok->value = get_var_value_from_env(tok->value, cl->env);
 		if (cl->dquot_flag)
 			tok->type = TOK_QWORD;
+		else
+			tok->type = TOK_WORD;
 		free(tmp);
 		cl->var_flag = 0;
 	}
