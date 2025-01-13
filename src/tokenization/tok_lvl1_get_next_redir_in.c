@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/27 15:16:04 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/27 18:08:37 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/13 10:55:28 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,17 +24,17 @@ void	get_tok_rin(t_token *tok, t_cmdline *cl, int *tok_found)
 	pos = cl->pos;
 	if (!*tok_found)
 	{
-		if (pos >= 1 && inp[pos] == '<' && !ft_isnum(inp[pos - 1]))
+		if (pos >= 1 && inp[pos] == '<' && ft_isnum(inp[pos - 1]))
 		{
-			tok->type = TOK_RIN0;
+			tok->type = TOK_RIN1;
 			tok->value = ft_strdup("<");
 			nullcheck(tok->value, "get_tok_rin()");
 			cl->pos++;
 			*tok_found = 1;
 		}
-		else if (pos >= 1 && inp[pos] == '<' && ft_isnum(inp[pos - 1]))
+		else if (inp[pos] == '<')
 		{
-			tok->type = TOK_RIN1;
+			tok->type = TOK_RIN0;
 			tok->value = ft_strdup("<");
 			nullcheck(tok->value, "get_tok_rin()");
 			cl->pos++;
