@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 08:17:00 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/06 17:31:01 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/13 11:45:13 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ int	proc_redirlst_rout0(t_redirlst *ofl)
 		fd = open(ofl->outfile, O_TRUNC | O_CREAT | O_WRONLY, 0600);
 	else
 		fd = open(ofl->outfile, O_APPEND | O_CREAT | O_WRONLY, 0600);
-	if (fd == -1)
-		return (errno);
+	if (fd < 0)
+		return (minish_errormsg(ofl->outfile, strerror(errno), errno));
 	rval = dup2(fd, STDOUT_FILENO);
 	close(fd);
 	if (rval == -1)
