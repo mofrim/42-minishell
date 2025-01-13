@@ -6,16 +6,27 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 08:47:18 by elpah             #+#    #+#             */
-/*   Updated: 2025/01/13 09:25:21 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/13 10:26:51 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/* Check wether string after a '$' is a valid variable name.
+ * This is the case if it is
+ * - alphanumeric or
+ * - underscore or
+ * - or a special varname like $?, $$, $*, $@ */
+static int	is_valid_var_name(char next)
+{
+	if (ft_isalnum(next) || next == '_' || next == '?')
+		return (1);
+	return (0);
+}
+
 static int	is_full_var(char *inp, int len, int pos)
 {
-	if (len - pos > 1 && inp[pos] == '$' && (ft_isalnum(inp[pos + 1]) || \
-				inp[pos + 1] == '_'))
+	if (len - pos > 1 && inp[pos] == '$' && is_valid_var_name(inp[pos + 1]))
 		return (1);
 	return (0);
 }
@@ -24,8 +35,7 @@ static int	is_isolated_varsym(char *inp, int len, int pos)
 {
 	if (len - pos == 1)
 		return (1);
-	if (len - pos > 1 && inp[pos] == '$' && !(ft_isalnum(inp[pos + 1]) || \
-				inp[pos + 1] == '_'))
+	if (len - pos > 1 && inp[pos] == '$' && !is_valid_var_name(inp[pos + 1]))
 		return (1);
 	return (0);
 }
