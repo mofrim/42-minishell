@@ -1,10 +1,12 @@
 
-***********************0_compare_parshing.sh********************************
+# 0_compare_parshing.sh
 
 15: /usr/bin/env echo $"42$"
-Problem was that we are not checking if there was a quote after $. hence it was always treating it as a variable.
+Problem was that we are not checking if there was a quote after $. hence it was
+always treating it as a variable.
 
-suggested fix, in tokenization, if there is a a quote after $, check if there is a closing quote, and then treat is as a string.
+suggested fix, in tokenization, if there is a a quote after $, check if there is
+a closing quote, and then treat is as a string.
 other wise if no closing quote or no quote after $ sign then it is a variable. 
 
 
@@ -24,7 +26,8 @@ other wise if no closing quote or no quote after $ sign then it is a variable.
 30: /usr/bin/env echo \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\$USER \$PATH \\$PWD
 "
 These are all similar problems. when we encounter a \, we need to check that the next character is a special character and if so , escape it.
-We need to count the number of \. if it is only 1, skip it and print example $USER as a string. else if count of \ 
+We need to count the number of \. if it is only 1, skip it and print example
+$USER as a string. else if count of \ 
 is  odd, subtract 1 from count, divide by result by 2, and then print backslash the number of result times. after that, treat
 special character and texts that follow as string and print.
 Example for  \\\$USER
@@ -38,7 +41,8 @@ Final Result \$USER
 
 
 other wise if count of backslash is even, ddivide, count by 2, 
-print backslash number of times of count, and treat texts that follow as a variable
+print backslash number of times of count, and treat texts that follow as a
+variable
 Example  \\\$USER
 count = 3
 count / 2. -> count = 2.
