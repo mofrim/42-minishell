@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 08:47:18 by elpah             #+#    #+#             */
-/*   Updated: 2025/01/13 10:26:51 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/13 13:11:03 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
  * This is the case if it is
  * - alphanumeric or
  * - underscore or
- * - or a special varname like $?, $$, $*, $@ */
+ * - or a special varname like $? (.., $$, $*, $@) */
 static int	is_valid_var_name(char next)
 {
 	if (ft_isalnum(next) || next == '_' || next == '?')
@@ -24,25 +24,28 @@ static int	is_valid_var_name(char next)
 	return (0);
 }
 
+/* Check if we have full valid var, an isolated var-sym or no var at all.
+ * Return values:
+ * 	0: no var at all,
+ * 	1: isolated var
+ * 	2: full var*/
 static int	is_full_var(char *inp, int len, int pos)
 {
-	if (len - pos > 1 && inp[pos] == '$' && is_valid_var_name(inp[pos + 1]))
-		return (1);
-	return (0);
-}
-
-static int	is_isolated_varsym(char *inp, int len, int pos)
-{
-	if (len - pos == 1)
-		return (1);
-	if (len - pos > 1 && inp[pos] == '$' && !is_valid_var_name(inp[pos + 1]))
-		return (1);
+	if (inp[pos] == '$')
+	{
+		if (len - pos == 1)
+			return (1);
+		if (len - pos > 1 && is_valid_var_name(inp[pos + 1]))
+			return (2);
+		else
+			return (1);
+	}
 	return (0);
 }
 
 void	handle_full_var(t_token *tok, t_cmdline *cl, int *tok_found)
 {
-	if (is_full_var(cl->input, cl->length, cl->pos))
+	if (is_full_var(cl->input, cl->length, cl->pos) == 2)
 	{
 		tok->type = TOK_VAR_SYM;
 		tok->value = ft_strdup("$");
@@ -55,17 +58,13 @@ void	handle_full_var(t_token *tok, t_cmdline *cl, int *tok_found)
 
 void	handle_isolated_var(t_token *tok, t_cmdline *cl, int *tok_found)
 {
-	if (is_isolated_varsym(cl->input, cl->length, cl->pos))
+	if (is_full_var(cl->input, cl->length, cl->pos) == 1)
 	{
 		if (cl->dquot_flag)
 			tok->type = TOK_QWORD;
-		else
-			tok->type = TOK_VAR_SYM;
-		if (!(ft_isalnum(cl->input[cl->pos + 1]) || \
-					cl->input[cl->pos + 1] == '_'))
-			tok->value = ft_strdup("$");
-		else
-			tok->value = ft_strdup("");
+		else if (cl->pos + 1 == cl->length)
+			tok->type = TOK_WORD;
+		tok->value = ft_strdup("$");
 		nullcheck(tok->value, "handle_isolated_var()");
 		cl->pos++;
 		*tok_found = 1;
