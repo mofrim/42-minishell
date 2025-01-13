@@ -6,7 +6,7 @@
 #    By: elpah <elpah@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/02 00:03:28 by fmaurer           #+#    #+#              #
-#    Updated: 2025/01/12 00:24:22 by fmaurer          ###   ########.fr        #
+#    Updated: 2025/01/12 08:47:07 by elpah            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,6 +36,7 @@ SRCS =	minishell.c \
 				tok_utils.c \
 				tok_utils2.c \
 				tok_tokerr_int.c \
+				tok_lvl1_get_next_var_utils.c \
 				tok_lvl1_tokenize.c \
 				tok_lvl1_get_next_tok.c \
 				tok_lvl1_get_next_helpers1.c \
