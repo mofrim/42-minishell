@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:44:43 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/14 10:33:00 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/14 22:02:36 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,7 @@ typedef enum e_toktype
 	TOK_AND,
 	TOK_HERE,
 	TOK_HERE_DLIM,
+	TOK_HERE_QDLIM,
 	TOK_SQUOT,
 	TOK_DQUOT,
 	TOK_VAR_SYM,
@@ -145,6 +146,7 @@ typedef struct s_cmdline
 	int			length;
 	int			squot_flag;
 	int			dquot_flag;
+	int			herdlim_flag;
 	int			var_flag;
 	t_envlst	*env;
 }	t_cmdline;
@@ -190,13 +192,15 @@ typedef enum e_redirtype
 	RE_ROUTA0,
 	RE_ROUTA1,
 	RE_ROUTA2,
-	RE_HERE
+	RE_DOC,
+	RE_QDOC
 }	t_redirtype;
 
 /* Struct for recording heredoc delimiters. */
 typedef struct s_herdlst
 {
 	char				*name;
+	t_toktype			type;
 	struct s_herdlst	*next;
 }	t_herdlst;
 
@@ -263,6 +267,7 @@ int			minish_errormsg(char *prefix, char *msg, int error);
 int			ft_isnum(char c);
 int			get_posint_numstr(char *s);
 int			splitsize(char **s);
+void		read_prompt(char **input, char *prompt);
 
 /*********** Tokenization. ***********/
 
@@ -306,7 +311,7 @@ t_cmdlst	*cmdlst_head(t_cmdlst *cur);
 void		cmdlst_add_back(t_cmdlst **head, t_cmdlst *newend);
 void		cmdlst_clear(t_cmdlst **lst);
 
-t_herdlst	*herdlst_new(char *name);
+t_herdlst	*herdlst_new(t_token *tok);
 t_herdlst	*herdlst_last(t_herdlst *head);
 void		herdlst_add_back(t_herdlst **head, t_herdlst *newend);
 void		herdlst_clear(t_herdlst **lst);

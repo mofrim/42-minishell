@@ -6,13 +6,12 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:46:50 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/13 21:01:20 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/14 18:52:46 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	read_prompt(char **input);
 static void	cleanup_and_exit(t_termios *old_settings, t_envlst **el, \
 		t_toklst **tl);
 static int	evaluate_cmdline(t_toklst **tl, t_envlst **el);
@@ -33,7 +32,7 @@ int	main(int ac, char **av, char **envp)
 	while (1)
 	{
 		if (!exit_flag)
-			read_prompt(&input);
+			read_prompt(&input, PROMPT);
 		if (!input || exit_flag)
 			cleanup_and_exit(&old_settings, &el, &tlst);
 		if (*input != 0)
@@ -79,8 +78,8 @@ static int	evaluate_cmdline(t_toklst **tl, t_envlst **el)
 		status_str = ft_itoa(ft_wexitstatus(status_int));
 	set_env_entry("?", status_str, el);
 	free(status_str);
-	exit_flag = cl->exit_flag;
 	heredoc_cleanup(cl);
+	exit_flag = cl->exit_flag;
 	cmdlst_clear(&cl);
 	toklst_clear(tl);
 	return (exit_flag);
@@ -105,12 +104,12 @@ static void	cleanup_and_exit(t_termios *old_settings, t_envlst **el, \
 /* Read the prompt. Either via readline when input is coming from terminal in
  * interactive mode, or using get_next_line when input is coming in
  * non-interactive mode, f.ex. during testing. */
-static void	read_prompt(char **input)
+void	read_prompt(char **input, char *prompt)
 {
 	char	*line;
 
 	if (isatty(STDIN_FILENO))
-		*input = readline(PROMPT);
+		*input = readline(prompt);
 	else
 	{
 		line = get_next_line(STDIN_FILENO);
