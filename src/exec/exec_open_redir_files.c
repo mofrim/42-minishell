@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/08 16:11:12 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/13 20:36:50 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/14 22:19:45 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	process_redirlst(t_redirlst *rdl)
 		else if (rdl->redtype == RE_ROUT3)
 			rval = proc_redirlst_rout3(rdl);
 		else if (rdl->redtype == RE_RIN0 || rdl->redtype == RE_RIN1 || \
-				rdl->redtype == RE_HERE)
+				rdl->redtype == RE_DOC || rdl->redtype == RE_QDOC)
 			rval = proc_redirlst_rin01(rdl);
 		else if (rdl->redtype == RE_RINOUT)
 			rval = proc_redirlst_rinout(rdl);

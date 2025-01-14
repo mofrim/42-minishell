@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 21:31:43 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/11 23:44:38 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/14 12:35:10 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,8 @@ static int	print_tokentype4(t_token *token)
 		ret = ft_printf("TOK_NULL");
 	else if (token->type == TOK_QWORD)
 		ret = ft_printf("TOK_QWORD");
+	else if (token->type == TOK_HERE_QDLIM)
+		ret = ft_printf("TOK_HERE_QDLIM");
 	return (ret);
 }
 

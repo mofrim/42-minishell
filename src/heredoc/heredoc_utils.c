@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 20:54:46 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/14 11:24:08 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/14 19:04:50 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	heredoc_cleanup(t_cmdlst *cl)
 			rl = cl->redirs;
 			while (rl)
 			{
-				if (rl->redtype == RE_HERE)
+				if (rl->redtype == RE_DOC || rl->redtype == RE_QDOC)
 					unlink(rl->infile);
 				rl = rl->next;
 			}

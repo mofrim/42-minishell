@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 23:45:01 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/12 00:33:39 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/14 12:36:49 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	get_tok_here(t_token *tok, t_cmdline *cl, int *tok_found)
 			{
 				tok->type = TOK_HERE;
 				tok->value = ft_strdup("<<");
+				cl->herdlim_flag = 1;
 				nullcheck(tok->value, "get_tok_here()");
 				cl->pos += 2;
 				*tok_found = 1;

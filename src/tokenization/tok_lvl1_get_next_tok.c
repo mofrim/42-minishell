@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 11:55:17 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/12 00:33:31 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/14 13:37:35 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,13 @@ void	get_tok_redir_out3(t_token *tok, t_cmdline *cl, int *tok_found);
 void	get_tok_and(t_token *tok, t_cmdline *cl, int *tok_found);
 void	get_tok_emptyquot(t_token *tok, t_cmdline *cl, int *tok_found);
 void	get_tok_white(t_token *tok, t_cmdline *cl, int *tok_found);
+void	get_tok_herdlim(t_token *tok, t_cmdline *cl, int *tok_found);
 
 /* The order in this function is extremly relevant! */
 static void	get_tok_unquoted(t_token *tok, t_cmdline *cl, int *tok_found)
 {
 	get_tok_white(tok, cl, tok_found);
+	get_tok_herdlim(tok, cl, tok_found);
 	get_tok_emptyquot(tok, cl, tok_found);
 	get_tok_quot(tok, cl, tok_found);
 	get_tok_var(tok, cl, tok_found);

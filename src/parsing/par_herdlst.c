@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/08 19:26:24 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/07 18:48:19 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/14 22:02:19 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,15 @@
 
 /* Create new herdlst entry. String duplication is handled *inside* this
  * function! */
-t_herdlst	*herdlst_new(char *name)
+t_herdlst	*herdlst_new(t_token *tok)
 {
 	t_herdlst	*nn;
 
 	nn = (t_herdlst *) malloc(sizeof(t_herdlst));
 	if (!nn)
 		return (NULL);
-	nn->name = ft_strdup(name);
+	nn->name = ft_strdup(tok->value);
+	nn->type = tok->type;
 	nn->next = NULL;
 	return (nn);
 }

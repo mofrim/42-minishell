@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 19:12:39 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/14 10:35:36 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/14 22:19:54 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@
 
 extern int	g_signal;
 
-static int	do_the_heredoc(t_cmdlst *cl, t_envlst *el);
+static int	do_the_heredoc(t_cmdlst	*cl, t_envlst *el);
 t_htmpfile	*create_heredoc_tmpfile(void);
 void		substitute_envvars(char **prompt_input, t_envlst *el);
 
@@ -79,7 +79,8 @@ static void	set_redirlst_infile_to_tmpfile(t_cmdlst *cl,
 	rl = cl->redirs;
 	while (rl)
 	{
-		if (rl->redtype == RE_HERE && !ft_strcmp(rl->infile, dlim))
+		if ((rl->redtype == RE_DOC || rl->redtype == RE_QDOC) && \
+				!ft_strcmp(rl->infile, dlim))
 		{
 			free(rl->infile);
 			rl->infile = ft_strdup(tmpfile->filename);
@@ -89,7 +90,7 @@ static void	set_redirlst_infile_to_tmpfile(t_cmdlst *cl,
 	}
 }
 
-static void	cleanup_ptrs_and_tmpfile(t_htmpfile *tmpfile, char	*input,
+static void	cleanup_and_reset_sig(t_htmpfile *tmpfile, char	*input,
 		t_herdlst **hl)
 {
 	if (input == NULL)
@@ -106,15 +107,18 @@ static void	cleanup_ptrs_and_tmpfile(t_htmpfile *tmpfile, char	*input,
 		free(tmpfile);
 		*hl = (*hl)->next;
 	}
+	if (g_signal)
+		g_signal = 0;
 }
 
-static	void	process_heredoc_prompt(char **input, t_htmpfile *tmpfile,
-		t_envlst *el)
+static void	process_heredoc_prompt(char **input, t_htmpfile *tmpfile,
+		t_envlst *el, t_toktype hdoctype)
 {
-	substitute_envvars(input, el);
+	if (hdoctype == TOK_HERE_DLIM)
+		substitute_envvars(input, el);
 	ft_dprintf(tmpfile->fd, "%s\n", *input);
 	free(*input);
-	*input = readline("> ");
+	read_prompt(input, "> ");
 }
 
 static int	do_the_heredoc(t_cmdlst	*cl, t_envlst *el)
@@ -131,13 +135,13 @@ static int	do_the_heredoc(t_cmdlst	*cl, t_envlst *el)
 			return (minish_errormsg("heredoc", \
 						"heredoc tmpfile creation failed", -1));
 		set_redirlst_infile_to_tmpfile(cl, tmpfile, hl->name);
-		input = readline("> ");
+		read_prompt(&input, "> ");
 		while (input != NULL && ft_strcmp(hl->name, input) && !g_signal)
-			process_heredoc_prompt(&input, tmpfile, el);
+			process_heredoc_prompt(&input, tmpfile, el, hl->type);
 		if (input == NULL)
-			return (cleanup_ptrs_and_tmpfile(tmpfile, input, &hl), 1);
+			return (cleanup_and_reset_sig(tmpfile, input, &hl), 1);
 		else
-			cleanup_ptrs_and_tmpfile(tmpfile, input, &hl);
+			cleanup_and_reset_sig(tmpfile, input, &hl);
 	}
 	return (0);
 }
