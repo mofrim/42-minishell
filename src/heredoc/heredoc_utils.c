@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 20:54:46 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/14 07:28:22 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/14 11:24:08 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,6 @@ static void	replace_var(int offset, int i, char **input, t_envlst *el)
 	char	*var_name;
 	char	*tmp;
 
-	ft_printf(RED "<< DEBUG >> offset = %d\n" RST, offset);
-	ft_printf(RED "<< DEBUG >> i = %d\n" RST, i);
 	before_var = ft_substr(*input, 0, offset);
 	after_var = ft_substr(*input, offset + i, ft_strlen(*input) - offset - i);
 	var_name = ft_substr(*input, offset + 1, i - 1);
