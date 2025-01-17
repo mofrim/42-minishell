@@ -343,7 +343,7 @@ test_leaks() {
 			while [[ $end_of_file == 0 ]] && [[ $line != \#* ]] && [[ $line != "" ]] ;
 			do
 				INPUT+="$line$NL"
-				read -r line
+				read -u 42 -r line
 				end_of_file=$?
 				((line_count++))
 			done
@@ -386,7 +386,7 @@ test_leaks() {
 				((THREE++))
 			fi
 			echo -ne "\033[1;36mLEAKS:\033[m "
-			echo -n "$INPUT" | valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose --log-file=tmp_valgrind-out.txt $MINISHELL_PATH/$EXECUTABLE 2>/dev/null >/dev/null
+			echo -n "$INPUT" | valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose --log-file=tmp_valgrind-out.txt $MINISHELL_TEST_PATH/$EXECUTABLE 2>/dev/null >/dev/null
 			# Get the number of bytes lost
 			definitely_lost=$(cat tmp_valgrind-out.txt | grep "definitely lost:" | awk 'END{print $4}')
 			possibly_lost=$(cat tmp_valgrind-out.txt | grep "possibly lost:" | awk 'END{print $4}')
@@ -419,7 +419,7 @@ test_leaks() {
 				THREE=0
 			fi
 		fi
-		read -r
+		# read -r
 	done
 	# done < "$1"
 }

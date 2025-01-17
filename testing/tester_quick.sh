@@ -375,7 +375,7 @@ test_leaks() {
 				((THREE++))
 			fi
 			echo -ne "\033[1;36mLEAKS:\033[m "
-			echo -n "$INPUT" | valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose --log-file=tmp_valgrind-out.txt $MINISHELL_PATH/$EXECUTABLE 2>/dev/null >/dev/null
+			echo -n "$INPUT" | valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose --log-file=tmp_valgrind-out.txt $MINISHELL_TEST_PATH/$EXECUTABLE 2>/dev/null >/dev/null
 			# Get the number of bytes lost
 			definitely_lost=$(cat tmp_valgrind-out.txt | grep "definitely lost:" | awk 'END{print $4}')
 			possibly_lost=$(cat tmp_valgrind-out.txt | grep "possibly lost:" | awk 'END{print $4}')
@@ -395,7 +395,7 @@ test_leaks() {
 			INPUT=""
 			((i++))
 			((TEST_COUNT++))
-			echo -e "\033[0;90m$1:$tmp_line_count\033[m  "
+			echo -e "\033[0;90m${1#.}:$tmp_line_count\033[m  "
 			if [[ $ONE == 1 && $TWO == 1 && $THREE == 1 ]] ;
 			then
 				((GOOD_TEST++))
