@@ -6,51 +6,58 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 10:13:37 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/22 22:54:01 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/20 09:58:03 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	array_length(char **str)
+void	print_args(char **args, int i)
+{
+	while (args[i])
+	{
+		ft_printf("%s", args[i]);
+		if (args[i + 1])
+			ft_printf(" ");
+		i++;
+	}
+}
+
+int	check_n_print(char **args)
 {
 	int	i;
+	int	j;
+	int	n_flag;
 
-	if (!str || !str[0])
-		return (0);
-	i = 0;
-	while (str[i] != NULL)
-		i++;
-	return (i);
+	n_flag = 0;
+	i = 1;
+	while (args[i] && !ft_strncmp(args[i], "-n", 2))
+	{
+		j = 2;
+		while (args[i][j] == 'n')
+			j++;
+		if (args[i][j] == '\0')
+		{
+			n_flag = 1;
+			i++;
+		}
+		else
+			break ;
+	}
+	print_args(args, i);
+	return (n_flag);
 }
 
 int	bltin_echo(t_cmdlst *cl, t_envlst **el)
 {
-	int		i;
-	char	**str;
-	char	**args;
+	int	n_flag;
 
+	n_flag = 0;
 	(void)el;
-	args = cl->args;
-	i = 0;
-	if (array_length(args) == 1)
-	{
-		ft_printf("\n");
-		return (0);
-	}
-	str = &args[1];
-	if (str)
-	{
-		if (!ft_strncmp(str[i], "-n", 2) && ft_strlen(str[i]) == 2)
-			str = &str[1];
-		while (str[i])
-		{
-			ft_printf("%s", str[i++]);
-			if (str[i])
-				ft_printf(" ");
-		}
-	}
-	if (!(!ft_strncmp(args[1], "-n", 2) && ft_strlen(args[1]) == 2))
+	if (cl->arg_count == 1)
+		return (ft_printf("\n"), 0);
+	n_flag = check_n_print(cl->args);
+	if (!n_flag)
 		ft_printf("\n");
 	return (0);
 }
