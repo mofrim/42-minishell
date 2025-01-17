@@ -20,3 +20,4 @@ moep
 tests/*
 !tests/*.test
 !tests/*.c
+testing/TESTDIR/
