@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 21:44:21 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/26 19:59:55 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/17 23:49:34 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	get_tok_rout(t_token *tok, t_cmdline *cl, int *tok_found)
 			cl->pos++;
 			*tok_found = 1;
 		}
-		if (cl->length - cl->pos >= 1 && \
+		else if (cl->length - cl->pos >= 1 && \
 				!ft_strncmp(&cl->input[cl->pos], ">>", 2))
 		{
 			tok->type = TOK_ROUTA0;

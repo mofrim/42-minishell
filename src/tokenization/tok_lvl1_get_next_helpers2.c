@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 23:47:57 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/12 00:36:30 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/17 23:48:12 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	get_tok_quot(t_token *tok, t_cmdline *cl, int *tok_found)
 			*tok_found = 1;
 			cl->dquot_flag = !cl->dquot_flag;
 		}
-		if (cl->input[cl->pos] == '\'' && !cl->dquot_flag)
+		else if (cl->input[cl->pos] == '\'' && !cl->dquot_flag)
 		{
 			tok->type = TOK_SQUOT;
 			tok->value = ft_strdup("\'");
