@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 15:24:38 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/18 15:38:16 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/18 16:12:51 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void		lvl3_retok_white_cmds(t_toklst **tlst);
  * After that if there is another TOK_CMD/BLTIN before the next pipe this is a
  * false classification. This token then needs to be and gets turned into
  * TOK_ARG.
+ * Return 1 if anything goes wrong, 0 otherwise.
  */
 int	tokenize_lvl3(t_toklst	**toklst)
 {
@@ -46,12 +47,19 @@ int	tokenize_lvl3(t_toklst	**toklst)
 		apply_lvl3_tokenization(cur, &cmd_already);
 		tl = tl->next;
 	}
-	lvl3_retok_white_cmds(toklst);
 	lvl3_remove_obsolete_tokens(toklst);
+	lvl3_retok_white_cmds(toklst);
 	return (0);
 }
 
-/* Actually apply the lvl3 tokenization. */
+/**
+ * Actually apply the lvl3 tokenization.
+ *
+ * At this point we might end up with multiple TOK_CMD-like tokens in one
+ * pipe-section. Also there might processed quoted strings that are only
+ * TOK_WORD or TOK_QWORD so far, empty quotes or not found variables. This is
+ * all fixed and organized in here.
+ */
 static void	apply_lvl3_tokenization(t_token *cur, int *cmd_already)
 {
 	if (cur->type == TOK_PIP)
@@ -63,8 +71,13 @@ static void	apply_lvl3_tokenization(t_token *cur, int *cmd_already)
 		*cmd_already = 1;
 	else if (cur->type == TOK_WORD && !*cmd_already)
 	{
-		cur->type = TOK_CMD;
-		*cmd_already = 1;
+		if (cur->value[0] != 0)
+		{
+			cur->type = TOK_CMD;
+			*cmd_already = 1;
+		}
+		else
+			cur->type = TOK_NULL;
 	}
 	else if (cur->type == TOK_QWORD && !*cmd_already)
 	{
@@ -123,6 +136,8 @@ static void	lvl3_remove_obsolete_tokens(t_toklst **toklst)
 	while (tl)
 	{
 		if (tl->token->type == TOK_CMD && tl->token->value[0] == 0)
+			toklst_remove_tok(toklst, &tl);
+		else if (tl->token->type == TOK_NULL)
 			toklst_remove_tok(toklst, &tl);
 		if (tl)
 			tl = tl->next;

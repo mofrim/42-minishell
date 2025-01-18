@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 23:47:57 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/18 10:03:35 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/18 15:53:41 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	get_tok_emptyquot(t_token *tok, t_cmdline *cl, int *tok_found)
 				(!ft_strncmp(&cl->input[cl->pos], "\"\"", 2) || \
 				!ft_strncmp(&cl->input[cl->pos], "''", 2)))
 		{
-			tok->type = TOK_WORD;
+			tok->type = TOK_QWORD;
 			tok->value = ft_strdup("");
 			nullcheck(tok->value, "get_tok_emptyquot()");
 			cl->pos += 2;
