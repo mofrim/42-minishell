@@ -6,16 +6,16 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 17:18:10 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/13 10:40:17 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/18 10:42:48 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void		get_tok_word(t_token *tok, t_cmdline *cl, int *tok_found);
 static char	*get_var_value_from_env(char *name, t_envlst *env);
 void		handle_full_var(t_token *tok, t_cmdline *cl, int *tok_found);
 void		handle_isolated_var(t_token *tok, t_cmdline *cl, int *tok_found);
+void		get_var_name(t_token *tok, t_cmdline *cl, int *tok_found);
 
 /* Tokenize and kind of parse a var.
  *
@@ -43,9 +43,8 @@ static char	*get_special_varname(char c)
 	return (NULL);
 }
 
-
-/* Get the var name. Special var names have priority! */
-void	get_tok_var_name(t_token *tok, t_cmdline *cl, int *tok_found)
+/* Get the var value. Special var have priority! */
+void	get_tok_var_value(t_token *tok, t_cmdline *cl, int *tok_found)
 {
 	char	*tmp;
 
@@ -60,7 +59,7 @@ void	get_tok_var_name(t_token *tok, t_cmdline *cl, int *tok_found)
 			free(tmp);
 		}
 		else
-			get_tok_word(tok, cl, tok_found);
+			get_var_name(tok, cl, tok_found);
 		tmp = tok->value;
 		tok->value = get_var_value_from_env(tok->value, cl->env);
 		if (cl->dquot_flag)
