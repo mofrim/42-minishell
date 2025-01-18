@@ -6,15 +6,16 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 15:24:38 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/18 15:24:21 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/18 15:38:16 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	check_toklst_lvl3(t_toklst *toklst);
+static int	lvl3_check_toklst(t_toklst *toklst);
 static int	check_tok_lvl3(t_token *prev, t_token *cur, t_token *next);
 static void	apply_lvl3_tokenization(t_token *cur, int *cmd_already);
+static void	lvl3_remove_obsolete_tokens(t_toklst **toklst);
 void		lvl3_retok_white_cmds(t_toklst **tlst);
 
 /*
@@ -35,7 +36,7 @@ int	tokenize_lvl3(t_toklst	**toklst)
 
 	if (!*toklst)
 		return (1);
-	if (!check_toklst_lvl3(*toklst))
+	if (!lvl3_check_toklst(*toklst))
 		return (1);
 	tl = *toklst;
 	cmd_already = 0;
@@ -46,6 +47,7 @@ int	tokenize_lvl3(t_toklst	**toklst)
 		tl = tl->next;
 	}
 	lvl3_retok_white_cmds(toklst);
+	lvl3_remove_obsolete_tokens(toklst);
 	return (0);
 }
 
@@ -79,7 +81,7 @@ static void	apply_lvl3_tokenization(t_token *cur, int *cmd_already)
  * return(0) cases:
  * - f.ex. `ls 1>2>3`
  */
-int	check_toklst_lvl3(t_toklst *toklst)
+int	lvl3_check_toklst(t_toklst *toklst)
 {
 	t_token	*cur;
 	t_token	*next;
@@ -105,4 +107,24 @@ int	check_tok_lvl3(t_token *prev, t_token *cur, t_token *next)
 	if (cur->type == TOK_ROUT1 && next->type == TOK_ROUT_FDFROM)
 		return (print_tokerr(TOKERR_FDFROM, next->value));
 	return (1);
+}
+
+/**
+ * Finally remove obsolete tokens at the end of lvl3.
+ *
+ * F.ex. if the only prompt-input was `$NOVAR` which does not exist, we would
+ * end up with a TOK_CMD with empty string as its value. This should be removed.
+ */
+static void	lvl3_remove_obsolete_tokens(t_toklst **toklst)
+{
+	t_toklst	*tl;
+
+	tl = *toklst;
+	while (tl)
+	{
+		if (tl->token->type == TOK_CMD && tl->token->value[0] == 0)
+			toklst_remove_tok(toklst, &tl);
+		if (tl)
+			tl = tl->next;
+	}
 }

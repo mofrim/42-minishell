@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 12:08:06 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/11 23:46:11 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/18 15:39:37 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -95,6 +95,7 @@ void	lvl2_remove_white_tokens(t_toklst **toklst)
 		else if (tl->token->type == TOK_NULL)
 			toklst_remove_tok(toklst, &tl);
 		else
-			tl = tl->next;
+			if (tl)
+				tl = tl->next;
 	}
 }
