@@ -6,7 +6,7 @@
 #    By: elpah <elpah@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/02 00:03:28 by fmaurer           #+#    #+#              #
-#    Updated: 2025/01/14 13:08:06 by fmaurer          ###   ########.fr        #
+#    Updated: 2025/01/18 10:38:22 by fmaurer          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,8 +40,10 @@ SRCS =	minishell.c \
 				tok_lvl1_tokenize.c \
 				tok_lvl1_get_next_tok.c \
 				tok_lvl1_get_next_helpers1.c \
-				tok_lvl1_get_next_helpers2.c \
+				tok_lvl1_get_next_word.c \
+				tok_lvl1_get_next_quot.c \
 				tok_lvl1_get_next_var.c \
+				tok_lvl1_get_next_varname.c \
 				tok_lvl1_get_next_redir_out.c \
 				tok_lvl1_get_next_redir_in.c \
 				tok_lvl1_get_tok_herdlim.c \

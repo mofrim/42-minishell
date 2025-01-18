@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 11:55:17 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/14 13:37:35 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/18 10:41:12 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	get_tok_word(t_token *tok, t_cmdline *cl, int *tok_found);
 void	get_tok_squotword(t_token *tok, t_cmdline *cl, int *tok_found);
 void	get_tok_dquotword(t_token *tok, t_cmdline *cl, int *tok_found);
 void	get_tok_var(t_token *tok, t_cmdline *cl, int *tok_found);
-void	get_tok_var_name(t_token *tok, t_cmdline *cl, int *tok_found);
+void	get_tok_var_value(t_token *tok, t_cmdline *cl, int *tok_found);
 void	get_tok_redir_outa(t_token *tok, t_cmdline *cl, int *tok_found);
 void	get_tok_redir_out12(t_token *tok, t_cmdline *cl, int *tok_found);
 void	get_tok_redir_out3(t_token *tok, t_cmdline *cl, int *tok_found);
@@ -42,7 +42,7 @@ static void	get_tok_unquoted(t_token *tok, t_cmdline *cl, int *tok_found)
 	get_tok_emptyquot(tok, cl, tok_found);
 	get_tok_quot(tok, cl, tok_found);
 	get_tok_var(tok, cl, tok_found);
-	get_tok_var_name(tok, cl, tok_found);
+	get_tok_var_value(tok, cl, tok_found);
 	get_tok_pipe(tok, cl, tok_found);
 	get_tok_rinout(tok, cl, tok_found);
 	get_tok_redir_outa(tok, cl, tok_found);
@@ -58,22 +58,22 @@ static void	get_tok_unquoted(t_token *tok, t_cmdline *cl, int *tok_found)
 static void	get_tok_quoted(t_token *tok, t_cmdline *cl, int *tok_found)
 {
 	get_tok_quot(tok, cl, tok_found);
-	get_tok_var_name(tok, cl, tok_found);
+	get_tok_var_value(tok, cl, tok_found);
 	get_tok_var(tok, cl, tok_found);
 	get_tok_squotword(tok, cl, tok_found);
 	get_tok_dquotword(tok, cl, tok_found);
 }
 
-// TODO: if there was input like `blalba"asdsd"` so there was no whitespace in
-// between preceeding or following text and a quoted string both strings should
-// be joined later on.
+/**
+ * Get the next token from prompt input.
+ *
+ * Wrapper for all of the different token getters.
+ */
 t_token	*get_next_token(t_cmdline *cl)
 {
 	t_token	*token;
 	int		tok_found;
 
-	// if (!cl->dquot_flag && !cl->squot_flag)
-	// 	skip_whitespace(cl);
 	if (cl->pos >= cl->length)
 		return (NULL);
 	token = init_token(NULL, TOK_NULL);
