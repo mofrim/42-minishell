@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 21:44:21 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/17 23:49:34 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/18 12:17:50 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,19 +42,27 @@
  * 3) >&word: word != digits, redir stdouterr to file word -> TOK_ROUT2
  */
 
-/* The easiest output redir. Classify tokens of the simple form '>' and '>>',
- * where there is no possible fd number involved. */
+/**
+ * The easiest output redir. Classify tokens of the simple form '>' and '>>',
+ * where there is no possible fd number involved.
+ *
+ * ADDON: Also classify '>|' as TOK_ROUT0 as it has the same meaning in our
+ * shell!
+ * */
 void	get_tok_rout(t_token *tok, t_cmdline *cl, int *tok_found)
 {
 	if (!*tok_found)
 	{
 		if (cl->length - cl->pos >= 1 && cl->input[cl->pos] == '>' && \
-			cl->input[cl->pos + 1] != '>')
+			(cl->input[cl->pos + 1] != '>' || cl->input[cl->pos + 1] == '|'))
 		{
 			tok->type = TOK_ROUT0;
-			tok->value = ft_strdup(">");
+			if (cl->input[cl->pos + 1] == '|')
+				tok->value = ft_strdup(">|");
+			else
+				tok->value = ft_strdup(">");
 			nullcheck(tok->value, "get_tok_rout()");
-			cl->pos++;
+			cl->pos += 1 + (cl->input[cl->pos + 1] == '|');
 			*tok_found = 1;
 		}
 		else if (cl->length - cl->pos >= 1 && \
