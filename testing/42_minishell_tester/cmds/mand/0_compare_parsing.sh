@@ -49,19 +49,19 @@
 
 /usr/bin/env echo "'$?'"
 
-/usr/bin/env echo \$USER
+# /usr/bin/env echo \$USER
 
-/usr/bin/env echo \\$USER
+# /usr/bin/env echo \\$USER
 
-/usr/bin/env echo \\\$USER
+# /usr/bin/env echo \\\$USER
 
-/usr/bin/env echo \\\\$USER
+# /usr/bin/env echo \\\\$USER
 
-/usr/bin/env echo \\\\\$USER
+# /usr/bin/env echo \\\\\$USER
 
-/usr/bin/env echo \\\\\\\\\$USER
+# /usr/bin/env echo \\\\\\\\\$USER
 
-/usr/bin/env echo \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\$USER \$PATH \\$PWD
+# /usr/bin/env echo \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\$USER \$PATH \\$PWD
 
 /usr/bin/env echo "cat lol.c | cat > lol.c"
 

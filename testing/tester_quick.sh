@@ -36,6 +36,12 @@ main() {
 				TESTFILES+=" ${RUNDIR}/cmds/mand/0_compare_parsing.sh"
 				TESTFILES+=" ${RUNDIR}/cmds/mand/10_parsing_hell.sh"
 				;;
+			"parsing only compare" | "p") 
+				TESTFILES+=" ${RUNDIR}/cmds/mand/0_compare_parsing.sh"
+				;;
+			"parsinghell" | "ph") 
+				TESTFILES+=" ${RUNDIR}/cmds/mand/10_parsing_hell.sh"
+				;;
 			"redirections" | "r")
 				TESTFILES+=" ${RUNDIR}/cmds/mand/1_redirs.sh"
 				;;
@@ -293,7 +299,7 @@ test_from_file() {
 			INPUT=""
 			((i++))
 			((TEST_COUNT++))
-			echo -e "\033[0;90m$1:$tmp_line_count\033[m  "
+			echo -e "\033[0;90m${1#.}:$tmp_line_count\033[m  "
 			if [[ $ONE == 1 && $TWO == 1 && $THREE == 1 ]] ;
 			then
 				((GOOD_TEST++))
