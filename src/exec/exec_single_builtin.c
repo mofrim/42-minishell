@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/07 23:15:39 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/11 09:48:46 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/18 09:49:38 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	exec_single_builtin(t_cmdlst *cl, t_envlst **el,
 		if (cpid == 0)
 		{
 			if (open_redir_files(cl->redirs))
-				exit(errno);
+				exit(1);
 			exit(bltin_out(cl, el));
 		}
 		waitpid(cpid, &exit_status, 0);
