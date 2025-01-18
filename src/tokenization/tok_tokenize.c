@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 13:09:10 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/18 13:33:27 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/18 17:59:37 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ t_toklst	*tokenize(char *input, t_envlst **el)
 
 	if (tokenize_lvl2(&toklst))
 	{
+		toklst_clear(&toklst);
 		set_env_entry("?", "2", el);
 		return (NULL);
 	}

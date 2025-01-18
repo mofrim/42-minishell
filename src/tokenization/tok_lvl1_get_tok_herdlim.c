@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 12:37:44 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/14 22:28:53 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/18 22:07:35 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,22 @@ static int	is_quot(char c)
 	return (0);
 }
 
+/* Is metachar? Deliberately not using all bash metachars here because we don't
+ * know them in our project. */
+static int	is_metachar(char c)
+{
+	if (c == '|' || c == '&' || c == '>' || c == '<')
+		return (1);
+	return (0);
+}
+
+/**
+ * Get the heredoc delim.
+ *
+ * If heredoc delim is quoted like `<< "$&;"` ignore any metachars or
+ * whitespaces in it. Otherwise get everythin until first metachar or
+ * whitespace.
+ */
 static char	*get_dlim(char *inp, int *pos, int cllen, int *quot)
 {
 	int		start;
@@ -33,14 +49,14 @@ static char	*get_dlim(char *inp, int *pos, int cllen, int *quot)
 	start = *pos;
 	firstquot = 0;
 	while (*pos < cllen && (!ft_isspace(inp[*pos]) || firstquot) && \
-			inp[*pos] != '|' && inp[*pos] != '>' && inp[*pos] != '<')
+			(!is_metachar(inp[*pos]) || firstquot))
 	{
 		if (is_quot(inp[*pos]) && !firstquot)
 		{
 			*quot = 1;
 			firstquot = is_quot(inp[*pos]);
 		}
-		if (is_quot(inp[*pos]) && firstquot && is_quot(inp[*pos]) == firstquot)
+		else if (firstquot && is_quot(inp[*pos]) == firstquot)
 			firstquot = 0;
 		(*pos)++;
 	}
@@ -51,6 +67,12 @@ static char	*get_dlim(char *inp, int *pos, int cllen, int *quot)
 	return (word);
 }
 
+/**
+ * Get TOK_HERE_xDLIM.
+ *
+ * If we have something like `<<|` we stop and leave this syntax error to the
+ * check_toklst in lvl2
+ */
 void	get_tok_herdlim(t_token *tok, t_cmdline *cl, int *tok_found)
 {
 	int		quot;
@@ -58,6 +80,11 @@ void	get_tok_herdlim(t_token *tok, t_cmdline *cl, int *tok_found)
 
 	if (!*tok_found && cl->herdlim_flag)
 	{
+		if (is_metachar(cl->input[cl->pos]))
+		{
+			cl->herdlim_flag = 0;
+			return ;
+		}
 		quot = 0;
 		word = get_dlim(cl->input, &cl->pos, cl->length, &quot);
 		if (quot)

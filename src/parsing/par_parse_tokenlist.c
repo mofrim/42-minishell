@@ -1,43 +1,46 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   par_parsing.c                                      :+:      :+:    :+:   */
+/*   par_parse_tokenlist.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 10:59:44 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/07 18:57:00 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/18 20:35:39 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	remove_heredoc(t_toklst **toklst);
+static void	remove_tok_here(t_toklst **toklst);
 static int	get_max_argnum(t_toklst *tl);
 void		print_cmdlst(t_cmdlst *cmd);
 
 /* Parse tokenlist into cmdlist. */
-t_cmdlst	*parse_tokenlist(t_toklst *toklst)
+t_cmdlst	*parse_tokenlist(t_toklst **toklst)
 {
 	t_cmdlst	*cmd;
 	t_cmdlst	*cur_cmd;
+	t_toklst	*tl;
 	int			maxargs;
 
-	if (!toklst)
+
+	if (!*toklst)
 		return (NULL);
-	remove_heredoc(&toklst);
-	maxargs = get_max_argnum(toklst);
+	remove_tok_here(toklst);
+	maxargs = get_max_argnum(*toklst);
 	cmd = cmdlst_new(NULL, maxargs);
 	cur_cmd = cmd;
-	while (toklst)
+	tl = *toklst;
+	while (tl)
 	{
-		parse_command(&toklst, &cmd, &cur_cmd, maxargs);
-		parse_args(&toklst, &cur_cmd);
-		parse_builtin(&toklst, &cmd, &cur_cmd, maxargs);
-		parse_pipe(&toklst, &cmd, &cur_cmd, maxargs);
-		parse_rout(&toklst, cur_cmd);
-		parse_rin(&toklst, cur_cmd);
-		parse_heredoc(&toklst, cur_cmd);
+		parse_command(&tl, &cmd, &cur_cmd, maxargs);
+		parse_args(&tl, &cur_cmd);
+		parse_builtin(&tl, &cmd, &cur_cmd, maxargs);
+		parse_pipe(&tl, &cmd, &cur_cmd, maxargs);
+		parse_rout(&tl, cur_cmd);
+		parse_rin(&tl, cur_cmd);
+		parse_heredoc(&tl, cur_cmd);
 	}
 
 #ifdef DEBUG
@@ -48,7 +51,7 @@ t_cmdlst	*parse_tokenlist(t_toklst *toklst)
 	return (cmd);
 }
 
-static void	remove_heredoc(t_toklst **toklst)
+static void	remove_tok_here(t_toklst **toklst)
 {
 	t_toklst	*tl;
 
@@ -58,7 +61,8 @@ static void	remove_heredoc(t_toklst **toklst)
 		if (tl->token->type == TOK_HERE)
 			toklst_remove_tok(toklst, &tl);
 		else
-			tl = tl->next;
+			if (tl)
+				tl = tl->next;
 	}
 }
 

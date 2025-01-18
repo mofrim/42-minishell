@@ -6,7 +6,7 @@
 #    By: elpah <elpah@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/02 00:03:28 by fmaurer           #+#    #+#              #
-#    Updated: 2025/01/18 10:38:22 by fmaurer          ###   ########.fr        #
+#    Updated: 2025/01/18 20:02:42 by fmaurer          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -57,7 +57,7 @@ SRCS =	minishell.c \
 				par_cmdlst_first_last.c \
 				par_cmdlst_print.c \
 				par_herdlst.c \
-				par_parsing.c \
+				par_parse_tokenlist.c \
 				par_parse_redir_out.c \
 				par_parse_redir_in.c \
 				par_redirlst.c \

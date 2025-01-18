@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 21:31:43 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/14 12:35:10 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/18 16:21:04 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ static int	print_tokentype3(t_token *token)
 	else if (token->type == TOK_AND)
 		ret = ft_printf("TOK_AND");
 	else if (token->type == TOK_RINOUT0)
-		ret = ft_printf("TOK_RINOUT");
+		ret = ft_printf("TOK_RINOUT0");
 	else if (token->type == TOK_RIN1)
 		ret = ft_printf("TOK_RIN1");
 	else if (token->type == TOK_IFOF)
@@ -113,6 +113,8 @@ static int	print_tokentype4(t_token *token)
 		ret = ft_printf("TOK_QWORD");
 	else if (token->type == TOK_HERE_QDLIM)
 		ret = ft_printf("TOK_HERE_QDLIM");
+	else if (token->type == TOK_RINOUT1)
+		ret = ft_printf("TOK_RINOUT1");
 	return (ret);
 }
 

@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:44:43 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/18 11:01:49 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/18 20:38:03 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -324,7 +324,7 @@ void		redirlst_clear(t_redirlst **lst);
 void		redirlst_print(t_redirlst *lst);
 void		init_redirlst_var(t_redirlst *var);
 
-t_cmdlst	*parse_tokenlist(t_toklst *toklst);
+t_cmdlst	*parse_tokenlist(t_toklst **toklst);
 void		parse_command(t_toklst **toklst, t_cmdlst **cmd, \
 		t_cmdlst **cur_cmd, int maxargs);
 void		parse_args(t_toklst **toklst, t_cmdlst **cur_cmd);
