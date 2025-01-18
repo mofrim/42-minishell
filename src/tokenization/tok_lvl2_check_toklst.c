@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 18:45:36 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/18 19:04:02 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/18 22:43:19 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ int	lvl2_check_toklst(t_toklst *toklst)
 	t_token	*next;
 	t_token	*prev;
 
+	if (!toklst)
+		return (1);
 	cur = toklst->token;
 	if (toklst->next == NULL && lvl2_check_only_one_tok(cur->type))
 		return (1);
