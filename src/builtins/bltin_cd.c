@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 10:13:11 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/11 10:52:55 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/18 22:33:30 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int	bltin_cd_preout(t_cmdlst *cl, t_envlst **el)
 		}
 	}
 	if (retval == -1)
-		return (errno);
+		return (free(oldpwd), errno);
 	return (retval);
 }
 
