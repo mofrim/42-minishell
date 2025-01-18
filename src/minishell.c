@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:46:50 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/14 18:52:46 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/18 11:02:08 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	main(int ac, char **av, char **envp)
 		if (*input != 0)
 		{
 			add_history(input);
-			tlst = tokenize(input, el);
+			tlst = tokenize(input, &el);
 			if (tlst)
 				exit_flag = evaluate_cmdline(&tlst, &el);
 		}

@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 10:57:29 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/12 00:27:13 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/18 10:58:33 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,10 @@ int	tokenize_lvl2(t_toklst	**toklst)
 
 	lvl2_remove_obsolete_tokens(toklst);
 	lvl2_whitespace_tokenization(toklst);
-	if (!lvl2_check_toklst(*toklst))
-		return (0);
 	if (!*toklst)
-		return (0);
+		return (1);
+	if (lvl2_check_toklst(*toklst))
+		return (2);
 	tl = *toklst;
 	cur = tl->token;
 	if (cur->type == TOK_WORD)
@@ -58,7 +58,7 @@ int	tokenize_lvl2(t_toklst	**toklst)
 		cur = next;
 		tl = tl->next;
 	}
-	return (1);
+	return (0);
 }
 
 static void	lvl2_apply_tokenization(t_token *prev, t_token *cur, t_token *next)

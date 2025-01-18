@@ -6,17 +6,19 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 13:09:10 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/16 15:36:24 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/18 11:03:27 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_toklst	*tokenize(char *input, t_envlst *env)
+/* If there is an error in lvl2 this means there was a syntax error so, in this
+ * case $? has to be set to "2" like in bash. */
+t_toklst	*tokenize(char *input, t_envlst **el)
 {
 	t_toklst	*toklst;
 
-	toklst = tokenize_lvl1(input, env);
+	toklst = tokenize_lvl1(input, *el);
 	if (!toklst)
 		return (NULL);
 
@@ -25,8 +27,11 @@ t_toklst	*tokenize(char *input, t_envlst *env)
 	print_toklst(toklst);
 #endif
 
-	if (!tokenize_lvl2(&toklst))
+	if (tokenize_lvl2(&toklst))
+	{
+		set_env_entry("?", "2", el);
 		return (NULL);
+	}
 
 #ifdef DEBUG
 	ft_printf(RED "<< DEBUG >> toklst after lvl2:\n" RST);

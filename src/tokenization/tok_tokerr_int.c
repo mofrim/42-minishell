@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 17:26:43 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/30 10:39:23 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/18 10:59:31 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	print_tokerr(t_tokerr te, char *tok)
 {
 	print_tokerr_part1(te, tok);
 	print_tokerr_part2(te, tok);
-	return (0);
+	return (1);
 }
 
 void	print_tokerr_part1(t_tokerr te, char *tok)

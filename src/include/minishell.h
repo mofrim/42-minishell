@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:44:43 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/14 22:02:36 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/18 11:01:49 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -283,7 +283,7 @@ void		toklst_remove_tok(t_toklst **toklst, t_toklst **tl);
 void		print_tokentype(t_token *token);
 void		print_toklst(t_toklst *tlst);
 
-t_toklst	*tokenize(char *input, t_envlst *env);
+t_toklst	*tokenize(char *input, t_envlst **el);
 t_toklst	*tokenize_lvl1(char *input, t_envlst *env);
 int			tokenize_lvl2(t_toklst	**toklst);
 int			tokenize_lvl3(t_toklst	**toklst);
