@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 12:22:58 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/12 00:07:26 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/19 00:43:51 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ t_toklst	*split_cmd(char *cmdstr)
 	cmdstr_split = ft_split(cmdstr, ' ');
 	i = 0;
 	splsize = splitsize(cmdstr_split);
-	new = init_token(cmdstr_split[i], is_cmd_or_builtin(cmdstr_split[i]));
+	new = init_token(cmdstr_split[0], is_cmd_or_builtin(cmdstr_split[0]));
 	toklst_add_back(&tlst, toklst_new(new));
 	while (++i < splsize)
 	{
@@ -66,6 +66,8 @@ void	insert_splitcmd_in_toklst(t_toklst *splitcmd_toklst, t_toklst **tl,
 	}
 	if ((*tl)->prev)
 		(*tl)->prev->next = splitcmd_toklst;
+	else
+		*tlst = splitcmd_toklst;
 	if ((*tl)->next)
 		(*tl)->next->prev = toklst_last(splitcmd_toklst);
 	free_one_toklst(*tl);
