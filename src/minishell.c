@@ -6,12 +6,13 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:46:50 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/18 21:27:47 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/18 23:54:01 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+void		set_exit_status_envvar(char *status_str, t_envlst **el);
 static void	cleanup_and_exit(t_termios *old_settings, t_envlst **el, \
 		t_toklst **tl);
 static int	evaluate_cmdline(t_toklst **tl, t_envlst **el);
@@ -76,8 +77,7 @@ static int	evaluate_cmdline(t_toklst **tl, t_envlst **el)
 	}
 	else
 		status_str = ft_itoa(ft_wexitstatus(status_int));
-	set_env_entry("?", status_str, el);
-	free(status_str);
+	set_exit_status_envvar(status_str, el);
 	heredoc_cleanup(cl);
 	exit_flag = cl->exit_flag;
 	cmdlst_clear(&cl);

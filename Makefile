@@ -6,7 +6,7 @@
 #    By: elpah <elpah@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/02 00:03:28 by fmaurer           #+#    #+#              #
-#    Updated: 2025/01/18 23:15:33 by fmaurer          ###   ########.fr        #
+#    Updated: 2025/01/18 23:54:25 by fmaurer          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,13 +21,14 @@ SRC_DIR		=	./src
 # TLDR; this will make make find the correct source file `./src/exec/bla.c` for
 # any obj called `obj/bla.o`
 VPATH	=	./src ./src/exec ./src/parsing ./src/env ./src/builtins \
-				./src/tokenization ./src/heredoc
+				./src/tokenization ./src/heredoc ./src/utils
 
 SRCS =	minishell.c \
 				term_setup.c \
 				signal.c \
 				utils.c \
 				error_exit_utils.c \
+				main_utils.c \
 				tok_tokenize.c \
 				tok_cmdline.c \
 				tok_tokenlist.c \
