@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 15:24:38 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/12 00:07:42 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/18 15:24:21 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@ int	tokenize_lvl3(t_toklst	**toklst)
 	int			cmd_already;
 
 	if (!*toklst)
-		return (0);
+		return (1);
 	if (!check_toklst_lvl3(*toklst))
-		return (0);
+		return (1);
 	tl = *toklst;
 	cmd_already = 0;
 	while (tl)
@@ -46,7 +46,7 @@ int	tokenize_lvl3(t_toklst	**toklst)
 		tl = tl->next;
 	}
 	lvl3_retok_white_cmds(toklst);
-	return (1);
+	return (0);
 }
 
 /* Actually apply the lvl3 tokenization. */
@@ -66,7 +66,10 @@ static void	apply_lvl3_tokenization(t_token *cur, int *cmd_already)
 	}
 	else if (cur->type == TOK_QWORD && !*cmd_already)
 	{
-		cur->type = TOK_QCMD;
+		if (is_cmd_or_builtin(cur->value) == TOK_BLTIN)
+			cur->type = TOK_BLTIN;
+		else
+			cur->type = TOK_QCMD;
 		*cmd_already = 1;
 	}
 }
