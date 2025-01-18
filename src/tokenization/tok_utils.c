@@ -6,14 +6,14 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 07:10:47 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/06 13:21:11 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/18 14:07:15 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /* If given token is a builtin return TOK_BUILTIN, else if token represents a
- * positive number -> TOK_CMD, else -> TOK_WORD. */
+ * positive number, if not -> TOK_CMD, else -> TOK_WORD. */
 t_toktype	is_cmd_or_builtin(char *val)
 {
 
