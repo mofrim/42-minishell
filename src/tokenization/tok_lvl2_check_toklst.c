@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 18:45:36 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/07 12:03:32 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/18 11:09:07 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	lvl2_check_toklst(t_toklst *toklst)
 
 	cur = toklst->token;
 	if (toklst->next == NULL && !show_first_tokerr_lvl2(cur->type))
-		return (0);
+		return (1);
 	prev = NULL;
 	while (toklst->next)
 	{
@@ -43,7 +43,7 @@ int	lvl2_check_toklst(t_toklst *toklst)
 	}
 	if (is_special_tok(cur->type))
 		return (print_tokerr(TOKERR_NL, NULL));
-	return (1);
+	return (0);
 }
 
 int	check_rout3(t_token *prev, t_token *cur, t_token *next)
@@ -74,7 +74,7 @@ int	show_first_tokerr_lvl2(t_toktype tok)
 		return (print_tokerr(TOKERR_PIP, NULL));
 	if (tok == TOK_HERE)
 		return (print_tokerr(TOKERR_NL, NULL));
-	return (1);
+	return (2);
 }
 
 int	show_tokerr_lvl2(t_toktype tok)
@@ -101,5 +101,5 @@ int	show_tokerr_lvl2(t_toktype tok)
 		return (print_tokerr(TOKERR_HERE, NULL));
 	if (tok == TOK_AND)
 		return (print_tokerr(TOKERR_AND, NULL));
-	return (0);
+	return (2);
 }
