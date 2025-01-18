@@ -55,13 +55,13 @@ main() {
 				TESTFILES+=" ${RUNDIR}/cmds/mand/1_variables.sh"
 				;;
 			"corrections" | "co")
-				TESTFILES+=" ${RUNDIR}/cmds/mand/1_corrections.sh"
+				TESTFILES+=" ${RUNDIR}/cmds/mand/2_corrections.sh"
 				;;
 			"path")
-				TESTFILES+=" ${RUNDIR}/cmds/mand/1_path_check.sh"
+				TESTFILES+=" ${RUNDIR}/cmds/mand/2_path_check.sh"
 				;;
 			"syntax" | "s")
-				TESTFILES+=" ${RUNDIR}/cmds/mand/1_syntax_errors.sh"
+				TESTFILES+=" ${RUNDIR}/cmds/mand/8_syntax_errors.sh"
 				;;
 		esac
 		shift
@@ -151,7 +151,7 @@ test_mandatory_leaks() {
 		fi
 	done
 	cd ..
-	rm -rfI $TESTDIR out
+	rm -rf $TESTDIR out
 }
 
 test_mandatory() {
@@ -400,10 +400,12 @@ test_leaks() {
 			else
 				echo -ne "✅ "
 			fi
+			TEST_CMD=$INPUT
 			INPUT=""
 			((i++))
 			((TEST_COUNT++))
 			echo -e "\033[0;90m${1#.}:$tmp_line_count\033[m  "
+			echo -e "\033[0;90m\t$(echo -n "$TEST_CMD" | sed -z 's/\n/ <NL>/g')\033[m "
 			if [[ $ONE == 1 && $TWO == 1 && $THREE == 1 ]] ;
 			then
 				((GOOD_TEST++))
