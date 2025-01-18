@@ -143,7 +143,7 @@ $(OBJDIR)/%.o: %.c $(HDRS)| $(OBJDIR)
 
 $(OBJDIR)/dbg-%.o: %.c $(HDRS)| $(OBJDIR)
 	@echo -e "$(call log_msg,Compiling $<...)"
-	$(CC) $(CFLAGS) $(INC) -g -O0 -DDEBUG -DREADLINE_LIBRARY -c $< -o $@
+	$(CC) $(INC) -g -O0 -DDEBUG -DREADLINE_LIBRARY -c $< -o $@
 
 ## This is the recipe for prod, without readline submodule
 # $(NAME): $(OBJS) | $(LIBFT)
@@ -171,7 +171,7 @@ $(HDRS):
 
 debug: $(OBJS_DBG) | $(LIBFT) $(RL_LIBS)
 	@echo -e "$(call log_msg,Compiling debug...)"
-	$(CC) $(CFLAGS) -g -O0 -DDEBUG -DREADLINE_LIBRARY $(LIB_PATHS) $(INC) -o \
+	$(CC) -g -O0 -DDEBUG -DREADLINE_LIBRARY $(LIB_PATHS) $(INC) -o \
 		$(NAME) $^ $(LIBS_DEV) $(RL_LIBS)
 
 $(OBJDIR):
