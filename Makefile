@@ -6,7 +6,7 @@
 #    By: elpah <elpah@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/02 00:03:28 by fmaurer           #+#    #+#              #
-#    Updated: 2025/01/18 20:02:42 by fmaurer          ###   ########.fr        #
+#    Updated: 2025/01/18 23:15:33 by fmaurer          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,6 +49,7 @@ SRCS =	minishell.c \
 				tok_lvl1_get_tok_herdlim.c \
 				tok_lvl2_tokenize.c \
 				tok_lvl2_check_toklst.c \
+				tok_lvl2_check_utils.c \
 				tok_lvl2_redir_tok.c \
 				tok_lvl2_whitespace.c \
 				tok_lvl3_tokenize.c \
