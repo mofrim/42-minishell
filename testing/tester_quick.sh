@@ -166,7 +166,7 @@ test_mandatory() {
 		fi
 	done
 	cd ..
-	rm -rfI $TESTDIR out
+	rm -rf $TESTDIR out
 }
 
 test_mini_death() {
@@ -296,10 +296,12 @@ test_from_file() {
 				((TEST_OK++))
 				((THREE++))
 			fi
+			TEST_CMD=$INPUT
 			INPUT=""
 			((i++))
 			((TEST_COUNT++))
 			echo -e "\033[0;90m${1#.}:$tmp_line_count\033[m  "
+			echo -e "\033[0;90m\t$(echo -n "$TEST_CMD" | sed -z 's/\n/ <NL>/g')\033[m "
 			if [[ $ONE == 1 && $TWO == 1 && $THREE == 1 ]] ;
 			then
 				((GOOD_TEST++))
