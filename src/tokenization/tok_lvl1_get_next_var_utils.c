@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 08:47:18 by elpah             #+#    #+#             */
-/*   Updated: 2025/01/13 22:36:14 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/18 13:22:21 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,17 @@ void	handle_full_var(t_token *tok, t_cmdline *cl, int *tok_found)
 
 void	handle_isolated_var(t_token *tok, t_cmdline *cl, int *tok_found)
 {
-	if (is_full_var(cl->input, cl->length, cl->pos) == 1)
+	int		pos;
+	char	*inp;
+
+	pos = cl->pos;
+	inp = cl->input;
+	if (is_full_var(inp, cl->length, pos) == 1)
 	{
 		if (cl->dquot_flag)
 			tok->type = TOK_QWORD;
-		else if (cl->pos + 1 == cl->length)
+		else if ((pos + 1 == cl->length) || (pos + 1 < cl->length && \
+					inp[pos + 1] != '"' && inp[pos + 1] != '\''))
 			tok->type = TOK_WORD;
 		tok->value = ft_strdup("$");
 		nullcheck(tok->value, "handle_isolated_var()");
