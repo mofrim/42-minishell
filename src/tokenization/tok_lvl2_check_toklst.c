@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 18:45:36 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/18 11:09:07 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/18 19:04:02 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,17 @@
 
 static int	is_special_tok(t_toktype tok);
 static int	check_rout3(t_token *prev, t_token *cur, t_token *next);
-static int	show_first_tokerr_lvl2(t_toktype tok);
+static int	lvl2_check_only_one_tok(t_toktype tok);
 static int	show_tokerr_lvl2(t_toktype tok);
 
+/**
+ * Check toklst at beginning of lvl2.
+ *
+ * First of all: toklst cannot be NULL, bc this is checked in tok_tokenize
+ * before we get called. Then, check if there is only one token. Error out if it
+ * some lonely redirector or stuff like that.
+ */
 /* toklst cannot be NULL because this is checked in tokenize() beforehand. */
-// FIXME: maybe refactor so show_first_tokerr_lvl2 is not needed
 int	lvl2_check_toklst(t_toklst *toklst)
 {
 	t_token	*cur;
@@ -26,7 +32,7 @@ int	lvl2_check_toklst(t_toklst *toklst)
 	t_token	*prev;
 
 	cur = toklst->token;
-	if (toklst->next == NULL && !show_first_tokerr_lvl2(cur->type))
+	if (toklst->next == NULL && lvl2_check_only_one_tok(cur->type))
 		return (1);
 	prev = NULL;
 	while (toklst->next)
@@ -64,17 +70,17 @@ int	is_special_tok(t_toktype tok)
 	return (0);
 }
 
-int	show_first_tokerr_lvl2(t_toktype tok)
+int	lvl2_check_only_one_tok(t_toktype tok)
 {
 	if (tok == TOK_RIN0 || tok == TOK_ROUT0 || tok == TOK_ROUT1 || \
 		tok == TOK_ROUT2 || tok == TOK_ROUT3 || tok == TOK_ROUTA0 || \
-		tok == TOK_ROUTA1 || tok == TOK_ROUTA2)
+		tok == TOK_ROUTA1 || tok == TOK_ROUTA2 || tok == TOK_RINOUT0)
 		return (print_tokerr(TOKERR_NL, NULL));
 	if (tok == TOK_PIP)
 		return (print_tokerr(TOKERR_PIP, NULL));
 	if (tok == TOK_HERE)
 		return (print_tokerr(TOKERR_NL, NULL));
-	return (2);
+	return (0);
 }
 
 int	show_tokerr_lvl2(t_toktype tok)

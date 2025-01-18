@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:46:50 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/18 11:02:08 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/18 21:27:47 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static int	evaluate_cmdline(t_toklst **tl, t_envlst **el)
 	int			status_int;
 	int			exit_flag;
 
-	cl = parse_tokenlist(*tl);
+	cl = parse_tokenlist(tl);
 	heredoc(cl, *el);
 	status_int = exec_cmd(cl, el);
 	if (status_int == 126 || status_int == 127)
