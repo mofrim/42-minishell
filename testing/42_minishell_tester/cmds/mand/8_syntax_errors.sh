@@ -20,9 +20,9 @@
 
 < < < < < <
 
-/bin/cat ><
+/usr/bin/env cat ><
 
-/bin/cat <Makefile >
+/usr/bin/env cat <Makefile >
 
 cat 42 42
 
@@ -41,13 +41,13 @@ EechoE
 .echo.
 
 >echo>
-/bin/rm -f echo
+/usr/bin/env rm -f echo
 
 <echo<
-/bin/rm -f echo
+/usr/bin/env rm -f echo
 
 >>echo>>
-/bin/rm -f echo
+/usr/bin/env rm -f echo
 
 |echo|
 
@@ -98,7 +98,7 @@ your minishell is perfect
 >>| echo wtf
 
 >| echo wtf
-/bin/rm -rf echo
+/usr/bin/env rm -rf echo
 
 <| echo wtf
 
