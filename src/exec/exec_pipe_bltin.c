@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/27 23:50:08 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/11 09:49:38 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/18 09:49:13 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static void	run_child(t_bltin_pipargs args, int pipefd[2],
 	dup2(*args.prev_read, STDIN_FILENO);
 	close(*args.prev_read);
 	if (open_redir_files(args.cl->redirs) != 0)
-		exit(errno + 128);
+		exit(1);
 	exit(bltin_out(args.cl, args.el));
 }
 
@@ -112,7 +112,7 @@ pid_t	run_pipe_bltin_last(t_bltin_pipargs args, \
 			dup2(*args.prev_read, STDIN_FILENO);
 			close(*args.prev_read);
 			if (open_redir_files(args.cl->redirs))
-				exit(errno);
+				exit(1);
 			exit(bltin_out(args.cl, args.el));
 		}
 	}
