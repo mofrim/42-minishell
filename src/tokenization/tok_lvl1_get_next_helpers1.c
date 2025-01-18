@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 23:45:01 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/14 12:36:49 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/18 23:26:32 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,5 +75,25 @@ void	get_tok_white(t_token *tok, t_cmdline *cl, int *tok_found)
 		nullcheck(tok->value, "get_tok_white()");
 		*tok_found = 1;
 	}
+}
 
+void	get_tok_home(t_token *tok, t_cmdline *cl, int *tok_found)
+{
+	char	*inp;
+	int		pos;
+
+	inp = cl->input;
+	pos = cl->pos;
+	if (!*tok_found && inp[pos] == '~')
+	{
+		if (pos + 1 == cl->length || inp[pos + 1] == '/' || \
+				ft_isspace(inp[pos + 1]))
+		{
+			tok->type = TOK_WORD;
+			tok->value = ft_strdup(get_env_value("HOME", cl->env));
+			nullcheck(tok->value, "get_tok_white()");
+			cl->pos++;
+			*tok_found = 1;
+		}
+	}
 }
