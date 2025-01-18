@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 12:17:51 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/06 17:23:06 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/19 00:48:07 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ static void	del_first_toklst_member(t_toklst **lst)
 	next = (*lst)->next;
 	free_one_toklst(*lst);
 	*lst = next;
+	if (next)
+		next->prev = NULL;
 }
 
 /* Delete one toklst member from a tokenlist. */
