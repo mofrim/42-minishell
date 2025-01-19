@@ -33,6 +33,8 @@
 
 /usr/bin/env echo $"42$"
 
+/usr/bin/env echo $42$
+
 /usr/bin/env echo "$ "
 
 /usr/bin/env echo hi >./outfiles/outfile01 | /usr/bin/env echo bye
