@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 10:13:58 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/03 22:31:49 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/19 20:38:20 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,12 @@ int	bltin_exit_out(t_cmdlst *cl, t_envlst **el)
 	(void)cl;
 	if (cl->arg_count == 2 && check_numstr_long(cl->args[1]) >= 0)
 		return (get_long_numstr(cl->args[1]));
+	if (cl->arg_count >= 2 && check_numstr_long(cl->args[1]) == -1)
+		return (minish_errormsg2("exit", cl->args[1],
+				"numeric argument required", 2));
+	if (cl->arg_count > 2)
+		return(minish_errormsg("exit", "too many arguments", 1));
+
 	return (0);
 }
 
@@ -96,9 +102,9 @@ static int	check_numstr_long(char *s)
 	num = 0;
 	if (!s || !*s)
 		return (-1);
-	if (*s == '-')
+	if (*s == '-' || *s == '+')
 	{
-		neg = 1;
+		neg = (*s == '-');
 		s++;
 	}
 	while (ft_isdigit(*s))
@@ -113,9 +119,11 @@ static int	check_numstr_long(char *s)
 	return (neg);
 }
 
-/* Do the conversion from numstring to long value. Always call
- * check_numstr_long() before this, because there is no error checking inside
- * this function anymore!
+/**
+ * Do the conversion from numstring to long value.
+ *
+ * Always call check_numstr_long() before this, because there is no error
+ * checking inside this function anymore!
  */
 static long	get_long_numstr(char *s)
 {
@@ -124,9 +132,9 @@ static long	get_long_numstr(char *s)
 
 	neg = 0;
 	num = 0;
-	if (*s == '-')
+	if (*s == '-' || *s == '+')
 	{
-		neg = 1;
+		neg = (*s == '-');
 		s++;
 	}
 	while (ft_isdigit(*s))
