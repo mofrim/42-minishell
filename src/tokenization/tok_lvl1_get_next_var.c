@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 17:18:10 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/18 10:42:48 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/19 08:21:45 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,14 @@ void	get_tok_var(t_token *tok, t_cmdline *cl, int *tok_found)
 	}
 }
 
-/* If char is a special varname (for now only '?'), return that as a string.
- * Else NULL. */
+/* If char is a special varname (for now only '?', and single digit numbers
+ * $[0-9]), return that as a string. Else NULL. */
 static char	*get_special_varname(char c)
 {
 	if (c == '?')
 		return (ft_strdup("?"));
+	if (ft_isnum(c))
+		return(ft_itoa(c - '0'));
 	return (NULL);
 }
 
