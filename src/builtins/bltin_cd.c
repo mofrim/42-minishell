@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 10:13:11 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/18 22:33:30 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/20 01:58:29 by elpah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,26 @@ int	cd_home(t_envlst **el)
 	return (0);
 }
 
+int	cd_dash(t_envlst **el, int len)
+{
+	t_envlst	*ptr;
+	char		*current_pwd;
+
+	ptr = get_env_entry_by_name("OLDPWD", *el);
+	current_pwd = getcwd(NULL, 0);
+	if (!ptr || (ft_strcmp(ptr->value, current_pwd) == 0))
+		return (minish_errormsg("cd:", "OLDPWD not set", errno));
+	else if (chdir(ptr->value) != 0)
+	{
+		free(current_pwd);
+		return (minish_errormsg("cd", ptr->value, errno));
+	}
+	if (len == 1)
+		ft_printf("%s\n", ptr->value);
+	free(current_pwd);
+	return (0);
+}
+
 int	bltin_cd_preout(t_cmdlst *cl, t_envlst **el)
 {
 	int		retval;
@@ -60,6 +80,9 @@ int	bltin_cd_preout(t_cmdlst *cl, t_envlst **el)
 			return (errno);
 		if (cl->arg_count == 1)
 			retval = cd_home(el);
+		else if (ft_strcmp(cl->args[1], "-") == 0
+			|| ft_strcmp(cl->args[1], "--") == 0)
+			retval = cd_dash(el, ft_strlen(cl->args[1]));
 		else
 			retval = chdir(cl->args[1]);
 		if (retval == 0)
