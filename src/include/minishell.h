@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:44:43 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/19 19:58:04 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/19 20:19:56 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -264,6 +264,7 @@ void		error_exit(char *msg);
 int			ft_isspace(char c);
 void		free_ptr2ptr(char ***ptr);
 int			minish_errormsg(char *prefix, char *msg, int error);
+int			minish_errormsg2(char *prefix, char *arg, char *msg, int error);
 int			ft_isnum(char c);
 int			get_posint_numstr(char *s);
 int			splitsize(char **s);
