@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:44:43 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/18 20:38:03 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/19 19:58:04 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 /* ioctl */
 # include <sys/ioctl.h>
 
-/* stat */
+/* For struct stat, stat() and S_IFREG. */
 # include <sys/stat.h>
 
 /* open and constants like O_RDONLY */

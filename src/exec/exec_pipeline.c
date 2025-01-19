@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 12:07:34 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/30 11:03:03 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/19 08:26:24 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,11 @@ pid_t			run_pipe_bltin(t_bltin_pipargs args, \
 						int (*bltin_preout)(t_cmdlst *, t_envlst **), \
 						int (*bltin_out)(t_cmdlst *, t_envlst **));
 
+/**
+ * The main pipeline execution function.
+ *
+ * TODO: describe what is happening here!
+ */
 int	exec_pipeline(t_cmdlst *cl, char **env, t_envlst **el)
 {
 	int		prev_read;
