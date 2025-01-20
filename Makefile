@@ -6,7 +6,7 @@
 #    By: elpah <elpah@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/02 00:03:28 by fmaurer           #+#    #+#              #
-#    Updated: 2025/01/20 18:25:02 by fmaurer          ###   ########.fr        #
+#    Updated: 2025/01/20 23:27:26 by fmaurer          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -108,7 +108,8 @@ CC = clang
 # FIXME: change before submission
 # CFLAGS = -Wall -Werror -Wextra
 CFLAGS = -g -Wall -Werror -Wextra
-DBG_FLAGS	=	-fsanitize=address -fno-omit-frame-pointer -g -O0 -DDEBUG
+# DBG_FLAGS	=	-g -fsanitize=address -fno-omit-frame-pointer -DDEBUG
+DBG_FLAGS	=	-g -DDEBUG
 
 # adding libft
 LIBFT_PATH	= ./libft
