@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 10:13:46 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/06 10:07:43 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/20 17:54:37 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void	print_env_vars(t_envlst *el)
 	while (el)
 	{
 		if (el->value)
-			ft_printf("%s=\"%s\"\n", el->name, el->value);
+			ft_printf("%s=%s\n", el->name, el->value);
 		el = el->next;
 	}
 	return ;
