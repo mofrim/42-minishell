@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 12:22:58 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/19 00:43:51 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/20 23:45:33 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,12 @@ t_toklst	*split_cmd(char *cmdstr)
 void	insert_splitcmd_in_toklst(t_toklst *splitcmd_toklst, t_toklst **tl,
 									t_toklst **tlst)
 {
+	t_toklst	*next;
+
+	next = (*tl)->next;
 	if (toklst_size(*tlst) == 1)
 	{
+
 		*tlst = splitcmd_toklst;
 		free_one_toklst(*tl);
 		*tl = NULL;
@@ -68,10 +72,13 @@ void	insert_splitcmd_in_toklst(t_toklst *splitcmd_toklst, t_toklst **tl,
 		(*tl)->prev->next = splitcmd_toklst;
 	else
 		*tlst = splitcmd_toklst;
-	if ((*tl)->next)
-		(*tl)->next->prev = toklst_last(splitcmd_toklst);
+	if (next)
+	{
+		toklst_last(splitcmd_toklst)->next = next;
+		next->prev = toklst_last(splitcmd_toklst);
+	}
 	free_one_toklst(*tl);
-	*tl = (*tl)->next;
+	*tl = next;
 }
 
 /* Split up any TOK_CMD or TOK_BLTIN that contains whitespaces into
@@ -97,8 +104,10 @@ void	lvl3_retok_white_cmds(t_toklst **tlst)
 			insert_splitcmd_in_toklst(splitcmd_toklst, &tl, tlst);
 		}
 		else
+		{
+			if (tok->type == TOK_QCMD)
+				tok->type = TOK_CMD;
 			tl = tl->next;
-		if (tok->type == TOK_QCMD)
-			tok->type = TOK_CMD;
+		}
 	}
 }
