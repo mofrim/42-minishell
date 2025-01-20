@@ -6,7 +6,7 @@
 #    By: elpah <elpah@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/02 00:03:28 by fmaurer           #+#    #+#              #
-#    Updated: 2025/01/18 23:54:25 by fmaurer          ###   ########.fr        #
+#    Updated: 2025/01/20 15:00:11 by fmaurer          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -107,6 +107,7 @@ CC = clang
 # FIXME: change before submission
 # CFLAGS = -Wall -Werror -Wextra
 CFLAGS = -g -Wall -Werror -Wextra
+DBG_FLAGS	=	-fsanitize=address -fno-omit-frame-pointer -g -O0 -DDEBUG
 
 # adding libft
 LIBFT_PATH	= ./libft
@@ -145,7 +146,7 @@ $(OBJDIR)/%.o: %.c $(HDRS)| $(OBJDIR)
 
 $(OBJDIR)/dbg-%.o: %.c $(HDRS)| $(OBJDIR)
 	@echo -e "$(call log_msg,Compiling $<...)"
-	$(CC) $(INC) -g -O0 -DDEBUG -DREADLINE_LIBRARY -c $< -o $@
+	$(CC) $(INC) $(DBG_FLAGS) -DREADLINE_LIBRARY -c $< -o $@
 
 ## This is the recipe for prod, without readline submodule
 # $(NAME): $(OBJS) | $(LIBFT)
@@ -173,7 +174,7 @@ $(HDRS):
 
 debug: $(OBJS_DBG) | $(LIBFT) $(RL_LIBS)
 	@echo -e "$(call log_msg,Compiling debug...)"
-	$(CC) -g -O0 -DDEBUG -DREADLINE_LIBRARY $(LIB_PATHS) $(INC) -o \
+	$(CC) $(DBG_FLAGS) -DREADLINE_LIBRARY $(LIB_PATHS) $(INC) -o \
 		$(NAME) $^ $(LIBS_DEV) $(RL_LIBS)
 
 $(OBJDIR):
