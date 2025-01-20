@@ -46,7 +46,7 @@ main() {
 				TESTFILES+=" ${RUNDIR}/cmds/mand/1_redirs.sh"
 				;;
 			"pipelines" | "pi")
-				TESTFILES+=" ${RUNDIR}/cmds/mand/1_pipeline.sh"
+				TESTFILES+=" ${RUNDIR}/cmds/mand/1_pipelines.sh"
 				;;
 			"cmds" | "c")
 				TESTFILES+=" ${RUNDIR}/cmds/mand/1_scmds.sh"
@@ -261,13 +261,13 @@ test_from_file() {
 				((line_count++))
 			done
 			# INPUT=${INPUT%?}
-		echo -n "$INPUT" | $MINISHELL_TEST_PATH/$EXECUTABLE 2>tmp_err_minishell >tmp_out_minishell
+			echo -n "$INPUT" | $MINISHELL_TEST_PATH/$EXECUTABLE 2>tmp_err_minishell >tmp_out_minishell
 			exit_minishell=$?
 			echo -n "enable -n .$NL$INPUT" | bash 2>tmp_err_bash >tmp_out_bash
 			exit_bash=$?
 			echo -ne "\033[1;34mSTD_OUT:\033[m "
 			if ! diff -q tmp_out_minishell tmp_out_bash >/dev/null ;
-			# if ! diff -q tmp_out_minishell tmp_out_bash
+			# if ! diff tmp_out_minishell tmp_out_bash
 			then
 				echo -ne "❌  " | tr '\n' ' '
 				((TEST_KO_OUT++))
