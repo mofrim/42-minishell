@@ -9,8 +9,12 @@ INPUT=""
 
 ## for setting multiline tests
 read -r -d '' line << 'EOF'
->">" asd
-rm -f ">"
+export test="arg1	arg2"
+echo 'echo $1' > tmp_test_sh
+bash tmp_test_sh $test
+echo 'echo $2' > tmp_test_sh
+bash tmp_test_sh $test
+rm -f tmp_test_sh
 EOF
 
 ## no need to touch this

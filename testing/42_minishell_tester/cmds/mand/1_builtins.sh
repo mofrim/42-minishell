@@ -549,7 +549,7 @@ unset PATH
 
 unset PATH 
 
-unset TES;T
+# unset TES;T
 
 unset TES.T
 
@@ -563,7 +563,7 @@ unset TES{T
 
 unset TES-T
 
-unset -TEST
+# unset -TEST
 
 unset _TEST
 
