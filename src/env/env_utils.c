@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 14:27:28 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/06 10:16:13 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/20 18:25:48 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ char	*get_env_value(char *name, t_envlst *el)
 /* Get ptr to envlst-entry by name. */
 t_envlst	*get_env_entry_by_name(char *name, t_envlst *el)
 {
+	if (name == NULL)
+		return (NULL);
 	while (el)
 	{
 		if (!ft_strcmp(name, el->name))

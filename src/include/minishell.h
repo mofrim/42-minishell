@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:44:43 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/19 20:19:56 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/20 18:24:06 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ typedef struct s_envlst
 	char			*name;
 	char			*value;
 	struct s_envlst	*next ;
+	struct s_envlst	*prev ;
 }	t_envlst;
 
 /*********** Datatypes for tokenization. ***********/
@@ -352,6 +353,7 @@ char		*get_env_value(char *name, t_envlst *el);
 t_envlst	*get_env_entry_by_name(char *name, t_envlst *el);
 void		set_env_entry(char *name, char *value, t_envlst **el);
 t_envlst	*envlst_copy(t_envlst *env);
+int			envlst_delone_by_name(char *name, t_envlst **el);
 
 /*********** Exec. ***********/
 

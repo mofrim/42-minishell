@@ -6,7 +6,7 @@
 #    By: elpah <elpah@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/02 00:03:28 by fmaurer           #+#    #+#              #
-#    Updated: 2025/01/20 15:00:11 by fmaurer          ###   ########.fr        #
+#    Updated: 2025/01/20 18:25:02 by fmaurer          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -68,6 +68,7 @@ SRCS =	minishell.c \
 				par_parse_heredoc.c \
 				env_utils.c \
 				env_envlst.c \
+				env_envlst_delone.c \
 				env_parse.c \
 				env_get_env_array.c \
 				env_set_entry.c \

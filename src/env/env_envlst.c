@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 17:22:51 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/07 19:23:28 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/20 18:15:59 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ t_envlst	*envlst_new(char *name, char *val)
 	nn->name = ft_strdup(name);
 	nn->value = ft_strdup(val);
 	nn->next = NULL;
+	nn->prev = NULL;
 	return (nn);
 }
 
@@ -52,6 +53,7 @@ void	envlst_add_back(t_envlst **head, t_envlst *newend)
 	}
 	oldend = envlst_last(*head);
 	oldend->next = newend;
+	newend->prev = oldend;
 }
 
 void	envlst_clear(t_envlst **lst)
