@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 15:48:38 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/19 19:57:53 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/21 14:39:23 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static char	**get_path_from_env(char **env);
 static char	*join_exec_path_strings(char *path, char *exec);
-static int	check_exec_path(char *exec_path);
+static int	check_exec_path(char *exec_path, char **path_env);
 static int	ft_initial_strcmp(char *s1, char *s2);
 
 /**
@@ -31,29 +31,27 @@ static int	ft_initial_strcmp(char *s1, char *s2);
 char	*get_exec_path(t_cmdlst *cl, char **env)
 {
 	int		i;
-	char	**path_split;
+	char	**envpath;
 	char	*exec_path;
 
-	if (check_exec_path(cl->cmd) == 1)
+	envpath = get_path_from_env(env);
+	if (check_exec_path(cl->cmd, envpath) == 1)
 		return (ft_strdup(cl->cmd));
-	if (check_exec_path(cl->cmd) == 2)
+	if (check_exec_path(cl->cmd, envpath) == 2)
 		return (ft_strdup(""));
-	if (check_exec_path(cl->cmd) == 3)
-		return (NULL);
-	path_split = get_path_from_env(env);
-	if (!path_split)
+	if (check_exec_path(cl->cmd, envpath) == 3)
 		return (NULL);
 	i = -1;
-	while (path_split[++i])
+	while (envpath && envpath[++i])
 	{
-		exec_path = join_exec_path_strings(path_split[i], cl->cmd);
-		if (check_exec_path(exec_path) == 1)
-			return (free_ptr2ptr(&path_split), exec_path);
-		if (check_exec_path(exec_path) == 2)
+		exec_path = join_exec_path_strings(envpath[i], cl->cmd);
+		if (check_exec_path(exec_path, envpath) == 1)
+			return (free_ptr2ptr(&envpath), exec_path);
+		if (check_exec_path(exec_path, envpath) == 2)
 			return (ft_strdup(""));
 		free(exec_path);
 	}
-	free_ptr2ptr(&path_split);
+	free_ptr2ptr(&envpath);
 	return (NULL);
 }
 
@@ -65,7 +63,7 @@ char	*get_exec_path(t_cmdlst *cl, char **env)
  * 1: exec_path is a directly executable file
  * 2: exec_path is a file but not executable
  * 3: exec_path is a dir and executable or cmd starts with "/" or "./" but is
- *    not found
+ *    not found or PATH is not set and exec_path is not directly executable.
  *
  * For security reasons: ignore all paths not starting with '/' or "./". This is
  * also what bash does.
@@ -74,16 +72,16 @@ char	*get_exec_path(t_cmdlst *cl, char **env)
  * - access: return != 0 if file-mode not correct.
  * - stat: return 0 if everything is fine, some file was found
  * */
-static int	check_exec_path(char *exec_path)
+static int	check_exec_path(char *exec_path, char **path_env)
 {
 	struct stat	sb;
 
-	if (exec_path && !(exec_path[0] == '/' || \
+	if (exec_path && path_env && !(exec_path[0] == '/' || \
 		(ft_strlen(exec_path) > 2 && !ft_strncmp(exec_path, "./", 2))))
 		return (0);
-	if (exec_path && (exec_path[0] == '/' || \
-		(ft_strlen(exec_path) > 2 && !ft_strncmp(exec_path, "./", 2))) && \
-			stat(exec_path, &sb) == -1)
+	if (exec_path && (stat(exec_path, &sb) == -1) && ((exec_path[0] == '/' || \
+		(ft_strlen(exec_path) > 2 && !ft_strncmp(exec_path, "./", 2))) || \
+			path_env == NULL))
 		return (3);
 	if (!stat(exec_path, &sb))
 	{
@@ -114,6 +112,8 @@ char	**get_path_from_env(char **env)
 	while (ft_initial_strcmp(env[i], "PATH") && env[i])
 		i++;
 	if (!env[i])
+		return (NULL);
+	if (env[i][0] == '\0')
 		return (NULL);
 	path_split = ft_split((env[i] + 5), ':');
 	nullcheck(path_split, "get_path_from_env");
