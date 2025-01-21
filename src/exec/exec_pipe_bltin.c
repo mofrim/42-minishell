@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/27 23:50:08 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/18 09:49:13 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/21 13:47:22 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,15 +72,17 @@ pid_t	run_pipe_bltin(t_bltin_pipargs args, \
 	cpid = -1;
 	if (pipe(pipefd) == -1)
 		return (minish_errormsg("run_pipe_bltin", "create pipe failed", errno));
-	if (bltin_preout)
-		args.cl->preout_flag = bltin_preout(args.cl, args.el);
 	if (bltin_out)
 	{
 		cpid = fork();
 		if (cpid < 0)
 			return (minish_errormsg("run_pipe_bltin", "fork failed", errno));
 		if (cpid == 0)
+		{
+			if (bltin_preout)
+				args.cl->preout_flag = bltin_preout(args.cl, args.el);
 			run_child(args, pipefd, bltin_out);
+		}
 		else
 		{
 			close (pipefd[1]);
@@ -100,8 +102,6 @@ pid_t	run_pipe_bltin_last(t_bltin_pipargs args, \
 	pid_t	cpid;
 
 	cpid = -1;
-	if (bltin_preout)
-		bltin_preout(args.cl, args.el);
 	if (bltin_out)
 	{
 		cpid = fork();
@@ -109,6 +109,8 @@ pid_t	run_pipe_bltin_last(t_bltin_pipargs args, \
 			return (minish_errormsg("run_pipe_bltin", "fork failed", errno));
 		if (cpid == 0)
 		{
+			if (bltin_preout)
+				bltin_preout(args.cl, args.el);
 			dup2(*args.prev_read, STDIN_FILENO);
 			close(*args.prev_read);
 			if (open_redir_files(args.cl->redirs))
