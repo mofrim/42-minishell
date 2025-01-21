@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:44:43 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/20 18:24:06 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/21 13:06:09 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -299,6 +299,7 @@ int			is_rout_tok(t_toktype tok);
 int			is_redir_tok(t_toktype tok);
 int			is_word_tok(t_toktype tt);
 int			is_valid_var_name(char next);
+void		split_tokens_with_whitespaces(t_toklst **tlst);
 
 /*********** Parsing. ***********/
 

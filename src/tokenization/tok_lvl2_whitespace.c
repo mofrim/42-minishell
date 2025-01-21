@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 12:08:06 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/18 15:39:37 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/21 13:37:48 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -16,8 +16,14 @@ static void	lvl2_remove_white_tokens(t_toklst **toklst);
 static void	lvl2_apply_whitespace_tokenization(t_token *prev, t_token *cur,
 				t_token *next);
 
-/* Outer loop for lvl2 whitespace tokenization. Further explanation see comment
- * on lvl2_apply_whitespace_tokenization.
+/**
+ * Outer loop for lvl2 whitespace tokenization.
+ *
+ * First we split possible TOK_WORD/TOK_CMD/TOK_BLTINs that contain whitspaces
+ * and insert them into our toklst. This needs to be done because envvars with
+ * values like "bla  blub" should be treated as TOK_WHITE seperated TOK_WORDs
+ * from here... unless they were quoted! Further explanation see comment on
+ * lvl2_apply_whitespace_tokenization.
  */
 void	lvl2_whitespace_tokenization(t_toklst **toklst)
 {
@@ -26,6 +32,7 @@ void	lvl2_whitespace_tokenization(t_toklst **toklst)
 	t_token		*prev;
 	t_toklst	*tl;
 
+	split_tokens_with_whitespaces(toklst);
 	tl = *toklst;
 	prev = NULL;
 	cur = tl->token;

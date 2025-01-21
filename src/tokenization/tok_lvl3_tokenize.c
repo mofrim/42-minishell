@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 15:24:38 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/18 16:12:51 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/21 13:06:38 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ static int	lvl3_check_toklst(t_toklst *toklst);
 static int	check_tok_lvl3(t_token *prev, t_token *cur, t_token *next);
 static void	apply_lvl3_tokenization(t_token *cur, int *cmd_already);
 static void	lvl3_remove_obsolete_tokens(t_toklst **toklst);
-void		lvl3_retok_white_cmds(t_toklst **tlst);
 
 /*
  * Do the lvl3 tokenization.
@@ -48,7 +47,7 @@ int	tokenize_lvl3(t_toklst	**toklst)
 		tl = tl->next;
 	}
 	lvl3_remove_obsolete_tokens(toklst);
-	lvl3_retok_white_cmds(toklst);
+	split_tokens_with_whitespaces(toklst);
 	return (0);
 }
 
