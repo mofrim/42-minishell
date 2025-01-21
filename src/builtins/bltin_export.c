@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 09:50:30 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/21 00:09:26 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/21 14:01:34 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	bltin_export_preout(t_cmdlst *cl, t_envlst **el)
 			name = str[0];
 			if (!is_valid_identifier(name))
 				return (free_ptr2ptr(&str), 1);
-			if (str[1] && str[1][0])
+			if (str[1])
 				value = str[1];
 			set_env_entry(name, value, el);
 		}
