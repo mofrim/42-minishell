@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 10:14:32 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/20 18:29:20 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/21 13:54:33 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,15 @@ void	unset_free(t_envlst *ptr)
 /* Unset... seems it doesn't know any errors. */
 int	bltin_unset(t_cmdlst *cl, t_envlst **el)
 {
+	char	**args;
+
 	if (!el || !*el || cl->arg_count == 1)
 		return (0);
-	envlst_delone_by_name(cl->args[1], el);
+	args = cl->args;
+	while (*args)
+	{
+		envlst_delone_by_name(*args, el);
+		args++;
+	}
 	return (0);
 }
