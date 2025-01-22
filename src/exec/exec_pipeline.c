@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 12:07:34 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/19 08:26:24 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/22 09:08:34 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,12 @@ pid_t			run_pipe_bltin(t_bltin_pipargs args, \
 /**
  * The main pipeline execution function.
  *
- * TODO: describe what is happening here!
+ * Execute all pipelined cmds. Make the `prev_read` var a duplicate of stdin.
+ * This wouldn't be necessary for the first pipe cmd, but in the code of the
+ * `exec_pipe_cmd` and `exec_pipe_bltin` functions stdin is always
+ * duplicated to `prev_read` which then is the read-end of the pipes.
+ * In the end we wait for alle child processes in order to catch the exit-status
+ * of the last pipe cmd.
  */
 int	exec_pipeline(t_cmdlst *cl, char **env, t_envlst **el)
 {
@@ -58,11 +63,12 @@ int	exec_pipeline(t_cmdlst *cl, char **env, t_envlst **el)
 	else
 		pids[pidindx++] = exec_pipe_cmd_last(cl, env, prev_read);
 	wait_for_each_child(pids, pidindx, &status);
-	while (!(wait(&status) == -1 && errno == ECHILD))
-		;
 	return (free(pids), status);
 }
 
+/* Wait for all child processes in an orderly fashion. Meaning: we want the
+ * `status` variable to really hold the exit-status of the last command executed
+ * in the pipeline. */
 static void	wait_for_each_child(pid_t *pids, int pidindx, int *status)
 {
 	int	i;
@@ -72,11 +78,14 @@ static void	wait_for_each_child(pid_t *pids, int pidindx, int *status)
 		waitpid(pids[i], status, 0);
 }
 
+/* Wrapper for executing buitlin in a pipe using our generic function. */
 pid_t	exec_pipe_bltin(t_cmdlst *cl, t_envlst **el, int *prev_read)
 {
 	return (exec_pipe_bltin_generic(cl, el, prev_read, run_pipe_bltin));
 }
 
+/* Wrapper for executing buitlin as the last command in a pipe using our generic
+ * function. */
 pid_t	exec_pipe_bltin_last(t_cmdlst *cl, t_envlst **el, int *prev_read)
 {
 	return (exec_pipe_bltin_generic(cl, el, prev_read, run_pipe_bltin_last));

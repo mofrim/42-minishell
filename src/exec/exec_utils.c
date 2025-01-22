@@ -6,14 +6,16 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 21:09:58 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/11 22:01:42 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/22 09:23:29 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/* Set cmdlst->args[0] to the full execution path of a cmd to be called. Return
- * 0 if nothing goes wrong, value != 0 otherwise.*/
+/**
+ * In-place setting of the correct execution path for cl->args[0] == the cmd.
+ *
+ * Returns bash-like exit codes and prints corresponding error msgs. */
 int	set_exec_path(t_cmdlst *cl, char **env)
 {
 	char		*exec_path;
