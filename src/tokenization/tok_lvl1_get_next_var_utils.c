@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 08:47:18 by elpah             #+#    #+#             */
-/*   Updated: 2025/01/18 13:22:21 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/22 13:00:27 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@
  * - alphanumeric or
  * - underscore or
  * - or a special varname like $? (.., $$, $*, $@) */
-int	is_valid_var_name(char next)
+int	is_valid_varname_char(char c)
 {
-	if (ft_isalnum(next) || next == '_' || next == '?')
+	if (ft_isalnum(c) || c == '_' || c == '?')
 		return (1);
 	return (0);
 }
@@ -35,7 +35,7 @@ static int	is_full_var(char *inp, int len, int pos)
 	{
 		if (len - pos == 1)
 			return (1);
-		if (len - pos > 1 && is_valid_var_name(inp[pos + 1]))
+		if (len - pos > 1 && is_valid_varname_char(inp[pos + 1]))
 			return (2);
 		else
 			return (1);

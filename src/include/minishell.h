@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:44:43 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/21 13:06:09 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/22 13:00:31 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -298,7 +298,7 @@ t_toktype	is_cmd_or_builtin(char *val);
 int			is_rout_tok(t_toktype tok);
 int			is_redir_tok(t_toktype tok);
 int			is_word_tok(t_toktype tt);
-int			is_valid_var_name(char next);
+int			is_valid_varname_char(char next);
 void		split_tokens_with_whitespaces(t_toklst **tlst);
 
 /*********** Parsing. ***********/
