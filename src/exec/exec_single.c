@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/08 15:39:14 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/18 09:42:32 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/22 11:31:08 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,6 @@ int	exec_single_cmd(t_cmdlst *cl, char **env)
 	int		status;
 	int		err_exec_path;
 
-	err_exec_path = set_exec_path(cl, env);
-	if (err_exec_path)
-		return (err_exec_path);
 	signal(SIGINT, SIG_IGN);
 	cpid = fork();
 	if (cpid < 0)
@@ -45,6 +42,9 @@ int	exec_single_cmd(t_cmdlst *cl, char **env)
 	{
 		if (open_redir_files(cl->redirs))
 			exit(1);
+		err_exec_path = set_exec_path(cl, env);
+		if (err_exec_path)
+			exit(err_exec_path);
 		signal(SIGINT, SIG_DFL);
 		if (cl->cmd)
 			execve(cl->args[0], cl->args, env);
