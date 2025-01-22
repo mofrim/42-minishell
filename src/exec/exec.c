@@ -6,15 +6,20 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 15:43:14 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/11 21:59:10 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/22 09:20:46 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/* The general execution function. Two cases possible: with pipes or without.
- * Dispatches correspondingly to exec_pipe() or exec_single().
- * Params: cmdls and envlst. */
+/**
+ * The general execution function.
+ *
+ * Two cases possible: with pipes or without. Dispatches correspondingly to
+ * `exec_pipeline` or `exec_single`. We block our minishell-signal-handling
+ * before starting to launch any subprocess so that it does not get in the way
+ * of any subprocesses signal handling. After everything is done our
+ * minishell-signal-handling continues. */
 int	exec_cmd(t_cmdlst *cmdl, t_envlst **el)
 {
 	char	**env_arr;
