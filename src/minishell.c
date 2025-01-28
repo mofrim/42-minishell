@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:46:50 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/28 14:58:28 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/28 15:11:43 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static void	init_shell(t_envlst **el, t_termios	*old_settings, t_toklst **tl,
 	set_env_entry("?", "0", el);
 	if (get_env_entry_by_name("SHLVL", *el))
 	{
-		shlvl_cnt = ft_itoa(ft_atoi(get_env_entry_by_name("SHLVL", *el)->value) + 1);
+		shlvl_cnt = ft_itoa(ft_atoi(get_env_value("SHLVL", *el)) + 1);
 		set_env_entry("SHLVL", shlvl_cnt, el);
 		free(shlvl_cnt);
 	}
