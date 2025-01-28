@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 10:37:06 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/22 13:01:34 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/28 18:49:17 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,12 @@ void	get_var_name(t_token *tok, t_cmdline *cl, int *tok_found)
 	if (!*tok_found)
 	{
 		start = cl->pos;
-		while (cl->pos < cl->length && !ft_isspace(cl->input[cl->pos]) && \
-				is_valid_varname_char(cl->input[cl->pos]))
+		if (is_valid_varname_char(cl->input[start]) == 2)
 			cl->pos++;
+		else
+			while (cl->pos < cl->length && !ft_isspace(cl->input[cl->pos]) && \
+					is_valid_varname_char(cl->input[cl->pos]) == 1)
+				cl->pos++;
 		length = cl->pos - start;
 		word = malloc(length + 1);
 		nullcheck(word, "get_var_name()");
