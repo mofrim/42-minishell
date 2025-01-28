@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:44:43 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/22 13:00:31 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/28 22:57:39 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ typedef enum e_toktype
 	TOK_WHITE,
 	TOK_WORD,
 	TOK_QWORD,
+	TOK_VWORD,
 	TOK_CMD,
 	TOK_QCMD,
 	TOK_ARG,
@@ -275,6 +276,7 @@ void		read_prompt(char **input, char *prompt);
 
 t_token		*init_token(char *value, int type);
 t_toklst	*toklst_new(t_token *tok);
+t_toklst	*toklst_new_tok(t_toktype type, char *value);
 t_toklst	*toklst_last(t_toklst *head);
 void		toklst_add_back(t_toklst **head, t_toklst *newend);
 void		toklst_clear(t_toklst **lst);
@@ -300,6 +302,8 @@ int			is_redir_tok(t_toktype tok);
 int			is_word_tok(t_toktype tt);
 int			is_valid_varname_char(char next);
 void		split_tokens_with_whitespaces(t_toklst **tlst);
+t_toklst	*split_vword_token(char *vword);
+int			has_whitespace(char *str);
 
 /*********** Parsing. ***********/
 

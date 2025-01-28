@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tok_tokenlist_del.c                                :+:      :+:    :+:   */
+/*   tok_toklst_clear_del.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 12:17:51 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/19 00:48:07 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/28 22:07:21 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,4 +58,21 @@ void	toklst_del(t_toklst **lst, t_toklst *delme)
 		}
 		tmp = tmp->next;
 	}
+}
+
+void	toklst_clear(t_toklst **lst)
+{
+	t_toklst	*tmp;
+
+	if (!*lst)
+		return ;
+	while (*lst)
+	{
+		tmp = (*lst)->next;
+		free((*lst)->token->value);
+		free((*lst)->token);
+		free(*lst);
+		*lst = tmp;
+	}
+	*lst = NULL;
 }
