@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:46:50 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/18 23:54:01 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/28 14:58:28 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,27 @@ int	main(int ac, char **av, char **envp)
 	return (0);
 }
 
-static void	init_shell(t_envlst **el, t_termios	*old_settings, t_toklst **tl, \
+static void	init_shell(t_envlst **el, t_termios	*old_settings, t_toklst **tl,
 		char **envp)
 {
+	char	*shlvl_cnt;
+	char	*pwd;
+
 	*el = parse_env(envp);
-	envlst_add_back(el, envlst_new("?", "0"));
+	set_env_entry("?", "0", el);
+	if (get_env_entry_by_name("SHLVL", *el))
+	{
+		shlvl_cnt = ft_itoa(ft_atoi(get_env_entry_by_name("SHLVL", *el)->value) + 1);
+		set_env_entry("SHLVL", shlvl_cnt, el);
+		free(shlvl_cnt);
+	}
+	else
+		set_env_entry("SHLVL", "1", el);
+	set_env_entry("OLDPWD", NULL, el);
+	pwd = ft_calloc(1024, sizeof(char));
+	getcwd(pwd, 500);
+	set_env_entry("PWD", pwd, el);
+	free(pwd);
 	signal_setup(sigint_handler);
 	term_setup(old_settings);
 	*tl = NULL;
