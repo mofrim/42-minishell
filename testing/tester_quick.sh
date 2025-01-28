@@ -132,6 +132,8 @@ main() {
 }
 
 test_no_env() {
+	mkdir -p $TESTDIR
+	cd $TESTDIR
 	FILES="${RUNDIR}/cmds/no_env/*"
 	for file in $FILES
 	do
@@ -140,6 +142,8 @@ test_no_env() {
 			test_without_env $file
 		fi
 	done
+	cd ..
+	rm -rf $TESTDIR out
 }
 
 test_mandatory_leaks() {
@@ -173,6 +177,8 @@ test_mandatory() {
 }
 
 test_mini_death() {
+	mkdir -p $TESTDIR
+	cd $TESTDIR
 	FILES="${RUNDIR}/cmds/mini_death/*"
 	for file in $FILES
 	do
@@ -181,6 +187,8 @@ test_mini_death() {
 			test_from_file $file
 		fi
 	done
+	cd ..
+	rm -rf $TESTDIR out
 }
 
 test_bonus() {
@@ -452,7 +460,7 @@ test_without_env() {
 				((line_count++))
 			done
 			# INPUT=${INPUT%?}
-			echo -n "$INPUT" | env -i $MINISHELL_PATH/$EXECUTABLE 2>tmp_err_minishell >tmp_out_minishell
+			echo -n "$INPUT" | env -i $MINISHELL_TEST_PATH/$EXECUTABLE 2>tmp_err_minishell >tmp_out_minishell
 			exit_minishell=$?
 			echo -n "enable -n .$NL$INPUT" | env -i bash 2>tmp_err_bash >tmp_out_bash
 			exit_bash=$?
@@ -489,10 +497,12 @@ test_without_env() {
 				((TEST_OK++))
 				((THREE++))
 			fi
+			TEST_CMD=$INPUT
 			INPUT=""
 			((i++))
 			((TEST_COUNT++))
-			echo -e "\033[0;90m$1:$tmp_line_count\033[m  "
+			echo -e "\033[0;90m${1#.}:$tmp_line_count\033[m  "
+			echo -e "\033[0;90m\t$(echo -n "$TEST_CMD" | sed -z 's/\n/ <NL>/g')\033[m "
 			if [[ $ONE == 1 && $TWO == 1 && $THREE == 1 ]] ;
 			then
 				((GOOD_TEST++))
