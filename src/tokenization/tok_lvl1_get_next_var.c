@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 17:18:10 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/19 08:21:45 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/28 22:50:46 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static char	*get_special_varname(char c)
 	if (c == '?')
 		return (ft_strdup("?"));
 	if (ft_isnum(c))
-		return(ft_itoa(c - '0'));
+		return (ft_itoa(c - '0'));
 	return (NULL);
 }
 
@@ -67,7 +67,7 @@ void	get_tok_var_value(t_token *tok, t_cmdline *cl, int *tok_found)
 		if (cl->dquot_flag)
 			tok->type = TOK_QWORD;
 		else
-			tok->type = TOK_WORD;
+			tok->type = TOK_VWORD;
 		free(tmp);
 		cl->var_flag = 0;
 	}

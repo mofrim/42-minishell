@@ -6,60 +6,29 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 12:52:18 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/21 13:43:14 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/28 23:07:04 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/* Return 1 if we have a whitspace char in string str. Else 0. */
-static int	has_whitespace(char *str)
-{
-	if (!str || !*str)
-		return (0);
-	while (*str)
-	{
-		if (ft_isspace(*str))
-			return (1);
-		str++;
-	}
-	return (0);
-}
-
 /* Add the split up token to our to-be-inserted toklst. Seperate each token by a
  * TOK_WHITE. */
-static void	add_splittok_to_splitlst(char *svalue, int orig_ttype,
-		t_toklst **tlst, int nsplitsi[2])
+static void	add_splittok_to_splitlst(char *svalue, t_toklst **tlst)
 {
 	t_token		*new;
 	t_token		*white;
-	int			i;
-	int			nsplits;
 
-	nsplits = nsplitsi[0];
-	i = nsplitsi[1];
-	if (i == 1)
-	{
-		white = init_token(" ", TOK_WHITE);
-		toklst_add_back(tlst, toklst_new(white));
-	}
-	if (orig_ttype == TOK_CMD || orig_ttype == TOK_BLTIN)
-		new = init_token(svalue, TOK_ARG);
-	else
-		new = init_token(svalue, TOK_WORD);
+	white = init_token(" ", TOK_WHITE);
+	toklst_add_back(tlst, toklst_new(white));
+	new = init_token(svalue, TOK_ARG);
 	toklst_add_back(tlst, toklst_new(new));
-	if (i < nsplits)
-	{
-		white = init_token(" ", TOK_WHITE);
-		toklst_add_back(tlst, toklst_new(white));
-	}
 }
 
 /* Split the tokenstring and return a toklst containing the split. */
-static t_toklst	*split_token(char *cmdstr, t_toktype ttype)
+static t_toklst	*split_cmdbltin_token(char *cmdstr)
 {
 	t_toklst	*splitlst;
-	t_token		*new;
 	char		**split_strings;
 	int			i;
 	int			nsplits;
@@ -68,14 +37,13 @@ static t_toklst	*split_token(char *cmdstr, t_toktype ttype)
 	split_strings = ft_multisplit(cmdstr, " \t\v\n\f", ft_strlen(" \t\v\n\f"));
 	i = 0;
 	nsplits = splitsize(split_strings);
-	if (ttype == TOK_CMD || ttype == TOK_BLTIN)
-		new = init_token(split_strings[0], is_cmd_or_builtin(split_strings[0]));
-	else
-		new = init_token(split_strings[0], TOK_WORD);
-	toklst_add_back(&splitlst, toklst_new(new));
+	if (nsplits == 0)
+		return (toklst_add_back(&splitlst, toklst_new_tok(TOK_CMD, " ")), \
+				free_ptr2ptr(&split_strings), splitlst);
+	toklst_add_back(&splitlst, toklst_new_tok(
+			is_cmd_or_builtin(split_strings[0]), split_strings[0]));
 	while (++i < nsplits)
-		add_splittok_to_splitlst(split_strings[i], ttype, &splitlst,
-			(int [2]){nsplits, i});
+		add_splittok_to_splitlst(split_strings[i], &splitlst);
 	free_ptr2ptr(&split_strings);
 	return (splitlst);
 }
@@ -132,16 +100,20 @@ void	split_tokens_with_whitespaces(t_toklst **tlst)
 	{
 		tok = tl->token;
 		if ((tok->type == TOK_CMD || tok->type == TOK_BLTIN || \
-				tok->type == TOK_WORD) && has_whitespace(tok->value))
+				tok->type == TOK_VWORD) && has_whitespace(tok->value))
 		{
-			split_toklst = split_token(tok->value, tok->type);
+			if (tok->type == TOK_VWORD)
+				split_toklst = split_vword_token(tok->value);
+			else
+				split_toklst = split_cmdbltin_token(tok->value);
 			insert_splittoken_into_toklst(split_toklst, &tl, tlst);
 		}
 		else
 		{
 			if (tok->type == TOK_QCMD)
 				tok->type = TOK_CMD;
-			tl = tl->next;
+			if (tl)
+				tl = tl->next;
 		}
 	}
 }

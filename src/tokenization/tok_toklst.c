@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tok_tokenlist.c                                    :+:      :+:    :+:   */
+/*   tok_toklst.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 17:22:51 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/06 13:28:09 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/28 22:08:48 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,30 @@ t_toklst	*toklst_new(t_token *tok)
 	nn = (t_toklst *) malloc(sizeof(t_toklst));
 	if (!nn)
 		return (NULL);
+	nn->token = tok;
+	nn->next = NULL;
+	nn->prev = NULL;
+	return (nn);
+}
+
+/**
+ * Create a new toklst struct by specifying toktype and value.
+ *
+ * A shortcut function for initializing toklst members more quickly.
+ */
+t_toklst	*toklst_new_tok(t_toktype type, char *value)
+{
+	t_toklst	*nn;
+	t_token		*tok;
+
+	nn = (t_toklst *) malloc(sizeof(t_toklst));
+	if (!nn)
+		return (NULL);
+	tok = malloc(sizeof(t_token));
+	if (!tok)
+		return (NULL);
+	tok->value = ft_strdup(value);
+	tok->type = type;
 	nn->token = tok;
 	nn->next = NULL;
 	nn->prev = NULL;
@@ -51,23 +75,6 @@ void	toklst_add_back(t_toklst **head, t_toklst *newend)
 	oldend = toklst_last(*head);
 	oldend->next = newend;
 	newend->prev = oldend;
-}
-
-void	toklst_clear(t_toklst **lst)
-{
-	t_toklst	*tmp;
-
-	if (!*lst)
-		return ;
-	while (*lst)
-	{
-		tmp = (*lst)->next;
-		free((*lst)->token->value);
-		free((*lst)->token);
-		free(*lst);
-		*lst = tmp;
-	}
-	*lst = NULL;
 }
 
 int	toklst_size(t_toklst *lst)

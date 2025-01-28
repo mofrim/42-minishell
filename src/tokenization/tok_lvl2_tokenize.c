@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 10:57:29 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/18 15:42:16 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/28 22:25:22 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	tokenize_lvl2(t_toklst	**toklst)
 		return (2);
 	tl = *toklst;
 	cur = tl->token;
-	if (cur->type == TOK_WORD)
+	if (cur->type == TOK_WORD || cur->type == TOK_VWORD)
 		cur->type = is_cmd_or_builtin(cur->value);
 	prev = NULL;
 	while (tl->next)
@@ -97,6 +97,8 @@ void	lvl2_remove_obsolete_tokens(t_toklst **toklst)
 		else if (tl->token->type == TOK_SQUOT)
 			toklst_remove_tok(toklst, &tl);
 		else if (tl->token->type == TOK_AND)
+			toklst_remove_tok(toklst, &tl);
+		else if (tl->token->type == TOK_VWORD && tl->token->value[0] == 0)
 			toklst_remove_tok(toklst, &tl);
 		else
 			if (tl)
