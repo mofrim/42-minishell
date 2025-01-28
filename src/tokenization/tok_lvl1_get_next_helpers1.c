@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 23:45:01 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/18 23:26:32 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/28 15:17:21 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,8 +90,11 @@ void	get_tok_home(t_token *tok, t_cmdline *cl, int *tok_found)
 				ft_isspace(inp[pos + 1]))
 		{
 			tok->type = TOK_WORD;
-			tok->value = ft_strdup(get_env_value("HOME", cl->env));
-			nullcheck(tok->value, "get_tok_white()");
+			if (get_env_value("HOME", cl->env))
+				tok->value = ft_strdup(get_env_value("HOME", cl->env));
+			else
+				tok->value = ft_strdup("/home");
+			nullcheck(tok->value, "get_tok_home()");
 			cl->pos++;
 			*tok_found = 1;
 		}
