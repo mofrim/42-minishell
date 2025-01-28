@@ -465,7 +465,8 @@ test_without_env() {
 			echo -n "enable -n .$NL$INPUT" | env -i bash 2>tmp_err_bash >tmp_out_bash
 			exit_bash=$?
 			echo -ne "\033[1;34mSTD_OUT:\033[m "
-			if ! diff -q tmp_out_minishell tmp_out_bash >/dev/null ;
+			# if ! diff -q tmp_out_minishell tmp_out_bash >/dev/null ;
+			if ! diff tmp_out_minishell tmp_out_bash;
 			then
 				echo -ne "❌  " | tr '\n' ' '
 				((TEST_KO_OUT++))

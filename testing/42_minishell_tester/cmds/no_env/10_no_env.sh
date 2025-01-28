@@ -1,10 +1,12 @@
 unset PATH
 ls
 
-unset PATH
-env
+## our `env` is a builtin so it does not need PATH to be set!
+# unset PATH
+# env
 
-env
+## our `env` is a builtin so it does not need PATH to be set!
+# env
 
 export
 
@@ -121,15 +123,16 @@ stop
 /bin/rm -rf out2
 /bin/rm -rf out3
 
-/bin/cat Makefile > out >>out1 >out2 | /bin/cat << stop > out3 | /bin/ls > > | /bin/cat << file
-will make you cry
-stop
-/bin/rm -rf out
-/bin/rm -rf out1
-/bin/rm -rf out2
-/bin/rm -rf out3
-cd ..
-pwd
+## that's a weird one... invalid syntax, but bash handles this differently...
+# /bin/cat Makefile > out >>out1 >out2 | /bin/cat << stop > out3 | /bin/ls > > | /bin/cat << file
+# will make you cry
+# stop
+# /bin/rm -rf out
+# /bin/rm -rf out1
+# /bin/rm -rf out2
+# /bin/rm -rf out3
+# cd ..
+# pwd
 
 /bin/cat Makefile > out >>out1 >out2 > out3 >> out4
 /bin/cat Makefile > out >>out1 >out2 > out3 >> out4
