@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 14:27:28 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/20 18:25:48 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/28 15:05:01 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ void	print_envlst(t_envlst *el)
 {
 	while (el)
 	{
-		if (el->value)
+		if (el->value && ft_strcmp(el->name, "?"))
 			ft_printf("declare -x %s=\"%s\"\n", el->name, el->value);
-		else
+		else if (ft_strcmp(el->name, "?"))
 			ft_printf("declare -x %s\n", el->name);
 		el = el->next;
 	}
