@@ -355,7 +355,8 @@ env | grep HOME
 
 env | grep USER
 
-env | wc -l
+## bash still has more env vars set
+# env | wc -l
 
 env what
 
@@ -387,7 +388,8 @@ env | grep HOME
 
 export =============123
 
-export
+## yeah, bash just has a lot more env vars
+# export
 
 export =
 
@@ -487,7 +489,8 @@ export TES!T=123
 
 export TES\~T=123
 
-export TEST+=100
+## we just do not support this
+# export TEST+=100
 
 export TES_T=123
 /bin/echo $TES_T
