@@ -5,20 +5,27 @@ let
     # ref = "master";
     ref = "nixos-24.11";
   }) {};
-in
-
+  fhs = pkgs.buildFHSUserEnv {
+    # pkgs = pkgs;
+    name = "fhs-env";
+    targetPkgs = pkgs : (with pkgs;
+    [
+      coreutils
+    ]);
+    runScript = "bash";
+  };
+  in
 pkgs.mkShell {
   NIX_HARDENING_ENABLE = "";
   name = "minishell";
   nativeBuildInputs = with pkgs; [
+    fhs
     clang-tools
     clang_12
     ncurses
-    # readline
-    # readline.man
   ];
 
   shellHook = ''
-    export MANPATH=$MANPATH:${pkgs.readline.man.outPath}/share/man
+  exec fhs
   '';
 }
