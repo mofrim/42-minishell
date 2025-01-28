@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 15:48:38 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/22 13:17:15 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/28 17:18:39 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,14 +77,14 @@ static int	check_exec_path(char *exec_path, char **path_env)
 	struct stat	sb;
 
 	if (exec_path && path_env && (!(exec_path[0] == '/' || \
-		(ft_strlen(exec_path) > 2 && !ft_strncmp(exec_path, "./", 2))) && \
-				!ft_strchr(exec_path, '/')))
+			(ft_strlen(exec_path) > 2 && !ft_strncmp(exec_path, "./", 2))) && \
+			!ft_strchr(exec_path, '/')))
 		return (0);
 	if (exec_path && (stat(exec_path, &sb) == -1) && ((exec_path[0] == '/' || \
-		(ft_strlen(exec_path) > 2 && !ft_strncmp(exec_path, "./", 2))) || \
+			(ft_strlen(exec_path) > 2 && !ft_strncmp(exec_path, "./", 2))) || \
 			path_env == NULL))
 		return (3);
-	if (!stat(exec_path, &sb))
+	if (exec_path && !stat(exec_path, &sb))
 	{
 		if (((sb.st_mode & S_IFREG) == S_IFREG) && !access(exec_path, X_OK))
 			return (1);

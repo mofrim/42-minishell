@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:46:50 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/28 15:11:43 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/28 17:19:22 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ static void	init_shell(t_envlst **el, t_termios	*old_settings, t_toklst **tl,
 	}
 	else
 		set_env_entry("SHLVL", "1", el);
+	if (!get_env_value("PATH", *el))
+		set_env_entry("PATH", "/no-such-path", el);
 	set_env_entry("OLDPWD", NULL, el);
 	pwd = ft_calloc(1024, sizeof(char));
 	getcwd(pwd, 500);
