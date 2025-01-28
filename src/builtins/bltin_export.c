@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 09:50:30 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/21 14:01:34 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/28 23:27:52 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,9 @@ int	bltin_export_preout(t_cmdlst *cl, t_envlst **el)
 
 int	bltin_export_out(t_cmdlst *cl, t_envlst **el)
 {
+	if (cl->preout_flag == 1 && cl->arg_count == 2 && cl->args[1][0] == '-')
+		return (minish_errormsg2("export", cl->args[1],
+				"we no support options", 2));
 	if (cl->preout_flag == 1 && cl->arg_count == 2)
 		return (minish_errormsg2("export", cl->args[1],
 				"not a valid identifier", 1));

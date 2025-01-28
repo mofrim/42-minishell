@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 08:17:00 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/13 11:45:13 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/28 23:36:06 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ int	proc_redirlst_rout0(t_redirlst *ofl)
 
 	rval = 0;
 	if (ofl->redtype == RE_ROUT0)
-		fd = open(ofl->outfile, O_TRUNC | O_CREAT | O_WRONLY, 0600);
+		fd = open(ofl->outfile, O_TRUNC | O_CREAT | O_WRONLY, 0644);
 	else
-		fd = open(ofl->outfile, O_APPEND | O_CREAT | O_WRONLY, 0600);
+		fd = open(ofl->outfile, O_APPEND | O_CREAT | O_WRONLY, 0644);
 	if (fd < 0)
 		return (minish_errormsg(ofl->outfile, strerror(errno), errno));
 	rval = dup2(fd, STDOUT_FILENO);
@@ -39,9 +39,9 @@ int	proc_redirlst_rout1(t_redirlst *ofl)
 
 	rval = 0;
 	if (ofl->redtype == RE_ROUT1)
-		fd = open(ofl->outfile, O_TRUNC | O_CREAT | O_WRONLY, 0600);
+		fd = open(ofl->outfile, O_TRUNC | O_CREAT | O_WRONLY, 0644);
 	else
-		fd = open(ofl->outfile, O_APPEND | O_CREAT | O_WRONLY, 0600);
+		fd = open(ofl->outfile, O_APPEND | O_CREAT | O_WRONLY, 0644);
 	if (fd == -1)
 		return (errno);
 	rval = dup2(fd, ofl->fd_from);
@@ -59,9 +59,9 @@ int	proc_redirlst_rout2(t_redirlst *ofl)
 
 	rval = 0;
 	if (ofl->redtype == RE_ROUT2)
-		fd = open(ofl->outfile, O_TRUNC | O_CREAT | O_WRONLY, 0600);
+		fd = open(ofl->outfile, O_TRUNC | O_CREAT | O_WRONLY, 0644);
 	else
-		fd = open(ofl->outfile, O_APPEND | O_CREAT | O_WRONLY, 0600);
+		fd = open(ofl->outfile, O_APPEND | O_CREAT | O_WRONLY, 0644);
 	if (fd == -1)
 		return (errno);
 	rval = dup2(fd, STDOUT_FILENO);
