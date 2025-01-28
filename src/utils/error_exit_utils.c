@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 23:35:30 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/19 20:18:59 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/28 23:25:59 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ int	minish_errormsg(char *prefix, char *msg, int error)
 
 /* Print errors msg with in the format "minishell: prefix: arg: error_msg" to
  * stderr and return 3rd parameter int-value. */
-int	minish_errormsg2(char *prefix, char *msg, char *arg, int error)
+int	minish_errormsg2(char *prefix, char *arg, char *msg, int error)
 {
-	ft_dprintf(STDERR_FILENO, "minishell: %s: %s\n", prefix, arg, msg);
+	ft_dprintf(STDERR_FILENO, "minishell: %s: %s: %s\n", prefix, arg, msg);
 	return (error);
 }

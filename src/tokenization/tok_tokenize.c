@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 13:09:10 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/18 17:59:37 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/28 23:16:38 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 t_toklst	*tokenize(char *input, t_envlst **el)
 {
 	t_toklst	*toklst;
+	int			retval;
 
 	toklst = tokenize_lvl1(input, *el);
 	if (!toklst)
@@ -27,10 +28,14 @@ t_toklst	*tokenize(char *input, t_envlst **el)
 	print_toklst(toklst);
 #endif
 
-	if (tokenize_lvl2(&toklst))
+	retval = tokenize_lvl2(&toklst);
+	if (retval)
 	{
 		toklst_clear(&toklst);
-		set_env_entry("?", "2", el);
+		if (retval == 2)
+			set_env_entry("?", "2", el);
+		else
+			set_env_entry("?", "0", el);
 		return (NULL);
 	}
 
