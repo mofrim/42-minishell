@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 08:47:18 by elpah             #+#    #+#             */
-/*   Updated: 2025/01/22 13:00:27 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/28 19:32:16 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,14 @@
  * This is the case if it is
  * - alphanumeric or
  * - underscore or
- * - or a special varname like $? (.., $$, $*, $@) */
+ * - or a special varname like $? (.., $$, $*, $@). in this case return 2, not
+ *   1! */
 int	is_valid_varname_char(char c)
 {
-	if (ft_isalnum(c) || c == '_' || c == '?')
+	if (ft_isalnum(c) || c == '_')
 		return (1);
+	if  (c == '?')
+		return (2);
 	return (0);
 }
 
