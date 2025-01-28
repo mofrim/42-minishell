@@ -56,19 +56,19 @@ echo '$?'
 
 echo "'$?'"
 
-echo \$USER
-
-echo \\$USER
-
-echo \\\$USER
-
-echo \\\\$USER
-
-echo \\\\\$USER
-
-echo \\\\\\\\\$USER
-
-echo \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\$USER \$PATH \\$PWD
+# echo \$USER
+#
+# echo \\$USER
+#
+# echo \\\$USER
+#
+# echo \\\\$USER
+#
+# echo \\\\\$USER
+#
+# echo \\\\\\\\\$USER
+#
+# echo \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\$USER \$PATH \\$PWD
 
 echo "cat lol.c | cat > lol.c"
 
