@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 23:05:46 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/18 23:20:48 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/29 14:01:25 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ int	is_special_tok(t_toktype tok)
 	if (tok == TOK_ROUTA0 || tok == TOK_ROUTA1 || tok == TOK_ROUTA2 || \
 		tok == TOK_ROUT0 || tok == TOK_ROUT1 || tok == TOK_ROUT2 || \
 		tok == TOK_ROUT3 || tok == TOK_HERE || tok == TOK_RIN0 || \
-		tok == TOK_PIP || tok == TOK_AND)
+		tok == TOK_PIP || tok == TOK_AND || tok == TOK_RINOUT0 || \
+		tok == TOK_RINOUT1)
 		return (1);
 	return (0);
 }
@@ -57,6 +58,8 @@ int	show_tokerr_lvl2(t_toktype tok)
 		return (print_tokerr(TOKERR_HERE, NULL));
 	if (tok == TOK_AND)
 		return (print_tokerr(TOKERR_AND, NULL));
+	if (tok == TOK_RINOUT0 || tok == TOK_RINOUT1)
+		return (print_tokerr(TOKERR_RINOUT, NULL));
 	return (2);
 }
 
