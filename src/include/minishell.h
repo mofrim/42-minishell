@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:44:43 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/28 22:57:39 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/29 14:01:23 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,7 +173,8 @@ typedef enum e_tokerr
 	TOKERR_REDIR,
 	TOKERR_HERE,
 	TOKERR_AND,
-	TOKERR_FDFROM
+	TOKERR_FDFROM,
+	TOKERR_RINOUT
 }	t_tokerr;
 
 /* Error msg used in print_tokerr_int */

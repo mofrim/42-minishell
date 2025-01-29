@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 17:26:43 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/18 10:59:31 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/29 14:01:37 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ void	print_tokerr_part1(t_tokerr te, char *tok)
 		ft_dprintf(2, ERRMSG_SYNTAX "\'>>\'\n");
 	if (te == TOKERR_ROUTA2)
 		ft_dprintf(2, ERRMSG_SYNTAX "\'&>>\'\n");
+	if (te == TOKERR_RINOUT)
+		ft_dprintf(2, ERRMSG_SYNTAX "\'<>\'\n");
 }
 
 void	print_tokerr_part2(t_tokerr te, char *tok)
