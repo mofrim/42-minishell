@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/27 16:00:04 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/30 10:42:17 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/30 19:54:34 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,9 @@ static void	parse_rin0(t_toklst **toklst, t_cmdlst *cur_cmd, t_toktype ttype);
 static void	parse_rin1(t_toklst **toklst, t_cmdlst *cur_cmd, t_toktype ttype);
 static void	parse_rinout(t_toklst **toklst, t_cmdlst *cur_cmd, t_toktype ttype);
 
-/* Parse a input redirect. If there was already an input_file set free it an
- * replace with new one found. */
+/* Parse a input redirect. If there was already an input_file set: free it an
+ * replace with new one found. Through this we immitate bash's behavior that
+ * always the last redirect for the same fildes wins. */
 void	parse_rin(t_toklst **toklst, t_cmdlst *cur_cmd)
 {
 	t_toktype	ttype;
@@ -32,6 +33,7 @@ void	parse_rin(t_toklst **toklst, t_cmdlst *cur_cmd)
 		parse_rinout(toklst, cur_cmd, ttype);
 }
 
+/* Parse `< file` tokens. */
 static void	parse_rin0(t_toklst **toklst, t_cmdlst *cur_cmd, t_toktype ttype)
 {
 	t_redirlst	rfl;
@@ -44,6 +46,7 @@ static void	parse_rin0(t_toklst **toklst, t_cmdlst *cur_cmd, t_toktype ttype)
 	*toklst = (*toklst)->next->next;
 }
 
+/* Parse `n<file` tokens. */
 void	parse_rin1(t_toklst **toklst, t_cmdlst *cur_cmd, t_toktype ttype)
 {
 	t_redirlst	rfl;
@@ -57,6 +60,7 @@ void	parse_rin1(t_toklst **toklst, t_cmdlst *cur_cmd, t_toktype ttype)
 	*toklst = (*toklst)->next->next->next;
 }
 
+/* Parse `<>` tokens. */
 void	parse_rinout(t_toklst **toklst, t_cmdlst *cur_cmd, t_toktype ttype)
 {
 	t_redirlst	rfl;

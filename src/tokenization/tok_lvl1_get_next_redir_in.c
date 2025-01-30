@@ -6,15 +6,19 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/27 15:16:04 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/13 10:55:28 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/30 19:50:58 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// + implement `[n]<file` as opening `file` for reading as fildes `n`.
-//   TOK_RIN1. `cat 42<` is TOKERR_NL!!
-
+/**
+ * Get the `<` token.
+ *
+ * Possible usage patterns:
+ * 	1)	`cmd < file` open `file` and dup stdin to it (TOK_RIN0)
+ * 	2)	`cmd n< file` open `file` for reading on fildes n (TOK_RIN1)
+ */
 void	get_tok_rin(t_token *tok, t_cmdline *cl, int *tok_found)
 {
 	char	*inp;
@@ -43,7 +47,14 @@ void	get_tok_rin(t_token *tok, t_cmdline *cl, int *tok_found)
 	}
 }
 
-// + maybe implement `<> file` for opening stdin and stdout to `file`
+/**
+ * Get the `<>` redir token.
+ *
+ * Possible usage patterns:
+ * 	1)	`cmd <> file` open file `file` as stdout and stdin (TOK_RINOUT0)
+ * 	2)	`cmd n<>file` open `file` for reading and writing on fildes n 
+ * 		(TOK_RINOUT1)
+ */
 void	get_tok_rinout(t_token *tok, t_cmdline *cl, int *tok_found)
 {
 	char	*inp;

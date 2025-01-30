@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 06:39:12 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/12 00:29:00 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/30 19:33:53 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,10 @@ static void	tokenize_rout1(t_token *prev, t_token *cur, t_token *next)
 				next->type == TOK_OF))
 		prev->type = TOK_ROUT_FDFROM;
 	else
+	{
+		cur->type = TOK_ROUT0;
 		prev->type = TOK_ARG;
+	}
 	if (is_word_tok(next->type))
 		next->type = TOK_OF;
 }
