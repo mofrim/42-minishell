@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 07:10:47 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/18 14:07:15 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/31 12:00:59 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,15 @@ int	is_rout_tok(t_toktype tok)
 {
 	if (tok == TOK_ROUTA0 || tok == TOK_ROUTA1 || tok == TOK_ROUTA2 || \
 		tok == TOK_ROUT0 || tok == TOK_ROUT1 || tok == TOK_ROUT2 || \
-		tok == TOK_ROUT3)
+		tok == TOK_ROUT3 || tok == TOK_RINOUT0 || tok == TOK_RINOUT1)
+		return (1);
+	return (0);
+}
+
+int	is_rin_tok(t_toktype tok)
+{
+	if (tok == TOK_RIN0 || tok == TOK_RIN1 || tok == TOK_RINOUT0 || \
+		tok == TOK_RINOUT1 || tok == TOK_HERE)
 		return (1);
 	return (0);
 }
@@ -40,9 +48,7 @@ int	is_rout_tok(t_toktype tok)
 /* Also include TOK_RIN here. */
 int	is_redir_tok(t_toktype tok)
 {
-	if (tok == TOK_ROUTA0 || tok == TOK_ROUTA1 || tok == TOK_ROUTA2 || \
-		tok == TOK_ROUT0 || tok == TOK_ROUT1 || tok == TOK_ROUT2 || \
-		tok == TOK_ROUT3 || tok == TOK_RIN0)
+	if (is_rout_tok(tok) || is_rin_tok(tok))
 		return (1);
 	return (0);
 }
