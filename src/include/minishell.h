@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:44:43 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/29 14:01:23 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/31 11:22:18 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -234,6 +234,20 @@ typedef struct s_cmdlst
 	struct s_cmdlst	*prev;
 }	t_cmdlst;
 
+/*********** The ministruct. ***********/
+
+/* Convenience struct for initialization parameter handling. */
+typedef struct s_ministruct
+{
+	t_toklst	*tl;
+	t_envlst	*el;
+	t_termios	*term;
+	char		**envp;
+	int			ac;
+	char		**av;
+	int			script_mode;
+}	t_ministruct;
+
 /*********** Exec bltin_pipe struct. ***********/
 
 typedef struct s_bltin_pipargs
@@ -259,6 +273,7 @@ void		term_setup(struct termios *old_settings);
 int			ft_wifsignaled(int status);
 int			ft_wexitstatus(int status);
 void		heredoc_sig_handler(int signum);
+void		init_shell_vars(t_envlst **el);
 
 /*********** Utils ***********/
 
@@ -271,7 +286,7 @@ int			minish_errormsg2(char *prefix, char *arg, char *msg, int error);
 int			ft_isnum(char c);
 int			get_posint_numstr(char *s);
 int			splitsize(char **s);
-void		read_prompt(char **input, char *prompt);
+void		read_prompt(char **input, char *prompt, t_ministruct mini);
 
 /*********** Tokenization. ***********/
 
@@ -374,7 +389,7 @@ int			set_exec_path(t_cmdlst *cl, char **env);
 
 /*********** The HEREDOC. ***********/
 
-int			heredoc(t_cmdlst *cmdl, t_envlst *el);
+int			heredoc(t_cmdlst *cl, t_ministruct *mini);
 void		heredoc_cleanup(t_cmdlst *cl);
 
 /*********** Builtins. ***********/

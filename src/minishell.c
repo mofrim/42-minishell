@@ -6,86 +6,82 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:46:50 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/28 17:19:22 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/31 11:19:55 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void		set_exit_status_envvar(char *status_str, t_envlst **el);
-static void	cleanup_and_exit(t_termios *old_settings, t_envlst **el, \
-		t_toklst **tl);
-static int	evaluate_cmdline(t_toklst **tl, t_envlst **el);
-static void	init_shell(t_envlst **el, t_termios	*old_settings, t_toklst **tl, \
-		char **envp);
+void				set_exit_status_envvar(char *status_str, t_envlst **el);
+static int			evaluate_cmdline(t_ministruct *mini);
+static void			cleanup_and_exit(t_termios *old_settings, t_envlst **el,
+						t_toklst **tl);
+static t_ministruct	*init_shell(t_termios	*old_settings, char **envp, int ac,
+						char **av);
 
 int	main(int ac, char **av, char **envp)
 {
-	t_termios	old_settings;
-	char		*input;
-	t_toklst	*tlst;
-	t_envlst	*el;
-	int			exit_flag;
+	t_termios		old_settings;
+	t_ministruct	*mini;
+	char			*input;
+	int				exit_flag;
 
-	(void)ac, (void)av;
 	exit_flag = 0;
-	init_shell(&el, &old_settings, &tlst, envp);
+	mini = init_shell(&old_settings, envp, ac, av);
 	while (1)
 	{
 		if (!exit_flag)
-			read_prompt(&input, PROMPT);
+			read_prompt(&input, PROMPT, *mini);
 		if (!input || exit_flag)
-			cleanup_and_exit(&old_settings, &el, &tlst);
+			cleanup_and_exit(&old_settings, &mini->el, &mini->tl);
 		if (*input != 0)
 		{
 			add_history(input);
-			tlst = tokenize(input, &el);
-			if (tlst)
-				exit_flag = evaluate_cmdline(&tlst, &el);
+			mini->tl = tokenize(input, &mini->el);
+			if (mini->tl)
+				exit_flag = evaluate_cmdline(mini);
 		}
 		free(input);
 	}
 	return (0);
 }
 
-static void	init_shell(t_envlst **el, t_termios	*old_settings, t_toklst **tl,
-		char **envp)
+static t_ministruct	*init_shell(t_termios	*old_settings, char **envp, int ac,
+		char **av)
 {
-	char	*shlvl_cnt;
-	char	*pwd;
+	t_ministruct	*mini;
 
-	*el = parse_env(envp);
-	set_env_entry("?", "0", el);
-	if (get_env_entry_by_name("SHLVL", *el))
+	mini = malloc(sizeof(t_ministruct));
+	nullcheck(mini, "init_shell()");
+	mini->el = parse_env(envp);
+	init_shell_vars(&mini->el);
+	mini->tl = NULL;
+	mini->ac = ac;
+	mini->av = av;
+	if (ac == 2 && !ft_strcmp(av[1], "-s"))
+		mini->script_mode = 1;
+	else
+		mini->script_mode = 0;
+	if (isatty(STDIN_FILENO))
 	{
-		shlvl_cnt = ft_itoa(ft_atoi(get_env_value("SHLVL", *el)) + 1);
-		set_env_entry("SHLVL", shlvl_cnt, el);
-		free(shlvl_cnt);
+		signal_setup(sigint_handler);
+		term_setup(old_settings);
 	}
 	else
-		set_env_entry("SHLVL", "1", el);
-	if (!get_env_value("PATH", *el))
-		set_env_entry("PATH", "/no-such-path", el);
-	set_env_entry("OLDPWD", NULL, el);
-	pwd = ft_calloc(1024, sizeof(char));
-	getcwd(pwd, 500);
-	set_env_entry("PWD", pwd, el);
-	free(pwd);
-	signal_setup(sigint_handler);
-	term_setup(old_settings);
-	*tl = NULL;
+		signal(SIGINT, SIG_DFL);
+	return (mini);
 }
 
-static int	evaluate_cmdline(t_toklst **tl, t_envlst **el)
+static int	evaluate_cmdline(t_ministruct *mini)
 {
 	t_cmdlst	*cl;
 	char		*status_str;
 	int			status_int;
 	int			exit_flag;
 
-	cl = parse_tokenlist(tl);
-	heredoc(cl, *el);
-	status_int = exec_cmd(cl, el);
+	cl = parse_tokenlist(&mini->tl);
+	heredoc(cl, mini);
+	status_int = exec_cmd(cl, &mini->el);
 	if (status_int == 126 || status_int == 127)
 		status_str = ft_itoa(status_int);
 	else if (ft_wifsignaled(status_int))
@@ -95,11 +91,11 @@ static int	evaluate_cmdline(t_toklst **tl, t_envlst **el)
 	}
 	else
 		status_str = ft_itoa(ft_wexitstatus(status_int));
-	set_exit_status_envvar(status_str, el);
+	set_exit_status_envvar(status_str, &mini->el);
 	heredoc_cleanup(cl);
 	exit_flag = cl->exit_flag;
 	cmdlst_clear(&cl);
-	toklst_clear(tl);
+	toklst_clear(&mini->tl);
 	return (exit_flag);
 }
 
@@ -119,18 +115,39 @@ static void	cleanup_and_exit(t_termios *old_settings, t_envlst **el, \
 	exit(status);
 }
 
-/* Read the prompt. Either via readline when input is coming from terminal in
- * interactive mode, or using get_next_line when input is coming in
- * non-interactive mode, f.ex. during testing. */
-void	read_prompt(char **input, char *prompt)
+/**
+ *
+ * Read the prompt.
+ *
+ * If stdout and stdin are normal tty devices, then show our fancy prompt and
+ * use readline to read user input. If stdin isn't a tty or the `-s` command
+ * line param was given to minshell, then show no prompt and just read stuff
+ * using gnl. 3rd variant - the `./minishell | ./minishell` situation we print
+ * hackily the prompt to stderr as this is not redirected to the pipe, and
+ * handle input over gnl manually.
+ * */
+void	read_prompt(char **input, char *prompt, t_ministruct mini)
 {
 	char	*line;
 
-	if (isatty(STDIN_FILENO))
-		*input = readline(prompt);
-	else
+	if (mini.script_mode || !isatty(STDIN_FILENO))
 	{
 		line = get_next_line(STDIN_FILENO);
+		*input = ft_strtrim(line, "\n");
+		free(line);
+	}
+	else if (isatty(STDIN_FILENO) && isatty(STDOUT_FILENO))
+		*input = readline(prompt);
+	else if (isatty(STDIN_FILENO))
+	{
+		ft_dprintf(STDERR_FILENO, prompt);
+		line = get_next_line(STDIN_FILENO);
+		if (!line)
+		{
+			ft_dprintf(STDERR_FILENO, "\nexit\n");
+			*input = NULL;
+			return ;
+		}
 		*input = ft_strtrim(line, "\n");
 		free(line);
 	}
