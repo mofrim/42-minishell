@@ -6,13 +6,12 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 10:59:44 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/18 20:35:39 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/31 11:42:56 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	remove_tok_here(t_toklst **toklst);
 static int	get_max_argnum(t_toklst *tl);
 void		print_cmdlst(t_cmdlst *cmd);
 
@@ -27,7 +26,6 @@ t_cmdlst	*parse_tokenlist(t_toklst **toklst)
 
 	if (!*toklst)
 		return (NULL);
-	remove_tok_here(toklst);
 	maxargs = get_max_argnum(*toklst);
 	cmd = cmdlst_new(NULL, maxargs);
 	cur_cmd = cmd;
@@ -49,21 +47,6 @@ t_cmdlst	*parse_tokenlist(t_toklst **toklst)
 #endif
 
 	return (cmd);
-}
-
-static void	remove_tok_here(t_toklst **toklst)
-{
-	t_toklst	*tl;
-
-	tl = *toklst;
-	while (tl)
-	{
-		if (tl->token->type == TOK_HERE)
-			toklst_remove_tok(toklst, &tl);
-		else
-			if (tl)
-				tl = tl->next;
-	}
 }
 
 /* Get the maximum number of args per one cmd present in the current cmdline

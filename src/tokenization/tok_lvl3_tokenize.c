@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 15:24:38 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/21 13:06:38 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/31 11:42:28 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,6 +137,8 @@ static void	lvl3_remove_obsolete_tokens(t_toklst **toklst)
 		if (tl->token->type == TOK_CMD && tl->token->value[0] == 0)
 			toklst_remove_tok(toklst, &tl);
 		else if (tl->token->type == TOK_NULL)
+			toklst_remove_tok(toklst, &tl);
+		else if (tl->token->type == TOK_HERE)
 			toklst_remove_tok(toklst, &tl);
 		if (tl)
 			tl = tl->next;
