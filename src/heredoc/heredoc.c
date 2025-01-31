@@ -6,11 +6,13 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 19:12:39 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/31 10:40:12 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/31 12:18:47 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+// TODO: comment!!!!
 
 // Your question was cut off, but I assume you're asking about how HEREDOC is
 // implemented in shells. Let me explain the key mechanisms:
@@ -95,6 +97,8 @@ static void	cleanup_and_reset_sig(t_htmpfile *tmpfile, char	*input,
 {
 	if (input == NULL)
 	{
+		ft_dprintf(STDERR_FILENO,
+			"minish: heredoc: terminated by EOF, not by %s\n", (*hl)->name);
 		close(tmpfile->fd);
 		free(tmpfile->filename);
 		free(tmpfile);
@@ -112,7 +116,7 @@ static void	cleanup_and_reset_sig(t_htmpfile *tmpfile, char	*input,
 }
 
 static void	process_heredoc_prompt(char **input, t_htmpfile *tmpfile,
-		t_ministruct *mini , t_toktype hdoctype)
+		t_ministruct *mini, t_toktype hdoctype)
 {
 	if (hdoctype == TOK_HERE_DLIM)
 		substitute_envvars(input, mini->el);
