@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 19:12:39 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/14 22:19:54 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/31 10:40:12 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,11 @@
 
 extern int	g_signal;
 
-static int	do_the_heredoc(t_cmdlst	*cl, t_envlst *el);
+static int	do_the_heredoc(t_cmdlst	*cl, t_ministruct *mini);
 t_htmpfile	*create_heredoc_tmpfile(void);
 void		substitute_envvars(char **prompt_input, t_envlst *el);
 
-int	heredoc(t_cmdlst *cl, t_envlst *el)
+int	heredoc(t_cmdlst *cl, t_ministruct *mini)
 {
 	int	status;
 
@@ -64,7 +64,7 @@ int	heredoc(t_cmdlst *cl, t_envlst *el)
 	while (cl)
 	{
 		if (cl->heredocs)
-			status = do_the_heredoc(cl, el);
+			status = do_the_heredoc(cl, mini);
 		cl = cl->next;
 	}
 	signal(SIGINT, sigint_handler);
@@ -112,16 +112,16 @@ static void	cleanup_and_reset_sig(t_htmpfile *tmpfile, char	*input,
 }
 
 static void	process_heredoc_prompt(char **input, t_htmpfile *tmpfile,
-		t_envlst *el, t_toktype hdoctype)
+		t_ministruct *mini , t_toktype hdoctype)
 {
 	if (hdoctype == TOK_HERE_DLIM)
-		substitute_envvars(input, el);
+		substitute_envvars(input, mini->el);
 	ft_dprintf(tmpfile->fd, "%s\n", *input);
 	free(*input);
-	read_prompt(input, "> ");
+	read_prompt(input, "> ", *mini);
 }
 
-static int	do_the_heredoc(t_cmdlst	*cl, t_envlst *el)
+static int	do_the_heredoc(t_cmdlst	*cl, t_ministruct *mini)
 {
 	char		*input;
 	t_herdlst	*hl;
@@ -135,9 +135,9 @@ static int	do_the_heredoc(t_cmdlst	*cl, t_envlst *el)
 			return (minish_errormsg("heredoc", \
 						"heredoc tmpfile creation failed", -1));
 		set_redirlst_infile_to_tmpfile(cl, tmpfile, hl->name);
-		read_prompt(&input, "> ");
+		read_prompt(&input, "> ", *mini);
 		while (input != NULL && ft_strcmp(hl->name, input) && !g_signal)
-			process_heredoc_prompt(&input, tmpfile, el, hl->type);
+			process_heredoc_prompt(&input, tmpfile, mini, hl->type);
 		if (input == NULL)
 			return (cleanup_and_reset_sig(tmpfile, input, &hl), 1);
 		else
