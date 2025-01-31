@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:44:43 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/31 11:22:18 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/01/31 12:07:47 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -313,6 +313,7 @@ void		apply_redir_tokenization(t_token *prev, t_token *cur, \
 
 int			print_tokerr(t_tokerr te, char *tok);
 t_toktype	is_cmd_or_builtin(char *val);
+int			is_rin_tok(t_toktype tok);
 int			is_rout_tok(t_toktype tok);
 int			is_redir_tok(t_toktype tok);
 int			is_word_tok(t_toktype tt);
