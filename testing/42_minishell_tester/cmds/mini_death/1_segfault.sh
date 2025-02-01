@@ -102,7 +102,8 @@ echo seg <<> echo segf
 
 echo seg <<<> echo segf
 
-echo <<< echo seegf
+## we no support dis!
+# echo <<< echo seegf
 
 echo segf <|< echo super valid
 
