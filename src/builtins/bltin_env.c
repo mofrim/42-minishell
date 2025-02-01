@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 10:13:46 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/20 17:54:37 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/02/01 14:38:26 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,14 @@ static void	print_env_vars(t_envlst *el)
 
 int	bltin_env(t_cmdlst *cl, t_envlst **el)
 {
-	int	i;
-
-	i = 0;
-	while (cl->args[i])
-		i++;
-	if (i > 1)
+	if (cl->arg_count >= 2)
 	{
-		ft_dprintf(2, "env: '%s': No such file or directory\n", cl->args[1]);
-		return (127);
+		if (cl->args[1][0] == '-')
+			return (minish_errormsg2("env", cl->args[1],
+					"invalid option", 127));
+		else
+			return (minish_errormsg2("env", cl->args[1],
+					"No such file or dir", 127));
 	}
 	print_env_vars(*el);
 	return (0);
