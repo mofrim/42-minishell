@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 19:12:39 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/02/02 16:04:06 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/02/02 20:06:46 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	heredoc(t_cmdlst *cl, t_ministruct *mini)
 			break ;
 		cl = cl->next;
 	}
-	signal(SIGINT, sigint_handler);
+	signal(SIGINT, minish_sighandler);
 	return (status);
 }
 
