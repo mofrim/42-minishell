@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:46:50 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/02/02 09:57:02 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/02/02 13:11:28 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,8 @@ static int	evaluate_cmdline(t_ministruct *mini)
 			status_str = ft_itoa(status_int);
 		else if (ft_wifsignaled(status_int))
 		{
-			status_str = ft_itoa(status_int + 128);
 			ft_putchar_fd('\n', STDOUT_FILENO);
+			status_str = ft_itoa(!(status_int == 42) * (status_int + 128));
 		}
 		else
 			status_str = ft_itoa(ft_wexitstatus(status_int));

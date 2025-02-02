@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 12:07:34 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/22 09:08:34 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/02/02 14:29:57 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,16 +66,32 @@ int	exec_pipeline(t_cmdlst *cl, char **env, t_envlst **el)
 	return (free(pids), status);
 }
 
-/* Wait for all child processes in an orderly fashion. Meaning: we want the
- * `status` variable to really hold the exit-status of the last command executed
- * in the pipeline. */
+/**
+ * Wait for all child processes in an orderly fashion.
+ *
+ * Meaning: we want the `status` variable to really hold the exit-status of the
+ * last command executed in the pipeline...
+ * Exeception: If, any but the last cmd in the pipeline got signaled, and this
+ * signal wasn't SIGPIPE (f.ex. in `yes "no" | head -n 10` this could lead to
+ * extra newline being printed) set the exit_status to 42 if the status of the
+ * last cmd in the pipeline was 0. This will be used in evalutate_cmdline() to
+ * tell if an additional '\n' should be printed. */
 static void	wait_for_each_child(pid_t *pids, int pidindx, int *status)
 {
 	int	i;
+	int	signaled;
 
 	i = -1;
+	signaled = 0;
 	while (++i < pidindx)
+	{
 		waitpid(pids[i], status, 0);
+		if (ft_wifsignaled(*status) && (*status & 0x7f) != SIGPIPE && \
+				i < pidindx - 1)
+			signaled = 1;
+	}
+	if (signaled && *status == 0)
+		*status = 42;
 }
 
 /* Wrapper for executing buitlin in a pipe using our generic function. */
