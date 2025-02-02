@@ -6,57 +6,40 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 19:12:39 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/02/02 09:53:32 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/02/02 10:58:45 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// TODO: comment!!!!
-
-// Your question was cut off, but I assume you're asking about how HEREDOC is
-// implemented in shells. Let me explain the key mechanisms:
-//
-//     1. Parsing phase :
-//     - Shell identifies the HEREDOC delimiter(e.g., 'EOL')
-//     - Everything between the opening `<<` and the terminating delimiter is
-//     stored as a string
-//     - Newlines are preserved exactly as written
-//
-//     2. Variable expansion rules :
-//
-//		   ```bash
-//		   # Without quotes - variables expand
-//			   cat << EOL
-//			   $USER
-//			   EOL
-//
-//		   # With quotes - variables treated literally
-//				   cat << 'EOL'
-//				   $USER
-//				   EOL
-//		   ```
-//
-//     3. Implementation details :
-//     - Shell creates a temporary file or memory buffer
-//     - Content between delimiters is written to this buffer
-//     - When execution reaches the HEREDOC, this buffer is fed to
-//     the command's stdin
-//     - Buffer is cleaned up after command completes
-//
-//     4. Key implementation checks :
-//     - Delimiter must be first thing on its terminating line
-//     - No extra spaces / tabs allowed by default(unless tab suppression is
-//      used)
-//     - Nested HEREDOCs are tracked with a stack
-//
-
+/**
+ * The one only global var.
+ *
+ * Why do we need it? When Ctrl-C is pressed and SIGINT is send to our shell,
+ * the heredoc prompt should stop, "^C" should be printed and the normal shell
+ * prompt should re-appear. So we need to transfer some information to the
+ * heredoc reading function to stop processing the heredocs and cleanup. This
+ * could not be done without establishing a connection between the
+ * signal-handling function and the heredoc-func.
+ * For our normal minishell signal handling we do not need this because, we can
+ * handle all this via the readline variables and functions dirtily manipulating
+ * the global readline state.
+ */
 extern int	g_signal;
 
+/* Functions only used in this file. */
 static int	do_the_heredoc(t_cmdlst	*cl, t_ministruct *mini);
 t_htmpfile	*create_heredoc_tmpfile(void);
 void		substitute_envvars(char **prompt_input, t_envlst *el);
 
+/**
+ * Main herdoc wrapper function.
+ *
+ * Scans through the whole cmdlst and processes heredocs for each heredoc we
+ * find. By this automatically the linear behavior of bash is being reproduced.
+ * For the heredoc phase the signal handling is changed to mimic bash's
+ * behavior.
+ */
 int	heredoc(t_cmdlst *cl, t_ministruct *mini)
 {
 	int	status;
@@ -75,6 +58,9 @@ int	heredoc(t_cmdlst *cl, t_ministruct *mini)
 	return (status);
 }
 
+/* Replace the infile in the redirlst of the current cmd (which should be set to
+ * the name of the current heredoc delim) by the tmpfile we use for buffering
+ * heredoc input. */
 static void	set_redirlst_infile_to_tmpfile(t_cmdlst *cl,
 		t_htmpfile *tmpfile, char *dlim)
 {
@@ -94,11 +80,14 @@ static void	set_redirlst_infile_to_tmpfile(t_cmdlst *cl,
 	}
 }
 
+/* Handle the end of one heredoc read. Also responsible for generating the
+ * correct return value for the do_the_heredoc func depending on the termination
+ * of this heredoc session. See comment there for retval explanation. */
 static int	cleanup_and_reset_sig(t_htmpfile *tmpfile, char	*input,
 		t_herdlst **hl)
 {
 	int	retval;
-	
+
 	retval = 0;
 	close(tmpfile->fd);
 	free(tmpfile->filename);
@@ -122,6 +111,8 @@ static int	cleanup_and_reset_sig(t_htmpfile *tmpfile, char	*input,
 	return (retval);
 }
 
+/* Process the heredoc prompt and redisplay. If the heredoc delim wasn't quoted
+ * substitute possible envvars in the heredoc input. */
 static void	process_heredoc_prompt(char **input, t_htmpfile *tmpfile,
 		t_ministruct *mini, t_toktype hdoctype)
 {
@@ -132,11 +123,21 @@ static void	process_heredoc_prompt(char **input, t_htmpfile *tmpfile,
 	read_prompt(input, "> ", *mini);
 }
 
-// TODO: if heredoc is being terminated by Ctrl-C there should be nothing
-// written anywhere AND the rest of a pipe should not be executed!
-// F.ex. in `echo 1>&2 miep | echo 1>&2 moep | cat << bla` if i cancel the
-// heredoc, nothing is printed at all -> so i need a way to signal to
-// evaluate_cmdline that heredoc was canceled by ctrl-c
+/**
+ * Heart of the heredoc.
+ *
+ * Process the heredoc list for one command (yes, one command might have several
+ * heredocs). First for each heredoc-delimiter there is tmpfile created, then
+ * this tmpfile is added to the cmdlist entry we are currently processing the
+ * heredoc of as infile (stdin redirect). The heredoc prompt is then ft_dprinted
+ * line by line to the tmpfile, iff we did not receive a signal (ctrl-c was
+ * pressed) or the prompt was ended by entering the delim or pressing ctrl-d.
+ *
+ * Return Values:
+ * 	0)	Normal operation. Prompt finished by delim.
+ * 	1)	Termination by Ctrl-D.
+ * 	2)	Termination by Ctrl-C -> quit cmdlst processing.
+ */
 static int	do_the_heredoc(t_cmdlst	*cl, t_ministruct *mini)
 {
 	char		*input;
@@ -157,10 +158,9 @@ static int	do_the_heredoc(t_cmdlst	*cl, t_ministruct *mini)
 		if (input == NULL)
 			return (cleanup_and_reset_sig(tmpfile, input, &hl));
 		else if (g_signal)
-			return(cleanup_and_reset_sig(tmpfile, input, &hl));
+			return (cleanup_and_reset_sig(tmpfile, input, &hl));
 		else
 			cleanup_and_reset_sig(tmpfile, input, &hl);
 	}
 	return (0);
 }
-
