@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/08 15:39:14 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/22 11:31:08 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/02/02 14:34:51 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 static int	exec_single_cmd(t_cmdlst *cmdl, char **env);
 
+/* Exec a single not pipelined command. */
 int	exec_single(t_cmdlst *cmdl, char **env, t_envlst **el)
 {
 	int	exit_status;
@@ -26,14 +27,17 @@ int	exec_single(t_cmdlst *cmdl, char **env, t_envlst **el)
 	return (exit_status);
 }
 
-/* Exec a single not pipelined cmd with redirs. */
+/** 
+ * Exec a single not pipelined non-builtin cmd with redirs. 
+ * 
+ * Pause our signal handling forj
+ */
 int	exec_single_cmd(t_cmdlst *cl, char **env)
 {
 	int		cpid;
 	int		status;
 	int		err_exec_path;
 
-	signal(SIGINT, SIG_IGN);
 	cpid = fork();
 	if (cpid < 0)
 		return (minish_errormsg("exec_single_redir_cmd", \
@@ -51,6 +55,5 @@ int	exec_single_cmd(t_cmdlst *cl, char **env)
 		exit(0);
 	}
 	waitpid(cpid, &status, 0);
-	signal(SIGINT, sigint_handler);
 	return (status);
 }
