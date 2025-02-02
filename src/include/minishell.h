@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:44:43 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/02/02 16:03:14 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/02/02 20:10:27 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -268,8 +268,8 @@ typedef struct s_htmpfile
 
 /*********** Signal and terminal setup. ***********/
 
-void		sigint_handler(int signum);
-void		signal_setup(void (*sig_handler)(int));
+void		minish_sighandler(int signum);
+int			signal_setup(void (*sig_handler)(int));
 void		term_setup(struct termios *old_settings);
 int			ft_wifsignaled(int status);
 int			ft_wexitstatus(int status);

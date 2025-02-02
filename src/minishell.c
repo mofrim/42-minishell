@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:46:50 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/02/02 16:06:50 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/02/02 20:16:14 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	main(int ac, char **av, char **envp)
 
 	exit_flag = 0;
 	mini = init_shell(&old_settings, envp, ac, av);
-	while (1)
+	while (mini)
 	{
 		if (!exit_flag)
 			read_prompt(&input, PROMPT);
@@ -43,7 +43,7 @@ int	main(int ac, char **av, char **envp)
 		}
 		free(input);
 	}
-	return (0);
+	return (1);
 }
 
 static t_ministruct	*init_shell(t_termios *old_settings, char **envp, int ac,
@@ -62,7 +62,8 @@ static t_ministruct	*init_shell(t_termios *old_settings, char **envp, int ac,
 	mini->term = old_settings;
 	if (mini->stdin_istty)
 	{
-		signal_setup(sigint_handler);
+		if (signal_setup(minish_sighandler) == -1)
+			return (free(mini), NULL);
 		term_setup(old_settings);
 	}
 	else
