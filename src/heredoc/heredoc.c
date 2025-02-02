@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 19:12:39 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/31 12:18:47 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/02/02 09:53:32 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,8 @@ int	heredoc(t_cmdlst *cl, t_ministruct *mini)
 	{
 		if (cl->heredocs)
 			status = do_the_heredoc(cl, mini);
+		if (status == 2)
+			break ;
 		cl = cl->next;
 	}
 	signal(SIGINT, sigint_handler);
@@ -92,27 +94,32 @@ static void	set_redirlst_infile_to_tmpfile(t_cmdlst *cl,
 	}
 }
 
-static void	cleanup_and_reset_sig(t_htmpfile *tmpfile, char	*input,
+static int	cleanup_and_reset_sig(t_htmpfile *tmpfile, char	*input,
 		t_herdlst **hl)
 {
+	int	retval;
+	
+	retval = 0;
+	close(tmpfile->fd);
+	free(tmpfile->filename);
+	free(tmpfile);
 	if (input == NULL)
 	{
 		ft_dprintf(STDERR_FILENO,
 			"minish: heredoc: terminated by EOF, not by %s\n", (*hl)->name);
-		close(tmpfile->fd);
-		free(tmpfile->filename);
-		free(tmpfile);
+		retval = 1;
 	}
 	else
 	{
-		close(tmpfile->fd);
 		free(input);
-		free(tmpfile->filename);
-		free(tmpfile);
 		*hl = (*hl)->next;
 	}
 	if (g_signal)
+	{
 		g_signal = 0;
+		retval = 2;
+	}
+	return (retval);
 }
 
 static void	process_heredoc_prompt(char **input, t_htmpfile *tmpfile,
@@ -125,6 +132,11 @@ static void	process_heredoc_prompt(char **input, t_htmpfile *tmpfile,
 	read_prompt(input, "> ", *mini);
 }
 
+// TODO: if heredoc is being terminated by Ctrl-C there should be nothing
+// written anywhere AND the rest of a pipe should not be executed!
+// F.ex. in `echo 1>&2 miep | echo 1>&2 moep | cat << bla` if i cancel the
+// heredoc, nothing is printed at all -> so i need a way to signal to
+// evaluate_cmdline that heredoc was canceled by ctrl-c
 static int	do_the_heredoc(t_cmdlst	*cl, t_ministruct *mini)
 {
 	char		*input;
@@ -143,9 +155,12 @@ static int	do_the_heredoc(t_cmdlst	*cl, t_ministruct *mini)
 		while (input != NULL && ft_strcmp(hl->name, input) && !g_signal)
 			process_heredoc_prompt(&input, tmpfile, mini, hl->type);
 		if (input == NULL)
-			return (cleanup_and_reset_sig(tmpfile, input, &hl), 1);
+			return (cleanup_and_reset_sig(tmpfile, input, &hl));
+		else if (g_signal)
+			return(cleanup_and_reset_sig(tmpfile, input, &hl));
 		else
 			cleanup_and_reset_sig(tmpfile, input, &hl);
 	}
 	return (0);
 }
+
