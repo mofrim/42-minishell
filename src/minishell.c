@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:46:50 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/02/02 13:11:28 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/02/02 16:06:50 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,8 @@
 
 void				set_exit_status_envvar(char *status_str, t_envlst **el);
 static int			evaluate_cmdline(t_ministruct *mini);
-static void			cleanup_and_exit(t_termios *old_settings, t_envlst **el,
-						t_toklst **tl);
-static t_ministruct	*init_shell(t_termios	*old_settings, char **envp, int ac,
+static void			cleanup_and_exit(t_ministruct *mini);
+static t_ministruct	*init_shell(t_termios *old_settings, char **envp, int ac,
 						char **av);
 
 int	main(int ac, char **av, char **envp)
@@ -31,12 +30,13 @@ int	main(int ac, char **av, char **envp)
 	while (1)
 	{
 		if (!exit_flag)
-			read_prompt(&input, PROMPT, *mini);
+			read_prompt(&input, PROMPT);
 		if (!input || exit_flag)
-			cleanup_and_exit(&old_settings, &mini->el, &mini->tl);
+			cleanup_and_exit(mini);
 		if (*input != 0)
 		{
-			add_history(input);
+			if (mini->stdin_istty)
+				add_history(input);
 			mini->tl = tokenize(input, &mini->el);
 			if (mini->tl)
 				exit_flag = evaluate_cmdline(mini);
@@ -46,7 +46,7 @@ int	main(int ac, char **av, char **envp)
 	return (0);
 }
 
-static t_ministruct	*init_shell(t_termios	*old_settings, char **envp, int ac,
+static t_ministruct	*init_shell(t_termios *old_settings, char **envp, int ac,
 		char **av)
 {
 	t_ministruct	*mini;
@@ -58,11 +58,9 @@ static t_ministruct	*init_shell(t_termios	*old_settings, char **envp, int ac,
 	mini->tl = NULL;
 	mini->ac = ac;
 	mini->av = av;
-	if (ac == 2 && !ft_strcmp(av[1], "-s"))
-		mini->script_mode = 1;
-	else
-		mini->script_mode = 0;
-	if (isatty(STDIN_FILENO))
+	mini->stdin_istty = isatty(STDIN_FILENO);
+	mini->term = old_settings;
+	if (mini->stdin_istty)
 	{
 		signal_setup(sigint_handler);
 		term_setup(old_settings);
@@ -101,19 +99,20 @@ static int	evaluate_cmdline(t_ministruct *mini)
 	return (exit_flag);
 }
 
-static void	cleanup_and_exit(t_termios *old_settings, t_envlst **el, \
-		t_toklst **tl)
+static void	cleanup_and_exit(t_ministruct *mini)
 {
 	int	status;
 
-	status = ft_atoi(get_env_entry_by_name("?", *el)->value);
-	if (isatty(STDIN_FILENO))
+	status = ft_atoi(get_env_entry_by_name("?", mini->el)->value);
+	if (mini->stdin_istty)
 		ft_printf("exit\n");
-	tcsetattr(STDIN_FILENO, TCSANOW, old_settings);
+	if (mini->stdin_istty)
+		tcsetattr(STDIN_FILENO, TCSANOW, mini->term);
 	rl_clear_history();
-	envlst_clear(el);
-	if (*tl)
-		toklst_clear(tl);
+	envlst_clear(&mini->el);
+	if (mini->tl)
+		toklst_clear(&mini->tl);
+	free(mini);
 	exit(status);
 }
 
@@ -122,17 +121,16 @@ static void	cleanup_and_exit(t_termios *old_settings, t_envlst **el, \
  * Read the prompt.
  *
  * If stdout and stdin are normal tty devices, then show our fancy prompt and
- * use readline to read user input. If stdin isn't a tty or the `-s` command
- * line param was given to minshell, then show no prompt and just read stuff
- * using gnl. 3rd variant - the `./minishell | ./minishell` situation we print
- * hackily the prompt to stderr as this is not redirected to the pipe, and
- * handle input over gnl manually.
+ * use readline to read user input. If stdin isn't a tty show no prompt and just
+ * read stuff using gnl. 3rd variant - the `./minishell | ./minishell` situation
+ * we print hackily the prompt to stderr as this is not redirected to the pipe,
+ * and handle input over gnl manually =;)
  * */
-void	read_prompt(char **input, char *prompt, t_ministruct mini)
+void	read_prompt(char **input, char *prompt)
 {
 	char	*line;
 
-	if (mini.script_mode || !isatty(STDIN_FILENO))
+	if (!isatty(STDIN_FILENO))
 	{
 		line = get_next_line(STDIN_FILENO);
 		*input = ft_strtrim(line, "\n");

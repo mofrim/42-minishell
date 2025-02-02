@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:44:43 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/31 12:07:47 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/02/02 16:03:14 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -246,6 +246,7 @@ typedef struct s_ministruct
 	int			ac;
 	char		**av;
 	int			script_mode;
+	int			stdin_istty;
 }	t_ministruct;
 
 /*********** Exec bltin_pipe struct. ***********/
@@ -286,7 +287,7 @@ int			minish_errormsg2(char *prefix, char *arg, char *msg, int error);
 int			ft_isnum(char c);
 int			get_posint_numstr(char *s);
 int			splitsize(char **s);
-void		read_prompt(char **input, char *prompt, t_ministruct mini);
+void		read_prompt(char **input, char *prompt);
 
 /*********** Tokenization. ***********/
 
