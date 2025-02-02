@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 19:12:39 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/02/02 10:58:45 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/02/02 16:04:06 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ static void	process_heredoc_prompt(char **input, t_htmpfile *tmpfile,
 		substitute_envvars(input, mini->el);
 	ft_dprintf(tmpfile->fd, "%s\n", *input);
 	free(*input);
-	read_prompt(input, "> ", *mini);
+	read_prompt(input, "> ");
 }
 
 /**
@@ -152,7 +152,7 @@ static int	do_the_heredoc(t_cmdlst	*cl, t_ministruct *mini)
 			return (minish_errormsg("heredoc", \
 						"heredoc tmpfile creation failed", -1));
 		set_redirlst_infile_to_tmpfile(cl, tmpfile, hl->name);
-		read_prompt(&input, "> ", *mini);
+		read_prompt(&input, "> ");
 		while (input != NULL && ft_strcmp(hl->name, input) && !g_signal)
 			process_heredoc_prompt(&input, tmpfile, mini, hl->type);
 		if (input == NULL)
