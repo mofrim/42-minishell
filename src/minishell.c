@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:46:50 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/31 11:19:55 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/02/02 09:57:02 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,18 +80,20 @@ static int	evaluate_cmdline(t_ministruct *mini)
 	int			exit_flag;
 
 	cl = parse_tokenlist(&mini->tl);
-	heredoc(cl, mini);
-	status_int = exec_cmd(cl, &mini->el);
-	if (status_int == 126 || status_int == 127)
-		status_str = ft_itoa(status_int);
-	else if (ft_wifsignaled(status_int))
+	if (heredoc(cl, mini) != 2)
 	{
-		status_str = ft_itoa(status_int + 128);
-		ft_putchar_fd('\n', STDOUT_FILENO);
+		status_int = exec_cmd(cl, &mini->el);
+		if (status_int == 126 || status_int == 127)
+			status_str = ft_itoa(status_int);
+		else if (ft_wifsignaled(status_int))
+		{
+			status_str = ft_itoa(status_int + 128);
+			ft_putchar_fd('\n', STDOUT_FILENO);
+		}
+		else
+			status_str = ft_itoa(ft_wexitstatus(status_int));
+		set_exit_status_envvar(status_str, &mini->el);
 	}
-	else
-		status_str = ft_itoa(ft_wexitstatus(status_int));
-	set_exit_status_envvar(status_str, &mini->el);
 	heredoc_cleanup(cl);
 	exit_flag = cl->exit_flag;
 	cmdlst_clear(&cl);

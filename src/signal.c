@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 23:24:37 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/14 10:34:44 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/02/01 14:19:15 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,11 @@
 
 int	g_signal;
 
-// FIXME... this is not correct so far. when i run minishell inside of minishell
-// prompt is displayed twice or even 4 times.
-//
-// NOTE Oh damn! i have got kill()! so i can just record all pid's for all child
-// processes and kill them if ctrl-c is hit! if ctrl-c is hit, the the g_sig
-// global variable will be set and in the wait()-loop in exec...() g_sig might
-// be tested. if set: kill all children.
+/**
+ * Main signal handler.
+ *
+ * Description.
+ */
 void	sigint_handler(int signum)
 {
 	(void)signum;
@@ -73,10 +71,3 @@ int	ft_wexitstatus(int status)
 {
 	return ((status & 0xff00) >> 8);
 }
-
-//// Some ideas for signal handling from slack..
-//
-// rl_done = 1;
-// if (ioctl(STDIN_FILENO, TIOCSTI, "\n") == -1)
-//        perror("ioctl failed");
-// close(STDIN_FILENO);
