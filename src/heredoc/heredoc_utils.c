@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 20:54:46 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/22 13:00:27 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/02/03 10:52:32 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,8 @@ void	substitute_envvars(char **prompt_input, t_envlst *el)
 	while (varsym && varsym[1])
 	{
 		i = 1;
-		while (is_valid_varname_char(varsym[i]) && !is_special_varchar(varsym[i]))
+		while (is_valid_varname_char(varsym[i]) && \
+				!is_special_varchar(varsym[i]))
 			i++;
 		if (is_special_varchar(varsym[1]))
 			i = 2;
