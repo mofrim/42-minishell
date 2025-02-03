@@ -6,7 +6,7 @@
 #    By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/02 00:03:28 by fmaurer           #+#    #+#              #
-#    Updated: 2025/02/03 12:54:58 by fmaurer          ###   ########.fr        #
+#    Updated: 2025/02/03 13:02:47 by fmaurer          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -198,7 +198,7 @@ rlclean: fclean
 
 # get the submodules
 .setup:
-	@echo "$(call log_msg,Setting things up, i.e. cloning submodules... )"
+	@echo "$(call log_msg,Setting things up i.e. cloning submodules... )"
 	@touch .setup
 	git submodule update --init --recursive
 setup: .setup
