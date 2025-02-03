@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 18:08:27 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/20 19:42:30 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/02/03 10:54:37 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,10 @@
  * Del one envlst member from envlst el.
  *
  * Returns 0 if "name" could be removed from envlst, -1 otherwise.
- *
  */
 int	envlst_delone_by_name(char *name, t_envlst **el)
 {
-	t_envlst *delme;
+	t_envlst	*delme;
 
 	delme = get_env_entry_by_name(name, *el);
 	if (delme == NULL)

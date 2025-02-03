@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 15:45:11 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/28 14:47:20 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/02/03 10:55:30 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@
  * new value to it.
  * If the env var did not exist create it with name, value.
  */
-void set_env_entry(char *name, char *value, t_envlst **el)
+void	set_env_entry(char *name, char *value, t_envlst **el)
 {
-	t_envlst *entry;
+	t_envlst	*entry;
 
 	entry = get_env_entry_by_name(name, *el);
 	if (entry)
