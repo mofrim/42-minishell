@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 23:45:32 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/31 11:20:46 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/02/03 12:17:36 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,8 @@ void	init_shell_vars(t_envlst **el)
 		set_env_entry("PATH", "/no-such-path", el);
 	set_env_entry("OLDPWD", NULL, el);
 	pwd = ft_calloc(1024, sizeof(char));
-	getcwd(pwd, 500);
+	if (getcwd(pwd, 500) == NULL)
+		set_env_entry("PWD", NULL, el);
 	set_env_entry("PWD", pwd, el);
 	free(pwd);
 }
