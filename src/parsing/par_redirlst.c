@@ -76,19 +76,6 @@ void	redirlst_clear(t_redirlst **lst)
 	*lst = NULL;
 }
 
-void	redirlst_print(t_redirlst *lst)
-{
-	while (lst)
-	{
-		ft_printf("{type: %d, ", lst->redtype);
-		ft_printf("fd_in: %d, ", lst->fd_from);
-		ft_printf("fd_out: %d, ", lst->fd_to);
-		ft_printf("infile: %s, ", lst->infile);
-		ft_printf("outfile: %s}\n", lst->outfile);
-		lst = lst->next;
-	}
-}
-
 /* Initialize a variable of type t_redirlst to some good old default values. */
 void	init_redirlst_var(t_redirlst *var)
 {
