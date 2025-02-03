@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 08:47:18 by elpah             #+#    #+#             */
-/*   Updated: 2025/01/28 19:32:16 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/02/03 10:53:54 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	is_valid_varname_char(char c)
 {
 	if (ft_isalnum(c) || c == '_')
 		return (1);
-	if  (c == '?')
+	if (c == '?')
 		return (2);
 	return (0);
 }
