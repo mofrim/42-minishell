@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 15:24:38 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/31 11:42:28 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/02/03 07:59:43 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,9 @@ static void	lvl3_remove_obsolete_tokens(t_toklst **toklst);
  * After that if there is another TOK_CMD/BLTIN before the next pipe this is a
  * false classification. This token then needs to be and gets turned into
  * TOK_ARG.
+ * Also in lvl3_check_toklst stuff like `ls 1>2>3` is filtered out which wasn't
+ * possible in the last lvl's because we needed the full redir-tokenization for
+ * this to be recognized as an syntax error.
  * Return 1 if anything goes wrong, 0 otherwise.
  */
 int	tokenize_lvl3(t_toklst	**toklst)
@@ -36,7 +39,7 @@ int	tokenize_lvl3(t_toklst	**toklst)
 
 	if (!*toklst)
 		return (1);
-	if (!lvl3_check_toklst(*toklst))
+	if (lvl3_check_toklst(*toklst))
 		return (1);
 	tl = *toklst;
 	cmd_already = 0;
@@ -58,6 +61,11 @@ int	tokenize_lvl3(t_toklst	**toklst)
  * pipe-section. Also there might processed quoted strings that are only
  * TOK_WORD or TOK_QWORD so far, empty quotes or not found variables. This is
  * all fixed and organized in here.
+ * The 4th else-if case is for prompts like `1234` which would be tokenized as
+ * TOK_WORD until here.
+ * In the last else-if we end up with a TOK_QCMD which will get turned into
+ * TOK_CMD in split_tokens_with_whitespaces. This is just for avoiding removal
+ * in lvl3_remove_obsolete_tokens for prompts like `'' echo ok`.
  */
 static void	apply_lvl3_tokenization(t_token *cur, int *cmd_already)
 {
@@ -90,7 +98,7 @@ static void	apply_lvl3_tokenization(t_token *cur, int *cmd_already)
 
 /* Check toklst before lvl3
  *
- * return(0) cases:
+ * return(1) cases:
  * - f.ex. `ls 1>2>3`
  */
 int	lvl3_check_toklst(t_toklst *toklst)
@@ -104,21 +112,22 @@ int	lvl3_check_toklst(t_toklst *toklst)
 	while (toklst->next)
 	{
 		next = toklst->next->token;
-		if (!check_tok_lvl3(prev, cur, next))
-			return (0);
+		if (check_tok_lvl3(prev, cur, next))
+			return (1);
 		prev = cur;
 		cur = next;
 		toklst = toklst->next;
 	}
-	return (1);
+	return (0);
 }
 
+/* The real checking routine. Extracted this for possible future additions. */
 int	check_tok_lvl3(t_token *prev, t_token *cur, t_token *next)
 {
 	(void)prev;
 	if (cur->type == TOK_ROUT1 && next->type == TOK_ROUT_FDFROM)
 		return (print_tokerr(TOKERR_FDFROM, next->value));
-	return (1);
+	return (0);
 }
 
 /**
@@ -126,6 +135,8 @@ int	check_tok_lvl3(t_token *prev, t_token *cur, t_token *next)
  *
  * F.ex. if the only prompt-input was `$NOVAR` which does not exist, we would
  * end up with a TOK_CMD with empty string as its value. This should be removed.
+ * TOK_NULL removal might be obsolete here, but we'll just keep it so close to
+ * eval ;)
  */
 static void	lvl3_remove_obsolete_tokens(t_toklst **toklst)
 {
