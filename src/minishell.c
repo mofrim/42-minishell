@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:46:50 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/02/02 20:16:14 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/02/03 08:34:30 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,17 @@ static void			cleanup_and_exit(t_ministruct *mini);
 static t_ministruct	*init_shell(t_termios *old_settings, char **envp, int ac,
 						char **av);
 
+/**
+ * Minishell main.
+ *
+ * 1) Init the shell, setup some data structs like the env linked list inside
+ * the main control t_ministruct. Also signal setup & term setup is done.
+ * 2) If nothing went wrong (mini != NULL) loop over prompt reading and prompt
+ * evaluation.
+ *
+ * The exit_flag can be set by the exit builtin and ensures cleanup before
+ * exiting the shell.
+ */
 int	main(int ac, char **av, char **envp)
 {
 	t_termios		old_settings;
@@ -27,7 +38,7 @@ int	main(int ac, char **av, char **envp)
 
 	exit_flag = 0;
 	mini = init_shell(&old_settings, envp, ac, av);
-	while (mini)
+	while (mini != NULL)
 	{
 		if (!exit_flag)
 			read_prompt(&input, PROMPT);
@@ -46,6 +57,13 @@ int	main(int ac, char **av, char **envp)
 	return (1);
 }
 
+/**
+ * Initialize the Minishell.
+ *
+ * Returns the t_ministruct. Signal & term setup is also done in here. The only
+ * 2 ways this can fail (return NULL) is either if malloc fails or the signal
+ * setting in signal setups fails. Both very unlikekly.
+ */
 static t_ministruct	*init_shell(t_termios *old_settings, char **envp, int ac,
 		char **av)
 {
@@ -67,10 +85,24 @@ static t_ministruct	*init_shell(t_termios *old_settings, char **envp, int ac,
 		term_setup(old_settings);
 	}
 	else
-		signal(SIGINT, SIG_DFL);
+		if (signal(SIGINT, SIG_DFL) == SIG_ERR)
+			return (free(mini), NULL);
 	return (mini);
 }
 
+/**
+ * The main cmdline evalution routine.
+ *
+ * The outer heredoc logic is also implemented in here. Meaning: If heredoc is
+ * canceled with ctrl-c there will be no execution done.
+ * 
+ * The exit status is adjusted to correspond bash's. The most hacky part is
+ * where we get the status == 42 from exec_cmd. This is the case if some early
+ * pipe cmd failed due to signaling and we want an additional newline to be
+ * printed.
+ *
+ * Returns the value of exit_flag in order to set it in main.
+ */
 static int	evaluate_cmdline(t_ministruct *mini)
 {
 	t_cmdlst	*cl;
@@ -100,6 +132,7 @@ static int	evaluate_cmdline(t_ministruct *mini)
 	return (exit_flag);
 }
 
+/* Well, cleanup. */
 static void	cleanup_and_exit(t_ministruct *mini)
 {
 	int	status;

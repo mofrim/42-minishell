@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 17:26:43 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/29 14:01:37 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/02/03 08:04:19 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,12 @@
 static void	print_tokerr_part1(t_tokerr te, char *tok);
 static void	print_tokerr_part2(t_tokerr te, char *tok);
 
+/**
+ * Print error msg for a specific TOKERR.
+ *
+ * 2nd arg for specifying extra ouput with the errmsg.
+ * Return value always 1, like found 1 error.
+ */
 int	print_tokerr(t_tokerr te, char *tok)
 {
 	print_tokerr_part1(te, tok);

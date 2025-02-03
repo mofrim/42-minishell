@@ -6,7 +6,7 @@
 #    By: elpah <elpah@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/02 00:03:28 by fmaurer           #+#    #+#              #
-#    Updated: 2025/02/03 10:04:13 by fmaurer          ###   ########.fr        #
+#    Updated: 2025/02/03 10:15:52 by fmaurer          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,7 @@ SRCS =	minishell.c \
 				tok_utils.c \
 				tok_utils2.c \
 				tok_tokerr_int.c \
-				tok_split_words_white.c \
+				tok_split_tokens_white.c \
 				tok_lvl1_get_next_var_utils.c \
 				tok_lvl1_tokenize.c \
 				tok_lvl1_get_next_tok.c \
