@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 10:59:44 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/02/03 09:37:09 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/02/03 11:23:27 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,6 @@ t_cmdlst	*parse_tokenlist(t_toklst **toklst)
 		parse_rin(&tl, cur_cmd);
 		parse_heredoc(&tl, cur_cmd);
 	}
-
-#ifdef DEBUG
-	ft_printf(RED "<< DEBUG >> cmdlst:\n" RST);
-	print_cmdlst(cmd);
-#endif
-
 	return (cmd);
 }
 

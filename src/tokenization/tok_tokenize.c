@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 13:09:10 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/28 23:16:38 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/02/03 11:23:09 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,6 @@ t_toklst	*tokenize(char *input, t_envlst **el)
 	toklst = tokenize_lvl1(input, *el);
 	if (!toklst)
 		return (NULL);
-
-#ifdef DEBUG
-	ft_printf(RED "<< DEBUG >> toklst after lvl1:\n" RST);
-	print_toklst(toklst);
-#endif
-
 	retval = tokenize_lvl2(&toklst);
 	if (retval)
 	{
@@ -38,19 +32,7 @@ t_toklst	*tokenize(char *input, t_envlst **el)
 			set_env_entry("?", "0", el);
 		return (NULL);
 	}
-
-#ifdef DEBUG
-	ft_printf(RED "<< DEBUG >> toklst after lvl2:\n" RST);
-	print_toklst(toklst);
-#endif
-
 	if (tokenize_lvl3(&toklst))
 		return (NULL);
-
-#ifdef DEBUG
-	ft_printf(RED "<< DEBUG >> toklst after lvl3:\n" RST);
-	print_toklst(toklst);
-#endif
-
 	return (toklst);
 }
