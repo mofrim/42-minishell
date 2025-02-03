@@ -6,7 +6,7 @@
 #    By: elpah <elpah@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/02 00:03:28 by fmaurer           #+#    #+#              #
-#    Updated: 2025/02/03 10:15:52 by fmaurer          ###   ########.fr        #
+#    Updated: 2025/02/03 10:24:20 by fmaurer          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -196,7 +196,14 @@ fclean: clean
 	@echo -e "$(call log_msg,fcleaning minishell..)"
 	@rm -f $(NAME)
 
+rlclean: fclean
+	@echo -e "$(call log_msg,cleaning readline..)"
+	@make -s -C $(RL_PATH) clean
+
+setup:
+	git submodule update --init
+
 # re: fclean $(NAME)
 re: fclean all
 
-.PHONY: all clean fclean debug re
+.PHONY: all clean fclean debug re setup rlclean
