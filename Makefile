@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: elpah <elpah@student.42.fr>                +#+  +:+       +#+         #
+#    By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/02 00:03:28 by fmaurer           #+#    #+#              #
-#    Updated: 2025/02/03 10:50:28 by fmaurer          ###   ########.fr        #
+#    Updated: 2025/02/03 11:20:12 by fmaurer          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -106,11 +106,11 @@ OBJS_DBG = $(patsubst %.c,$(OBJDIR)/dbg-%.o,$(SRCS))
 RL_PATH = ./readline
 RL_LIBS = $(RL_PATH)/libreadline.a $(RL_PATH)/libhistory.a
 
-
 CC = clang
-# FIXME: change before submission
-# CFLAGS = -Wall -Werror -Wextra
-CFLAGS = -g -Wall -Werror -Wextra
+## with debugging
+# CFLAGS = -g -Wall -Werror -Wextra
+CFLAGS = -Wall -Werror -Wextra
+## hardcore debugging flags
 # DBG_FLAGS	=	-g -fsanitize=address -fno-omit-frame-pointer -DDEBUG
 DBG_FLAGS	=	-g -DDEBUG
 
@@ -127,7 +127,7 @@ HDRS = $(INC_DIR)/minishell.h $(INC_DIR)/colors.h
 
 ## Libs for prod:
 # LIBS += -lft -lreadline
-## temporary libs for dev:
+## Libs with submodule readline
 LIBS_DEV += -lft -lncurses
 
 GRN = \033[1;32m
@@ -137,13 +137,9 @@ EOC = \033[1;0m
 YLW = \033[1;33m
 MSGOPN = $(YLW)[[$(GRN)
 MSGEND = $(YLW)]]$(EOC)
-
 log_msg = $(MSGOPN) $(1) $(MSGEND)
 
 all: $(NAME)
-# all: debug
-# all:
-# 	echo $(SRCS)
 
 $(OBJDIR)/%.o: %.c $(HDRS)| $(OBJDIR)
 	@echo -e "$(call log_msg,Compiling $<...)"
@@ -153,7 +149,7 @@ $(OBJDIR)/dbg-%.o: %.c $(HDRS)| $(OBJDIR)
 	@echo -e "$(call log_msg,Compiling $<...)"
 	$(CC) $(INC) $(DBG_FLAGS) -DREADLINE_LIBRARY -c $< -o $@
 
-## This is the recipe for prod, without readline submodule
+## Recipe without readline submodule
 # $(NAME): $(OBJS) | $(LIBFT)
 # 	@echo -e "$(call log_msg,Compiling $(NAME)...)"
 # 	$(CC) $(CFLAGS) $(LIB_PATHS) $(INC) -o $@ $^ $(LIBS) -lreadline
@@ -167,13 +163,12 @@ $(LIBFT): $(LIBFT_SRCS)
 	@echo -e "$(call log_msg,Compiling libft...)"
 	make -C $(LIBFT_PATH) all
 
-# readline submodule
+# Readline submodule
 $(RL_LIBS):
 	@echo -e "$(call log_msg,Compiling readline...)"
 	cd ./readline && ./configure
 	make -C ./readline
 
-# FIXME
 # empty rule ?!?! i just want change detection for them in the end...
 $(HDRS):
 
@@ -201,10 +196,10 @@ rlclean: fclean
 	@echo -e "$(call log_msg,cleaning readline..)"
 	@make -s -C $(RL_PATH) clean
 
+# get the submodules
 setup:
 	git submodule update --init
 
-# re: fclean $(NAME)
 re: fclean all
 
 .PHONY: all clean fclean debug re setup rlclean
