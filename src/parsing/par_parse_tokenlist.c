@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 10:59:44 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/31 11:42:56 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/02/03 09:37:09 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ t_cmdlst	*parse_tokenlist(t_toklst **toklst)
 	t_cmdlst	*cur_cmd;
 	t_toklst	*tl;
 	int			maxargs;
-
 
 	if (!*toklst)
 		return (NULL);

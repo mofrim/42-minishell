@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bltin_cd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
+/*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/05 10:13:11 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/20 01:58:29 by elpah            ###   ########.fr       */
+/*   Created: 2025/02/03 10:09:09 by fmaurer           #+#    #+#             */
+/*   Updated: 2025/02/03 10:09:11 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ int	cd_home(t_envlst **el)
 	return (0);
 }
 
+/* Handle `cd -`. */
 int	cd_dash(t_envlst **el, int len)
 {
 	t_envlst	*ptr;
@@ -67,6 +68,8 @@ int	cd_dash(t_envlst **el, int len)
 	return (0);
 }
 
+/* The cd should have an effect in main process (that is: changing the curent
+ * dir ;). So we need to do this in preout, i.e. not inside child process. */
 int	bltin_cd_preout(t_cmdlst *cl, t_envlst **el)
 {
 	int		retval;
@@ -96,6 +99,7 @@ int	bltin_cd_preout(t_cmdlst *cl, t_envlst **el)
 	return (retval);
 }
 
+/* The output realted things happening in child process. */
 int	bltin_cd_out(t_cmdlst *cl, t_envlst **el)
 {
 	(void)el;

@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 10:13:58 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/19 20:38:20 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/02/03 10:11:19 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,37 +14,6 @@
 
 static long	get_long_numstr(char *s);
 static int	check_numstr_long(char *s);
-
-/* In Bash:
- *	- if called like `exit bla blub` effect will be:
- *
- *		frido 42/theCore/09-minishell
- *		λ exit asd ads
- *		exit
- *		bash: exit: asd: numeric argument required
- *
- *		~/c0de/42/theCore/09-minishell 56m 5s
- *
- *	  => so exit will work but there will still be an error msg.
- *	  return value: 2
- *
- *	- if called like `exit 123 asd` the effect will be:
- *
- *		frido 42/theCore/09-minishell 
- *		λ exit 123 asd
- *		exit
- *		bash: exit: too many arguments
- *
- *		frido 42/theCore/09-minishell 
- *		λ 
- *
- *	  => so there will only be the error msg. AND $? will be set to 1.
- *
- *	- exit number between LONG_MIN and LONG_MAX are accepted.
- *	  LONG_MAX == 9223372036854775807.
- *
- * all in all... pffffff..
- */
 
 /* Rules for exit:
  *
@@ -82,16 +51,17 @@ int	bltin_exit_out(t_cmdlst *cl, t_envlst **el)
 		return (minish_errormsg2("exit", cl->args[1],
 				"numeric argument required", 2));
 	if (cl->arg_count > 2)
-		return(minish_errormsg("exit", "too many arguments", 1));
-
+		return (minish_errormsg("exit", "too many arguments", 1));
 	return (0);
 }
 
-/* Check the numstr s before conversion to long value.
+/**
+ * Check the numstr s before conversion to long value.
  * Return values:
  * -1: not a valid long numstr
  *  0: positive long numstr
- *  1: negative long numstr*/
+ *  1: negative long numstr 
+ */
 static int	check_numstr_long(char *s)
 {
 	long	num;

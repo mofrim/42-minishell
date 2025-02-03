@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 12:52:18 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/28 23:07:04 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/02/03 10:13:49 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ static void	insert_splittoken_into_toklst(t_toklst *splitcmd_toklst,
 }
 
 /**
- * Split up WORD, CMD or BLTIN tokens which contain whitespaces.
+ * Split up VWORD, CMD or BLTIN tokens which contain whitespaces.
  *
  * Split up any TOK_CMD or TOK_BLTIN that contains whitespaces into
  * - first word becomes a TOK_BLTIN / TOK_CMD
@@ -86,9 +86,14 @@ static void	insert_splittoken_into_toklst(t_toklst *splitcmd_toklst,
  * Will modify the toklst pointer given as a parameter so that it points to the
  * new toklst if the head-pointer was split.
  *
- * This is also the way bash handles it. try with `export bla="ls --color >
- * blub"` you will see the redirection is not expanded but interpreted as an
- * arg. */
+ * This is also the way bash handles it. try with 
+ * 		`export bla="ls --color > blub"` 
+ * you will see the redirection is not expanded but interpreted as an arg.
+ *
+ * At the end of the main loop we do a step which is only needed if this
+ * function gets called in tok-lvl3: making any TOK_QCMD -> TOK_CMD. This
+ * actually should not be done in here.
+ */
 void	split_tokens_with_whitespaces(t_toklst **tlst)
 {
 	t_toklst	*tl;
