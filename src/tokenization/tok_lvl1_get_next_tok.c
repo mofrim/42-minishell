@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 11:55:17 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/18 22:56:24 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/02/03 10:58:29 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,11 @@ void	get_tok_white(t_token *tok, t_cmdline *cl, int *tok_found);
 void	get_tok_herdlim(t_token *tok, t_cmdline *cl, int *tok_found);
 void	get_tok_home(t_token *tok, t_cmdline *cl, int *tok_found);
 
-/* The order in this function is extremly relevant! */
+/**
+ * Get tokens if we are unquoted.
+ *
+ * The order in this function is extremly relevant!
+ */
 static void	get_tok_unquoted(t_token *tok, t_cmdline *cl, int *tok_found)
 {
 	get_tok_white(tok, cl, tok_found);
@@ -57,6 +61,11 @@ static void	get_tok_unquoted(t_token *tok, t_cmdline *cl, int *tok_found)
 	get_tok_word(tok, cl, tok_found);
 }
 
+/**
+ * Get tokens if we are quoted.
+ *
+ * The order in this function is extremly relevant!
+ */
 static void	get_tok_quoted(t_token *tok, t_cmdline *cl, int *tok_found)
 {
 	get_tok_quot(tok, cl, tok_found);

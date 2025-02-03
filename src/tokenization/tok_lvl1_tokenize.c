@@ -6,14 +6,23 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 08:32:18 by fmaurer           #+#    #+#             */
-/*   Updated: 2024/12/05 17:22:27 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/02/03 11:05:13 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/* Tokenization Level 1. No error checking here. Only as little as possible
- * grammar applied (mostly quotation related).
+/**
+ * Tokenization Level 1.
+ *
+ * Almost no syntactical error checking here. Only as little as possible grammar
+ * applied. Most work is done inside the get_next_token func. Envvars are
+ * already resolved in here for further processing their content in
+ * `get_tok_var_value`. Also most possible redir tokens are classified.
+ *
+ * The only way this level can return error, is when malloc fails somewhere bc
+ * if the cmdline was empty in the beginning we would not have entered
+ * tokenization at all.
  */
 t_toklst	*tokenize_lvl1(char *input, t_envlst *env)
 {

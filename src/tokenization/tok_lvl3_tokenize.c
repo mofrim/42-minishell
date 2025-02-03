@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 15:24:38 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/02/03 07:59:43 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/02/03 11:08:54 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static int	check_tok_lvl3(t_token *prev, t_token *cur, t_token *next);
 static void	apply_lvl3_tokenization(t_token *cur, int *cmd_already);
 static void	lvl3_remove_obsolete_tokens(t_toklst **toklst);
 
-/*
+/**
  * Do the lvl3 tokenization.
  *
  * So far in lvl3 we have to fix some false tokenizations from lvl2 & correctly
