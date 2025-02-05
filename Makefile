@@ -6,7 +6,7 @@
 #    By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/02 00:03:28 by fmaurer           #+#    #+#              #
-#    Updated: 2025/02/05 08:16:30 by fmaurer          ###   ########.fr        #
+#    Updated: 2025/02/05 08:36:34 by fmaurer          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -141,20 +141,15 @@ log_msg = $(MSGOPN) $(1) $(MSGEND)
 
 all: setup $(NAME)
 
-$(OBJDIR)/%.o: %.c $(HDRS)| $(OBJDIR)
+$(OBJDIR)/%.o: %.c $(HDRS) $(LIBFT) $(RL_LIBS) | $(OBJDIR)
 	@echo -e "$(call log_msg,Compiling $<...)"
 	$(CC) $(CFLAGS) $(INC) -DREADLINE_LIBRARY -c $< -o $@
 
-$(OBJDIR)/dbg-%.o: %.c $(HDRS)| $(OBJDIR)
+$(OBJDIR)/dbg-%.o: %.c $(HDRS) $(LIBFT) $(RL_LIBS) | $(OBJDIR)
 	@echo -e "$(call log_msg,Compiling $<...)"
 	$(CC) $(INC) $(DBG_FLAGS) -DREADLINE_LIBRARY -c $< -o $@
 
-## Recipe without readline submodule
-# $(NAME): $(OBJS) | $(LIBFT)
-# 	@echo -e  "$(call log_msg,Compiling $(NAME)...)"
-# 	$(CC) $(CFLAGS) $(LIB_PATHS) $(INC) -o $@ $^ $(LIBS) -lreadline
-
-$(NAME): $(OBJS) $(LIBFT) | $(RL_LIBS)
+$(NAME): $(OBJS) $(LIBFT) $(RL_LIBS)
 	@echo -e "$(call log_msg,Compiling $(NAME)...)"
 	$(CC) $(CFLAGS) -DREADLINE_LIBRARY $(LIB_PATHS) $(INC) -o $@ $^ $(LIBS_DEV) \
 		$(RL_LIBS)
@@ -172,6 +167,7 @@ $(RL_LIBS):
 # empty rule ?!?! i just want change detection for them in the end...
 $(HDRS):
 
+# debug useless on this branch
 debug: $(OBJS_DBG) | $(LIBFT) $(RL_LIBS)
 	@echo -e "$(call log_msg,Compiling debug...)"
 	$(CC) $(DBG_FLAGS) -DREADLINE_LIBRARY $(LIB_PATHS) $(INC) -o \
