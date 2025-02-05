@@ -6,7 +6,7 @@
 #    By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/02 00:03:28 by fmaurer           #+#    #+#              #
-#    Updated: 2025/02/03 13:02:47 by fmaurer          ###   ########.fr        #
+#    Updated: 2025/02/05 08:16:30 by fmaurer          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -142,30 +142,30 @@ log_msg = $(MSGOPN) $(1) $(MSGEND)
 all: setup $(NAME)
 
 $(OBJDIR)/%.o: %.c $(HDRS)| $(OBJDIR)
-	@echo "$(call log_msg,Compiling $<...)"
+	@echo -e "$(call log_msg,Compiling $<...)"
 	$(CC) $(CFLAGS) $(INC) -DREADLINE_LIBRARY -c $< -o $@
 
 $(OBJDIR)/dbg-%.o: %.c $(HDRS)| $(OBJDIR)
-	@echo "$(call log_msg,Compiling $<...)"
+	@echo -e "$(call log_msg,Compiling $<...)"
 	$(CC) $(INC) $(DBG_FLAGS) -DREADLINE_LIBRARY -c $< -o $@
 
 ## Recipe without readline submodule
 # $(NAME): $(OBJS) | $(LIBFT)
-# 	@echo  "$(call log_msg,Compiling $(NAME)...)"
+# 	@echo -e  "$(call log_msg,Compiling $(NAME)...)"
 # 	$(CC) $(CFLAGS) $(LIB_PATHS) $(INC) -o $@ $^ $(LIBS) -lreadline
 
 $(NAME): $(OBJS) $(LIBFT) | $(RL_LIBS)
-	@echo "$(call log_msg,Compiling $(NAME)...)"
+	@echo -e "$(call log_msg,Compiling $(NAME)...)"
 	$(CC) $(CFLAGS) -DREADLINE_LIBRARY $(LIB_PATHS) $(INC) -o $@ $^ $(LIBS_DEV) \
 		$(RL_LIBS)
 
 $(LIBFT): $(LIBFT_SRCS)
-	@echo "$(call log_msg,Compiling libft...)"
+	@echo -e "$(call log_msg,Compiling libft...)"
 	make -C $(LIBFT_PATH) all
 
 # Readline submodule
 $(RL_LIBS):
-	@echo "$(call log_msg,Compiling readline...)"
+	@echo -e "$(call log_msg,Compiling readline...)"
 	cd ./readline && ./configure
 	make -C ./readline
 
@@ -173,7 +173,7 @@ $(RL_LIBS):
 $(HDRS):
 
 debug: $(OBJS_DBG) | $(LIBFT) $(RL_LIBS)
-	@echo "$(call log_msg,Compiling debug...)"
+	@echo -e "$(call log_msg,Compiling debug...)"
 	$(CC) $(DBG_FLAGS) -DREADLINE_LIBRARY $(LIB_PATHS) $(INC) -o \
 		$(NAME) $^ $(LIBS_DEV) $(RL_LIBS)
 
@@ -181,24 +181,24 @@ $(OBJDIR):
 	mkdir -p obj
 
 clean:
-	@echo "$(call log_msg,Removing libft objs.)"
+	@echo -e "$(call log_msg,Removing libft objs.)"
 	@make -s -C $(LIBFT_PATH) clean
-	@echo "$(call log_msg,Removing minishell objs.)"
+	@echo -e "$(call log_msg,Removing minishell objs.)"
 	@rm -rf $(OBJDIR)
 
 fclean: clean
-	@echo "$(call log_msg,fcleaning libft..)"
+	@echo -e "$(call log_msg,fcleaning libft..)"
 	@make -s -C $(LIBFT_PATH) fclean
-	@echo "$(call log_msg,fcleaning minishell..)"
+	@echo -e "$(call log_msg,fcleaning minishell..)"
 	@rm -f $(NAME)
 
 rlclean: fclean
-	@echo "$(call log_msg,cleaning readline..)"
+	@echo -e "$(call log_msg,cleaning readline..)"
 	@make -s -C $(RL_PATH) clean
 
 # get the submodules
 .setup:
-	@echo "$(call log_msg,Setting things up i.e. cloning submodules... )"
+	@echo -e "$(call log_msg,Setting things up i.e. cloning submodules... )"
 	@touch .setup
 	git submodule update --init --recursive
 setup: .setup
