@@ -6,7 +6,7 @@
 #    By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/02 00:03:28 by fmaurer           #+#    #+#              #
-#    Updated: 2025/02/05 08:36:34 by fmaurer          ###   ########.fr        #
+#    Updated: 2025/11/30 20:10:18 by fmaurer          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -185,6 +185,14 @@ clean:
 fclean: clean
 	@echo -e "$(call log_msg,fcleaning libft..)"
 	@make -s -C $(LIBFT_PATH) fclean
+	@echo -e "$(call log_msg,fcleaning minishell..)"
+	@rm -f $(NAME)
+
+ffclean: clean
+	@echo -e "$(call log_msg,fcleaning libft..)"
+	@make -s -C $(LIBFT_PATH) fclean
+	@echo -e "$(call log_msg,cleaning readline..)"
+	@make -s -C $(RL_PATH) clean
 	@echo -e "$(call log_msg,fcleaning minishell..)"
 	@rm -f $(NAME)
 

@@ -6,7 +6,7 @@
 /*   By: elpah <elpah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 20:44:43 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/02/02 20:10:27 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/11/30 19:44:13 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -280,7 +280,6 @@ void		init_shell_vars(t_envlst **el);
 
 void		nullcheck(void *p, char *msg);
 void		error_exit(char *msg);
-int			ft_isspace(char c);
 void		free_ptr2ptr(char ***ptr);
 int			minish_errormsg(char *prefix, char *msg, int error);
 int			minish_errormsg2(char *prefix, char *arg, char *msg, int error);

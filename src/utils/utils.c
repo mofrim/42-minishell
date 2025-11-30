@@ -6,18 +6,11 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 13:10:05 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/06 17:26:51 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/11/30 19:44:10 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	ft_isspace(char c)
-{
-	if (c == ' ' || c == '\n' || c == '\t' || c == '\v' || c == '\f')
-		return (1);
-	return (0);
-}
 
 /* Free a NULL terminated (char **) array. */
 void	free_ptr2ptr(char ***ptr)

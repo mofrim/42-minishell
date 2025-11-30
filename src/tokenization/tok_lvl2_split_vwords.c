@@ -6,7 +6,7 @@
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 20:25:07 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/01/28 22:50:19 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/11/30 19:45:29 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ t_toklst	*split_vword_token(char *vword)
 	int			nsplits;
 
 	splitlst = NULL;
-	split_strings = ft_multisplit(vword, " \t\v\n\f", ft_strlen(" \t\v\n\f"));
+	split_strings = ft_multisplit(vword, " \t\v\n\f");
 	i = 0;
 	nsplits = splitsize(split_strings);
 	if (nsplits == 0)

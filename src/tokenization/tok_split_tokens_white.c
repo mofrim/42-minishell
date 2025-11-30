@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tok_split_words_white.c                            :+:      :+:    :+:   */
+/*   tok_split_tokens_white.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fmaurer <fmaurer42@posteo.de>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 12:52:18 by fmaurer           #+#    #+#             */
-/*   Updated: 2025/02/03 10:13:49 by fmaurer          ###   ########.fr       */
+/*   Updated: 2025/11/30 19:45:20 by fmaurer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static t_toklst	*split_cmdbltin_token(char *cmdstr)
 	int			nsplits;
 
 	splitlst = NULL;
-	split_strings = ft_multisplit(cmdstr, " \t\v\n\f", ft_strlen(" \t\v\n\f"));
+	split_strings = ft_multisplit(cmdstr, " \t\v\n\f");
 	i = 0;
 	nsplits = splitsize(split_strings);
 	if (nsplits == 0)
