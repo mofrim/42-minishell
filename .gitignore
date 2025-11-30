@@ -20,3 +20,5 @@ moep
 tests/*
 !tests/*.test
 !tests/*.c
+
+.setup
